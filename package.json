@@ -1,0 +1,26 @@
+{
+  "name": "mapbox",
+  "version": "0.0.0",
+  "description": "an api for mapbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mapbox/node-mapbox.git"
+  },
+  "keywords": [
+    "mapbox",
+    "api",
+    "rest",
+    "maps",
+    "geocoding"
+  ],
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/mapbox/node-mapbox/issues"
+  },
+  "homepage": "https://github.com/mapbox/node-mapbox"
+}
