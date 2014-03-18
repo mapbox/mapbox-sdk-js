@@ -1,13 +1,13 @@
 {
   "name": "mapbox",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "an api for mapbox",
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec"
   },
   "bin": {
-      "mapbox-static": "mapbox-static"
+    "mapbox-static": "mapbox-static"
   },
   "repository": {
     "type": "git",
