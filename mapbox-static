@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+
+var argv = require('minimist')(process.argv.slice(2)),
+    concat = require('concat-stream'),
+    viewport = require('geo-viewport').viewport,
+    config = require('superenv')('mapbox'),
+    mapbox = require('./')(config.api_key);
+
+var location = argv._[0];
+
+mapbox.geocode(location).pipe(concat(function(l) {
+    var res = JSON.parse(l),
+        dims = [640, 320],
+        view = viewport(res.results[0][0].bounds, dims);
+
+    mapbox.static({
+        lon: view[0],
+        lat: view[1],
+        z: view[2],
+        width: dims[0],
+        height: dims[1],
+        markers: [
+                res.results[0][0]
+        ]
+    }).pipe(process.stdout);
+
+}));
