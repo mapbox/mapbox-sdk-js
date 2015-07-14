@@ -1,0 +1,12 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "key-spacing": [0],
+    "no-ternary": [2],
+    "valid-jsdoc": [2]
+  }
+}
