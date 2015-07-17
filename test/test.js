@@ -2,17 +2,18 @@
 'use strict';
 
 var test = require('tap').test,
-  fs = require('fs'),
-  path = require('path'),
+  // fs = require('fs'),
+  // path = require('path'),
+  geojsonhint = require('geojsonhint'),
   MapboxClient = require('../');
 
-function storedFixture(t, value, name) {
-  var fixturePath = path.join(__dirname, 'fixtures', name);
-  if (process.env.UPDATE) {
-    fs.writeFileSync(fixturePath, JSON.stringify(value, null, 2));
-  }
-  t.deepEqual(value, JSON.parse(fs.readFileSync(fixturePath)), name);
-}
+// function storedFixture(t, value, name) {
+//   var fixturePath = path.join(__dirname, 'fixtures', name);
+//   if (process.env.UPDATE) {
+//     fs.writeFileSync(fixturePath, JSON.stringify(value, null, 2));
+//   }
+//   t.deepEqual(value, JSON.parse(fs.readFileSync(fixturePath)), name);
+// }
 
 test('prerequisites', function(t) {
   t.ok(process.env.MapboxAccessToken, 'mapbox access token is provided');
@@ -54,9 +55,7 @@ test('MapboxClient#geocodeForward', function(t) {
     t.ok(client);
     client.geocodeForward('Chester, New Jersey', function(err, results) {
       t.ifError(err);
-      if (!err) {
-        storedFixture(t, results, 'geocode_chester.json');
-      }
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
   });
@@ -68,9 +67,7 @@ test('MapboxClient#geocodeForward', function(t) {
       'Chester, New Jersey', { dataset: 'mapbox.places' },
       function(err, results) {
       t.ifError(err);
-      if (!err) {
-        storedFixture(t, results, 'geocode_chester.json');
-      }
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
   });
@@ -82,9 +79,7 @@ test('MapboxClient#geocodeForward', function(t) {
       proximity: { latitude: 33.6875431, longitude: -95.4431142 }
     }, function(err, results) {
       t.ifError(err);
-      if (!err) {
-        storedFixture(t, results, 'geocode_paris_proximity.json');
-      }
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
   });
@@ -116,9 +111,7 @@ test('MapboxClient#geocodeReverse', function(t) {
     t.ok(client);
     client.geocodeReverse({ latitude: 33.6875431, longitude: -95.4431142 }, function(err, results) {
       t.ifError(err);
-      if (!err) {
-        storedFixture(t, results, 'reverse_geocode_texas.json');
-      }
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
   });
@@ -131,9 +124,7 @@ test('MapboxClient#geocodeReverse', function(t) {
       { dataset: 'mapbox.places' },
       function(err, results) {
       t.ifError(err);
-      if (!err) {
-        storedFixture(t, results, 'reverse_geocode_texas.json');
-      }
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
   });
