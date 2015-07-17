@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "es6-template-strings": "^1.0.0",
+    "geojsonhint": "^1.0.1",
     "superagent": "^1.2.0"
   }
 }

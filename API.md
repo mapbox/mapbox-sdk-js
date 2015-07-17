@@ -112,3 +112,49 @@ mapboxClient.getDirections([
 
 Returns  nothing, calls callback
 
+## `matching`
+
+Snap recorded location traces to roads and paths from OpenStreetMap.
+Consult the [Map Matching API](https://www.mapbox.com/developers/api/map-matching/)
+for more documentation.
+
+### Parameters
+
+* `trace` **`Object`** a single [GeoJSON](http://geojson.org/) Feature with a LineString geometry, containing up to 100 positions.
+* `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+* `callback` **`Function`** called with (err, results)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.matching({
+  "type": "Feature",
+  "properties": {
+    "coordTimes": [
+      "2015-04-21T06:00:00Z",
+      "2015-04-21T06:00:05Z",
+      "2015-04-21T06:00:10Z",
+      "2015-04-21T06:00:15Z",
+      "2015-04-21T06:00:20Z"
+    ]
+    },
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [ 13.418946862220764, 52.50055852688439 ],
+      [ 13.419011235237122, 52.50113000479732 ],
+      [ 13.419756889343262, 52.50171780290061 ],
+      [ 13.419885635375975, 52.50237416816131 ],
+      [ 13.420631289482117, 52.50294888790448 ]
+    ]
+  }
+},
+  function(err, res) {
+  // res is a document with directions
+});
+```
+
+Returns  nothing, calls callback
+

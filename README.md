@@ -16,6 +16,9 @@ to Mapbox services.
   * Profiles for driving, walking, and cycling
   * GeoJSON & Polyline formatting
   * Instructions as text or HTML
+* [Map Matching](https://www.mapbox.com/developers/api/map-matching/)
+  * Aligns GPS trace data to roads and paths from
+    [OpenStreetMap](https://www.openstreetmap.org/) data
 
 ## Installation
 
