@@ -19,6 +19,8 @@ to Mapbox services.
 * [Map Matching](https://www.mapbox.com/developers/api/map-matching/)
   * Aligns GPS trace data to roads and paths from
     [OpenStreetMap](https://www.openstreetmap.org/) data
+* [Surface API](https://www.mapbox.com/developers/api/surface/)
+  * Interpolates values along lines. Useful for elevation traces.
 
 ## Installation
 
