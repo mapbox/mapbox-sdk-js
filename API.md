@@ -19,7 +19,8 @@ var client = new MapboxClient('ACCESSTOKEN');
 | `Error` | if accessToken is not provided |
 ## `geocodeForward`
 
-Search for a location with a string.
+Search for a location with a string, using the
+[Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
 
 ### Parameters
 
@@ -48,7 +49,7 @@ Returns  nothing, calls callback
 ## `geocodeReverse`
 
 Given a location, determine what geographical features are located
-there.
+there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
 
 ### Parameters
 
