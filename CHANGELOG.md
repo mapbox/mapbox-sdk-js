@@ -1,3 +1,7 @@
+## 0.5.0
+
+* Added `surface` method that connects to [Mapbox Surface API](https://www.mapbox.com/developers/api/surface/)
+
 ## 0.4.0
 
 * Added `matching` method that connects to the [Mapbox Map Matching API](https://www.mapbox.com/blog/map-matching)

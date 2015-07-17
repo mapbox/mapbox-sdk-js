@@ -158,3 +158,30 @@ mapboxClient.matching({
 
 Returns  nothing, calls callback
 
+## `surface`
+
+Given a list of locations, retrieve vector tiles, find the nearest
+spatial features, extract their data values, and then absolute values and
+optionally interpolated values in-between, if the interpolate option is specified.
+
+Consult the [Surface API](https://www.mapbox.com/developers/api/surface/)
+for more documentation.
+
+### Parameters
+
+* `mapid` **`string`** a Mapbox mapid containing vector tiles against which we'll query
+* `layer` **`string`** layer within the given `mapid` for which to pull data
+* `fields` **`Array<string>`** layer within the given `mapid` for which to pull data
+* `path` **`Array<Object> or string`** either an encoded polyline, provided as a string, or an array of objects with longitude and latitude properties, similar to waypoints.
+* `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+* `callback` **`Function`** called with (err, results)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+```
+
+Returns  nothing, calls callback
+
