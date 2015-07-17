@@ -70,3 +70,44 @@ mapboxClient.geocodeReverse(
 
 Returns  nothing, calls callback
 
+## `getDirections`
+
+Find directions from A to B, or between any number of locations.
+Consult the [Mapbox Directions API](https://www.mapbox.com/developers/api/directions/)
+for more documentation.
+
+### Parameters
+
+* `waypoints` **`Array<Object>`** an array of objects with `latitude` and `longitude` properties that represent waypoints in order. Up to 25 waypoints can be specified.
+* `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+* `callback` **`Function`** called with (err, results)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.directions(
+  [
+    { latitude: 33.6, longitude: -95.4431 },
+    { latitude: 33.2, longitude: -95.4431 } ],
+  function(err, res) {
+  // res is a document with directions
+});
+
+// With options
+mapboxClient.getDirections([
+  { latitude: 33.6875431, longitude: -95.4431142 },
+  { latitude: 33.6875431, longitude: -95.4831142 }
+], {
+  profile: 'mapbox.walking',
+  instructions: 'html',
+  alternatives: false,
+  geometry: 'polyline'
+}, function(err, results) {
+  console.log(results.origin);
+});
+```
+
+Returns  nothing, calls callback
+
