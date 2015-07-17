@@ -46,6 +46,37 @@
       ]
     },
     {
+      "id": "region.2035022604",
+      "type": "Feature",
+      "text": "New Jersey",
+      "place_name": "New Jersey, United States",
+      "relevance": 0.6566666666666666,
+      "center": [
+        -74.436931,
+        40.07478
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.436931,
+          40.07478
+        ]
+      },
+      "bbox": [
+        -75.56053799999998,
+        38.788656999999986,
+        -73.88665199999998,
+        41.35735999999999
+      ],
+      "properties": {},
+      "context": [
+        {
+          "id": "country.4150104525",
+          "text": "United States"
+        }
+      ]
+    },
+    {
       "id": "place.10507",
       "type": "Feature",
       "text": "Chester",
@@ -151,49 +182,6 @@
         {
           "id": "postcode.4056721613",
           "text": "19014"
-        },
-        {
-          "id": "region.2184819983",
-          "text": "Pennsylvania"
-        },
-        {
-          "id": "country.4150104525",
-          "text": "United States"
-        }
-      ]
-    },
-    {
-      "id": "address.223094003218333",
-      "type": "Feature",
-      "text": "S Chester Pike",
-      "place_name": "S Chester Pike, Glenolden, 19036, Pennsylvania, United States",
-      "relevance": 0.18354838709677418,
-      "center": [
-        -75.292081,
-        39.897251
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -75.292081,
-          39.897251
-        ]
-      },
-      "bbox": [
-        -75.29461999999997,
-        39.894372999999995,
-        -75.28763899999997,
-        39.90105099999998
-      ],
-      "properties": {},
-      "context": [
-        {
-          "id": "place.10526",
-          "text": "Glenolden"
-        },
-        {
-          "id": "postcode.3810869838",
-          "text": "19036"
         },
         {
           "id": "region.2184819983",
