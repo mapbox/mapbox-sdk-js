@@ -61,7 +61,7 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/ap
 ### Examples
 
 ```js
-var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var mapboxClient = new MapboxGeocoder('ACCESSTOKEN');
 mapboxClient.geocodeReverse(
   { latitude: 33.6875431, longitude: -95.4431142 },
   function(err, res) {
