@@ -28,4 +28,30 @@ to Mapbox services.
 $ npm install --save mapbox
 ```
 
+## Usage
+
+Basic usage of the geocoder:
+
+```js
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('YOUR_ACCESS_TOKEN');
+client.geocodeForward('Chester, NJ', function(err, res) {
+  // res is the geocoding result as parsed JSON
+});
+```
+
+### sub-requiring individual services
+
+Each service is available as a sub-require if you'd only like to include only
+its functionality and not the entire bundle. The returned `MapboxClient`
+will have the same constructor style but only include functions necessary
+for that service's support.
+
+Available sub-requires:
+
+* geocoder: `require('mapbox/lib/services/geocoder')`
+* surface: `require('mapbox/lib/services/surface')`
+* matching: `require('mapbox/lib/services/matching')`
+* directions: `require('mapbox/lib/services/directions')`
+
 ## [API](API.md)
