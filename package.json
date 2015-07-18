@@ -4,6 +4,7 @@
   "description": "interface to mapbox services",
   "main": "lib/client.js",
   "scripts": {
+    "lint": "eslint --no-eslintrc -c .eslintrc lib test/*.js",
     "test": "tap --coverage test/*.js",
     "docs": "documentation . --format=md > API.md",
     "build": "browserify -s MapboxClient lib/client.js > dist/mapbox-sdk.js"

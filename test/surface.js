@@ -6,7 +6,7 @@ var test = require('tap').test,
   // path = require('path'),
   polyline = require('polyline'),
   geojsonhint = require('geojsonhint'),
-  MapboxClient = require('../');
+  MapboxClient = require('../lib/services/surface');
 
 test('MapboxClient#surface', function(t) {
   t.test('typecheck', function(t) {

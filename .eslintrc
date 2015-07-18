@@ -5,7 +5,6 @@
   },
   "rules": {
     "quotes": [2, "single"],
-    "key-spacing": [0],
     "camelcase": [0],
     "no-ternary": [2],
     "valid-jsdoc": [2]
