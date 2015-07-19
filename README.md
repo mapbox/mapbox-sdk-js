@@ -1,4 +1,4 @@
-# node-mapbox
+# mapbox-sdk-js
 
 [![npm version](https://badge.fury.io/js/mapbox.svg)](http://badge.fury.io/js/mapbox)
 [![Build Status](https://travis-ci.org/mapbox/mapbox-sdk-js.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-sdk-js)
