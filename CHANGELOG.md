@@ -1,3 +1,8 @@
+## 0.6.0
+
+* Allows endpoint to be customized
+* Support for sub-requiring individual services
+
 ## 0.5.0
 
 * Added `surface` method that connects to [Mapbox Surface API](https://www.mapbox.com/developers/api/surface/)
