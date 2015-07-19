@@ -26,6 +26,8 @@ Search for a location with a string, using the
 
 * `query` **`string`** desired location
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+  * `options.proximity` **`Object`** a proximity argument: this is a geographical point given as an object with latitude and longitude properties. Search results closer to this point will be given higher priority.
+  * `options.dataset` **`[string]`** the desired data to be geocoded against. The default, mapbox.places, does not permit unlimited caching. `mapbox.places-permanent` is available on request and does permit permanent caching. (optional, default `mapbox.places`)
 * `callback` **`Function`** called with (err, results)
 
 
@@ -54,7 +56,10 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/ap
 ### Parameters
 
 * `location` **`Object`** the geographical point to search
+  * `location.latitude` **`number`** decimal degrees latitude, in range -90 to 90
+  * `location.longitude` **`number`** decimal degrees longitude, in range -180 to 180
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+  * `options.dataset` **`[string]`** the desired data to be geocoded against. The default, mapbox.places, does not permit unlimited caching. `mapbox.places-permanent` is available on request and does permit permanent caching. (optional, default `mapbox.places`)
 * `callback` **`Function`** called with (err, results)
 
 
@@ -81,6 +86,10 @@ for more documentation.
 
 * `waypoints` **`Array<Object>`** an array of objects with `latitude` and `longitude` properties that represent waypoints in order. Up to 25 waypoints can be specified.
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+  * `options.profile` **`[string]`** the directions profile, which determines how to prioritize different routes. Options are `'mapbox.driving'`, which assumes transportation via an automobile and will use highways, `'mapbox.walking'`, which avoids streets without sidewalks, and `'mapbox.cycling'`, which prefers streets with bicycle lanes and lower speed limits for transportation via bicycle. (optional, default `mapbox.driving`)
+  * `options.alternatives` **`[string]`** whether to generate alternative routes along with the preferred route. (optional, default `true`)
+  * `options.instructions` **`[string]`** format for turn-by-turn instructions along the route. (optional, default `text`)
+  * `options.geometry` **`[string]`** format for the returned route. Options are `'geojson'`, `'polyline'`, or `false`: `polyline` yields more compact responses which can be decoded on the client side. [GeoJSON](http://geojson.org/), the default, is compatible with libraries like [Mapbox GL](https://www.mapbox.com/mapbox-gl/), Leaflet and [Mapbox.js](https://www.mapbox.com/mapbox.js/). `false` omits the geometry entirely and only returns instructions. (optional, default `geojson`)
 * `callback` **`Function`** called with (err, results)
 
 
@@ -122,6 +131,9 @@ for more documentation.
 
 * `trace` **`Object`** a single [GeoJSON](http://geojson.org/) Feature with a LineString geometry, containing up to 100 positions.
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+  * `options.profile` **`[string]`** the directions profile, which determines how to prioritize different routes. Options are `'mapbox.driving'`, which assumes transportation via an automobile and will use highways, `'mapbox.walking'`, which avoids streets without sidewalks, and `'mapbox.cycling'`, which prefers streets with bicycle lanes and lower speed limits for transportation via bicycle. (optional, default `mapbox.driving`)
+  * `options.geometry` **`[string]`** format for the returned route. Options are `'geojson'`, `'polyline'`, or `false`: `polyline` yields more compact responses which can be decoded on the client side. [GeoJSON](http://geojson.org/), the default, is compatible with libraries like [Mapbox GL](https://www.mapbox.com/mapbox-gl/), Leaflet and [Mapbox.js](https://www.mapbox.com/mapbox.js/). `false` omits the geometry entirely and only returns matched points. (optional, default `geojson`)
+  * `options.gps_precision` **`[number]`** An integer in meters indicating the assumed precision of the used tracking device. Use higher numbers (5-10) for noisy traces and lower numbers (1-3) for clean traces. The default value is 4. (optional, default `4`)
 * `callback` **`Function`** called with (err, results)
 
 
@@ -174,6 +186,9 @@ for more documentation.
 * `fields` **`Array<string>`** layer within the given `mapid` for which to pull data
 * `path` **`Array<Object> or string`** either an encoded polyline, provided as a string, or an array of objects with longitude and latitude properties, similar to waypoints.
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+  * `options.geojson` **`[string]`** whether to return data as a GeoJSON point (optional, default `false`)
+  * `options.zoom` **`[string]`** zoom level at which features are queried (optional, default `maximum`)
+  * `options.interpolate` **`[boolean]`** Whether to interpolate between matches in the feature collection. (optional, default `true`)
 * `callback` **`Function`** called with (err, results)
 
 

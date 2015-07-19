@@ -27,7 +27,7 @@
   "homepage": "https://github.com/mapbox/mapbox-sdk-js",
   "devDependencies": {
     "browserify": "^11.0.0",
-    "documentation": "^2.1.0-alpha1",
+    "documentation": "^2.1.0-alpha2",
     "eslint": "^0.24.1",
     "geojsonhint": "^1.1.0",
     "polyline": "^0.1.0",
