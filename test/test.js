@@ -29,3 +29,17 @@ test('MapboxClient', function(t) {
   t.equal(client.accessToken, 'token');
   t.end();
 });
+
+test('MapboxClient - custom endpoint', function(t) {
+  t.throws(function() {
+    var client = new MapboxClient('foo', 1);
+    t.notOk(client);
+  }, /options/);
+  t.throws(function() {
+    var client = new MapboxClient('foo', { endpoint: 1 });
+    t.notOk(client);
+  }, /endpoint/);
+  var customClient = new MapboxClient('foo', { endpoint: 'foo.bar' });
+  t.equal(customClient.endpoint, 'foo.bar', 'receives an endpoint from options');
+  t.end();
+});
