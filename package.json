@@ -7,7 +7,9 @@
     "lint": "eslint --no-eslintrc -c .eslintrc lib test/*.js",
     "test": "tap --coverage test/*.js",
     "docs": "documentation . --format=md > API.md",
-    "build": "browserify -s MapboxClient lib/client.js > dist/mapbox-sdk.js"
+    "build": "npm run build-dist && npm run build-min",
+    "build-dist": "browserify -s MapboxClient lib/client.js > dist/mapbox-sdk.js",
+    "build-min": "uglifyjs -c -m < dist/mapbox-sdk.js > dist/mapbox-sdk.min.js"
   },
   "repository": {
     "type": "git",

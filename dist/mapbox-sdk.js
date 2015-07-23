@@ -1,12 +1,51 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.MapboxClient = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var invariant = require('invariant'),
-  resolveToString = require('es6-template-strings/resolve-to-string'),
-  geojsonhint = require('geojsonhint/object'),
-  qs = require('querystring'),
-  request = require('superagent'),
-  constants = require('./constants');
+var makeClient = require('./make_service');
+var xtend = require('xtend/mutable');
+var MapboxGeocoder = require('./services/geocoder');
+var MapboxSurface = require('./services/surface');
+var MapboxDirections = require('./services/directions');
+var MapboxMatching = require('./services/matching');
+
+/**
+ * The JavaScript API to Mapbox services
+ *
+ * @class
+ * @throws {Error} if accessToken is not provided
+ * @param {string} accessToken a private or public access token
+ * @param {Object} options additional options provided for configuration
+ * @param {string} [options.endpoint=https://api.mapbox.com] location
+ * of the Mapbox API pointed-to. This can be customized to point to a
+ * Mapbox Atlas Server instance, or a different service, a mock,
+ * or a staging endpoint. Usually you don't need to customize this.
+ * @example
+ * var client = new MapboxClient('ACCESSTOKEN');
+ */
+var MapboxClient = makeClient('MapboxClient');
+
+xtend(MapboxClient.prototype,
+  MapboxGeocoder.prototype,
+  MapboxSurface.prototype,
+  MapboxDirections.prototype,
+  MapboxMatching.prototype);
+
+module.exports = MapboxClient;
+
+},{"./make_service":4,"./services/directions":6,"./services/geocoder":7,"./services/matching":8,"./services/surface":9,"xtend/mutable":26}],2:[function(require,module,exports){
+var compile = require('es6-template-strings/compile');
+
+module.exports.DEFAULT_ENDPOINT = 'https://api.mapbox.com';
+module.exports.API_GEOCODER_FORWARD = compile('${endpoint}/v4/geocode/${dataset}/${encodeURIComponent(query)}.json?${query}');
+module.exports.API_GEOCODER_REVERSE = compile('${endpoint}/v4/geocode/${dataset}/${location.longitude},${location.latitude}.json?${query}');
+module.exports.API_DIRECTIONS = compile('${endpoint}/v4/directions/${profile}/${encodedWaypoints}.json?${query}');
+module.exports.API_SURFACE = compile('${endpoint}/v4/surface/${mapid}.json?${query}');
+module.exports.API_MATCHING = compile('${endpoint}/matching/v4/${profile}.json?${query}');
+
+},{"es6-template-strings/compile":14}],3:[function(require,module,exports){
+'use strict';
+
+var invariant = require('invariant');
 
 function formatPoints(waypoints) {
   return waypoints.map(function(location) {
@@ -17,147 +56,67 @@ function formatPoints(waypoints) {
   }).join(';');
 }
 
-/**
- * The JavaScript API to Mapbox services
- *
- * @class
- * @throws {Error} if accessToken is not provided
- * @param {string} accessToken a private or public access token
- * @example
- * var client = new MapboxClient('ACCESSTOKEN');
- */
-function MapboxClient(accessToken) {
-  invariant(typeof accessToken === 'string',
-    'accessToken required to instantiate MapboxClient');
-  this.accessToken = accessToken;
+module.exports = formatPoints;
+
+},{"invariant":21}],4:[function(require,module,exports){
+'use strict';
+
+var invariant = require('invariant');
+var constants = require('./constants');
+
+function makeService(name) {
+
+  function service(accessToken, options) {
+    this.name = name;
+
+    invariant(typeof accessToken === 'string',
+      'accessToken required to instantiate MapboxDirections');
+
+    this.accessToken = accessToken;
+    this.endpoint = constants.DEFAULT_ENDPOINT;
+
+    if (options !== undefined) {
+      invariant(typeof options === 'object', 'options must be an object');
+      if (options.endpoint) {
+        invariant(typeof options.endpoint === 'string', 'endpoint must be a string');
+        this.endpoint = options.endpoint;
+      }
+    }
+  }
+
+  return service;
 }
 
-MapboxClient.prototype.q = function(options) {
-  options.access_token = this.accessToken;
-  return '?' + qs.stringify(options);
-};
+module.exports = makeService;
 
-/**
- * Search for a location with a string, using the
- * [Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
- *
- * @param {string} query desired location
- * @param {Object} [options={}] additional options meant to tune
- * the request
- * @param {Object} options.proximity a proximity argument: this is
- * a geographical point given as an object with latitude and longitude
- * properties. Search results closer to this point will be given
- * higher priority.
- * @param {string} [options.dataset=mapbox.places] the desired data to be
- * geocoded against. The default, mapbox.places, does not permit unlimited
- * caching. `mapbox.places-permanent` is available on request and does
- * permit permanent caching.
- * @param {Function} callback called with (err, results)
- * @returns {undefined} nothing, calls callback
- * @example
- * var mapboxClient = new MapboxClient('ACCESSTOKEN');
- * mapboxClient.geocodeForward('Paris, France', function(err, res) {
- *   // res is a GeoJSON document with geocoding matches
- * });
- * // using the proximity option to weight results closer to texas
- * mapboxClient.geocodeForward('Paris, France', {
- *   proximity: { latitude: 33.6875431, longitude: -95.4431142 }
- * }, function(err, res) {
- *   // res is a GeoJSON document with geocoding matches
- * });
- */
-MapboxClient.prototype.geocodeForward = function(query, options, callback) {
+},{"./constants":2,"invariant":21}],5:[function(require,module,exports){
+'use strict';
 
-  // permit the options argument to be omitted
-  if (callback === undefined && typeof options === 'function') {
-    callback = options;
-    options = {};
-  }
+var xtend = require('xtend'),
+  qs = require('querystring'),
+  resolveToString = require('es6-template-strings/resolve-to-string');
 
-  // typecheck arguments
-  invariant(typeof query === 'string', 'query must be a string');
-  invariant(typeof options === 'object', 'options must be an object');
-  invariant(typeof callback === 'function', 'callback must be a function');
+function makeURL(self, template, params, query) {
+  return resolveToString(template,
+    xtend(params, {
+      endpoint: self.endpoint,
+      query: qs.stringify(xtend(query, { access_token: self.accessToken }))
+    }));
+}
 
-  var queryOptions = {};
-  if (options.proximity) {
-    invariant(typeof options.proximity.latitude === 'number' &&
-      typeof options.proximity.longitude === 'number',
-      'proximity must be an object with numeric latitude & longitude properties');
-    queryOptions.proximity = options.proximity.longitude + ',' + options.proximity.latitude;
-  }
+module.exports = makeURL;
 
-  var dataset = 'mapbox.places';
-  if (options.dataset) {
-    invariant(typeof options.dataset === 'string', 'dataset option must be string');
-    dataset = options.dataset;
-  }
+},{"es6-template-strings/resolve-to-string":18,"querystring":13,"xtend":25}],6:[function(require,module,exports){
+'use strict';
 
-  var url = resolveToString(constants.API_GEOCODER_FORWARD, {
-    query: query,
-    dataset: dataset
-  }) + this.q(queryOptions);
+var invariant = require('invariant'),
+  request = require('superagent'),
+  formatPoints = require('../format_points'),
+  makeService = require('../make_service'),
+  makeURL = require('../make_url'),
+  constants = require('../constants');
 
-  request(url, function(err, res) {
-    callback(err, res.body);
-  });
-};
-
-/**
- * Given a location, determine what geographical features are located
- * there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
- *
- * @param {Object} location the geographical point to search
- * @param {number} location.latitude decimal degrees latitude, in range -90 to 90
- * @param {number} location.longitude decimal degrees longitude, in range -180 to 180
- * @param {Object} [options={}] additional options meant to tune
- * the request
- * @param {string} [options.dataset=mapbox.places] the desired data to be
- * geocoded against. The default, mapbox.places, does not permit unlimited
- * caching. `mapbox.places-permanent` is available on request and does
- * permit permanent caching.
- * @param {Function} callback called with (err, results)
- * @returns {undefined} nothing, calls callback
- * @example
- * var mapboxClient = new MapboxClient('ACCESSTOKEN');
- * mapboxClient.geocodeReverse(
- *   { latitude: 33.6875431, longitude: -95.4431142 },
- *   function(err, res) {
- *   // res is a GeoJSON document with geocoding matches
- * });
- */
-MapboxClient.prototype.geocodeReverse = function(location, options, callback) {
-
-  // permit the options argument to be omitted
-  if (callback === undefined && typeof options === 'function') {
-    callback = options;
-    options = {};
-  }
-
-  // typecheck arguments
-  invariant(typeof location === 'object', 'location must be an object');
-  invariant(typeof options === 'object', 'options must be an object');
-  invariant(typeof callback === 'function', 'callback must be a function');
-
-  invariant(typeof location.latitude === 'number' &&
-    typeof location.longitude === 'number',
-    'location must be an object with numeric latitude & longitude properties');
-
-  var dataset = 'mapbox.places';
-  if (options.dataset) {
-    invariant(typeof options.dataset === 'string', 'dataset option must be string');
-    dataset = options.dataset;
-  }
-
-  var url = resolveToString(constants.API_GEOCODER_REVERSE, {
-    location: location,
-    dataset: dataset
-  }) + this.q({});
-
-  request(url, function(err, res) {
-    callback(err, res.body);
-  });
-};
+var MapboxDirections = makeService('MapboxDirections');
 
 /**
  * Find directions from A to B, or between any number of locations.
@@ -189,6 +148,7 @@ MapboxClient.prototype.geocodeReverse = function(location, options, callback) {
  * omits the geometry entirely and only returns instructions.
  * @param {Function} callback called with (err, results)
  * @returns {undefined} nothing, calls callback
+ * @memberof MapboxClient
  * @example
  * var mapboxClient = new MapboxClient('ACCESSTOKEN');
  * mapboxClient.directions(
@@ -212,7 +172,7 @@ MapboxClient.prototype.geocodeReverse = function(location, options, callback) {
  *   console.log(results.origin);
  * });
  */
-MapboxClient.prototype.getDirections = function(waypoints, options, callback) {
+MapboxDirections.prototype.getDirections = function(waypoints, options, callback) {
 
   // permit the options argument to be omitted
   if (callback === undefined && typeof options === 'function') {
@@ -247,10 +207,10 @@ MapboxClient.prototype.getDirections = function(waypoints, options, callback) {
     geometry = options.geometry;
   }
 
-  var url = resolveToString(constants.API_DIRECTIONS, {
+  var url = makeURL(this, constants.API_DIRECTIONS, {
     encodedWaypoints: encodedWaypoints,
     profile: profile
-  }) + this.q({
+  }, {
     instructions: instructions,
     geometry: geometry,
     alternatives: alternatives
@@ -260,6 +220,156 @@ MapboxClient.prototype.getDirections = function(waypoints, options, callback) {
     callback(err, res.body);
   });
 };
+
+module.exports = MapboxDirections;
+
+},{"../constants":2,"../format_points":3,"../make_service":4,"../make_url":5,"invariant":21,"superagent":22}],7:[function(require,module,exports){
+'use strict';
+
+var invariant = require('invariant'),
+  request = require('superagent'),
+  makeService = require('../make_service'),
+  makeURL = require('../make_url'),
+  constants = require('../constants');
+
+var MapboxGeocoder = makeService('MapboxGeocoder');
+
+/**
+ * Search for a location with a string, using the
+ * [Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
+ *
+ * @param {string} query desired location
+ * @param {Object} [options={}] additional options meant to tune
+ * the request
+ * @param {Object} options.proximity a proximity argument: this is
+ * a geographical point given as an object with latitude and longitude
+ * properties. Search results closer to this point will be given
+ * higher priority.
+ * @param {string} [options.dataset=mapbox.places] the desired data to be
+ * geocoded against. The default, mapbox.places, does not permit unlimited
+ * caching. `mapbox.places-permanent` is available on request and does
+ * permit permanent caching.
+ * @param {Function} callback called with (err, results)
+ * @returns {undefined} nothing, calls callback
+ * @memberof MapboxClient
+ * @example
+ * var mapboxClient = new MapboxClient('ACCESSTOKEN');
+ * mapboxClient.geocodeForward('Paris, France', function(err, res) {
+ *   // res is a GeoJSON document with geocoding matches
+ * });
+ * // using the proximity option to weight results closer to texas
+ * mapboxClient.geocodeForward('Paris, France', {
+ *   proximity: { latitude: 33.6875431, longitude: -95.4431142 }
+ * }, function(err, res) {
+ *   // res is a GeoJSON document with geocoding matches
+ * });
+ */
+MapboxGeocoder.prototype.geocodeForward = function(query, options, callback) {
+
+  // permit the options argument to be omitted
+  if (callback === undefined && typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  // typecheck arguments
+  invariant(typeof query === 'string', 'query must be a string');
+  invariant(typeof options === 'object', 'options must be an object');
+  invariant(typeof callback === 'function', 'callback must be a function');
+
+  var queryOptions = {};
+  if (options.proximity) {
+    invariant(typeof options.proximity.latitude === 'number' &&
+      typeof options.proximity.longitude === 'number',
+      'proximity must be an object with numeric latitude & longitude properties');
+    queryOptions.proximity = options.proximity.longitude + ',' + options.proximity.latitude;
+  }
+
+  var dataset = 'mapbox.places';
+  if (options.dataset) {
+    invariant(typeof options.dataset === 'string', 'dataset option must be string');
+    dataset = options.dataset;
+  }
+
+  var url = makeURL(this, constants.API_GEOCODER_FORWARD, {
+    query: query,
+    dataset: dataset
+  }, queryOptions);
+
+  request(url, function(err, res) {
+    callback(err, res.body);
+  });
+};
+
+/**
+ * Given a location, determine what geographical features are located
+ * there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
+ *
+ * @param {Object} location the geographical point to search
+ * @param {number} location.latitude decimal degrees latitude, in range -90 to 90
+ * @param {number} location.longitude decimal degrees longitude, in range -180 to 180
+ * @param {Object} [options={}] additional options meant to tune
+ * the request
+ * @param {string} [options.dataset=mapbox.places] the desired data to be
+ * geocoded against. The default, mapbox.places, does not permit unlimited
+ * caching. `mapbox.places-permanent` is available on request and does
+ * permit permanent caching.
+ * @param {Function} callback called with (err, results)
+ * @returns {undefined} nothing, calls callback
+ * @example
+ * var mapboxClient = new MapboxGeocoder('ACCESSTOKEN');
+ * mapboxClient.geocodeReverse(
+ *   { latitude: 33.6875431, longitude: -95.4431142 },
+ *   function(err, res) {
+ *   // res is a GeoJSON document with geocoding matches
+ * });
+ */
+MapboxGeocoder.prototype.geocodeReverse = function(location, options, callback) {
+
+  // permit the options argument to be omitted
+  if (callback === undefined && typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  // typecheck arguments
+  invariant(typeof location === 'object', 'location must be an object');
+  invariant(typeof options === 'object', 'options must be an object');
+  invariant(typeof callback === 'function', 'callback must be a function');
+
+  invariant(typeof location.latitude === 'number' &&
+    typeof location.longitude === 'number',
+    'location must be an object with numeric latitude & longitude properties');
+
+  var dataset = 'mapbox.places';
+  if (options.dataset) {
+    invariant(typeof options.dataset === 'string', 'dataset option must be string');
+    dataset = options.dataset;
+  }
+
+  var url = makeURL(this, constants.API_GEOCODER_REVERSE, {
+    location: location,
+    dataset: dataset
+  }, {});
+
+  request(url, function(err, res) {
+    callback(err, res.body);
+  });
+};
+
+module.exports = MapboxGeocoder;
+
+},{"../constants":2,"../make_service":4,"../make_url":5,"invariant":21,"superagent":22}],8:[function(require,module,exports){
+'use strict';
+
+var invariant = require('invariant'),
+  request = require('superagent'),
+  geojsonhint = require('geojsonhint/object'),
+  makeService = require('../make_service'),
+  makeURL = require('../make_url'),
+  constants = require('../constants');
+
+var MapboxMatching = makeService('MapboxMatching');
 
 /**
  * Snap recorded location traces to roads and paths from OpenStreetMap.
@@ -290,6 +400,7 @@ MapboxClient.prototype.getDirections = function(waypoints, options, callback) {
  * traces. The default value is 4.
  * @param {Function} callback called with (err, results)
  * @returns {undefined} nothing, calls callback
+ * @memberof MapboxClient
  * @example
  * var mapboxClient = new MapboxClient('ACCESSTOKEN');
  * mapboxClient.matching({
@@ -318,7 +429,7 @@ MapboxClient.prototype.getDirections = function(waypoints, options, callback) {
  *   // res is a document with directions
  * });
  */
-MapboxClient.prototype.matching = function(trace, options, callback) {
+MapboxMatching.prototype.matching = function(trace, options, callback) {
 
   // permit the options argument to be omitted
   if (callback === undefined && typeof options === 'function') {
@@ -351,9 +462,9 @@ MapboxClient.prototype.matching = function(trace, options, callback) {
     geometry = options.geometry;
   }
 
-  var url = resolveToString(constants.API_MATCHING, {
+  var url = makeURL(this, constants.API_MATCHING, {
     profile: profile
-  }) + this.q({
+  }, {
     geometry: geometry,
     gps_precision: gps_precision
   });
@@ -364,6 +475,20 @@ MapboxClient.prototype.matching = function(trace, options, callback) {
       callback(err, res.body);
     });
 };
+
+module.exports = MapboxMatching;
+
+},{"../constants":2,"../make_service":4,"../make_url":5,"geojsonhint/object":20,"invariant":21,"superagent":22}],9:[function(require,module,exports){
+'use strict';
+
+var invariant = require('invariant'),
+  request = require('superagent'),
+  formatPoints = require('../format_points'),
+  makeService = require('../make_service'),
+  makeURL = require('../make_url'),
+  constants = require('../constants');
+
+var MapboxSurface = makeService('MapboxSurface');
 
 /**
  * Given a list of locations, retrieve vector tiles, find the nearest
@@ -391,11 +516,12 @@ MapboxClient.prototype.matching = function(trace, options, callback) {
  * @param {boolean} [options.interpolate=true] Whether to interpolate
  * between matches in the feature collection.
  * @param {Function} callback called with (err, results)
+ * @memberof MapboxClient
  * @returns {undefined} nothing, calls callback
  * @example
  * var mapboxClient = new MapboxClient('ACCESSTOKEN');
  */
-MapboxClient.prototype.surface = function(mapid, layer, fields, path, options, callback) {
+MapboxSurface.prototype.surface = function(mapid, layer, fields, path, options, callback) {
 
   // permit the options argument to be omitted
   if (callback === undefined && typeof options === 'function') {
@@ -442,31 +568,18 @@ MapboxClient.prototype.surface = function(mapid, layer, fields, path, options, c
     surfaceOptions.z = options.zoom;
   }
 
-  var url = resolveToString(constants.API_SURFACE, {
+  var url = makeURL(this, constants.API_SURFACE, {
     mapid: mapid
-  }) + this.q(surfaceOptions);
+  }, surfaceOptions);
 
   request(url, function(err, res) {
     callback(err, res.body);
   });
 };
 
-module.exports = MapboxClient;
+module.exports = MapboxSurface;
 
-},{"./constants":2,"es6-template-strings/resolve-to-string":11,"geojsonhint/object":13,"invariant":14,"querystring":6,"superagent":15}],2:[function(require,module,exports){
-var compile = require('es6-template-strings/compile');
-
-var API = 'https://api.tiles.mapbox.com/';
-var APIV4 = API + 'v4/';
-
-module.exports.API = API;
-module.exports.API_GEOCODER_FORWARD = compile(APIV4 + 'geocode/${dataset}/${encodeURIComponent(query)}.json');
-module.exports.API_GEOCODER_REVERSE = compile(APIV4 + 'geocode/${dataset}/${location.longitude},${location.latitude}.json');
-module.exports.API_DIRECTIONS = compile(APIV4 + 'directions/${profile}/${encodedWaypoints}.json');
-module.exports.API_MATCHING = compile(API + 'matching/v4/${profile}.json');
-module.exports.API_SURFACE = compile(APIV4 + 'surface/${mapid}.json');
-
-},{"es6-template-strings/compile":7}],3:[function(require,module,exports){
+},{"../constants":2,"../format_points":3,"../make_service":4,"../make_url":5,"invariant":21,"superagent":22}],10:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -558,7 +671,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],4:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -644,7 +757,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],5:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -731,13 +844,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":4,"./encode":5}],7:[function(require,module,exports){
+},{"./decode":11,"./encode":12}],14:[function(require,module,exports){
 'use strict';
 
 var current, literals, substitutions, sOut, sEscape, sAhead, sIn, sInEscape;
@@ -809,7 +922,7 @@ module.exports = function (str) {
 	return result;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var forEach = Array.prototype.forEach, create = Object.create;
@@ -828,7 +941,7 @@ module.exports = function (options/*, …options*/) {
 	return result;
 };
 
-},{}],9:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = function (value) {
@@ -836,7 +949,7 @@ module.exports = function (value) {
 	return value;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var reduce = Array.prototype.reduce;
@@ -848,7 +961,7 @@ module.exports = function (literals/*, …substitutions*/) {
 	});
 };
 
-},{}],11:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var resolve  = require('./resolve')
@@ -858,7 +971,7 @@ module.exports = function (data, context) {
 	return passthru.apply(null, resolve(data, context));
 };
 
-},{"./passthru":10,"./resolve":12}],12:[function(require,module,exports){
+},{"./passthru":17,"./resolve":19}],19:[function(require,module,exports){
 'use strict';
 
 var value     = require('es5-ext/object/valid-value')
@@ -903,7 +1016,7 @@ module.exports = function (data, context) {
 	return [data.literals].concat(result);
 };
 
-},{"es5-ext/object/normalize-options":8,"es5-ext/object/valid-value":9}],13:[function(require,module,exports){
+},{"es5-ext/object/normalize-options":15,"es5-ext/object/valid-value":16}],20:[function(require,module,exports){
 /**
  * @alias geojsonhint
  * @param {(string|object)} GeoJSON given as a string or as an object
@@ -1205,7 +1318,7 @@ function hint(gj) {
 
 module.exports.hint = hint;
 
-},{}],14:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1262,7 +1375,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":3}],15:[function(require,module,exports){
+},{"_process":10}],22:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2387,7 +2500,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":16,"reduce":17}],16:[function(require,module,exports){
+},{"emitter":23,"reduce":24}],23:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -2553,7 +2666,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],17:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -2578,5 +2691,41 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
+},{}],25:[function(require,module,exports){
+module.exports = extend
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],26:[function(require,module,exports){
+module.exports = extend
+
+function extend(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
 },{}]},{},[1])(1)
 });
