@@ -44,6 +44,7 @@ test('MapboxClient#geocodeForward', function(t) {
       function(err, results) {
       t.ifError(err);
       t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
+      t.equal(geojsonhint.hint(results.features[0]).length, 0, 'at least one valid result');
       t.end();
     });
   });
