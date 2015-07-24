@@ -1,3 +1,7 @@
+## 0.6.1
+
+* Fixed bug in forward geococoding
+
 ## 0.6.0
 
 * Allows endpoint to be customized
