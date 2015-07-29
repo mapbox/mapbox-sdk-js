@@ -30,6 +30,8 @@ test('getUser', function(t) {
     assert.notOk(getUser(token), 'bad length success');
     token = 'sk.eyJ1Ijoid29yYmx5IiwiYSI6ImQwNTg3OGU2MWI5NTI5MjIyNmI1YzNhNWE4ZGFlMmFiI12.-47f43O4Cz5-vEd0gXzJ3w';
     assert.notOk(getUser(token), 'cannot parse success');
+    token = 'notvalidatall';
+    assert.notOk(getUser(token), 'not correctly structured');
     assert.end();
   });
 
