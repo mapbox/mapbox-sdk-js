@@ -140,12 +140,6 @@ test('DatasetClient', function(datasetClient) {
         client.updateDataset('help', { ham: 'sandwich' }, function() {});
       }, 'must update name or description');
       assert.throws(function() {
-        client.updateDataset('help', { name: [] }, function() {});
-      }, 'options.name must be a string');
-      assert.throws(function() {
-        client.updateDataset('help', { description: [] }, function() {});
-      }, 'options.description must be a string');
-      assert.throws(function() {
         client.updateDataset('help', {name: 'needs' });
       }, 'callback must be a function');
       assert.end();
