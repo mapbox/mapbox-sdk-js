@@ -310,21 +310,27 @@ test('DatasetClient', function(datasetClient) {
     var featureIds = [];
 
     bulkFeatureUpdate.test('typecheck', function(assert) {
+      var validFeature = randomFeature();
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
       assert.throws(function() {
-        client.bulkFeatureUpdate([], [''], {}, function() {});
+        client.bulkFeatureUpdate('', '', function() {});
+      }, 'update must be an object');
+      assert.throws(function() {
+        client.bulkFeatureUpdate({}, {}, function() {});
       }, 'dataset must be a string');
       assert.throws(function() {
-        client.bulkFeatureUpdate([], [''], '');
+        client.bulkFeatureUpdate({}, '', '');
       }, 'callback must be a function');
       assert.throws(function() {
-        client.bulkFeatureUpdate([{ a: 'b' }], [''], '');
-      }, 'inserts must be valid GeoJSON');
+        client.bulkFeatureUpdate({ put: validFeature }, '', function() {});
+      }, 'update.put must be an array of valid GeoJSON');
+      assert.throws(function() {
+        client.bulkFeatureUpdate({ delete: [validFeature] }, '', function() {});
+      }, 'update.delete must be an array of strings');
       assert.throws(function() {
         client.bulkFeatureUpdate([], [''], '');
       }, 'callback must be a function');
-      var validFeature = randomFeature();
       assert.throws(function() {
         client.bulkFeatureUpdate([validFeature], [''], '', function() {});
       }, 'inserted features must include ids');
@@ -343,7 +349,7 @@ test('DatasetClient', function(datasetClient) {
         featureIds.push(f.id);
         return f;
       });
-      client.bulkFeatureUpdate(features, null, testDatasets[0], function(err, response) {
+      client.bulkFeatureUpdate({ put: features }, testDatasets[0], function(err, response) {
         assert.ifError(err, 'success');
         assert.equal(response.put.length, 3, 'returned three features');
         assert.end();
@@ -359,7 +365,7 @@ test('DatasetClient', function(datasetClient) {
         return f;
       });
       var deletes = [featureIds.shift(), featureIds.shift()];
-      client.bulkFeatureUpdate(features, deletes, testDatasets[0], function(err, response) {
+      client.bulkFeatureUpdate({ put: features, delete: deletes }, testDatasets[0], function(err, response) {
         assert.ifError(err, 'success');
         assert.equal(response.put.length, 1, 'returned one insert');
         assert.equal(response.delete.length, 2, 'returned two deletes');
@@ -370,7 +376,7 @@ test('DatasetClient', function(datasetClient) {
     bulkFeatureUpdate.test('delete everything left', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      client.bulkFeatureUpdate(null, featureIds, testDatasets[0], function(err, response) {
+      client.bulkFeatureUpdate({ delete: featureIds }, testDatasets[0], function(err, response) {
         assert.ifError(err, 'success');
         assert.equal(response.delete.length, 2, 'returned two deletes');
         assert.end();
