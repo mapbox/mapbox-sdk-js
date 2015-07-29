@@ -31,8 +31,9 @@ There are a number of limits to consider when making this request:
 
 ### Parameters
 
-* `put` **`Array<object>`** features to insert. Each feature must be a valid GeoJSON feature per http://geojson.org/geojson-spec.html#feature-objects
-* `deletes` **`Array<string>`** ids of features to delete
+* `update` **`object`** an object describing features in insert and/or delete
+  * `update.put` **`[Array<object>]`** features to insert. Each feature must be a valid GeoJSON feature per http://geojson.org/geojson-spec.html#feature-objects
+  * `update.delete` **`[Array<string>]`** ids of features to delete
 * `dataset` **`string`** the id for an existing dataset
 * `callback` **`Function`** called with (err, results)
 
@@ -67,7 +68,7 @@ var deletes =[
   'feature-id-1',
   'feature-id-2'
 ];
-mapboxClient.bulkFeatureUpdate(inserts, deletes, dataset, function(err, results) {
+mapboxClient.bulkFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
  console.log(results);
 // {
 //   "put": [
