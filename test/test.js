@@ -19,27 +19,29 @@ test('prerequisites', function(t) {
   t.end();
 });
 
+var deadToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
+
 test('MapboxClient', function(t) {
   t.throws(function() {
     var client = new MapboxClient();
     t.notOk(client);
   }, /accessToken required to instantiate MapboxClient/);
-  var client = new MapboxClient('token');
+  var client = new MapboxClient(deadToken);
   t.ok(client);
-  t.equal(client.accessToken, 'token');
+  t.equal(client.accessToken, deadToken);
   t.end();
 });
 
 test('MapboxClient - custom endpoint', function(t) {
   t.throws(function() {
-    var client = new MapboxClient('foo', 1);
+    var client = new MapboxClient(deadToken, 1);
     t.notOk(client);
   }, /options/);
   t.throws(function() {
-    var client = new MapboxClient('foo', { endpoint: 1 });
+    var client = new MapboxClient(deadToken, { endpoint: 1 });
     t.notOk(client);
   }, /endpoint/);
-  var customClient = new MapboxClient('foo', { endpoint: 'foo.bar' });
+  var customClient = new MapboxClient(deadToken, { endpoint: 'foo.bar' });
   t.equal(customClient.endpoint, 'foo.bar', 'receives an endpoint from options');
   t.end();
 });
