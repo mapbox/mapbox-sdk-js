@@ -118,7 +118,7 @@ test('DatasetClient', function(datasetClient) {
       assert.ok(client, 'created dataset client');
       client.readDataset('peanuts', function(err, response) {
         assert.equal(err.status, 422, 'expected HTTP error');
-        assert.equal(response.message, 'No dataset', 'expected message');
+        assert.notOk(response, 'no response');
         assert.end();
       });
     });
@@ -231,7 +231,7 @@ test('DatasetClient', function(datasetClient) {
       assert.ok(client, 'created dataset client');
       client.readFeature('club', testDatasets[0], function(err, response) {
         assert.equal(err.status, 404, 'expected error code');
-        assert.equal(response.message, 'Feature does not exist', 'expected error message');
+        assert.notOk(response, 'no response');
         assert.end();
       });
     });
@@ -298,7 +298,7 @@ test('DatasetClient', function(datasetClient) {
       assert.ok(client, 'created dataset client');
       client.deleteFeature('blt', testDatasets[0], function(err, response) {
         assert.equal(err.status, 404, 'expected error code');
-        assert.equal(response.message, 'Feature does not exist', 'expected error message');
+        assert.notOk(response, 'no response');
         assert.end();
       });
     });
