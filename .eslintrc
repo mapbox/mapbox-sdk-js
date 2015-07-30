@@ -7,6 +7,7 @@
     "quotes": [2, "single"],
     "camelcase": [0],
     "no-ternary": [2],
-    "valid-jsdoc": [2]
+    "valid-jsdoc": [2],
+    "curly": [2, "multi-line"]
   }
 }

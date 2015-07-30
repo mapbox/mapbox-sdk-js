@@ -19,6 +19,169 @@ var client = new MapboxClient('ACCESSTOKEN');
 | type | description |
 | ---- | ----------- |
 | `Error` | if accessToken is not provided |
+## `bulkFeatureUpdate`
+
+Perform a batch of inserts, updates, and deletes to a dataset in a single combined request.
+This request requires an access token with the datasets:write scope.
+There are a number of limits to consider when making this request:
+  - you can send a total of 100 changes (sum of puts + deletes) in a single request
+  - any single feature cannot be larger than 500 KB
+  - the dataset must not exceed 2000 total features
+  - the dataset must not exceed a total of 5 MB
+
+### Parameters
+
+* `update` **`object`** an object describing features in insert and/or delete
+  * `update.put` **`[Array<object>]`** features to insert. Each feature must be a valid GeoJSON feature per http://geojson.org/geojson-spec.html#feature-objects
+  * `update.delete` **`[Array<string>]`** ids of features to delete
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err, results)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var inserts = [
+  {
+    "type": "Feature",
+    "properties": {
+      "name": "Null Island"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [0, 0]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "name": "Offshore from Null Island"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [0.01, 0.01]
+    }
+  }
+];
+var deletes =[
+  'feature-id-1',
+  'feature-id-2'
+];
+mapboxClient.bulkFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
+ console.log(results);
+// {
+//   "put": [
+//     {
+//       "id": {feature-id},
+//       "type": "Feature",
+//       "properties": {
+//         "name": "Null Island"
+//       },
+//       "geometry": {
+//         "type": "Point",
+//         "coordinates": [0, 0]
+//       }
+//     },
+//     {
+//       "id": {feature-id},
+//       "type": "Feature",
+//       "properties": {
+//         "name": "Offshore from Null Island"
+//       },
+//       "geometry": {
+//         "type": "Point",
+//         "coordinates": [0.01, 0.01]
+//       }
+//     }
+//   ],
+//   "delete": [
+//     "feature-id-1",
+//     "feature-id-2"
+//   ]
+// }
+});
+```
+
+Returns  nothing, calls callback
+
+## `createDataset`
+
+To create a new dataset. Valid properties include title and description (not required).
+This request requires an access token with the datasets:write scope.
+
+### Parameters
+
+* `options` **`[object]`** an object defining a dataset's properties
+  * `options.name` **`[string]`** the dataset's name
+  * `options.description` **`[string]`** the dataset's description
+* `callback` **`Function`** called with (err, dataset)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.createDataset({ name: 'foo', description: 'bar' }, function(err, dataset) {
+  console.log(dataset);
+  // {
+  //   "owner": {account},
+  //   "id": {dataset id},
+  //   "name": "foo",
+  //   "description": "description",
+  //   "created": {timestamp},
+  //   "modified": {timestamp}
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+## `deleteDataset`
+
+To delete a particular dataset.
+This request requires an access token with the datasets:write scope.
+
+### Parameters
+
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.deleteDataset('dataset-id', function(err) {
+  if (!err) console.log('deleted!');
+});
+```
+
+Returns  nothing, calls callback
+
+## `deleteFeature`
+
+Delete an existing feature from a dataset.
+This request requires an access token with the datasets:write scope.
+
+### Parameters
+
+* `id` **`string`** the `id` of the feature to read
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.deleteFeature('feature-id', 'dataset-id', function(err, feature) {
+  if (!err) console.log('deleted!');
+});
+```
+
+Returns  nothing, calls callback
+
 ## `geocodeForward`
 
 Search for a location with a string, using the
@@ -123,6 +286,166 @@ mapboxClient.getDirections([
 
 Returns  nothing, calls callback
 
+## `insertFeature`
+
+Insert a feature into a dataset. This can be a new feature, or overwrite an existing one.
+If overwriting an existing feature, make sure that the feature's `id` property correctly identifies
+the feature you wish to overwrite.
+For new features, specifying an `id` is optional. If you do not specify an `id`, one will be assigned
+and returned as part of the response.
+This request requires an access token with the datasets:write scope.
+There are a number of limits to consider when making this request:
+  - a single feature cannot be larger than 500 KB
+  - the dataset must not exceed 2000 total features
+  - the dataset must not exceed a total of 5 MB
+
+### Parameters
+
+* `feature` **`object`** the feature to insert. Must be a valid GeoJSON feature per http://geojson.org/geojson-spec.html#feature-objects
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err, feature)
+
+
+### Examples
+
+```js
+// Insert a brand new feature without an id
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var feature = {
+  "type": "Feature",
+  "properties": {
+    "name": "Null Island"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [0, 0]
+  }
+};
+mapboxClient.insertFeature(feature, 'dataset-id', function(err, feature) {
+  console.log(feature);
+  // {
+  //   "id": {feature id},
+  //   "type": "Feature",
+  //   "properties": {
+  //     "name": "Null Island"
+  //   },
+  //   "geometry": {
+  //     "type": "Point",
+  //     "coordinates": [0, 0]
+  //   }
+  // }
+});
+```
+```js
+// Insert a brand new feature with an id, or overwrite an existing feature at that id
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var feature = {
+  "id": "feature-id",
+  "type": "Feature",
+  "properties": {
+    "name": "Null Island"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [0, 0]
+  }
+};
+mapboxClient.insertFeature(feature, 'dataset-id', function(err, feature) {
+  console.log(feature);
+  // {
+  //   "id": "feature-id",
+  //   "type": "Feature",
+  //   "properties": {
+  //     "name": "Null Island"
+  //   },
+  //   "geometry": {
+  //     "type": "Point",
+  //     "coordinates": [0, 0]
+  //   }
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+## `listDatasets`
+
+To retrieve a listing of datasets for a particular account.
+This request requires an access token with the datasets:read scope.
+
+### Parameters
+
+* `callback` **`Function`** called with (err, datasets)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.listDatasets(function(err, datasets) {
+  console.log(datasets);
+  // [
+  //   {
+  //     "owner": {account},
+  //     "id": {dataset id},
+  //     "name": {dataset name},
+  //     "description": {dataset description},
+  //     "created": {timestamp},
+  //     "modified": {timestamp}
+  //   },
+  //   {
+  //     "owner": {account},
+  //     "id": {dataset id},
+  //     "name": {dataset name},
+  //     "description": {dataset description},
+  //     "created": {timestamp},
+  //     "modified": {timestamp}
+  //   }
+  // ]
+});
+```
+
+Returns  nothing, calls callback
+
+## `listFeatures`
+
+Retrive a list of the features in a particular dataset. The response body will be a GeoJSON FeatureCollection.
+This request requires an access token with the datasets:read scope.
+
+### Parameters
+
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err, collection)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.listFeatures('dataset-id', function(err, collection) {
+  console.log(collection);
+  {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": {feature id},
+        "type": "Feature",
+        "properties": {feature properties}
+        "geometry": {feature geometry}
+      },
+      {
+        "id": {feature id},
+        "type": "Feature",
+        "properties": {feature properties}
+        "geometry": {feature geometry}
+      }
+    ]
+  }
+});
+```
+
+Returns  nothing, calls callback
+
 ## `matching`
 
 Snap recorded location traces to roads and paths from OpenStreetMap.
@@ -172,6 +495,70 @@ mapboxClient.matching({
 
 Returns  nothing, calls callback
 
+## `readDataset`
+
+To retrieve information about a particular dataset.
+This request requires an access token with the datasets:read scope.
+
+### Parameters
+
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err, dataset)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.readDataset('dataset-id', function(err, dataset) {
+  console.log(dataset);
+  // {
+  //   "owner": {account},
+  //   "id": "dataset-id",
+  //   "name": {dataset name},
+  //   "description": {dataset description},
+  //   "created": {timestamp},
+  //   "modified": {timestamp}
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+## `readFeature`
+
+Read an existing feature from a dataset.
+This request requires an access token with the datasets:read scope.
+
+### Parameters
+
+* `id` **`string`** the `id` of the feature to read
+* `dataset` **`string`** the id for an existing dataset
+* `callback` **`Function`** called with (err, feature)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.readFeature('feature-id', 'dataset-id', function(err, feature) {
+  console.log(feature);
+  // {
+  //   "id": "feature-id",
+  //   "type": "Feature",
+  //   "properties": {
+  //     "name": "Null Island"
+  //   },
+  //   "geometry": {
+  //     "type": "Point",
+  //     "coordinates": [0, 0]
+  //   }
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
 ## `surface`
 
 Given a list of locations, retrieve vector tiles, find the nearest
@@ -198,6 +585,40 @@ for more documentation.
 
 ```js
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
+```
+
+Returns  nothing, calls callback
+
+## `updateDataset`
+
+To make updates to a particular dataset's properties.
+This request requires an access token with the datasets:write scope.
+
+### Parameters
+
+* `dataset` **`string`** the id for an existing dataset
+* `options` **`[object]`** an object defining updates to the dataset's properties
+  * `options.name` **`[string]`** the updated dataset's name
+  * `options.description` **`[string]`** the updated dataset's description
+* `callback` **`Function`** called with (err, dataset)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var options = { name: 'foo' };
+mapboxClient.updateDataset('dataset-id', options, function(err, dataset) {
+  console.log(dataset);
+  // {
+  //   "owner": {account},
+  //   "id": "dataset-id",
+  //   "name": "foo",
+  //   "description": {dataset description},
+  //   "created": {timestamp},
+  //   "modified": {timestamp}
+  // }
+});
 ```
 
 Returns  nothing, calls callback
