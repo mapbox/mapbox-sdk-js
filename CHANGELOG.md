@@ -1,3 +1,8 @@
+## 0.6.2
+
+- Added support for [Upload API](https://www.mapbox.com/developers/api/uploads/)
+- Added support for Datasets API (in preview)
+
 ## 0.6.1
 
 * Fixed bug in forward geococoding
