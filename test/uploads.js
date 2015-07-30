@@ -76,7 +76,7 @@ test('UploadClient', function(uploadClient) {
       assert.ok(client, 'created upload client');
       var staged = testStagedFiles.shift();
       client.createUpload({
-        tileset: [client.user, hat()].join('.'),
+        tileset: [client.owner, hat()].join('.'),
         url: staged.url
       }, function(err, upload) {
         assert.ifError(err, 'success');
