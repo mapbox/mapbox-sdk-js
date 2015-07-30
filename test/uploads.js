@@ -25,34 +25,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    createUploadCredentials.test('with owner', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created upload client');
-
-      client.createUploadCredentials(client.user, function(err, credentials) {
-        assert.ifError(err, 'success');
-        var s3 = new AWS.S3({
-          accessKeyId: credentials.accessKeyId,
-          secretAccessKey: credentials.secretAccessKey,
-          sessionToken: credentials.sessionToken,
-          region: 'us-east-1'
-        });
-        s3.putObject({
-          Bucket: credentials.bucket,
-          Key: credentials.key,
-          Body: fs.createReadStream(__dirname + '/fixtures/valid-onlytiles.mbtiles')
-        }, function(err, resp) {
-          assert.ifError(err, 'success');
-          testStagedFiles.push({
-            bucket: credentials.bucket,
-            key: credentials.key
-          });
-          assert.end();
-        });
-      });
-    });
-
-    createUploadCredentials.test('without owner', function(assert) {
+    createUploadCredentials.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
 
@@ -95,7 +68,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    createUpload.test('without owner', function(assert) {
+    createUpload.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var staged = testStagedFiles.shift();
@@ -104,21 +77,6 @@ test('UploadClient', function(uploadClient) {
         tileset: [client.user, hat()].join('.'),
         url: url
       }, function(err, upload) {
-        assert.ifError(err, 'success');
-        testUploads.push(upload);
-        assert.end();
-      });
-    });
-
-    createUpload.test('with owner', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created upload client');
-      var staged = testStagedFiles.shift();
-      var url = 'http://' + staged.bucket + '.s3.amazonaws.com/' + staged.key;
-      client.createUpload({
-        tileset: [client.user, hat()].join('.'),
-        url: url
-      }, client.user, function(err, upload) {
         assert.ifError(err, 'success');
         testUploads.push(upload);
         assert.end();
@@ -141,7 +99,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    readUpload.test('without owner', function(assert) {
+    readUpload.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var upload = testUploads.shift();
@@ -157,16 +115,6 @@ test('UploadClient', function(uploadClient) {
         });
       }
       poll();
-    });
-
-    readUpload.test('with owner', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created upload client');
-      var upload = testUploads.shift();
-      client.readUpload(upload.id, upload.owner, function(err, upload) {
-        assert.ifError(err, 'success');
-        assert.end();
-      });
     });
 
     readUpload.end();
@@ -185,7 +133,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    listUploads.test('without owner', function(assert) {
+    listUploads.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       client.listUploads(function(err, uploads) {
@@ -210,7 +158,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    deleteUpload.test('without owner', function(assert) {
+    deleteUpload.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var upload = testUploads.shift();
