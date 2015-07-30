@@ -21,6 +21,8 @@ to Mapbox services.
     [OpenStreetMap](https://www.openstreetmap.org/) data
 * [Surface API](https://www.mapbox.com/developers/api/surface/)
   * Interpolates values along lines. Useful for elevation traces.
+* [Upload API](https://www.mapbox.com/developers/api/uploads/)
+  * Upload data to be processed and hosted by Mapbox.
 
 ## Installation
 
