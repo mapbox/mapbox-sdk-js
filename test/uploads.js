@@ -49,10 +49,7 @@ test('UploadClient', function(uploadClient) {
           Body: fs.createReadStream(__dirname + '/fixtures/valid-onlytiles.mbtiles')
         }, function(err, resp) {
           assert.ifError(err, 'success');
-          testStagedFiles.push({
-            bucket: credentials.bucket,
-            key: credentials.key
-          });
+          testStagedFiles.push(credentials);
           assert.end();
         });
       });
@@ -78,10 +75,9 @@ test('UploadClient', function(uploadClient) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var staged = testStagedFiles.shift();
-      var url = 'http://' + staged.bucket + '.s3.amazonaws.com/' + staged.key;
       client.createUpload({
         tileset: [client.user, hat()].join('.'),
-        url: url
+        url: staged.url
       }, function(err, upload) {
         assert.ifError(err, 'success');
         assert.ok(upload.id, 'has id');
