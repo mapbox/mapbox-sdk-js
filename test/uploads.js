@@ -133,7 +133,7 @@ test('UploadClient', function(uploadClient) {
       function poll() {
         client.readUpload(upload.id, function(err, upload) {
           assert.ifError(err, 'success');
-          if (attempts > 3) throw new Error('Upload did not complete in time');
+          if (attempts > 4) throw new Error('Upload did not complete in time');
           // we are waiting for mapbox to process the upload
           if (!upload.complete) return setTimeout(poll, Math.pow(2, attempts++) * 1000);
           completedUpload = upload;
