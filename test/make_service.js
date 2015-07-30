@@ -64,19 +64,19 @@ test('make_service', function(t) {
     assert.end();
   });
 
-  t.test('sets user from account option', function(assert) {
+  t.test('sets owner from account option', function(assert) {
     var TestService = makeService('Test');
     var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
     var service = new TestService(validToken, { account: 'bambam' });
-    assert.equal(service.user, 'bambam', 'success');
+    assert.equal(service.owner, 'bambam', 'success');
     assert.end();
   });
 
-  t.test('sets user from access token', function(assert) {
+  t.test('sets owner from access token', function(assert) {
     var TestService = makeService('Test');
     var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
     var service = new TestService(validToken);
-    assert.equal(service.user, 'worbly', 'success');
+    assert.equal(service.owner, 'worbly', 'success');
     assert.end();
   });
 
