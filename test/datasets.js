@@ -35,7 +35,7 @@ test('DatasetClient', function(datasetClient) {
         assert.ok(dataset.id, 'has id');
         assert.notOk(dataset.name, 'no name');
         assert.notOk(dataset.description, 'no description');
-        assert.equal(dataset.owner, client.user, 'has owner');
+        assert.equal(dataset.owner, client.owner, 'has owner');
         testDatasets.push(dataset.id);
         assert.end();
       });
@@ -52,7 +52,7 @@ test('DatasetClient', function(datasetClient) {
         assert.ok(dataset.id, 'has id');
         assert.equal(dataset.name, 'test', 'has name');
         assert.equal(dataset.description, 'for testing', 'has description');
-        assert.equal(dataset.owner, client.user, 'has owner');
+        assert.equal(dataset.owner, client.owner, 'has owner');
         testDatasets.push(dataset.id);
         assert.end();
       });

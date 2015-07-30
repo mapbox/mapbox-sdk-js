@@ -38,6 +38,10 @@ test('make_service', function(t) {
       TestService.thisOne = new TestService(validToken, { endpoint: [] });
     }, 'endpoint must be a string');
 
+    assert.throws(function() {
+      TestService.thisOne = new TestService(validToken, { account: [] });
+    }, 'account must be a string');
+
     assert.end();
   });
 
@@ -57,6 +61,22 @@ test('make_service', function(t) {
     var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
     var service = new TestService(validToken, { endpoint: 'donuts' });
     assert.equal(service.endpoint, 'donuts', 'success');
+    assert.end();
+  });
+
+  t.test('sets owner from account option', function(assert) {
+    var TestService = makeService('Test');
+    var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
+    var service = new TestService(validToken, { account: 'bambam' });
+    assert.equal(service.owner, 'bambam', 'success');
+    assert.end();
+  });
+
+  t.test('sets owner from access token', function(assert) {
+    var TestService = makeService('Test');
+    var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
+    var service = new TestService(validToken);
+    assert.equal(service.owner, 'worbly', 'success');
     assert.end();
   });
 
