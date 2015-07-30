@@ -162,11 +162,12 @@ var credentials = {
   "bucket": "somebucket",
   "key": "hij456",
   "secretAccessKey": "{secretAccessKey}",
-  "sessionToken": "{sessionToken}"
+  "sessionToken": "{sessionToken}",
+  "url": "{s3 url}"
 };
 mapboxClient.createUpload({
    tileset: [accountid, 'mytileset'].join('.'),
-   url: 'http://' + credentials.bucket + '.s3.amazonaws.com/' + credentials.key
+   url: credentials.url
 }, function(err, upload) {
   console.log(upload);
   // {
@@ -208,7 +209,8 @@ mapboxClient.createUploadCredentials(function(err, credentials) {
   //   "bucket": "somebucket",
   //   "key": "hij456",
   //   "secretAccessKey": "{secretAccessKey}",
-  //   "sessionToken": "{sessionToken}"
+  //   "sessionToken": "{sessionToken}",
+  //   "url": "{s3 url}"
   // }
 
   // Use aws-sdk to stage the file on Amazon S3
