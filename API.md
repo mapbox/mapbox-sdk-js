@@ -138,6 +138,98 @@ mapboxClient.createDataset({ name: 'foo', description: 'bar' }, function(err, da
 
 Returns  nothing, calls callback
 
+## `createUpload`
+
+Create an new upload with a file previously staged on Amazon S3.
+
+This request requires an access token with the uploads:write scope.
+
+### Parameters
+
+* `options` **`Object`** an object that defines the upload's properties
+  * `options.tileset` **`String`** id of the tileset to create or replace. This must consist of an account id and a unique key separated by a period. Reuse of a tileset value will overwrite existing data. To avoid overwriting existing data, you must ensure that you are using unique tileset ids.
+  * `options.url` **`String`** https url of a file staged on Amazon S3.
+* `callback` **`Function`** called with (err, upload)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+// Response from a call to createUploadCredentials
+var credentials = {
+  "accessKeyId": "{accessKeyId}",
+  "bucket": "somebucket",
+  "key": "hij456",
+  "secretAccessKey": "{secretAccessKey}",
+  "sessionToken": "{sessionToken}"
+};
+mapboxClient.createUpload({
+   tileset: [accountid, 'mytileset'].join('.'),
+   url: 'http://' + credentials.bucket + '.s3.amazonaws.com/' + credentials.key
+}, function(err, upload) {
+  console.log(upload);
+  // {
+  //   "complete": false,
+  //   "tileset": "example.markers",
+  //   "error": null,
+  //   "id": "hij456",
+  //   "modified": "2014-11-21T19:41:10.000Z",
+  //   "created": "2014-11-21T19:41:10.000Z",
+  //   "owner": "example",
+  //   "progress": 0
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+## `createUploadCredentials`
+
+Retrieve credentials that allow a new file to be staged on Amazon S3
+while an upload is processed. All uploads must be staged using these
+credentials before being uploaded to Mapbox.
+
+This request requires an access token with the uploads:write scope.
+
+### Parameters
+
+* `callback` **`Function`** called with (err, credentials)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.createUploadCredentials(function(err, credentials) {
+  console.log(credentials);
+  // {
+  //   "accessKeyId": "{accessKeyId}",
+  //   "bucket": "somebucket",
+  //   "key": "hij456",
+  //   "secretAccessKey": "{secretAccessKey}",
+  //   "sessionToken": "{sessionToken}"
+  // }
+
+  // Use aws-sdk to stage the file on Amazon S3
+  var AWS = require('aws-sdk');
+  var s3 = new AWS.S3({
+       accessKeyId: credentials.accessKeyId,
+       secretAccessKey: credentials.secretAccessKey,
+       sessionToken: credentials.sessionToken,
+       region: 'us-east-1'
+  });
+  s3.putObject({
+    Bucket: credentials.bucket,
+    Key: credentials.key,
+    Body: fs.createReadStream('/path/to/file.mbtiles')
+  }, function(err, resp) {
+  });
+});
+```
+
+Returns  nothing, calls callback
+
 ## `deleteDataset`
 
 To delete a particular dataset.
@@ -178,6 +270,27 @@ This request requires an access token with the datasets:write scope.
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
 mapboxClient.deleteFeature('feature-id', 'dataset-id', function(err, feature) {
   if (!err) console.log('deleted!');
+});
+```
+
+Returns  nothing, calls callback
+
+## `deleteUpload`
+
+Delete a completed upload. In-progress uploads cannot be deleted.
+
+This request requires an access token with the uploads:delete scope.
+
+### Parameters
+
+* `callback` **`Function`** called with (err)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.deleteUpload('hij456', function(err) {
 });
 ```
 
@@ -447,6 +560,50 @@ mapboxClient.listFeatures('dataset-id', function(err, collection) {
 
 Returns  nothing, calls callback
 
+## `listUploads`
+
+Retrieve a listing of uploads for a particular account.
+
+This request requires an access token with the uploads:list scope.
+
+### Parameters
+
+* `callback` **`Function`** called with (err, uploads)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.listUploads(function(err, uploads) {
+  console.log(uploads);
+  // [
+  //   {
+  //     "complete": true,
+  //     "tileset": "example.mbtiles",
+  //     "error": null,
+  //     "id": "abc123",
+  //     "modified": "2014-11-21T19:41:10.000Z",
+  //     "created": "2014-11-21T19:41:10.000Z",
+  //     "owner": "example",
+  //     "progress": 1
+  //   },
+  //   {
+  //     "complete": false,
+  //     "tileset": "example.foo",
+  //     "error": null,
+  //     "id": "xyz789",
+  //     "modified": "2014-11-21T19:41:10.000Z",
+  //     "created": "2014-11-21T19:41:10.000Z",
+  //     "owner": "example",
+  //     "progress": 0
+  //   }
+  // ]
+});
+```
+
+Returns  nothing, calls callback
+
 ## `matching`
 
 Snap recorded location traces to roads and paths from OpenStreetMap.
@@ -554,6 +711,39 @@ mapboxClient.readFeature('feature-id', 'dataset-id', function(err, feature) {
   //     "type": "Point",
   //     "coordinates": [0, 0]
   //   }
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+## `readUpload`
+
+Retrieve state of an upload.
+
+This request requires an access token with the uploads:read scope.
+
+### Parameters
+
+* `upload` **`String`** id of the upload to read
+* `callback` **`Function`** called with (err, upload)
+
+
+### Examples
+
+```js
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+mapboxClient.readUpload('hij456', function(err, upload) {
+  console.log(upload);
+  // {
+  //   "complete": true,
+  //   "tileset": "example.markers",
+  //   "error": null,
+  //   "id": "hij456",
+  //   "modified": "2014-11-21T19:41:10.000Z",
+  //   "created": "2014-11-21T19:41:10.000Z",
+  //   "owner": "example",
+  //   "progress": 1
   // }
 });
 ```
