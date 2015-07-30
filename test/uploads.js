@@ -31,6 +31,12 @@ test('UploadClient', function(uploadClient) {
 
       client.createUploadCredentials(function(err, credentials) {
         assert.ifError(err, 'success');
+        assert.ok(credentials, 'has credentials');
+        assert.ok(credentials.accessKeyId, 'has accessKeyId');
+        assert.ok(credentials.bucket, 'has bucket');
+        assert.ok(credentials.key, 'has key');
+        assert.ok(credentials.secretAccessKey, 'has secretAccessKey');
+        assert.ok(credentials.sessionToken, 'has sessionToken');
         var s3 = new AWS.S3({
           accessKeyId: credentials.accessKeyId,
           secretAccessKey: credentials.secretAccessKey,
@@ -78,7 +84,27 @@ test('UploadClient', function(uploadClient) {
         url: url
       }, function(err, upload) {
         assert.ifError(err, 'success');
+        assert.ok(upload.id, 'has id');
+        assert.ok(upload.complete === false, 'has complete');
+        assert.ok(upload.tileset, 'has tileset');
+        assert.ok(upload.error === null, 'has error');
+        assert.ok(upload.modified, 'has modified');
+        assert.ok(upload.created, 'has created');
+        assert.ok(upload.owner, 'has owner');
+        assert.ok(upload.progress === 0, 'has progress');
         testUploads.push(upload);
+        assert.end();
+      });
+    });
+
+    createUpload.test('invalid request', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created upload client');
+      client.createUpload({
+        tileset: 'blah'
+      }, function(err, upload) {
+        assert.equal(err.status, 422);
+        assert.equal(upload.message, 'Missing property "url"');
         assert.end();
       });
     });
@@ -107,7 +133,7 @@ test('UploadClient', function(uploadClient) {
       function poll() {
         client.readUpload(upload.id, function(err, upload) {
           assert.ifError(err, 'success');
-          if (attempts > 10) throw new Error('Upload did not complete in time');
+          if (attempts > 3) throw new Error('Upload did not complete in time');
           // we are waiting for mapbox to process the upload
           if (!upload.complete) return setTimeout(poll, Math.pow(2, attempts++) * 1000);
           completedUpload = upload;
@@ -115,6 +141,16 @@ test('UploadClient', function(uploadClient) {
         });
       }
       poll();
+    });
+
+    readUpload.test('does not exist', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created upload client');
+      client.readUpload('fakeo', function(err, upload) {
+        assert.equal(err.status, 404);
+        assert.equal(upload.message, 'Not Found');
+        assert.end();
+      });
     });
 
     readUpload.end();
