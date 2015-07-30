@@ -7,6 +7,7 @@ The JavaScript API to Mapbox services
 * `accessToken` **`string`** a private or public access token
 * `options` **`Object`** additional options provided for configuration
   * `options.endpoint` **`[string]`** location of the Mapbox API pointed-to. This can be customized to point to a Mapbox Atlas Server instance, or a different service, a mock, or a staging endpoint. Usually you don't need to customize this. (optional, default `https://api.mapbox.com`)
+  * `options.account` **`[string]`** account id to use for api requests. If not is specified, the account defaults to the owner of the provided accessToken.
 
 
 ### Examples
