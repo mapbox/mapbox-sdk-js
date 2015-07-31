@@ -6,3 +6,6 @@ env:
   global:
   - secure: Fr2V0A0131xmPzvU9IWwjfElqnguY0aGcyApbLYbcKEiB/yyNptkYpo5pCyGBeWJI6A57jOlqkj8+rAJHnnOyWQThH78J2XuQB9tvsODVMRio9ew4umUO8tGc6MJzc4Qv+Zm3IrPXFYE72O2OGGHcV622mlrNwnzqOQ9WRR+8LY=
   - secure: Dtn89skkYcoS0f3T5Ojtlhf7Ip6Kfy2786UR1KtIJbq7WREWnd4HhfDHoLuFzKRpipqXEEnnxgAyf9NDDcB3/4tn4uoBNmkVE3uSx4px8yUQeVLroE0arsXvMODqGa5L14rPf0NGYyEewAMiksPbY6TCrh12sVb4W9Y8tYrM8AI=
+script:
+- npm test
+- npm run-script client-test
