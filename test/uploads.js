@@ -5,6 +5,7 @@ var test = require('tap').test;
 var MapboxClient = require('../lib/services/uploads');
 var AWS = require('aws-sdk');
 var hat = require('hat');
+var path = require('path');
 var fs = require('fs');
 
 test('UploadClient', function(uploadClient) {
@@ -46,8 +47,8 @@ test('UploadClient', function(uploadClient) {
         s3.putObject({
           Bucket: credentials.bucket,
           Key: credentials.key,
-          Body: fs.createReadStream(__dirname + '/fixtures/valid-onlytiles.mbtiles')
-        }, function(err, resp) {
+          Body: fs.readFileSync(path.join(__dirname, '/fixtures/valid-onlytiles.mbtiles'))
+        }, function(err /*, resp */) {
           assert.ifError(err, 'success');
           testStagedFiles.push(credentials);
           assert.end();
@@ -168,7 +169,7 @@ test('UploadClient', function(uploadClient) {
     listUploads.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
-      client.listUploads(function(err, uploads) {
+      client.listUploads(function(err/*, uploads */) {
         assert.ifError(err, 'success');
         assert.end();
       });
@@ -194,7 +195,7 @@ test('UploadClient', function(uploadClient) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var upload = testUploads.shift();
-      client.deleteUpload(completedUpload.id, function(err, uploads) {
+      client.deleteUpload(completedUpload.id, function(err/*, uploads*/) {
         assert.ifError(err, 'success');
         assert.end();
       });
