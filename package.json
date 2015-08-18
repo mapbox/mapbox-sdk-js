@@ -2,14 +2,14 @@
   "name": "mapbox",
   "version": "0.6.2",
   "description": "interface to mapbox services",
-  "main": "lib/client.js",
+  "main": "lib/mapbox.js",
   "scripts": {
     "lint": "eslint --no-eslintrc -c .eslintrc lib test/*.js",
     "test": "tap --coverage test/browser.js test/*.js",
     "browser-test": "browserify -t envify -t brfs test/browser.js test/*.js | smokestack | tap-status",
     "docs": "documentation . --format=md > API.md",
     "build": "npm run build-dist && npm run build-min",
-    "build-dist": "browserify -s MapboxClient lib/client.js > dist/mapbox-sdk.js",
+    "build-dist": "browserify -s MapboxClient lib/mapbox.js > dist/mapbox-sdk.js",
     "build-min": "uglifyjs -c -m < dist/mapbox-sdk.js > dist/mapbox-sdk.min.js"
   },
   "repository": {
