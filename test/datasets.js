@@ -116,9 +116,8 @@ test('DatasetClient', function(datasetClient) {
     readDataset.test('does not exist', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      client.readDataset('peanuts', function(err, response) {
-        assert.equal(err.status, 422, 'expected HTTP error');
-        assert.equal(response.message, 'No dataset', 'expected message');
+      client.readDataset('peanuts', function(err /*, response */) {
+        assert.equal(err.message, 'No dataset', 'expected message');
         assert.end();
       });
     });
@@ -229,9 +228,8 @@ test('DatasetClient', function(datasetClient) {
     readFeature.test('does not exist', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      client.readFeature('club', testDatasets[0], function(err, response) {
-        assert.equal(err.status, 404, 'expected error code');
-        assert.equal(response.message, 'Feature does not exist', 'expected error message');
+      client.readFeature('club', testDatasets[0], function(err /*, response */) {
+        assert.equal(err.message, 'Feature does not exist', 'expected error message');
         assert.end();
       });
     });
@@ -288,7 +286,7 @@ test('DatasetClient', function(datasetClient) {
       assert.ok(client, 'created dataset client');
       client.deleteFeature(testFeature, testDatasets[0], function(err, response) {
         assert.ifError(err, 'success');
-        assert.deepEqual(response, {}, 'empty response');
+        assert.deepEqual(response, '', 'empty response');
         assert.end();
       });
     });
@@ -296,9 +294,8 @@ test('DatasetClient', function(datasetClient) {
     deleteFeature.test('feature does not exist', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      client.deleteFeature('blt', testDatasets[0], function(err, response) {
-        assert.equal(err.status, 404, 'expected error code');
-        assert.equal(response.message, 'Feature does not exist', 'expected error message');
+      client.deleteFeature('blt', testDatasets[0], function(err /*, response */) {
+        assert.equal(err.message, 'Feature does not exist', 'expected error message');
         assert.end();
       });
     });
