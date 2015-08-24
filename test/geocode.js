@@ -2,8 +2,6 @@
 'use strict';
 
 var test = require('tap').test,
-  // fs = require('fs'),
-  // path = require('path'),
   geojsonhint = require('geojsonhint'),
   MapboxClient = require('../lib/services/geocoder');
 
