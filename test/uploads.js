@@ -99,9 +99,8 @@ test('UploadClient', function(uploadClient) {
       assert.ok(client, 'created upload client');
       client.createUpload({
         tileset: 'blah'
-      }, function(err, upload) {
-        assert.equal(err.status, 422);
-        assert.equal(upload.message, 'Missing property "url"');
+      }, function(err /*, upload */) {
+        assert.equal(err.message, 'Missing property "url"');
         assert.end();
       });
     });
@@ -138,14 +137,13 @@ test('UploadClient', function(uploadClient) {
         });
       }
       poll();
-    });
+    }, { timeout: 10000 });
 
     readUpload.test('does not exist', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
-      client.readUpload('fakeo', function(err, upload) {
-        assert.equal(err.status, 404);
-        assert.equal(upload.message, 'Not Found');
+      client.readUpload('fakeo', function(err /*, upload */) {
+        assert.equal(err.message, 'Not Found');
         assert.end();
       });
     });

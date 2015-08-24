@@ -60,7 +60,9 @@ test('make_service', function(t) {
     var TestService = makeService('Test');
     var validToken = 'pk.eyJ1Ijoid29yYmx5IiwiYSI6ImQzMjFkZWRkN2IzNzc5M2MzZDgyNTIzZTRhM2E5MDE3In0.IIrNhFTaOiW-Ykw_J-yQbg';
     var service = new TestService(validToken, { endpoint: 'donuts' });
-    assert.equal(service.endpoint, 'donuts', 'success');
+    assert.ok(service);
+    // TODO endpoint is no longer exposed
+    // assert.equal(service.endpoint, 'donuts', 'success');
     assert.end();
   });
 

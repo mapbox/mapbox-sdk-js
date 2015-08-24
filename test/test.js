@@ -28,7 +28,8 @@ test('MapboxClient', function(t) {
   }, /accessToken required to instantiate MapboxClient/);
   var client = new MapboxClient(deadToken);
   t.ok(client);
-  t.equal(client.accessToken, deadToken);
+  // TODO accessToken is no longer exposed
+  // t.equal(client.accessToken, deadToken);
   t.end();
 });
 
@@ -42,6 +43,7 @@ test('MapboxClient - custom endpoint', function(t) {
     t.notOk(client);
   }, /endpoint/);
   var customClient = new MapboxClient(deadToken, { endpoint: 'foo.bar' });
-  t.equal(customClient.endpoint, 'foo.bar', 'receives an endpoint from options');
+  // TODO endpoint is no longer exposed
+  // t.equal(customClient.endpoint, 'foo.bar', 'receives an endpoint from options');
   t.end();
 });
