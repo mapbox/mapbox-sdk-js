@@ -1,3 +1,8 @@
+## 0.7.0
+
+- Improved error handling
+- Added support for Tileset statistics API (in preview)
+
 ## 0.6.2
 
 - Added support for [Upload API](https://www.mapbox.com/developers/api/uploads/)
