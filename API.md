@@ -402,6 +402,82 @@ mapboxClient.getDirections([
 Returns  nothing, calls callback
 
 
+## `getTilestats`
+
+To retrieve statistics about a specific tileset.
+
+### Parameters
+
+* `tileset` **`String`** the id for the tileset
+* `callback` **`Function`** called with (err, tilestats)
+
+
+### Examples
+
+```js
+var client = new MapboxClient('ACCESSTOKEN');
+client.getTilestats('tileset-id', function(err, info) {
+  console.log(info);
+  // {
+  //   "account": {account},
+  //   "tilesetid": "tileset-id",
+  //   "layers": [
+  //     {
+  //       "account": {account},
+  //       "tilesetid": "tileset-id",
+  //       "layer": {layername},
+  //       "count": 10,
+  //       "attributes": [
+  //         {attributename},
+  //         {attributename},
+  //       ]
+  //     }
+  //   ]
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+
+## `getTilestatsAttribute`
+
+To retrieve statistics about the attribute values of a particular attribute
+within a tileset layer.
+
+### Parameters
+
+* `tileset` **`String`** the id for the tileset
+* `layer` **`String`** the name of the layer in the tileset
+* `attribute` **`String`** the name of the attribute in the layer
+* `callback` **`Function`** called with (err)
+
+
+### Examples
+
+```js
+var client = new MapboxClient('ACCESSTOKEN');
+client.getTilestatsAttribute('tileset-id', 'layer-name', 'attr-name', function(err, info) {
+  console.log(info);
+  // {
+  //   "account": {account},
+  //   "tilesetid": "tileset-id",
+  //   "layer": "layer-name",
+  //   "attribute": "attr-name",
+  //   "type": "Number",
+  //   "min": 0,
+  //   "max": 10,
+  //   "values": [
+  //     0,
+  //     10
+  //   ]
+  // }
+});
+```
+
+Returns  nothing, calls callback
+
+
 ## `insertFeature`
 
 Insert a feature into a dataset. This can be a new feature, or overwrite an existing one.
