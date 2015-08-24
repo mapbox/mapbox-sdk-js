@@ -3,8 +3,10 @@
 
 var test = require('tap').test;
 var MapboxClient = require('../lib/services/tilestats');
+var hat = require('hat');
 
 test('TilestatsClient', function(tilestatsClient) {
+  var tilesetid = hat().slice(0, 6);
 
   tilestatsClient.test('#createTilestats', function(createTilestats) {
     createTilestats.test('typecheck', function(assert) {
@@ -27,15 +29,15 @@ test('TilestatsClient', function(tilestatsClient) {
 
     createTilestats.test('creates', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      client.createTilestats('tilesetid', ['layer'], function(err, result) {
+      client.createTilestats(tilesetid, ['layer'], function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
-          tilesetid: 'tilesetid',
+          tilesetid: tilesetid,
           layers: [
             {
               account: client.owner,
-              tilesetid: 'tilesetid',
+              tilesetid: tilesetid,
               layer: 'layer',
               geometry: 'UNKNOWN',
               count: 0,
@@ -49,7 +51,7 @@ test('TilestatsClient', function(tilestatsClient) {
 
     createTilestats.test('creates when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.createTilestats(id, ['layer'], function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
@@ -95,11 +97,11 @@ test('TilestatsClient', function(tilestatsClient) {
     updateTilestatsLayer.test('updates layer', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var geoms = { 'point': 10, 'linestring': 100 };
-      client.updateTilestatsLayer('tilesetid', 'layer', geoms, function(err, result) {
+      client.updateTilestatsLayer(tilesetid, 'layer', geoms, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
-          tilesetid: 'tilesetid',
+          tilesetid: tilesetid,
           layer: 'layer',
           geometry: 'LineString',
           count: 110,
@@ -112,7 +114,7 @@ test('TilestatsClient', function(tilestatsClient) {
     updateTilestatsLayer.test('updates layer when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var geoms = { 'point': 10, 'linestring': 100 };
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.updateTilestatsLayer(id, 'layer', geoms, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
@@ -155,11 +157,11 @@ test('TilestatsClient', function(tilestatsClient) {
     updateTilestatsAttribute.test('update attribute', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var stats = { min: 2, max: 2, values: [2] };
-      client.updateTilestatsAttribute('tilesetid', 'layer', 'attr', stats, function(err, result) {
+      client.updateTilestatsAttribute(tilesetid, 'layer', 'attr', stats, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
-          tilesetid: 'tilesetid',
+          tilesetid: tilesetid,
           layer: 'layer',
           attribute: 'attr',
           type: 'number',
@@ -174,7 +176,7 @@ test('TilestatsClient', function(tilestatsClient) {
     updateTilestatsAttribute.test('update attribute when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var stats = { min: 2, max: 2, values: [2] };
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.updateTilestatsAttribute(id, 'layer', 'attr', stats, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
@@ -215,11 +217,11 @@ test('TilestatsClient', function(tilestatsClient) {
 
     getTilestatsAttribute.test('get attribute', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      client.getTilestatsAttribute('tilesetid', 'layer', 'attr', function(err, result) {
+      client.getTilestatsAttribute(tilesetid, 'layer', 'attr', function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
-          tilesetid: 'tilesetid',
+          tilesetid: tilesetid,
           layer: 'layer',
           attribute: 'attr',
           type: 'number',
@@ -233,7 +235,7 @@ test('TilestatsClient', function(tilestatsClient) {
 
     getTilestatsAttribute.test('get attribute when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.getTilestatsAttribute(id, 'layer', 'attr', function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
@@ -268,15 +270,15 @@ test('TilestatsClient', function(tilestatsClient) {
 
     getTilestats.test('get tilestats', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      client.getTilestats('tilesetid', function(err, result) {
+      client.getTilestats(tilesetid, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
-          tilesetid: 'tilesetid',
+          tilesetid: tilesetid,
           layers: [
             {
               account: client.owner,
-              tilesetid: 'tilesetid',
+              tilesetid: tilesetid,
               layer: 'layer',
               geometry: 'LineString',
               count: 110,
@@ -290,7 +292,7 @@ test('TilestatsClient', function(tilestatsClient) {
 
     getTilestats.test('get tilestats when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.getTilestats(id, function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
@@ -329,7 +331,7 @@ test('TilestatsClient', function(tilestatsClient) {
 
     deleteTilestats.test('deletes', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      client.deleteTilestats('tilesetid', function(err, result) {
+      client.deleteTilestats(tilesetid, function(err, result) {
         assert.ifError(err, 'success');
         assert.notOk(result, 'no result');
         assert.end();
@@ -338,7 +340,7 @@ test('TilestatsClient', function(tilestatsClient) {
 
     deleteTilestats.test('deletes when user specified by tilesetid', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
-      var id = client.owner + '.tilesetid';
+      var id = client.owner + '.' + tilesetid;
       client.deleteTilestats(id, function(err, result) {
         assert.ifError(err, 'success');
         assert.notOk(result, 'no result');
