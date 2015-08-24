@@ -47,6 +47,29 @@ test('TilestatsClient', function(tilestatsClient) {
       });
     });
 
+    createTilestats.test('creates when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var id = client.owner + '.tilesetid';
+      client.createTilestats(id, ['layer'], function(err, result) {
+        assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: id,
+          layers: [
+            {
+              account: client.owner,
+              tilesetid: id,
+              layer: 'layer',
+              geometry: 'UNKNOWN',
+              count: 0,
+              attributes: []
+            }
+          ]
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
     createTilestats.end();
   });
 
@@ -69,7 +92,7 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.end();
     });
 
-    updateTilestatsLayer.test('creates', function(assert) {
+    updateTilestatsLayer.test('updates layer', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var geoms = { 'point': 10, 'linestring': 100 };
       client.updateTilestatsLayer('tilesetid', 'layer', geoms, function(err, result) {
@@ -77,6 +100,24 @@ test('TilestatsClient', function(tilestatsClient) {
         assert.deepEqual(result, {
           account: client.owner,
           tilesetid: 'tilesetid',
+          layer: 'layer',
+          geometry: 'LineString',
+          count: 110,
+          attributes: []
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
+    updateTilestatsLayer.test('updates layer when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var geoms = { 'point': 10, 'linestring': 100 };
+      var id = client.owner + '.tilesetid';
+      client.updateTilestatsLayer(id, 'layer', geoms, function(err, result) {
+        assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: id,
           layer: 'layer',
           geometry: 'LineString',
           count: 110,
@@ -111,7 +152,7 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.end();
     });
 
-    updateTilestatsAttribute.test('creates', function(assert) {
+    updateTilestatsAttribute.test('update attribute', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       var stats = { min: 2, max: 2, values: [2] };
       client.updateTilestatsAttribute('tilesetid', 'layer', 'attr', stats, function(err, result) {
@@ -119,6 +160,26 @@ test('TilestatsClient', function(tilestatsClient) {
         assert.deepEqual(result, {
           account: client.owner,
           tilesetid: 'tilesetid',
+          layer: 'layer',
+          attribute: 'attr',
+          type: 'number',
+          min: 2,
+          max: 2,
+          values: [2]
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
+    updateTilestatsAttribute.test('update attribute when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var stats = { min: 2, max: 2, values: [2] };
+      var id = client.owner + '.tilesetid';
+      client.updateTilestatsAttribute(id, 'layer', 'attr', stats, function(err, result) {
+        assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: id,
           layer: 'layer',
           attribute: 'attr',
           type: 'number',
@@ -152,13 +213,32 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.end();
     });
 
-    getTilestatsAttribute.test('creates', function(assert) {
+    getTilestatsAttribute.test('get attribute', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       client.getTilestatsAttribute('tilesetid', 'layer', 'attr', function(err, result) {
         assert.ifError(err, 'success');
         assert.deepEqual(result, {
           account: client.owner,
           tilesetid: 'tilesetid',
+          layer: 'layer',
+          attribute: 'attr',
+          type: 'number',
+          min: 2,
+          max: 2,
+          values: [2]
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
+    getTilestatsAttribute.test('get attribute when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var id = client.owner + '.tilesetid';
+      client.getTilestatsAttribute(id, 'layer', 'attr', function(err, result) {
+        assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: id,
           layer: 'layer',
           attribute: 'attr',
           type: 'number',
@@ -186,7 +266,7 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.end();
     });
 
-    getTilestats.test('creates', function(assert) {
+    getTilestats.test('get tilestats', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       client.getTilestats('tilesetid', function(err, result) {
         assert.ifError(err, 'success');
@@ -197,6 +277,29 @@ test('TilestatsClient', function(tilestatsClient) {
             {
               account: client.owner,
               tilesetid: 'tilesetid',
+              layer: 'layer',
+              geometry: 'LineString',
+              count: 110,
+              attributes: ['attr']
+            }
+          ]
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
+    getTilestats.test('get tilestats when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var id = client.owner + '.tilesetid';
+      client.getTilestats(id, function(err, result) {
+        assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: id,
+          layers: [
+            {
+              account: client.owner,
+              tilesetid: id,
               layer: 'layer',
               geometry: 'LineString',
               count: 110,
@@ -224,9 +327,19 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.end();
     });
 
-    deleteTilestats.test('creates', function(assert) {
+    deleteTilestats.test('deletes', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       client.deleteTilestats('tilesetid', function(err, result) {
+        assert.ifError(err, 'success');
+        assert.notOk(result, 'no result');
+        assert.end();
+      });
+    });
+
+    deleteTilestats.test('deletes when user specified by tilesetid', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      var id = client.owner + '.tilesetid';
+      client.deleteTilestats(id, function(err, result) {
         assert.ifError(err, 'success');
         assert.notOk(result, 'no result');
         assert.end();
