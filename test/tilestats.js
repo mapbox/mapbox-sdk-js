@@ -282,7 +282,14 @@ test('TilestatsClient', function(tilestatsClient) {
               layer: 'layer',
               geometry: 'LineString',
               count: 110,
-              attributes: ['attr']
+              attributes: [
+                {
+                  attribute: 'attr',
+                  min: 2,
+                  max: 2,
+                  values: [2]
+                }
+              ]
             }
           ]
         }, 'expected result');
@@ -305,7 +312,14 @@ test('TilestatsClient', function(tilestatsClient) {
               layer: 'layer',
               geometry: 'LineString',
               count: 110,
-              attributes: ['attr']
+              attributes: [
+                {
+                  attribute: 'attr',
+                  min: 2,
+                  max: 2,
+                  values: [2]
+                }
+              ]
             }
           ]
         }, 'expected result');
