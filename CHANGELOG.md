@@ -1,3 +1,7 @@
+## 0.8.0
+
+- Added support for the [Distance API](https://www.mapbox.com/blog/distance-api/)
+
 ## 0.7.0
 
 - Improved error handling
