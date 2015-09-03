@@ -9,20 +9,28 @@ to Mapbox services.
 
 ## Services
 
+Generally Available
+
 * [Geocoding](https://www.mapbox.com/developers/api/geocoding/)
   * Forward (place names ⇢  longitude, latitude)
   * Reverse (longitude, latitude ⇢ place names)
+* [Upload API](https://www.mapbox.com/developers/api/uploads/)
+  * Upload data to be processed and hosted by Mapbox.
 * [Directions](https://www.mapbox.com/developers/api/directions/)
   * Profiles for driving, walking, and cycling
   * GeoJSON & Polyline formatting
   * Instructions as text or HTML
+
+Contact help@mapbox.com for information
+
+* [Distance](https://www.mapbox.com/developers/api/distance/)
+  * Travel-time tables between up to 100 points
+  * Profiles for driving, walking and cycling
 * [Map Matching](https://www.mapbox.com/developers/api/map-matching/)
   * Aligns GPS trace data to roads and paths from
     [OpenStreetMap](https://www.openstreetmap.org/) data
 * [Surface API](https://www.mapbox.com/developers/api/surface/)
   * Interpolates values along lines. Useful for elevation traces.
-* [Upload API](https://www.mapbox.com/developers/api/uploads/)
-  * Upload data to be processed and hosted by Mapbox.
 
 ## Installation
 
