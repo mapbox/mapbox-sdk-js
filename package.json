@@ -1,6 +1,6 @@
 {
   "name": "mapbox",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "interface to mapbox services",
   "main": "lib/mapbox.js",
   "scripts": {
