@@ -61,5 +61,26 @@ test('MapboxClient#getDistances', function(t) {
     });
   });
 
+  t.test('a null route', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.getDistances([
+      [-95.4431142, 33.6875431],
+      [-95.4831142, 33.6875431],
+      [-95.4831142, 33.2875431],
+      [0, 0],
+      [-95.4831142, 33.0875431]
+    ], {
+      profile: 'walking'
+    }, function(err, results) {
+      t.ifError(err);
+      console.log(results);
+      t.ok(Array.isArray(results.durations), 'returns an array');
+      t.equal(results.durations.length, 5, 'array has correct dimension');
+      t.equal(results.durations[0].length, 5, 'array has correct dimension');
+      t.end();
+    });
+  });
+
   t.end();
 });
