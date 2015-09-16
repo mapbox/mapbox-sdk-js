@@ -1,3 +1,7 @@
+## 0.8.2
+
+- Fixes geocodeReverse method
+
 ## 0.8.1
 
 - Include Mapbox Distance in default client
