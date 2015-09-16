@@ -74,7 +74,6 @@ test('MapboxClient#getDistances', function(t) {
       profile: 'walking'
     }, function(err, results) {
       t.ifError(err);
-      console.log(results);
       t.ok(Array.isArray(results.durations), 'returns an array');
       t.equal(results.durations.length, 5, 'array has correct dimension');
       t.equal(results.durations[0].length, 5, 'array has correct dimension');
