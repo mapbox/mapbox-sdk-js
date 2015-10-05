@@ -1,4 +1,7 @@
 language: node_js
+script:
+- npm test
+- npm run browser-test
 sudo: false
 node_js:
 - '0.10'
