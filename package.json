@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint --no-eslintrc -c .eslintrc lib test/*.js",
     "test": "tap --coverage test/browser.js test/*.js",
-    "browser-test": "browserify -t envify -t brfs test/*.js | smokestack | tap-status",
-    "browser-test-build": "echo '<script>' > test_bundle.html && browserify -t envify -t brfs test/*.js >> test_bundle.html && echo '</script>' >> test_bundle.html",
+    "browser-test": "browserify -t envify -t brfs test/*.js test/helpers/close.js | smokestack | tap-status",
+    "browser-test-build": "echo '<script>' > test_bundle.html && browserify -t envify -t brfs test/directions.js >> test_bundle.html && echo '</script>' >> test_bundle.html",
     "docs": "documentation . --format=md > API.md",
     "build": "npm run build-dist && npm run build-min",
     "build-dist": "browserify -s MapboxClient lib/mapbox.js > dist/mapbox-sdk.js",

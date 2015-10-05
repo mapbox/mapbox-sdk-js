@@ -20,7 +20,7 @@ test('MapboxClient#geocodeForward', function(t) {
     }, /options/);
     t.throws(function() {
       client.geocodeForward('foo', 1);
-    }, /callback/);
+    }, /options/);
     t.end();
   });
 
@@ -68,16 +68,16 @@ test('MapboxClient#geocodeReverse', function(t) {
     t.ok(client);
     t.throws(function() {
       client.geocodeReverse(null);
-    }, /location/);
+    }, /options/, 'null string');
     t.throws(function() {
       client.geocodeReverse(1, function() {});
-    }, /location/);
+    }, /location/, 'number');
     t.throws(function() {
       client.geocodeReverse('foo', 1, function() {});
-    }, /options/);
+    }, /location/, 'bad options');
     t.throws(function() {
       client.geocodeReverse('foo', 1);
-    }, /callback/);
+    }, /location/, 'bad options 2');
     t.end();
   });
 

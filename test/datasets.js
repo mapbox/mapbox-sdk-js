@@ -11,6 +11,12 @@ function randomFeature() {
 }
 
 test('DatasetClient', function(datasetClient) {
+
+  if (process.browser) {
+    datasetClient.pass('skipping dataset api in browser');
+    return datasetClient.end();
+  }
+
   var testDatasets = [];
   var testFeature;
 

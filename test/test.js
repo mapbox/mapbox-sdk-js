@@ -25,7 +25,7 @@ test('MapboxClient', function(t) {
   t.throws(function() {
     var client = new MapboxClient();
     t.notOk(client);
-  }, /accessToken required to instantiate MapboxClient/);
+  }, /accessToken required to instantiate Mapbox client/);
   var client = new MapboxClient(deadToken);
   t.ok(client);
   // TODO accessToken is no longer exposed

@@ -9,6 +9,12 @@ var path = require('path');
 var fs = require('fs');
 
 test('UploadClient', function(uploadClient) {
+
+  if (process.browser) {
+    uploadClient.pass('skipping dataset api in browser');
+    return uploadClient.end();
+  }
+
   var testStagedFiles = [];
   var testUploads = [];
   var completedUpload;
