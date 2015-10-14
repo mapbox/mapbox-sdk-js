@@ -59,6 +59,47 @@ test('MapboxClient#geocodeForward', function(t) {
     });
   });
 
+  t.test('options.proximity rounding', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+
+    var tester = { client: function(opts) {
+      opts.params.proximity.split(',').forEach(function(coord, i) {
+        t.ok(coord.toString().split('.')[1].length <= 3, 'proximity coordinate [' + i + '] precision <= 3');
+      });
+      t.ok(opts.params.proximity, 'proximity is set')
+      opts.callback();
+    }};
+
+    t.ok(client);
+    client.geocodeForward.apply(tester, ['Paris', {
+      proximity: { latitude: 33.6875431, longitude: -95.4431142 }
+    }, function(err, results) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
+  t.test('options.proximity rounding, precision = 1', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+
+    var tester = { client: function(opts) {
+      opts.params.proximity.split(',').forEach(function(coord, i) {
+        t.ok(coord.toString().split('.')[1].length <= 1, 'proximity coordinate [' + i + '] precision <= 1');
+      });
+      t.ok(opts.params.proximity, 'proximity is set')
+      opts.callback();
+    }};
+
+    t.ok(client);
+    client.geocodeForward.apply(tester, ['Paris', {
+      proximity: { latitude: 33.6875431, longitude: -95.4431142 },
+      precision: 1
+    }, function(err, results) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.end();
 });
 
@@ -102,6 +143,52 @@ test('MapboxClient#geocodeReverse', function(t) {
       t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.end();
     });
+  });
+
+  t.test('reverse coordinate rounding', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+
+    var tester = { client: function(opts) {
+      [opts.params.longitude, opts.params.latitude].forEach(function(coord, i) {
+        t.ok(coord.toString().split('.')[1].length <= 5, 'reverse coordinate [' + i + '] precision <= 5');
+      });
+      t.ok(opts.params.longitude, 'longitude is set')
+      t.ok(opts.params.latitude, 'latitude is set')
+      opts.callback();
+    }};
+
+    t.ok(client);
+    client.geocodeReverse.apply(tester, [{
+      latitude: 33.6875431,
+      longitude: -95.4431142
+    }, function(err, results) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
+  t.test('reverse coordinate precision = 2', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+
+    var tester = { client: function(opts) {
+      [opts.params.longitude, opts.params.latitude].forEach(function(coord, i) {
+        t.ok(coord.toString().split('.')[1].length <= 2, 'reverse coordinate [' + i + '] precision <= 2');
+      });
+      t.ok(opts.params.longitude, 'longitude is set')
+      t.ok(opts.params.latitude, 'latitude is set')
+      opts.callback();
+    }};
+
+    t.ok(client);
+    client.geocodeReverse.apply(tester, [{
+      latitude: 33.6875431,
+      longitude: -95.4431142
+    }, {
+      precision: 2
+    }, function(err, results) {
+      t.ifError(err);
+      t.end();
+    }]);
   });
 
   t.end();
