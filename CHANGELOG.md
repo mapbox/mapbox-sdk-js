@@ -1,3 +1,10 @@
+## 0.9.0
+
+- Adds a `precision` option to geocodeForward and geocodeReverse methods:
+  this allows you to customize how much decimal precision is provided
+  wth proximity parameters and the location of geocodeReverse requests,
+  potentially increasing cache-friendliness.
+
 ## 0.8.2
 
 - Fixes geocodeReverse method
