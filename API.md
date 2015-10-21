@@ -384,7 +384,7 @@ for more documentation.
 
 ```js
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
-mapboxClient.directions(
+mapboxClient.getDirections(
   [
     { latitude: 33.6, longitude: -95.4431 },
     { latitude: 33.2, longitude: -95.4431 } ],
