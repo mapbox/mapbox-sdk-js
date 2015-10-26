@@ -39,17 +39,49 @@ test('MapboxClient#getDirections', function(t) {
     });
   });
 
+  t.test('assert options', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.profile, 'mapbox.walking', 'profile as walking is set');
+      t.equals(params.geometry, 'polyline', 'geometry as polyline is set');
+      t.equals(params.instructions, 'html', 'instructions as HTML is set');
+
+      t.notOk(params.alternatives, 'alternatives option is set to false');
+      t.notOk(params.steps, 'steps option is set to false');
+      opts.callback();
+    }};
+
+    client.getDirections.apply(tester, [[
+      { latitude: 33.6875431, longitude: -95.4431142 },
+      { latitude: 33.6875431, longitude: -95.4831142 }
+    ], {
+      profile: 'mapbox.walking',
+      alternatives: false,
+      steps: false,
+      geometry: 'polyline',
+      instructions: 'html'
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('all options', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
+
     client.getDirections([
       { latitude: 33.6875431, longitude: -95.4431142 },
       { latitude: 33.6875431, longitude: -95.4831142 }
     ], {
       profile: 'mapbox.walking',
-      instructions: 'html',
       alternatives: false,
-      geometry: 'polyline'
+      steps: false,
+      geometry: 'polyline',
+      instructions: 'html'
     }, function(err, results) {
       t.ifError(err);
       t.deepEqual(geojsonhint.hint(results.origin), [], 'origin is valid');
