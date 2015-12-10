@@ -1,3 +1,11 @@
+## 0.11.0
+
+- Allow pagination options if passed in listFeatures [#61](https://github.com/mapbox/mapbox-sdk-js/pull/61)
+
+## 0.10.0
+
+- Support query params for Directions requests [#58](https://github.com/mapbox/mapbox-sdk-js/pull/58)
+
 ## 0.9.0
 
 - Adds a `precision` option to geocodeForward and geocodeReverse methods:
