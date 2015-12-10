@@ -4,10 +4,15 @@
 var test = require('tap').test;
 var MapboxClient = require('../lib/services/datasets');
 var geojsonhint = require('geojsonhint').hint;
+var geojsonRandom = require('geojson-random');
 var hat = require('hat');
 
 function randomFeature() {
-  return require('geojson-random').polygon(1).features[0];
+  return geojsonRandom.polygon(1).features[0];
+}
+
+function randomFeatures(count) {
+  return geojsonRandom.polygon(count || 1).features;
 }
 
 test('DatasetClient', function(datasetClient) {
@@ -243,34 +248,6 @@ test('DatasetClient', function(datasetClient) {
     readFeature.end();
   });
 
-  datasetClient.test('#listFeatures', function(listFeatures) {
-    listFeatures.test('typecheck', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      assert.throws(function() {
-        client.deleteFeature([], function() {});
-      }, 'dataset must be a string');
-      assert.throws(function() {
-        client.deleteFeature('');
-      }, 'callback must be a function');
-      assert.end();
-    });
-
-    listFeatures.test('valid request', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      client.listFeatures(testDatasets[0], function(err, collection) {
-        assert.ifError(err, 'success');
-        assert.equal(geojsonhint(collection).length, 0, 'receieved valid GeoJSON');
-        assert.equal(collection.features.length, 1, 'one feature');
-        assert.equal(collection.features[0].id, testFeature, 'expected feature');
-        assert.end();
-      });
-    });
-
-    listFeatures.end();
-  });
-
   datasetClient.test('#deleteFeature', function(deleteFeature) {
     deleteFeature.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
@@ -347,7 +324,7 @@ test('DatasetClient', function(datasetClient) {
     bulkFeatureUpdate.test('insert some', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      var features = [randomFeature(), randomFeature(), randomFeature()].map(function(f) {
+      var features = randomFeatures(3).map(function(f) {
         f.id = hat();
         featureIds.push(f.id);
         return f;
@@ -397,6 +374,105 @@ test('DatasetClient', function(datasetClient) {
     });
 
     bulkFeatureUpdate.end();
+  });
+
+  datasetClient.test('#listFeatures', function(listFeatures) {
+    listFeatures.test('insert some', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      var features = randomFeatures(3).map(function(f, i) {
+        f.id = 'feature-' + i;
+        return f;
+      });
+      client.bulkFeatureUpdate({ put: features }, testDatasets[1], function(err, response) {
+        assert.ifError(err, 'success');
+        assert.equal(response.put.length, 3, 'returned three features');
+        assert.end();
+      });
+    });
+
+    listFeatures.test('typecheck', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      assert.throws(function() {
+        client.listFeatures([], function() {});
+      }, 'dataset must be a string');
+      assert.throws(function() {
+        client.listFeatures([], '', function() {});
+      }, 'options must be a object');
+      assert.throws(function() {
+        client.listFeatures('');
+      }, 'callback must be a function');
+      assert.throws(function() {
+        client.listFeatures([], {
+          reverse: ''
+        }, function() {});
+      }, 'reverse option must be a boolean');
+      assert.throws(function() {
+        client.listFeatures([], {
+          limit: ''
+        }, function() {});
+      }, 'limit option must be a number');
+      assert.throws(function() {
+        client.listFeatures([], {
+          start: true
+        }, function() {});
+      }, 'start option must be a string');
+      assert.end();
+    });
+
+    listFeatures.test('valid request', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      client.listFeatures(testDatasets[1], function(err, collection) {
+        assert.ifError(err, 'success');
+        assert.equal(geojsonhint(collection).length, 0, 'receieved valid GeoJSON');
+        assert.equal(collection.features.length, 3, 'returned three features');
+        assert.end();
+      });
+    });
+
+    listFeatures.test('options.limit', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      client.listFeatures(testDatasets[1], {
+        limit: 1
+      }, function(err, collection) {
+        assert.ifError(err, 'success');
+        assert.equal(collection.features.length, 1, 'returned one feature');
+        assert.end();
+      });
+    });
+
+    listFeatures.test('options.start', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      client.listFeatures(testDatasets[1], {
+        start: 'feature-1'
+      }, function(err, collection) {
+        assert.ifError(err, 'success');
+        assert.equal(collection.features.length, 1, 'returned one feature');
+        assert.end();
+      });
+    });
+
+    listFeatures.test('options.reverse', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created dataset client');
+      client.listFeatures(testDatasets[1], {
+        reverse: true
+      }, function(err, collection) {
+        assert.ifError(err, 'success');
+        var ids = collection.features.reduce(function(memo, feature) {
+          memo.push(feature.id);
+          return memo;
+        }, []);
+        assert.deepEqual(ids, ['feature-0', 'feature-1', 'feature-2'], 'features received in reverse order');
+        assert.end();
+      });
+    });
+
+    listFeatures.end();
   });
 
   datasetClient.test('#deleteDataset', function(deleteDataset) {
