@@ -1,3 +1,7 @@
+## 0.12.0
+
+- Add types & country options to geocoder [#65](https://github.com/mapbox/mapbox-sdk-js/pull/65)
+
 ## 0.11.0
 
 - Allow pagination options if passed in listFeatures [#61](https://github.com/mapbox/mapbox-sdk-js/pull/61)

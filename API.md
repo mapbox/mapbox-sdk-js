@@ -292,6 +292,8 @@ Search for a location with a string, using the
 * `query` **`string`** desired location
 * `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
   * `options.proximity` **`Object`** a proximity argument: this is a geographical point given as an object with latitude and longitude properties. Search results closer to this point will be given higher priority.
+  * `options.types` **`string`** a comma seperated list of types that filter results to match those specified. See https://www.mapbox.com/developers/api/geocoding/#filter-type for available types.
+  * `options.country` **`string`** a comma seperated list of country codes to limit results to specified country or countries.
   * `options.dataset` **`[string]`** the desired data to be geocoded against. The default, mapbox.places, does not permit unlimited caching. `mapbox.places-permanent` is available on request and does permit permanent caching. (optional, default `mapbox.places`)
 * `callback` **`Function`** called with (err, results)
 
@@ -323,7 +325,8 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/ap
 * `location` **`Object`** the geographical point to search
   * `location.latitude` **`number`** decimal degrees latitude, in range -90 to 90
   * `location.longitude` **`number`** decimal degrees longitude, in range -180 to 180
-* `options` **`[Object]`** additional options meant to tune the request (optional, default `{}`)
+* `options` **`[Object]`** additional options meant to tune the request. (optional, default `{}`)
+  * `options.types` **`string`** a comma seperated list of types that filter results to match those specified. See https://www.mapbox.com/developers/api/geocoding/#filter-type for available types.
   * `options.dataset` **`[string]`** the desired data to be geocoded against. The default, mapbox.places, does not permit unlimited caching. `mapbox.places-permanent` is available on request and does permit permanent caching. (optional, default `mapbox.places`)
 * `callback` **`Function`** called with (err, results)
 
