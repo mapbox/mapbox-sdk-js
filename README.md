@@ -32,6 +32,12 @@ Contact help@mapbox.com for information
 * [Surface API](https://www.mapbox.com/developers/api/surface/)
   * Interpolates values along lines. Useful for elevation traces.
 
+Not currently public
+
+* Datasets
+  * Retrieve, add, and edit datasets.
+  * **Note: The Mapbox Datasets API is in private beta. Currently, all end user requests to this API from outside of Mapbox will 404.**
+
 ## Installation
 
 ```sh
