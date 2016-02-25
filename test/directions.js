@@ -1,11 +1,8 @@
 /* eslint no-shadow: 0 */
 'use strict';
 
-var test = require('tap').test,
-  // fs = require('fs'),
-  // path = require('path'),
-  geojsonhint = require('geojsonhint'),
-  MapboxClient = require('../lib/services/directions');
+var test = require('tap').test;
+var MapboxClient = require('../lib/services/directions');
 
 test('MapboxClient#getDirections', function(t) {
   t.test('typecheck', function(t) {
@@ -34,7 +31,7 @@ test('MapboxClient#getDirections', function(t) {
       { latitude: 33.6875431, longitude: -95.4831142 }
     ], function(err, results) {
       t.ifError(err);
-      t.deepEqual(geojsonhint.hint(results.origin), [], 'origin is valid');
+      t.equals(results.code, 'Ok', 'route returned');
       t.end();
     });
   });
@@ -47,7 +44,7 @@ test('MapboxClient#getDirections', function(t) {
       { latitude: 33.6875431, longitude: -95.4831142 }
     ]).then(function(res) {
       var results = res.entity;
-      t.deepEqual(geojsonhint.hint(results.origin), [], 'origin is valid');
+      t.equals(results.code, 'Ok', 'route returned');
       t.end();
     }, function(err) {
       t.ifError(err);
@@ -60,9 +57,11 @@ test('MapboxClient#getDirections', function(t) {
 
     var tester = { client: function(opts) {
       var params = opts.params;
-      t.equals(params.profile, 'mapbox.walking', 'profile as walking is set');
-      t.equals(params.geometry, 'polyline', 'geometry as polyline is set');
-      t.equals(params.instructions, 'html', 'instructions as HTML is set');
+
+      t.equals(params.profile, 'walking', 'profile as walking is set');
+      t.equals(params.geometries, 'polyline', 'geometries as polyline is set');
+      t.equals(params.radiuses, '2000;2000', 'radiuses option is set');
+      t.equals(params.bearings, '45,90;45,90', 'bearings option is set');
 
       t.notOk(params.alternatives, 'alternatives option is set to false');
       t.notOk(params.steps, 'steps option is set to false');
@@ -74,11 +73,12 @@ test('MapboxClient#getDirections', function(t) {
       { latitude: 33.6875431, longitude: -95.4431142 },
       { latitude: 33.6875431, longitude: -95.4831142 }
     ], {
-      profile: 'mapbox.walking',
+      profile: 'walking',
       alternatives: false,
+      radiuses: [2000, 2000],
+      bearings: [[45, 90], [45, 90]],
       steps: false,
-      geometry: 'polyline',
-      instructions: 'html'
+      geometries: 'polyline'
     }, function(err) {
       t.ifError(err);
       t.end();
@@ -93,14 +93,17 @@ test('MapboxClient#getDirections', function(t) {
       { latitude: 33.6875431, longitude: -95.4431142 },
       { latitude: 33.6875431, longitude: -95.4831142 }
     ], {
-      profile: 'mapbox.walking',
+      profile: 'walking',
       alternatives: false,
+      geometries: 'polyline',
+      overview: 'full',
+      radiuses: [2000, 2000],
       steps: false,
-      geometry: 'polyline',
-      instructions: 'html'
+      continue_straight: false,
+      bearings: [[45, 90], [45, 90]]
     }, function(err, results) {
       t.ifError(err);
-      t.deepEqual(geojsonhint.hint(results.origin), [], 'origin is valid');
+      t.equals(results.code, 'Ok', 'route returned');
       t.end();
     });
   });
