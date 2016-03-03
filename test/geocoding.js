@@ -3,7 +3,7 @@
 
 var test = require('tap').test,
   geojsonhint = require('geojsonhint'),
-  MapboxClient = require('../lib/services/geocoder');
+  MapboxClient = require('../lib/services/geocoding');
 
 test('MapboxClient#geocodeForward', function(t) {
   t.test('typecheck', function(t) {

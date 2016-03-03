@@ -1,3 +1,9 @@
+## 1.0.0-beta
+
+- Changes a major API! Geocoding is now named geocoding everywhere, so the
+  sub-require is `mapbox/lib/services/geocoding`, not, like it used to be,
+  `mapbox/lib/services/geocoder`
+
 ## 0.12.0
 
 - Add types & country options to geocoder [#65](https://github.com/mapbox/mapbox-sdk-js/pull/65)

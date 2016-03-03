@@ -65,7 +65,7 @@ for that service's support.
 
 Available sub-requires:
 
-* geocoder: `require('mapbox/lib/services/geocoder')`
+* geocoding: `require('mapbox/lib/services/geocoding')`
 * surface: `require('mapbox/lib/services/surface')`
 * matching: `require('mapbox/lib/services/matching')`
 * directions: `require('mapbox/lib/services/directions')`
