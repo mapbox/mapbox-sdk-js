@@ -3,6 +3,8 @@
 - Changes a major API! Geocoding is now named geocoding everywhere, so the
   sub-require is `mapbox/lib/services/geocoding`, not, like it used to be,
   `mapbox/lib/services/geocoder`
+- The `DatasetClient#bulkFeatureUpdate` method is renamed
+  `DatasetClient#batcFeatureUpdate` to match the rest of the Mapbox ecosystem.
 
 ## 0.12.0
 
