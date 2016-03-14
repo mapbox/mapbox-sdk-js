@@ -31,6 +31,10 @@ test('MapboxStatic', function(t) {
     retina: true
   })), 'https://api.mapbox.com/v4/foo/1,2,3/10x10@2x.png', 'retina option');
 
+  t.equal(removeToken(client.getStaticURL('foo', 10, 10, 'auto', {
+    retina: true
+  })), 'https://api.mapbox.com/v4/foo/auto/10x10@2x.png', 'auto');
+
   t.equal(removeToken(client.getStaticURL('foo', 10, 10, {
     longitude: 1, latitude: 2, zoom: 3
   }, {
