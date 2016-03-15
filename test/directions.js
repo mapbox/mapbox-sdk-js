@@ -39,6 +39,20 @@ test('MapboxClient#getDirections', function(t) {
     });
   });
 
+  t.test('promise interface', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.getDirections([
+      { latitude: 33.6875431, longitude: -95.4431142 },
+      { latitude: 33.6875431, longitude: -95.4831142 }
+    ]).then(function(results) {
+      t.deepEqual(geojsonhint.hint(results.entity.origin), [], 'origin is valid');
+      t.end();
+    }, function(err) {
+      t.ifError(err);
+    });
+  });
+
   t.test('assert options', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
