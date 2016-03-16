@@ -47,6 +47,18 @@ test('MapboxClient#geocodeForward', function(t) {
     });
   });
 
+  t.test('dataset option', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.geocodeForward(
+      'Chester, New Jersey', { dataset: 'mapbox.places' })
+    .then(function(results) {
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
+      t.equal(geojsonhint.hint(results.features[0]).length, 0, 'at least one valid result');
+      t.end();
+    });
+  });
+
   t.test('options.country', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
@@ -55,6 +67,7 @@ test('MapboxClient#geocodeForward', function(t) {
       var params = opts.params;
       t.equals(params.country, 'ca', 'country option is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     client.geocodeForward.apply(tester, ['Paris', {
@@ -73,6 +86,7 @@ test('MapboxClient#geocodeForward', function(t) {
       var params = opts.params;
       t.equals(params.types, 'country,region', 'types option is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     client.geocodeForward.apply(tester, ['Paris', {
@@ -104,6 +118,7 @@ test('MapboxClient#geocodeForward', function(t) {
       });
       t.ok(opts.params.proximity, 'proximity is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     t.ok(client);
@@ -124,6 +139,7 @@ test('MapboxClient#geocodeForward', function(t) {
       });
       t.ok(opts.params.proximity, 'proximity is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     t.ok(client);
@@ -176,6 +192,7 @@ test('MapboxClient#geocodeReverse', function(t) {
       var params = opts.params;
       t.equals(params.types, 'country,region', 'types option is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     client.geocodeReverse.apply(tester, [
@@ -210,6 +227,7 @@ test('MapboxClient#geocodeReverse', function(t) {
       t.ok(opts.params.longitude, 'longitude is set');
       t.ok(opts.params.latitude, 'latitude is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     t.ok(client);
@@ -232,6 +250,7 @@ test('MapboxClient#geocodeReverse', function(t) {
       t.ok(opts.params.longitude, 'longitude is set');
       t.ok(opts.params.latitude, 'latitude is set');
       opts.callback();
+      return { entity: function() {} };
     }};
 
     t.ok(client);

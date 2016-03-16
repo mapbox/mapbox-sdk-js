@@ -23,12 +23,6 @@ test('UploadClient', function(uploadClient) {
     createUploadCredentials.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
-      assert.throws(function() {
-        client.createUploadCredentials(100, function() {});
-      }, 'throws owner must be a string error');
-      assert.throws(function() {
-        client.createUploadCredentials();
-      }, 'throw no callback function error');
       assert.end();
     });
 
@@ -72,9 +66,6 @@ test('UploadClient', function(uploadClient) {
       assert.throws(function() {
         client.createUpload('ham', function() {});
       }, 'throws option not an object error');
-      assert.throws(function() {
-        client.createUpload();
-      }, 'throws no callback function error');
       assert.end();
     });
 
@@ -121,25 +112,22 @@ test('UploadClient', function(uploadClient) {
       assert.throws(function() {
         client.readUpload(100, function() {});
       }, 'throws owner must be a string error');
-      assert.throws(function() {
-        client.readUpload();
-      }, 'throws no callback function error');
       assert.end();
     });
 
     readUpload.test('valid request', function(assert) {
+      assert.plan(2);
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
       var upload = testUploads.shift();
       var attempts = 0;
       function poll() {
         client.readUpload(upload.id, function(err, upload) {
-          assert.ifError(err, 'success');
           if (attempts > 4) throw new Error('Upload did not complete in time');
           // we are waiting for mapbox to process the upload
           if (!upload.complete) return setTimeout(poll, Math.pow(2, attempts++) * 1000);
+          assert.ifError(err, 'success');
           completedUpload = upload;
-          assert.end();
         });
       }
       poll();
@@ -161,12 +149,6 @@ test('UploadClient', function(uploadClient) {
     listUploads.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
-      assert.throws(function() {
-        client.listUploads(100, function() {});
-      }, 'throws owner must be a string error');
-      assert.throws(function() {
-        client.listUploads();
-      }, 'throws no callback function error');
       assert.end();
     });
 
@@ -189,9 +171,6 @@ test('UploadClient', function(uploadClient) {
       assert.throws(function() {
         client.deleteUpload(100, function() {});
       }, 'throws owner must be a string error');
-      assert.throws(function() {
-        client.deleteUpload();
-      }, 'throws no callback function error');
       assert.end();
     });
 

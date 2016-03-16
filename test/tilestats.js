@@ -16,9 +16,6 @@ test('TilestatsClient', function(tilestatsClient) {
         client.createTilestats(null, ['ham'], function() {});
       }, 'tileset must be a string');
       assert.throws(function() {
-        client.createTilestats('yes', ['ham']);
-      }, 'callback must be a function');
-      assert.throws(function() {
         client.createTilestats('yes', 'ham', function() {});
       }, 'layers must be an array');
       assert.throws(function() {
@@ -31,6 +28,27 @@ test('TilestatsClient', function(tilestatsClient) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       client.createTilestats(tilesetid, ['layer'], function(err, result) {
         assert.ifError(err, 'success');
+        assert.deepEqual(result, {
+          account: client.owner,
+          tilesetid: tilesetid,
+          layers: [
+            {
+              account: client.owner,
+              tilesetid: tilesetid,
+              layer: 'layer',
+              geometry: 'UNKNOWN',
+              count: 0,
+              attributes: []
+            }
+          ]
+        }, 'expected result');
+        assert.end();
+      });
+    });
+
+    createTilestats.test('creates - promise style', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      client.createTilestats(tilesetid, ['layer']).then(function(result) {
         assert.deepEqual(result, {
           account: client.owner,
           tilesetid: tilesetid,
@@ -82,9 +100,6 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.throws(function() {
         client.updateTilestatsLayer(null, 'ham', {}, function() {});
       }, 'tileset must be a string');
-      assert.throws(function() {
-        client.updateTilestatsLayer('yes', 'ham', {});
-      }, 'callback must be a function');
       assert.throws(function() {
         client.updateTilestatsLayer('yes', null, {}, function() {});
       }, 'layer must be a string');
@@ -139,9 +154,6 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.throws(function() {
         client.updateTilestatsAttribute(null, 'ham', 'eggs', {}, function() {});
       }, 'tileset must be a string');
-      assert.throws(function() {
-        client.updateTilestatsAttribute('yes', 'ham', 'eggs', {});
-      }, 'callback must be a function');
       assert.throws(function() {
         client.updateTilestatsAttribute('yes', null, 'eggs', {}, function() {});
       }, 'layer must be a string');
@@ -204,9 +216,6 @@ test('TilestatsClient', function(tilestatsClient) {
         client.getTilestatsAttribute(null, 'ham', 'eggs', function() {});
       }, 'tileset must be a string');
       assert.throws(function() {
-        client.getTilestatsAttribute('yes', 'ham', 'eggs');
-      }, 'callback must be a function');
-      assert.throws(function() {
         client.getTilestatsAttribute('yes', null, 'eggs', function() {});
       }, 'layer must be a string');
       assert.throws(function() {
@@ -262,9 +271,6 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.throws(function() {
         client.getTilestats(null, function() {});
       }, 'tileset must be a string');
-      assert.throws(function() {
-        client.getTilestats('yes');
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -337,9 +343,6 @@ test('TilestatsClient', function(tilestatsClient) {
       assert.throws(function() {
         client.deleteTilestats(null, function() {});
       }, 'tileset must be a string');
-      assert.throws(function() {
-        client.deleteTilestats('yes');
-      }, 'callback must be a function');
       assert.end();
     });
 
