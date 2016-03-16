@@ -76,9 +76,6 @@ test('DatasetClient', function(datasetClient) {
     listDatasets.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      assert.throws(function() {
-        client.listDatasets();
-      }, 'no callback function');
       assert.end();
     });
 
@@ -108,9 +105,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.readDataset([], function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.readDataset('help');
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -149,9 +143,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.updateDataset('help', { ham: 'sandwich' }, function() {});
       }, 'must update name or description');
-      assert.throws(function() {
-        client.updateDataset('help', {name: 'needs' });
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -189,9 +180,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.insertFeature(validFeature, [], function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.insertFeature(validFeature, testDatasets[0]);
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -220,9 +208,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.readFeature('', [], function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.readFeature('', '');
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -258,9 +243,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.deleteFeature('', [], function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.deleteFeature('', '');
-      }, 'callback must be a function');
       assert.end();
     });
 
@@ -300,17 +282,11 @@ test('DatasetClient', function(datasetClient) {
         client.batchFeatureUpdate({}, {}, function() {});
       }, 'dataset must be a string');
       assert.throws(function() {
-        client.batchFeatureUpdate({}, '', '');
-      }, 'callback must be a function');
-      assert.throws(function() {
         client.batchFeatureUpdate({ put: validFeature }, '', function() {});
       }, 'update.put must be an array of valid GeoJSON');
       assert.throws(function() {
         client.batchFeatureUpdate({ delete: [validFeature] }, '', function() {});
       }, 'update.delete must be an array of strings');
-      assert.throws(function() {
-        client.batchFeatureUpdate([], [''], '');
-      }, 'callback must be a function');
       assert.throws(function() {
         client.batchFeatureUpdate([validFeature], [''], '', function() {});
       }, 'inserted features must include ids');
@@ -401,9 +377,6 @@ test('DatasetClient', function(datasetClient) {
         client.listFeatures([], '', function() {});
       }, 'options must be a object');
       assert.throws(function() {
-        client.listFeatures('');
-      }, 'callback must be a function');
-      assert.throws(function() {
         client.listFeatures([], {
           reverse: ''
         }, function() {});
@@ -482,9 +455,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.deleteDataset([], function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.deleteDataset('help');
-      }, 'callback must be a function');
       assert.end();
     });
 
