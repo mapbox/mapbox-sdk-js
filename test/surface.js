@@ -4,7 +4,7 @@
 var test = require('tap').test,
   // fs = require('fs'),
   // path = require('path'),
-  polyline = require('polyline'),
+  polyline = require('../vendor/polyline'),
   geojsonhint = require('geojsonhint'),
   MapboxClient = require('../lib/services/surface');
 

@@ -3,7 +3,7 @@
 
 var test = require('tap').test;
 var MapboxClient = require('../lib/services/tilestats');
-var hat = require('hat');
+var hat = require('../vendor/hat');
 
 test('TilestatsClient', function(tilestatsClient) {
   var tilesetid = hat().slice(0, 6);

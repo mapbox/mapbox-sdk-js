@@ -5,7 +5,7 @@ var test = require('tap').test;
 var MapboxClient = require('../lib/services/datasets');
 var geojsonhint = require('geojsonhint').hint;
 var geojsonRandom = require('geojson-random');
-var hat = require('hat');
+var hat = require('../vendor/hat');
 
 function randomFeature() {
   return geojsonRandom.polygon(1).features[0];

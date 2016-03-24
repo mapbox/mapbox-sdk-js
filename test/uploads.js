@@ -4,7 +4,7 @@
 var test = require('tap').test;
 var MapboxClient = require('../lib/services/uploads');
 var AWS = require('aws-sdk');
-var hat = require('hat');
+var hat = require('../vendor/hat');
 var path = require('path');
 var fs = require('fs');
 
