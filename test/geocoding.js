@@ -44,6 +44,18 @@ test('MapboxClient#geocodeForward', function(t) {
     });
   });
 
+  t.test('autocomplete=false', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.geocodeForward('New York', {
+      autocomplete: false
+    }, function(err, results) {
+      t.ifError(err);
+      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
+      t.end();
+    });
+  });
+
   t.test('dataset option', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
