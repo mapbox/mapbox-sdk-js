@@ -15,7 +15,6 @@
     "build-min": "uglifyjs -c -m < dist/mapbox-sdk.js > dist/mapbox-sdk.min.js"
   },
   "browser": {
-    "./vendor/atob": "./vendor/atob_browser.js",
     "tap": "tape"
   },
   "repository": {
