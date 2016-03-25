@@ -2,6 +2,7 @@
 'use strict';
 
 var test = require('tap').test;
+var MapboxClient = require('../');
 var getUser = require('../lib/get_user');
 
 test('getUser', function(t) {
@@ -20,6 +21,12 @@ test('getUser', function(t) {
   t.test('token padding', function(assert) {
     var token = 'sk.eyJ1Ijoid29yYmx5IiwiYSI6ImQwNTg3OGU2MWI5NTI5MjIyNmI1YzNhNWE4ZGFlMmFiIn0=.-47f43O4Cz5-vEd0gXzJ3w';
     assert.equal(getUser(token), 'worbly', 'success');
+    assert.end();
+  });
+
+  t.test('from client static method', function(assert) {
+    var token = 'sk.eyJ1Ijoid29yYmx5IiwiYSI6ImQwNTg3OGU2MWI5NTI5MjIyNmI1YzNhNWE4ZGFlMmFiIn0=.-47f43O4Cz5-vEd0gXzJ3w';
+    assert.equal(MapboxClient.getUser(token), 'worbly', 'success');
     assert.end();
   });
 
