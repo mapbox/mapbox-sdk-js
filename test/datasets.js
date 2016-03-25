@@ -175,9 +175,6 @@ test('DatasetClient', function(datasetClient) {
       assert.ok(client, 'created dataset client');
       var validFeature = randomFeature();
       assert.throws(function() {
-        client.insertFeature({}, '', function() {});
-      }, 'feature must be valid GeoJSON');
-      assert.throws(function() {
         client.insertFeature(validFeature, [], function() {});
       }, 'dataset must be a string');
       assert.end();
@@ -281,9 +278,6 @@ test('DatasetClient', function(datasetClient) {
       assert.throws(function() {
         client.batchFeatureUpdate({}, {}, function() {});
       }, 'dataset must be a string');
-      assert.throws(function() {
-        client.batchFeatureUpdate({ put: validFeature }, '', function() {});
-      }, 'update.put must be an array of valid GeoJSON');
       assert.throws(function() {
         client.batchFeatureUpdate({ delete: [validFeature] }, '', function() {});
       }, 'update.delete must be an array of strings');

@@ -105,6 +105,16 @@ test('StyleClient', function(styleClient) {
     });
   });
 
+  styleClient.test('#readSprite - json + retina', function(assert) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    assert.ok(client, 'created style client');
+    client.readSprite(newStyleId, { retina: true }, function(err, sprite) {
+      assert.ifError(err, 'sprite could be seen');
+      assert.deepEqual(sprite, {}, 'sprite is an empty object');
+      assert.end();
+    });
+  });
+
   styleClient.test('#readFontGlyphRanges', function(assert) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     assert.ok(client, 'created style client');

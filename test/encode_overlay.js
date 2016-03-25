@@ -5,9 +5,6 @@ var test = require('tap').test,
   encodeOverlay = require('../lib/encode_overlay');
 
 test('encodeGeoJSON', function(t) {
-  t.throws(function() {
-    encodeOverlay.encodeGeoJSON({ type: 'invalid' });
-  });
   t.equal(encodeOverlay.encodeGeoJSON({
     type: 'Point',
     coordinates: [0, 0]
