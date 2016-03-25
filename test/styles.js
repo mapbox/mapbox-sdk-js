@@ -199,6 +199,16 @@ test('StyleClient', function(styleClient) {
     });
   });
 
+    styleClient.test('list limit=1', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created style client');
+      client.listStyles(function(err, styles, resp) {
+        assert.ifError(err, 'success');
+        assert.ok(styles.length < 2, 'lists less than 2 styles');
+        assert.end();
+      });
+    });
+
   // we've waited for replication in the last step, so this can run
   // safely, immediately
   styleClient.test('#deleteStyle', function(assert) {
