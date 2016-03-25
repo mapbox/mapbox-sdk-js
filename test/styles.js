@@ -64,6 +64,16 @@ test('StyleClient', function(styleClient) {
       });
     });
 
+    listStyles.test('list limit=1', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created style client');
+      client.listStyles({ limit: 1 }, function(err, styles) {
+        assert.ifError(err, 'success');
+        assert.ok(styles.length < 2, 'lists less than 2 styles');
+        assert.end();
+      });
+    });
+
     listStyles.end();
   });
 
