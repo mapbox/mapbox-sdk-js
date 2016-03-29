@@ -119,6 +119,46 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.dataset', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.geocodeForward('Paris;Lyon;Nice;Nantes', {
+      dataset: 'mapbox.places-permanent'
+    }, function(err, results) {
+      t.ifError(err);
+      t.ok(Array.isArray(results), 'results is an array of results');
+      results.forEach(function(result, i) {
+        t.deepEqual(geojsonhint.hint(result), [], 'result ' + i + ' is valid');
+      });
+      t.end();
+    });
+  });
+
+  t.test('options.dataset with array input', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    client.geocodeForward(['Paris', 'Lyon', 'Nice', 'Nantes'], {
+      dataset: 'mapbox.places-permanent'
+    }, function(err, results) {
+      t.ifError(err);
+      t.ok(Array.isArray(results), 'results is an array of results');
+      results.forEach(function(result, i) {
+        t.deepEqual(geojsonhint.hint(result), [], 'result ' + i + ' is valid');
+      });
+      t.end();
+    });
+  });
+
+  t.test('array input without permanent will throw', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.throws(function() {
+      client.geocodeForward(['Paris', 'Lyon', 'Nice', 'Nantes'],
+        function(err, results) {
+      });
+    });
+    t.end();
+  });
+
   t.test('options.proximity', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
