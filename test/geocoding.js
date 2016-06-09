@@ -214,6 +214,25 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.bbox', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.bbox, '-98,32,-96,34', 'bbox option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      bbox: [-98, 32, -96, 34]
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.end();
 });
 
