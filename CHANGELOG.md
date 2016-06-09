@@ -1,3 +1,7 @@
+## 1.0.0-beta1
+
+* Add `bbox` option to geocoder API
+
 ## 1.0.0-beta
 
 - Changes a major API! Geocoding is now named geocoding everywhere, so the
