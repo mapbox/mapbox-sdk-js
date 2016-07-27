@@ -11,4 +11,4 @@ node_js:
 - '4'
 env:
   global:
-    secure: ED+05KdMKREJdP8doskLsejnN0KnqES6o8g3juRwRWnwWoa6E+NJGv34ayxIf+2q/XI6ReWVwIkQkhlw4m/nLO06SPISGQtHkYBe1xHDqpM/BoB7XMxN/znFe+vB//AX8TTK1Pk7hC0BuSd2728fcsROHZCqxwiy723WPRnf2Gs=
+    secure: s5Gkl8zV18XJabPnvrxAsPLNG0S3NN9Jn8t+x9bkygnUJ+iZNsXoblHXDlikPMCwySIa6mOSCVWsuSQJvxJqJMV1QYwiMRE/ljkt7BP9+jAC4L/13yjAVHVhmiOd6dBX70rwKSJ2W5eGmpl5XO6aLqLaUjDUIZFMkZm8YhtfCow=
