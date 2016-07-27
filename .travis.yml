@@ -8,6 +8,7 @@ before_script:
 sudo: false
 node_js:
 - '0.12'
+- '4'
 env:
   global:
-    secure: ED+05KdMKREJdP8doskLsejnN0KnqES6o8g3juRwRWnwWoa6E+NJGv34ayxIf+2q/XI6ReWVwIkQkhlw4m/nLO06SPISGQtHkYBe1xHDqpM/BoB7XMxN/znFe+vB//AX8TTK1Pk7hC0BuSd2728fcsROHZCqxwiy723WPRnf2Gs=
+    secure: UrfB0BI2DSCwbwYV3MucH8r03vnXpEMtSde5GdIWv8EpldScZEF/42eFwFVs1ts6DUbTmV+EeDeApIakAyV5aLP/nZmoOcyRM/7tRmgkHhX91KneDfU0oiR/KXAy3WMvYRzSnDLXXGx4a3T04uMyKhnYRyM8nvTnenjPpk7ghPI=
