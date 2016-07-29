@@ -1,3 +1,7 @@
+## 1.0.0-beta3
+
+- Update tilestat service for new API.
+
 ## 1.0.0-beta1
 
 * Add `bbox` option to geocoder API

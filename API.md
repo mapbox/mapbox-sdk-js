@@ -445,59 +445,24 @@ var client = new MapboxClient('ACCESSTOKEN');
 client.getTilestats('tileset-id', function(err, info) {
   console.log(info);
   // {
-  //   "account": {account},
-  //   "tilesetid": "tileset-id",
+  //   "layerCount": {layer count},
   //   "layers": [
   //     {
-  //       "account": {account},
-  //       "tilesetid": "tileset-id",
-  //       "layer": {layername},
-  //       "count": 10,
+  //       "layer": {layer name},
+  //       "geometry": {dominant geometry},
+  //       "count": {feature count},
+  //       "attributeCount": {attribute count}
   //       "attributes": [
   //         {
-  //           "attribute": {attributename},
-  //           "min": 0,
-  //           "max": 10,
-  //           "values": [0, 10]
+  //           "attribute": {attribute name},
+  //           "type": {attribute type},
+  //           "count": {unique value count},
+  //           "min": {minimum value if type is number},
+  //           "max": {maximum value if type is number},
+  //           "values": [{...unique values}]
   //         }
   //       ]
   //     }
-  //   ]
-  // }
-});
-```
-
-Returns **undefined** nothing, calls callback
-
-# getTilestatsAttribute
-
-To retrieve statistics about the attribute values of a particular attribute
-within a tileset layer.
-
-**Parameters**
-
--   `tileset` **String** the id for the tileset
--   `layer` **String** the name of the layer in the tileset
--   `attribute` **String** the name of the attribute in the layer
--   `callback` **Function** called with (err)
-
-**Examples**
-
-```javascript
-var client = new MapboxClient('ACCESSTOKEN');
-client.getTilestatsAttribute('tileset-id', 'layer-name', 'attr-name', function(err, info) {
-  console.log(info);
-  // {
-  //   "account": {account},
-  //   "tilesetid": "tileset-id",
-  //   "layer": "layer-name",
-  //   "attribute": "attr-name",
-  //   "type": "Number",
-  //   "min": 0,
-  //   "max": 10,
-  //   "values": [
-  //     0,
-  //     10
   //   ]
   // }
 });
