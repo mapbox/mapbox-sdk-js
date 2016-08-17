@@ -9,6 +9,7 @@ openssl aes-256-cbc -K $encrypted_15377b0fdb36_key -iv $encrypted_15377b0fdb36_i
 
 eval "$(ssh-agent -s)"
 
+chmod 600 github_deploy_key
 ssh-add github_deploy_key
 
 if [ "$TRAVIS_BRANCH" != "docs" ]
