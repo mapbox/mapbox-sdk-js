@@ -5,6 +5,7 @@ set -o errexit -o nounset
 npm run docs-html
 
 openssl aes-256-cbc -K $encrypted_15377b0fdb36_key -iv $encrypted_15377b0fdb36_iv -in github_deploy_key.enc -out github_deploy_key -d
+ssh-add github_deploy_key
 
 if [ "$TRAVIS_BRANCH" != "docs" ]
 then
