@@ -6,7 +6,7 @@ npm run docs-html
 
 openssl aes-256-cbc -K $encrypted_15377b0fdb36_key -iv $encrypted_15377b0fdb36_iv -in github_deploy_key.enc -out github_deploy_key -d
 
-if [ "$TRAVIS_BRANCH" != "master" ]
+if [ "$TRAVIS_BRANCH" != "docs" ]
 then
   echo "This commit was made against the $TRAVIS_BRANCH and not the master! No deploy!"
   exit 0
