@@ -19,7 +19,7 @@ git init
 git config user.name "Tom MacWright"
 git config user.email "tom@macwright.org"
 
-git remote add upstream "https://$GH_TOKEN@github.com/mapbox/mapbox-sdk-js.git"
+git remote add upstream "https://github.com/mapbox/mapbox-sdk-js.git"
 git fetch upstream
 git reset upstream/gh-pages
 
