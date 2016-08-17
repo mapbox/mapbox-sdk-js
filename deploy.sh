@@ -14,6 +14,7 @@ fi
 
 rev=$(git rev-parse --short HEAD)
 
+cd docs
 git init
 git config user.name "Tom MacWright"
 git config user.email "tom@macwright.org"
