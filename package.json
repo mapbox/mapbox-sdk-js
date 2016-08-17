@@ -48,7 +48,7 @@
     "envify": "^3.4.0",
     "eslint": "^0.24.1",
     "geojson-random": "^0.2.2",
-    "geojsonhint": "^2.0.0-beta",
+    "geojsonhint": "1.2.1",
     "smokestack": "^3.3.0",
     "tap": "^6.3.2",
     "tap-status": "^1.0.1",
