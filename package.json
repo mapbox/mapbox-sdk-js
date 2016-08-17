@@ -12,7 +12,7 @@
     "docs": "documentation -f md > API.md",
     "prepublish": "npm run build",
     "build": "npm run build-dist && npm run build-min",
-    "build-dist": "browserify -s MapboxClient lib/mapbox.js > dist/mapbox-sdk.js",
+    "build-dist": "mkdir -p dist && browserify -s MapboxClient lib/mapbox.js > dist/mapbox-sdk.js",
     "build-min": "uglifyjs -c -m < dist/mapbox-sdk.js > dist/mapbox-sdk.min.js"
   },
   "browser": {
