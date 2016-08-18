@@ -1,4 +1,4 @@
-# bulkFeatureUpdate
+# batchFeatureUpdate
 
 Perform a batch of inserts, updates, and deletes to a dataset in a single combined request.
 This request requires an access token with the datasets:write scope.
@@ -50,7 +50,7 @@ var deletes =[
   'feature-id-1',
   'feature-id-2'
 ];
-client.bulkFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
+client.batchFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
  console.log(results);
 // {
 //   "put": [
