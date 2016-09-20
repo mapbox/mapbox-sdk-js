@@ -1,4 +1,4 @@
-/**
+/*
  * xtend by Jake Verbaten
  *
  * Licensed under MIT

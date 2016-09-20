@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
@@ -9,7 +9,7 @@
 
 'use strict';
 
-/**
+/*
  * Use invariant() to assert state which your program assumes to be true.
  *
  * Provide sprintf-style format (only %s is supported) and arguments

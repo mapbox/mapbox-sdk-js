@@ -1,4 +1,4 @@
-# bulkFeatureUpdate
+# batchFeatureUpdate
 
 Perform a batch of inserts, updates, and deletes to a dataset in a single combined request.
 This request requires an access token with the datasets:write scope.
@@ -50,7 +50,7 @@ var deletes =[
   'feature-id-1',
   'feature-id-2'
 ];
-client.bulkFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
+client.batchFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
  console.log(results);
 // {
 //   "put": [
@@ -429,47 +429,6 @@ client.updateDataset('dataset-id', options, function(err, dataset) {
 
 Returns **undefined** nothing, calls callback
 
-# getTilestats
-
-To retrieve statistics about a specific tileset.
-
-**Parameters**
-
--   `tileset` **String** the id for the tileset
--   `callback` **Function** called with (err, tilestats)
-
-**Examples**
-
-```javascript
-var client = new MapboxClient('ACCESSTOKEN');
-client.getTilestats('tileset-id', function(err, info) {
-  console.log(info);
-  // {
-  //   "layerCount": {layer count},
-  //   "layers": [
-  //     {
-  //       "layer": {layer name},
-  //       "geometry": {dominant geometry},
-  //       "count": {feature count},
-  //       "attributeCount": {attribute count}
-  //       "attributes": [
-  //         {
-  //           "attribute": {attribute name},
-  //           "type": {attribute type},
-  //           "count": {unique value count},
-  //           "min": {minimum value if type is number},
-  //           "max": {maximum value if type is number},
-  //           "values": [{...unique values}]
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
-});
-```
-
-Returns **undefined** nothing, calls callback
-
 # createUpload
 
 Create an new upload with a file previously staged on Amazon S3.
@@ -687,21 +646,27 @@ var client = new MapboxClient('ACCESSTOKEN');
 ## geocodeForward
 
 Search for a location with a string, using the
-[Mapbox Geocoding API](https://www.mapbox.com/developers/api/geocoding/).
+[Mapbox Geocoding API](https://www.mapbox.com/api-documentation/#geocoding).
+
+The `query` parmeter can be an array of strings only if batch geocoding
+is used by specifying `mapbox.places-permanent` as the `dataset` option.
 
 **Parameters**
 
--   `query` **string** desired location
+-   `query` **string or Array&lt;string&gt;** desired location
 -   `options` **[Object]** additional options meant to tune
     the request (optional, default `{}`)
     -   `options.proximity` **Object** a proximity argument: this is
         a geographical point given as an object with latitude and longitude
         properties. Search results closer to this point will be given
         higher priority.
+    -   `options.bbox` **Array** a bounding box argument: this is
+        a bounding box given as an array in the format [minX, minY, maxX, maxY].
+        Search results will be limited to the bounding box.
     -   `options.types` **string** a comma seperated list of types that filter
         results to match those specified. See <https://www.mapbox.com/developers/api/geocoding/#filter-type>
         for available types.
-    -   `options.country` **string** a comma seperated list of country codes to
+    -   `options.country` **string** a comma separated list of country codes to
         limit results to specified country or countries.
     -   `options.dataset` **[string]** the desired data to be
         geocoded against. The default, mapbox.places, does not permit unlimited
@@ -719,6 +684,12 @@ mapboxClient.geocodeForward('Paris, France', function(err, res) {
 // using the proximity option to weight results closer to texas
 mapboxClient.geocodeForward('Paris, France', {
   proximity: { latitude: 33.6875431, longitude: -95.4431142 }
+}, function(err, res) {
+  // res is a GeoJSON document with geocoding matches
+});
+// using the bbox option to limit results to a portion of Washington, D.C.
+mapboxClient.geocodeForward('Starbucks', {
+  bbox: [-77.083056,38.908611,-76.997778,38.959167]
 }, function(err, res) {
   // res is a GeoJSON document with geocoding matches
 });
@@ -978,6 +949,72 @@ mapboxClient.geocodeReverse(
   { latitude: 33.6875431, longitude: -95.4431142 },
   function(err, res) {
   // res is a GeoJSON document with geocoding matches
+});
+```
+
+Returns **undefined** nothing, calls callback
+
+# getTilestats
+
+To retrieve statistics about a specific tileset.
+
+**Parameters**
+
+-   `tileset` **String** the id for the tileset
+-   `callback` **Function** called with (err, tilestats)
+
+**Examples**
+
+```javascript
+var client = new MapboxClient('ACCESSTOKEN');
+client.getTilestats('tileset-id', function(err, info) {
+  console.log(info);
+  // {
+  //   "layerCount": {layer count},
+  //   "layers": [
+  //     {
+  //       "layer": {layer name},
+  //       "geometry": {dominant geometry},
+  //       "count": {feature count},
+  //       "attributeCount": {attribute count}
+  //       "attributes": [
+  //         {
+  //           "attribute": {attribute name},
+  //           "type": {attribute type},
+  //           "count": {unique value count},
+  //           "min": {minimum value if type is number},
+  //           "max": {maximum value if type is number},
+  //           "values": [{...unique values}]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
+});
+```
+
+Returns **undefined** nothing, calls callback
+
+# putTilestats
+
+To create or update statistics about a specific tileset.
+
+**Parameters**
+
+-   `tileset` **String** the id for the tileset
+-   `statistics` **object** the statistics to upload
+-   `callback` **Function** called with (err, tilestats)
+
+**Examples**
+
+```javascript
+var client = new MapboxClient('ACCESSTOKEN');
+client.getTilestats('tileset-id', function(err, stats) {
+  console.log(stats);
+  // {
+  //   "account": {account}
+  //   ... see stats example above (for Tilestats#getTilestats)
+  // }
 });
 ```
 

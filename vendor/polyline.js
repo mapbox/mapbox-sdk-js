@@ -1,6 +1,6 @@
 'use strict';
 
-/**
+/*
  * polyline
  *
  * https://github.com/mapbox/polyline
@@ -9,7 +9,7 @@
  * licensed under BSD 3-clause
  */
 
-/**
+/*
  * Based off of [the offical Google document](https://developers.google.com/maps/documentation/utilities/polylinealgorithm)
  *
  * Some parts from [this implementation](http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/PolylineEncoder.js)

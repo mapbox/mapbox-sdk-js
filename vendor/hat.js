@@ -1,5 +1,5 @@
 /* eslint-disable */
-/**
+/*
  * hat
  * written by James Halliday, licensed under MIT/X11
  * https://github.com/substack/node-hat
