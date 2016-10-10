@@ -233,6 +233,25 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.limit', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.limit, 1, 'limit option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      limit: 1
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.end();
 });
 
