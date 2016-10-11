@@ -304,6 +304,27 @@ test('MapboxClient#geocodeReverse', function(t) {
     }]);
   });
 
+  t.test('options.limit', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.limit, 2, 'limit option is set');
+      t.equals(params.types, 'poi', 'single types option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeReverse.apply(tester, [
+    { latitude: 33.6875431, longitude: -95.4431142 },
+    { types: 'poi', limit: 2 },
+    function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('options.dataset', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
