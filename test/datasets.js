@@ -82,20 +82,7 @@ test('DatasetClient', function(datasetClient) {
     listDatasets.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      var listAll = function(page, cb) {
-        page.fresh = true;
-        client.listDatasets(page, function(err, datasets, resp) {
-          if (err) return cb(err);
-          if (resp.headers.Link === undefined) cb(null, datasets);
-          listAll({start:resp.headers.Link}, function(err, ds) {
-            if (err) return cb(err);
-            return cb(null, datasets.concat(ds));
-          });
-        });
-      };
-
-      listAll({}, function(err, datasets) {
-        if (err) console.log(err);
+      client.listDatasets({fresh:true}, function(err, datasets) {
         assert.ifError(err, 'success');
         assert.ok(Array.isArray(datasets), 'got an array of datasets');
         testDatasets.forEach(function(dataset) {

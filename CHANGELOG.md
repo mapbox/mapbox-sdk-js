@@ -1,5 +1,7 @@
 ## 1.0.0.beta4
 
+- Update all callbacks to provide `err, body, response`.
+- Change default returned value for promises from `body` to `response`.
 - Remove `client.batchFeatureUpdate`. `client.insertFeature` or `client.destroyFeture` should be used now.
 
 ## 1.0.0-beta3
