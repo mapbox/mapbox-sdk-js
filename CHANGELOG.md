@@ -1,3 +1,7 @@
+## 1.0.0.beta4
+
+- Remove `client.batchFeatureUpdate`. `client.insertFeature` or `client.destroyFeture` should be used now.
+
 ## 1.0.0-beta3
 
 - Update tilestat service for new API.
