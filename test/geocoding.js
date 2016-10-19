@@ -74,7 +74,8 @@ test('MapboxClient#geocodeForward', function(t) {
     t.ok(client);
     client.geocodeForward(
       'Chester, New Jersey', { dataset: 'mapbox.places' })
-    .then(function(results) {
+    .then(function(res) {
+      var results = res.entity;
       t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
       t.equal(geojsonhint.hint(results.features[0]).length, 0, 'at least one valid result');
       t.end();
