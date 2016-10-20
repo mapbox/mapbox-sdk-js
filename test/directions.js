@@ -45,7 +45,8 @@ test('MapboxClient#getDirections', function(t) {
     client.getDirections([
       { latitude: 33.6875431, longitude: -95.4431142 },
       { latitude: 33.6875431, longitude: -95.4831142 }
-    ]).then(function(results) {
+    ]).then(function(res) {
+      var results = res.entity;
       t.deepEqual(geojsonhint.hint(results.origin), [], 'origin is valid');
       t.end();
     }, function(err) {

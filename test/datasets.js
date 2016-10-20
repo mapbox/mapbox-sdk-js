@@ -82,7 +82,7 @@ test('DatasetClient', function(datasetClient) {
     listDatasets.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created dataset client');
-      client.listDatasets(function(err, datasets) {
+      client.listDatasets({fresh:true}, function(err, datasets) {
         assert.ifError(err, 'success');
         assert.ok(Array.isArray(datasets), 'got an array of datasets');
         testDatasets.forEach(function(dataset) {
@@ -265,87 +265,6 @@ test('DatasetClient', function(datasetClient) {
     deleteFeature.end();
   });
 
-  datasetClient.test('#batchFeatureUpdate', function(batchFeatureUpdate) {
-    var featureIds = [];
-
-    batchFeatureUpdate.test('typecheck', function(assert) {
-      var validFeature = randomFeature();
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      assert.throws(function() {
-        client.batchFeatureUpdate('', '', function() {});
-      }, 'update must be an object');
-      assert.throws(function() {
-        client.batchFeatureUpdate({}, {}, function() {});
-      }, 'dataset must be a string');
-      assert.throws(function() {
-        client.batchFeatureUpdate({ delete: [validFeature] }, '', function() {});
-      }, 'update.delete must be an array of strings');
-      assert.throws(function() {
-        client.batchFeatureUpdate([validFeature], [''], '', function() {});
-      }, 'inserted features must include ids');
-      validFeature.id = 'hi';
-      assert.throws(function() {
-        client.batchFeatureUpdate([validFeature], [{}], '', function() {});
-      }, 'deletes must be an array of strings');
-      assert.end();
-    });
-
-    batchFeatureUpdate.test('insert some', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      var features = randomFeatures(3).map(function(f) {
-        f.id = hat();
-        featureIds.push(f.id);
-        return f;
-      });
-      client.batchFeatureUpdate({ put: features }, testDatasets[0], function(err, response) {
-        assert.ifError(err, 'success');
-        assert.equal(response.put.length, 3, 'returned three features');
-        assert.end();
-      });
-    });
-
-    batchFeatureUpdate.test('insert & delete some', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      var features = [randomFeature()].map(function(f) {
-        f.id = hat();
-        featureIds.push(f.id);
-        return f;
-      });
-      var deletes = [featureIds.shift(), featureIds.shift()];
-      client.batchFeatureUpdate({ put: features, delete: deletes }, testDatasets[0], function(err, response) {
-        assert.ifError(err, 'success');
-        assert.equal(response.put.length, 1, 'returned one insert');
-        assert.equal(response.delete.length, 2, 'returned two deletes');
-        assert.end();
-      });
-    });
-
-    batchFeatureUpdate.test('delete everything left', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      client.batchFeatureUpdate({ delete: featureIds }, testDatasets[0], function(err, response) {
-        assert.ifError(err, 'success');
-        assert.equal(response.delete.length, 2, 'returned two deletes');
-        assert.end();
-      });
-    });
-
-    batchFeatureUpdate.test('make sure it is all gone', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      client.listFeatures(testDatasets[0], function(err, collection) {
-        assert.ifError(err, 'success');
-        assert.equal(collection.features.length, 0, 'nothing left');
-        assert.end();
-      });
-    });
-
-    batchFeatureUpdate.end();
-  });
-
   datasetClient.test('#listFeatures', function(listFeatures) {
     listFeatures.test('insert some', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
@@ -354,10 +273,17 @@ test('DatasetClient', function(datasetClient) {
         f.id = 'feature-' + i;
         return f;
       });
-      client.batchFeatureUpdate({ put: features }, testDatasets[1], function(err, response) {
-        assert.ifError(err, 'success');
-        assert.equal(response.put.length, 3, 'returned three features');
-        assert.end();
+      client.insertFeature(features[0], testDatasets[1], function(err) {
+        assert.ifError(err, 'first feature added');
+        if (err) return assert.end();
+        client.insertFeature(features[1], testDatasets[1], function(err) {
+          assert.ifError(err, 'second feature added');
+          if (err) return assert.end();
+          client.insertFeature(features[2], testDatasets[1], function(err) {
+             assert.ifError(err, 'second feature added');
+             assert.end();
+          });
+        });
       });
     });
 

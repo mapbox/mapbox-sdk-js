@@ -1,92 +1,3 @@
-# batchFeatureUpdate
-
-Perform a batch of inserts, updates, and deletes to a dataset in a single combined request.
-This request requires an access token with the datasets:write scope.
-There are a number of limits to consider when making this request:
-
--   you can send a total of 100 changes (sum of puts + deletes) in a single request
--   any single feature cannot be larger than 500 KB
--   the dataset must not exceed 2000 total features
--   the dataset must not exceed a total of 5 MB
-
-**Parameters**
-
--   `update` **object** an object describing features in insert and/or delete
-    -   `update.put` **[Array&lt;object&gt;]** features to insert. Each feature must be a valid GeoJSON feature per <http://geojson.org/geojson-spec.html#feature-objects>
-    -   `update.delete` **[Array&lt;string&gt;]** ids of features to delete
--   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err, results)
-
-**Examples**
-
-```javascript
-var MapboxClient = require('mapbox');
-var client = new MapboxClient('ACCESSTOKEN');
-var inserts = [
-  {
-    "id": "1",
-    "type": "Feature",
-    "properties": {
-      "name": "Null Island"
-    },
-    "geometry": {
-      "type": "Point",
-      "coordinates": [0, 0]
-    }
-  },
-  {
-    "id": "2",
-    "type": "Feature",
-    "properties": {
-      "name": "Offshore from Null Island"
-    },
-    "geometry": {
-      "type": "Point",
-      "coordinates": [0.01, 0.01]
-    }
-  }
-];
-var deletes =[
-  'feature-id-1',
-  'feature-id-2'
-];
-client.batchFeatureUpdate({ put: inserts, delete: deletes }, dataset, function(err, results) {
- console.log(results);
-// {
-//   "put": [
-//     {
-//       "id": {feature-id},
-//       "type": "Feature",
-//       "properties": {
-//         "name": "Null Island"
-//       },
-//       "geometry": {
-//         "type": "Point",
-//         "coordinates": [0, 0]
-//       }
-//     },
-//     {
-//       "id": {feature-id},
-//       "type": "Feature",
-//       "properties": {
-//         "name": "Offshore from Null Island"
-//       },
-//       "geometry": {
-//         "type": "Point",
-//         "coordinates": [0.01, 0.01]
-//       }
-//     }
-//   ],
-//   "delete": [
-//     "feature-id-1",
-//     "feature-id-2"
-//   ]
-// }
-});
-```
-
-Returns **undefined** nothing, calls callback
-
 # createDataset
 
 To create a new dataset. Valid properties include title and description (not required).
@@ -97,14 +8,14 @@ This request requires an access token with the datasets:write scope.
 -   `options` **[object]** an object defining a dataset's properties
     -   `options.name` **[string]** the dataset's name
     -   `options.description` **[string]** the dataset's description
--   `callback` **Function** called with (err, dataset)
+-   `callback` **Function** called with (err, dataset, response)
 
 **Examples**
 
 ```javascript
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('ACCESSTOKEN');
-client.createDataset({ name: 'foo', description: 'bar' }, function(err, dataset) {
+client.createDataset({ name: 'foo', description: 'bar' }, function(err, dataset, response) {
   console.log(dataset);
   // {
   //   "owner": {account},
@@ -127,7 +38,7 @@ This request requires an access token with the datasets:write scope.
 **Parameters**
 
 -   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err)
+-   `callback` **Function** called with (err, body, response)
 
 **Examples**
 
@@ -150,7 +61,7 @@ This request requires an access token with the datasets:write scope.
 
 -   `id` **string** the `id` of the feature to read
 -   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err)
+-   `callback` **Function** called with (err, body, response)
 
 **Examples**
 
@@ -182,7 +93,7 @@ There are a number of limits to consider when making this request:
 
 -   `feature` **object** the feature to insert. Must be a valid GeoJSON feature per <http://geojson.org/geojson-spec.html#feature-objects>
 -   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err, feature)
+-   `callback` **Function** called with (err, feature, response)
 
 **Examples**
 
@@ -256,7 +167,7 @@ This request requires an access token with the datasets:read scope.
 
 **Parameters**
 
--   `callback` **Function** called with (err, datasets)
+-   `callback` **Function** called with (err, datasets, response)
 
 **Examples**
 
@@ -300,7 +211,7 @@ This request requires an access token with the datasets:read scope.
     -   `options.reverse` **[boolean]** Set to `true` to reverse the default sort order of the listing.
     -   `options.limit` **[number]** The maximum number of objects to return. This value must be between 1 and 100. The API will attempt to return the requested number of objects, but receiving fewer objects does not necessarily signal the end of the collection. Receiving an empty page of results is the only way to determine when you are at the end of a collection.
     -   `options.start` **[string]** The object id that acts as the cursor for pagination and defines your location in the collection. This argument is exclusive so the object associated with the id provided to the start argument will not be included in the response.
--   `callback` **Function** called with (err, collection)
+-   `callback` **Function** called with (err, collection, response)
 
 **Examples**
 
@@ -339,7 +250,7 @@ This request requires an access token with the datasets:read scope.
 **Parameters**
 
 -   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err, dataset)
+-   `callback` **Function** called with (err, dataset, response)
 
 **Examples**
 
@@ -370,7 +281,7 @@ This request requires an access token with the datasets:read scope.
 
 -   `id` **string** the `id` of the feature to read
 -   `dataset` **string** the id for an existing dataset
--   `callback` **Function** called with (err, feature)
+-   `callback` **Function** called with (err, feature, response)
 
 **Examples**
 
@@ -406,7 +317,7 @@ This request requires an access token with the datasets:write scope.
 -   `options` **[object]** an object defining updates to the dataset's properties
     -   `options.name` **[string]** the updated dataset's name
     -   `options.description` **[string]** the updated dataset's description
--   `callback` **Function** called with (err, dataset)
+-   `callback` **Function** called with (err, dataset, response)
 
 **Examples**
 
@@ -444,7 +355,7 @@ This request requires an access token with the uploads:write scope.
         existing data. To avoid overwriting existing data, you must ensure
         that you are using unique tileset ids.
     -   `options.url` **String** https url of a file staged on Amazon S3.
--   `callback` **Function** called with (err, upload)
+-   `callback` **Function** called with (err, upload, response)
 
 **Examples**
 
@@ -489,7 +400,7 @@ This request requires an access token with the uploads:write scope.
 
 **Parameters**
 
--   `callback` **Function** called with (err, credentials)
+-   `callback` **Function** called with (err, credentials, response)
 
 **Examples**
 
@@ -534,7 +445,7 @@ This request requires an access token with the uploads:delete scope.
 **Parameters**
 
 -   `upload`  
--   `callback` **Function** called with (err)
+-   `callback` **Function** called with (err, body, response)
 
 **Examples**
 
@@ -554,7 +465,7 @@ This request requires an access token with the uploads:list scope.
 
 **Parameters**
 
--   `callback` **Function** called with (err, uploads)
+-   `callback` **Function** called with (err, uploads, response)
 
 **Examples**
 
@@ -598,7 +509,7 @@ This request requires an access token with the uploads:read scope.
 **Parameters**
 
 -   `upload` **String** id of the upload to read
--   `callback` **Function** called with (err, upload)
+-   `callback` **Function** called with (err, upload, response)
 
 **Examples**
 
@@ -672,7 +583,7 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
         permit permanent caching. (optional, default `mapbox.places`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -728,7 +639,7 @@ for more documentation.
         like [Mapbox GL](https://www.mapbox.com/mapbox-gl/),
         Leaflet and [Mapbox.js](https://www.mapbox.com/mapbox.js/). `false`
         omits the geometry entirely and only returns instructions. (optional, default `geojson`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -778,7 +689,7 @@ for more documentation.
         streets without sidewalks, and `'cycling'`, which prefers streets
         with bicycle lanes and lower speed limits for transportation via
         bicycle. (optional, default `driving`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -847,7 +758,7 @@ for more documentation.
         the assumed precision of the used tracking device. Use higher
         numbers (5-10) for noisy traces and lower numbers (1-3) for clean
         traces. The default value is 4. (optional, default `4`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -910,7 +821,7 @@ for more documentation.
         are queried (optional, default `maximum`)
     -   `options.interpolate` **[boolean]** Whether to interpolate
         between matches in the feature collection. (optional, default `true`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -939,7 +850,7 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/developers/ap
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
         permit permanent caching. (optional, default `mapbox.places`)
--   `callback` **Function** called with (err, results)
+-   `callback` **Function** called with (err, results, response)
 
 **Examples**
 
@@ -961,7 +872,7 @@ To retrieve statistics about a specific tileset.
 **Parameters**
 
 -   `tileset` **String** the id for the tileset
--   `callback` **Function** called with (err, tilestats)
+-   `callback` **Function** called with (err, tilestats, response)
 
 **Examples**
 
@@ -1003,7 +914,7 @@ To create or update statistics about a specific tileset.
 
 -   `tileset` **String** the id for the tileset
 -   `statistics` **object** the statistics to upload
--   `callback` **Function** called with (err, tilestats)
+-   `callback` **Function** called with (err, tilestats, response)
 
 **Examples**
 
