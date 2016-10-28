@@ -106,13 +106,13 @@ test('MapboxClient#geocodeForward', function(t) {
 
     var tester = { client: function(opts) {
       var params = opts.params;
-      t.equals(params.types, 'country,region', 'types option is set');
+      t.equals(params.types, 'country,region,poi.landmark', 'types option is set');
       opts.callback();
       return { entity: function() {} };
     }};
 
     client.geocodeForward.apply(tester, ['Paris', {
-      types: 'country,region'
+      types: 'country,region,poi.landmark'
     }, function(err) {
       t.ifError(err);
       t.end();
