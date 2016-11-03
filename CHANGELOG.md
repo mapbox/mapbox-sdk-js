@@ -1,3 +1,8 @@
+## 1.0.0-beta4
+
+- Add `limit` option to geocoder API
+- Add `poi.landmark` type to geocoder API
+
 ## 1.0.0-beta3
 
 - Update tilestat service for new API.
