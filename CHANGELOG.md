@@ -1,7 +1,14 @@
-## 1.0.0-beta4
+## 1.0.0-beta5
 
 - Add `limit` option to geocoder API
 - Add `poi.landmark` type to geocoder API
+
+## 1.0.0-beta4
+
+- Adds the concept of a reponse object
+- Update all callbacks to provide `err, body, response`.
+- Change default returned value for promises from `body` to `response`.
+- Remove `client.batchFeatureUpdate`. `client.insertFeature` or `client.destroyFeture` should be used now.
 
 ## 1.0.0-beta3
 
