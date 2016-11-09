@@ -2,6 +2,7 @@
 
 - Add `limit` option to geocoder API
 - Add `poi.landmark` type to geocoder API
+- Fixes a bug where the global `Promise` object was overwritten by a polyfill
 
 ## 1.0.0-beta4
 
