@@ -163,7 +163,7 @@ Returns **Promise** response
 # listDatasets
 
 To retrieve a listing of datasets for a particular account.
-This request requires an access token with the datasets:read scope.
+This request requires an access token with the datasets:list scope.
 
 **Parameters**
 
