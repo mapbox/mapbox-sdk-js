@@ -20,6 +20,8 @@ Generally Available
   * Profiles for driving, walking, and cycling
   * GeoJSON & Polyline formatting
   * Instructions as text or HTML
+* [Datasets](https://www.mapbox.com/api-documentation/#datasets)
+  * Retrieve, add, and edit datasets.
 
 Contact help@mapbox.com for information
 
@@ -31,12 +33,6 @@ Contact help@mapbox.com for information
     [OpenStreetMap](https://www.openstreetmap.org/) data
 * [Surface API](https://www.mapbox.com/developers/api/surface/)
   * Interpolates values along lines. Useful for elevation traces.
-
-Not currently public
-
-* Datasets
-  * Retrieve, add, and edit datasets.
-  * **Note: The Mapbox Datasets API is in private beta. Currently, all end user requests to this API from outside of Mapbox will 404.**
 
 ## Installation
 
@@ -69,5 +65,6 @@ Available sub-requires:
 * surface: `require('mapbox/lib/services/surface')`
 * matching: `require('mapbox/lib/services/matching')`
 * directions: `require('mapbox/lib/services/directions')`
+* datasets: `require('mapbox/lib/services/datasets')`
 
 ## [API](API.md)
