@@ -42,8 +42,5 @@ test('MapboxClient - custom endpoint', function(t) {
     var client = new MapboxClient(deadToken, { endpoint: 1 });
     t.notOk(client);
   }, /endpoint/);
-  var customClient = new MapboxClient(deadToken, { endpoint: 'foo.bar' });
-  // TODO endpoint is no longer exposed
-  // t.equal(customClient.endpoint, 'foo.bar', 'receives an endpoint from options');
   t.end();
 });

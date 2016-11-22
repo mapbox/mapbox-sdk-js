@@ -154,7 +154,7 @@ test('MapboxClient#geocodeForward', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.throws(function() {
       client.geocodeForward(['Paris', 'Lyon', 'Nice', 'Nantes'],
-        function(err, results) {
+        function(/* err , results */) {
       });
     });
     t.end();

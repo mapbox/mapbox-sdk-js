@@ -177,7 +177,6 @@ test('UploadClient', function(uploadClient) {
     deleteUpload.test('valid request', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
-      var upload = testUploads.shift();
       client.deleteUpload(completedUpload.id, function(err/*, uploads*/) {
         assert.ifError(err, 'success');
         assert.end();
