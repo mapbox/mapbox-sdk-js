@@ -5,7 +5,6 @@ var test = require('tap').test;
 var fs = require('fs');
 var path = require('path');
 var MapboxClient = require('../lib/services/styles');
-var hat = require('../vendor/hat');
 
 var newStyleFixture = {
   'version': 8,
@@ -195,7 +194,7 @@ test('StyleClient', function(styleClient) {
     setTimeout(function() {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created style client');
-      client.deleteStyle(newStyleId, function(err, style) {
+      client.deleteStyle(newStyleId, function(err /*, style */) {
         assert.ifError(err, 'item deleted');
         assert.end();
       });
