@@ -5,6 +5,8 @@ script:
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
+after_success:
+  - bash deploy.sh
 sudo: false
 node_js:
 - '0.10'
