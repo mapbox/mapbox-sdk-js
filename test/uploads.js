@@ -97,7 +97,7 @@ test('UploadClient', function(uploadClient) {
       client.createUpload({
         tileset: 'blah'
       }, function(err /*, upload */) {
-        assert.equal(err.message, 'Missing property "url"');
+        assert.equal(err.message, 'Missing required property "url"');
         assert.end();
       });
     });

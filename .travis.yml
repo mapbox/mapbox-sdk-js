@@ -1,14 +1,18 @@
 language: node_js
-script:
-- npm test
-- npm run browser-test-ff
-before_script:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
 sudo: false
-node_js:
-- '0.10'
-- '4'
 env:
   global:
     secure: UrfB0BI2DSCwbwYV3MucH8r03vnXpEMtSde5GdIWv8EpldScZEF/42eFwFVs1ts6DUbTmV+EeDeApIakAyV5aLP/nZmoOcyRM/7tRmgkHhX91KneDfU0oiR/KXAy3WMvYRzSnDLXXGx4a3T04uMyKhnYRyM8nvTnenjPpk7ghPI=
+matrix:
+  include:
+    - node_js: '4'
+      script: 'npm run lint'
+    - node_js: '0.10'
+      script: 'npm run unit-test'
+    - node_js: '4'
+      script: 'npm run unit-test'
+    - node_js: '4'
+      before_script:
+      - export DISPLAY=:99.0
+      - sh -e /etc/init.d/xvfb start
+      script: 'npm run browser-test-ff'
