@@ -4,7 +4,8 @@
   "description": "interface to mapbox services",
   "main": "lib/mapbox.js",
   "scripts": {
-    "test": "eslint lib test/*.js",
+    "test": "npm run lint && npm run unit-test",
+    "lint": "eslint lib test/*.js",
     "unit-test": "tap --coverage test/browser.js test/*.js",
     "browser-test": "browserify -t envify -t brfs test/*.js test/helpers/close.js | smokestack | tap-status",
     "browser-test-ff": "browserify -t envify -t brfs test/*.js test/helpers/close.js | smokestack -b firefox | tap-status",
