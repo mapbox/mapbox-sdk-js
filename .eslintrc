@@ -4,6 +4,9 @@
     "node": true
   },
   "extends": "eslint:recommended",
+  "globals": {
+    "Promise": true
+  },
   "rules": {
     "quotes": [2, "single"],
     "camelcase": [0],
