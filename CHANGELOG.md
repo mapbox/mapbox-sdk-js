@@ -1,3 +1,9 @@
+## 1.0.0-beta6
+- **Bug** Add `autocomplete` param to geocoding endpoint. [#126](https://github.com/mapbox/mapbox-sdk-js/pull/126)
+- **Bug** Install Promise polyfill only when needed. [#122](https://github.com/mapbox/mapbox-sdk-js/pull/122)
+- **Update** Update Map Matching to `v5`. [#128](https://github.com/mapbox/mapbox-sdk-js/pull/128)
+- **Update** Update Directions to `v5`. [#68](https://github.com/mapbox/mapbox-sdk-js/pull/68)
+
 ## 1.0.0-beta5
 
 - Add `limit` option to geocoder API
