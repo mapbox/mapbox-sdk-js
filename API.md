@@ -163,11 +163,14 @@ Returns **Promise** response
 # listDatasets
 
 To retrieve a listing of datasets for a particular account.
-This request requires an access token with the datasets:list scope.
+This request requires an access token with the datasets:read scope.
 
 **Parameters**
 
--   `opts`  
+-   `opts` **[Object]** list options (optional, default `{}`)
+    -   `opts.start` **string** start location, for paging
+    -   `opts.limit` **number** limit, for paging
+    -   `opts.fresh` **boolean** whether to request fresh data
 -   `callback` **Function** called with (err, datasets)
 
 **Examples**
@@ -445,7 +448,7 @@ This request requires an access token with the uploads:delete scope.
 
 **Parameters**
 
--   `upload`  
+-   `upload` **string** upload identifier
 -   `callback` **Function** called with (err)
 
 **Examples**
@@ -578,8 +581,13 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
     -   `options.types` **string** a comma seperated list of types that filter
         results to match those specified. See <https://www.mapbox.com/developers/api/geocoding/#filter-type>
         for available types.
+    -   `options.limit` **[number]** is the maximum number of results to return, between 1 and 10 inclusive.
+        Some very specific queries may return fewer results than the limit. (optional, default `5`)
     -   `options.country` **string** a comma separated list of country codes to
         limit results to specified country or countries.
+    -   `options.autocomplete` **[boolean]** whether to include results that include
+        the query only as a prefix. This is useful for UIs where users type
+        values, but if you have complete addresses as input, you'll want to turn it off (optional, default `true`)
     -   `options.dataset` **[string]** the desired data to be
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
@@ -628,18 +636,45 @@ for more documentation.
         automobile and will use highways, `'mapbox.walking'`, which avoids
         streets without sidewalks, and `'mapbox.cycling'`, which prefers streets
         with bicycle lanes and lower speed limits for transportation via
-        bicycle. (optional, default `mapbox.driving`)
+        bicycle. (optional, default `driving`)
     -   `options.alternatives` **[string]** whether to generate
         alternative routes along with the preferred route. (optional, default `true`)
-    -   `options.instructions` **[string]** format for turn-by-turn
-        instructions along the route. (optional, default `text`)
-    -   `options.geometry` **[string]** format for the returned
+    -   `options.geometries` **[string]** format for the returned
         route. Options are `'geojson'`, `'polyline'`, or `false`: `polyline`
         yields more compact responses which can be decoded on the client side.
         [GeoJSON](http://geojson.org/), the default, is compatible with libraries
         like [Mapbox GL](https://www.mapbox.com/mapbox-gl/),
         Leaflet and [Mapbox.js](https://www.mapbox.com/mapbox.js/). `false`
         omits the geometry entirely and only returns instructions. (optional, default `geojson`)
+    -   `options.radiuses` **[Array&lt;number or string&gt;]** an array of integers in meters
+        indicating the maximum distance each coordinate is allowed to move when
+        snapped to a nearby road segment. There must be as many radiuses as there
+        are coordinates in the request. Values can be any number greater than `0` or
+        they can be the string `unlimited`. If no routable road is found within the
+        radius, a `NoSegment` error is returned.
+    -   `options.steps` **[boolean]** whether to return steps and
+        turn-by-turn instructions. Can be `true` or `false`. (optional, default `false`)
+    -   `options.continue_straight` **[boolean]** sets allowed direction of travel
+        when departing intermediate waypoints. If `true` the route will continue in
+        the same direction of travel. If `false` the route may continue in the
+        opposite direction of travel. Defaults to `true` for the `driving` profile
+        and `false` for the `walking` and `cycling` profiles.
+    -   `options.bearings` **[Array&lt;Array&gt;]** used to filter the road
+        segment the waypoint will be placed on by direction and dictates the angle
+        of approach. This option should always be used in conjunction with the
+        `radiuses` option. The parameter takes two values per waypoint: the first is
+        an angle clockwise from true north between `0` and `360`. The second is the
+        range of degrees the angle can deviate by. We recommend a value of `45` or
+        `90` for the range, as bearing measurements tend to be inaccurate. This is
+        useful for making sure we reroute vehicles on new routes that continue
+        traveling in their current direction. A request that does this would provide
+        bearing and radius values for the first waypoint and leave the remaining
+        values empty.If provided, the list of bearings must be the same length as
+        the list of waypoints, but you can skip a coordinate and show its position
+        by providing an empty array.
+    -   `options.overview` **[string]** type of returned overview
+        geometry. Can be `full` (the most detailed geometry available), `simplified`
+        (a simplified version of the full geometry), or `false`. (optional, default `simplified`)
 -   `callback` **Function** called with (err, results)
 
 **Examples**
@@ -660,7 +695,6 @@ mapboxClient.getDirections([
   { latitude: 33.6875431, longitude: -95.4831142 }
 ], {
   profile: 'mapbox.walking',
-  instructions: 'html',
   alternatives: false,
   geometry: 'polyline'
 }, function(err, results) {
@@ -732,63 +766,63 @@ Returns **Promise** response
 ## matching
 
 Snap recorded location traces to roads and paths from OpenStreetMap.
-Consult the [Map Matching API](https://www.mapbox.com/developers/api/map-matching/)
+Consult the [Map Matching API](https://www.mapbox.com/api-documentation/#map-matching)
 for more documentation.
 
 **Parameters**
 
--   `trace` **Object** a single [GeoJSON](http://geojson.org/)
-    Feature with a LineString geometry, containing up to 100 positions.
+-   `coordinates` **Array&lt;Array&lt;number&gt;&gt;** an array of coordinate pairs
+    in [longitude, latitude] order. Up to 100 coordinates can be specified.
 -   `options` **[Object]** additional options meant to tune
     the request (optional, default `{}`)
     -   `options.profile` **[string]** the directions
         profile, which determines how to prioritize different routes.
-        Options are `'mapbox.driving'`, which assumes transportation via an
-        automobile and will use highways, `'mapbox.walking'`, which avoids
-        streets without sidewalks, and `'mapbox.cycling'`, which prefers streets
+        Options are `'driving'`, which assumes transportation via an
+        automobile and will use highways, `'walking'`, which avoids
+        streets without sidewalks, and `'cycling'`, which prefers streets
         with bicycle lanes and lower speed limits for transportation via
-        bicycle. (optional, default `mapbox.driving`)
-    -   `options.geometry` **[string]** format for the returned
-        route. Options are `'geojson'`, `'polyline'`, or `false`: `polyline`
-        yields more compact responses which can be decoded on the client side.
-        [GeoJSON](http://geojson.org/), the default, is compatible with libraries
-        like [Mapbox GL](https://www.mapbox.com/mapbox-gl/),
-        Leaflet and [Mapbox.js](https://www.mapbox.com/mapbox.js/). `false`
-        omits the geometry entirely and only returns matched points. (optional, default `geojson`)
-    -   `options.gps_precision` **[number]** An integer in meters indicating
-        the assumed precision of the used tracking device. Use higher
-        numbers (5-10) for noisy traces and lower numbers (1-3) for clean
-        traces. The default value is 4. (optional, default `4`)
+        bicycle. (optional, default `driving`)
+    -   `options.geometries` **[string]** format of the returned geometry.
+        Allowed values are: `'geojson'` (as LineString), `'polyline'` with
+        precision 5, `'polyline6'`. `'polyline'` yields more compact responses which
+        can be decoded on the client side. [GeoJSON](http://geojson.org/), the
+        default, is compatible with libraries like
+        [Mapbox GL](https://www.mapbox.com/mapbox-gl/), Leaflet and
+        [Mapbox.js](https://www.mapbox.com/mapbox.js/). (optional, default `geojson`)
+    -   `options.radiuses` **[Array&lt;number&gt;]** an array of integers in meters
+        indicating the assumed precision of the used tracking device. There must be
+        as many radiuses as there are coordinates in the request. Values can be a
+        number between 0 and 30. Use higher numbers (20-30) for noisy traces and
+        lower numbers (1-10) for clean traces. The default value is 5.
+    -   `options.steps` **[boolean]** Whether to return steps and
+        turn-by-turn instructions. Can be `true` or `false`. (optional, default `false`)
+    -   `options.overview` **[string or boolean]** type of returned
+        overview geometry. Can be `'full'` (the most detailed geometry available),
+        `'simplified'` (a simplified version of the full geometry), or `false`. (optional, default `simplified`)
+    -   `options.timestamps` **[Array&lt;number&gt;]** an array of timestamps
+        corresponding to each coordinate provided in the request; must be numbers in
+        [Unix time](https://en.wikipedia.org/wiki/Unix_time)
+        (seconds since the Unix epoch). There must be as many timestamps as there
+        are coordinates in the request.
+    -   `options.annotations` **[Array&lt;string&gt;]** an array of fields that return
+        additional metadata for each coordinate along the match geometry. Can be any
+        of `'duration'`, `'distance'`, or `'nodes'`.
 -   `callback` **Function** called with (err, results)
 
 **Examples**
 
 ```javascript
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
-mapboxClient.matching({
-  "type": "Feature",
-  "properties": {
-    "coordTimes": [
-      "2015-04-21T06:00:00Z",
-      "2015-04-21T06:00:05Z",
-      "2015-04-21T06:00:10Z",
-      "2015-04-21T06:00:15Z",
-      "2015-04-21T06:00:20Z"
-    ]
-    },
-  "geometry": {
-    "type": "LineString",
-    "coordinates": [
-      [ 13.418946862220764, 52.50055852688439 ],
-      [ 13.419011235237122, 52.50113000479732 ],
-      [ 13.419756889343262, 52.50171780290061 ],
-      [ 13.419885635375975, 52.50237416816131 ],
-      [ 13.420631289482117, 52.50294888790448 ]
-    ]
-  }
-},
-  function(err, res) {
-  // res is a document with directions
+mapboxClient.matching([
+  [-95.4431142, 33.6875431],
+  [-95.0431142, 33.6875431],
+  [-95.0431142, 33.0875431],
+  [-95.0431142, 33.0175431],
+  [-95.4831142, 33.6875431]
+], {
+ overview: 'full'
+}, function(err, res) {
+  // res is a match response object
 });
 ```
 
@@ -848,6 +882,8 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/api-documenta
         results to match those specified. See 
         <https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location>
         for available types.
+    -   `options.limit` **[number]** is the maximum number of results to return, between 1 and 5
+        inclusive. Requires a single options.types to be specified (see example). (optional, default `1`)
     -   `options.dataset` **[string]** the desired data to be
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
