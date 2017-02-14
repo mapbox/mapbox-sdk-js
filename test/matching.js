@@ -1,11 +1,8 @@
 /* eslint no-shadow: 0 */
 'use strict';
 
-var test = require('tap').test,
-  // fs = require('fs'),
-  // path = require('path'),
-  geojsonhint = require('geojsonhint'),
-  MapboxClient = require('../lib/services/matching');
+var test = require('tap').test;
+var MapboxClient = require('../lib/services/matching');
 
 test('MapboxClient#matching', function(t) {
   t.test('typecheck', function(t) {
@@ -26,35 +23,20 @@ test('MapboxClient#matching', function(t) {
     t.end();
   });
 
-  var sample = {
-    'type': 'Feature',
-    'properties': {
-      'coordTimes': [
-        '2015-04-21T06:00:00Z',
-        '2015-04-21T06:00:05Z',
-        '2015-04-21T06:00:10Z',
-        '2015-04-21T06:00:15Z',
-        '2015-04-21T06:00:20Z'
-      ]
-      },
-    'geometry': {
-      'type': 'LineString',
-      'coordinates': [
-        [ 13.418946862220764, 52.50055852688439 ],
-        [ 13.419011235237122, 52.50113000479732 ],
-        [ 13.419756889343262, 52.50171780290061 ],
-        [ 13.419885635375975, 52.50237416816131 ],
-        [ 13.420631289482117, 52.50294888790448 ]
-      ]
-    }
-  };
+  var coordinates = [
+    [ 13.418946862220764, 52.50055852688439 ],
+    [ 13.419011235237122, 52.50113000479732 ],
+    [ 13.419756889343262, 52.50171780290061 ],
+    [ 13.419885635375975, 52.50237416816131 ],
+    [ 13.420631289482117, 52.50294888790448 ]
+  ];
 
   t.test('no options', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
-    client.matching(sample, function(err, results) {
+    client.matching(coordinates, function(err, results) {
       t.ifError(err);
-      t.deepEqual(geojsonhint.hint(results), [], 'results are valid');
+      t.equals(results.code, 'Ok', 'route returned');
       t.end();
     });
   });
@@ -62,10 +44,13 @@ test('MapboxClient#matching', function(t) {
   t.test('all options', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
-    client.matching(sample, {
-      gps_precision: 8,
-      profile: 'mapbox.walking',
-      geometry: 'polyline'
+    client.matching(coordinates, {
+      profile: 'walking',
+      geometry: 'polyline',
+      radiuses: [10, 20, 20, 30, 5],
+      timestamps: [1480550399960, 1480550399970, 1480550399980, 1480550399990, 1480550400000],
+      steps: true,
+      annotations: ['duration', 'distance', 'nodes']
     }, function(err, results) {
       t.ifError(err);
       t.ok(results, 'results are valid');

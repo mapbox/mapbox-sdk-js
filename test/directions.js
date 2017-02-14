@@ -51,40 +51,6 @@ test('MapboxClient#getDirections', function(t) {
     });
   });
 
-  t.test('assert options', function(t) {
-    var client = new MapboxClient(process.env.MapboxAccessToken);
-    t.ok(client);
-
-    var tester = { client: function(opts) {
-      var params = opts.params;
-
-      t.equals(params.profile, 'walking', 'profile as walking is set');
-      t.equals(params.geometries, 'polyline', 'geometries as polyline is set');
-      t.equals(params.radiuses, '2000;2000', 'radiuses option is set');
-      t.equals(params.bearings, '45,90;45,90', 'bearings option is set');
-
-      t.notOk(params.alternatives, 'alternatives option is set to false');
-      t.notOk(params.steps, 'steps option is set to false');
-      opts.callback();
-      return { entity: function() {} };
-    }};
-
-    client.getDirections.apply(tester, [[
-      { latitude: 33.6875431, longitude: -95.4431142 },
-      { latitude: 33.6875431, longitude: -95.4831142 }
-    ], {
-      profile: 'walking',
-      alternatives: false,
-      radiuses: [2000, 2000],
-      bearings: [[45, 90], [45, 90]],
-      steps: false,
-      geometries: 'polyline'
-    }, function(err) {
-      t.ifError(err);
-      t.end();
-    }]);
-  });
-
   t.test('all options', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
