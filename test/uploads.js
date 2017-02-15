@@ -161,6 +161,16 @@ test('UploadClient', function(uploadClient) {
       });
     });
 
+    listUploads.test('valid request', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created upload client');
+      client.listUploads({ limit: 1 }, function(err, uploads) {
+        assert.ifError(err, 'success');
+        assert.ok(uploads.length < 2, 'fewer than two uploads are returned');
+        assert.end();
+      });
+    });
+
     listUploads.end();
   });
 
