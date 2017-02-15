@@ -105,7 +105,7 @@ test('UploadClient', function(uploadClient) {
     createUpload.end();
   });
 
-  uploadClient.test('#readUpload', function(readUpload) {
+  uploadClient.test('#readUpload', { timeout: 50000 }, function(readUpload) {
     readUpload.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
@@ -115,7 +115,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    readUpload.test('valid request', function(assert) {
+    readUpload.test('valid request', { timeout: 50000 }, function(assert) {
       assert.plan(2);
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
@@ -123,7 +123,7 @@ test('UploadClient', function(uploadClient) {
       var attempts = 0;
       function poll() {
         client.readUpload(upload.id, function(err, upload) {
-          if (attempts > 5) throw new Error('Upload did not complete in time');
+          if (attempts > 7) throw new Error('Upload did not complete in time');
           // we are waiting for mapbox to process the upload
           if (!upload.complete) return setTimeout(poll, Math.pow(2, attempts++) * 1000);
           assert.ifError(err, 'success');
@@ -131,7 +131,7 @@ test('UploadClient', function(uploadClient) {
         });
       }
       poll();
-    }, { timeout: 20000 });
+    });
 
     readUpload.test('does not exist', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
