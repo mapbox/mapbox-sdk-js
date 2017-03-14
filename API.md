@@ -214,7 +214,7 @@ This request requires an access token with the datasets:read scope.
 -   `options` **[object]** an object for passing pagination arguments
     -   `options.reverse` **[boolean]** Set to `true` to reverse the default sort order of the listing.
     -   `options.limit` **[number]** The maximum number of objects to return. This value must be between 1 and 100. The API will attempt to return the requested number of objects, but receiving fewer objects does not necessarily signal the end of the collection. Receiving an empty page of results is the only way to determine when you are at the end of a collection.
-    -   `options.start` **[string]** The object id that acts as the cursor for pagination and defines your location in the collection. This argument is exclusive so the object associated with the id provided to the start argument will not be included in the response.
+    -   `options.start` **[string]** The object id that acts as the cursor for pagination and defines your location in the collection. This argument is exclusive so the object associated with the id provided to the start argument will not be included in the response. `start` must be a feature id. To get the whole next page, it should be the last feature id listed in the current page.
 -   `callback` **Function** called with (err, collection)
 
 **Examples**
