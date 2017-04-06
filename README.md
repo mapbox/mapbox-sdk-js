@@ -11,17 +11,19 @@ to Mapbox services.
 
 Generally Available
 
-* [Geocoding](https://www.mapbox.com/developers/api/geocoding/)
+* [Geocoding](https://www.mapbox.com/api-documentation/#geocoding)
   * Forward (place names ⇢  longitude, latitude)
   * Reverse (longitude, latitude ⇢ place names)
-* [Upload API](https://www.mapbox.com/developers/api/uploads/)
+* [Upload API](https://www.mapbox.com/api-documentation/#uploads)
   * Upload data to be processed and hosted by Mapbox.
-* [Directions](https://www.mapbox.com/developers/api/directions/)
+* [Directions](https://www.mapbox.com/api-documentation/#directions)
   * Profiles for driving, walking, and cycling
   * GeoJSON & Polyline formatting
   * Instructions as text or HTML
 * [Datasets](https://www.mapbox.com/api-documentation/#datasets)
   * Retrieve, add, and edit datasets.
+* [Styles](https://www.mapbox.com/api-documentation/#styles)
+  * Retrieve, add and edit styles, fonts and icons.
 
 Contact help@mapbox.com for information
 
@@ -65,6 +67,11 @@ Available sub-requires:
 * surface: `require('mapbox/lib/services/surface')`
 * matching: `require('mapbox/lib/services/matching')`
 * directions: `require('mapbox/lib/services/directions')`
+* distance: `require('mapbox/lib/services/distance')`
 * datasets: `require('mapbox/lib/services/datasets')`
+* styles: `require('mapbox/lib/services/styles')`
+* uploads: `require('mapbox/lib/services/uploads')`
+* tilestats: `require('mapbox/lib/services/tilestats')`
+* static: `require('mapbox/lib/services/static')`
 
 ## [API](API.md)

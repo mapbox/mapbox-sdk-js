@@ -1,3 +1,258 @@
+# addIcon
+
+Add an icon to a sprite.
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `iconName` **string** icon's name
+-   `icon` **Buffer** icon content as a buffer
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var fs = require('fs');
+var client = new MapboxClient('ACCESSTOKEN');
+client.addIcon('style-id', 'icon-name', fs.readFileSync('icon.png'), function(err) {
+  if (!err) console.log('added icon!');
+});
+```
+
+Returns **Promise** response
+
+# createStyle
+
+Create a style, given the style as a JSON object.
+
+**Parameters**
+
+-   `style` **Object** Mapbox GL Style Spec object
+-   `callback` **Function** called with (err, datasets)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+var style = {
+  'version': 8,
+  'name': 'My Awesome Style',
+  'metadata': {},
+  'sources': {},
+  'layers': [],
+  'glyphs': 'mapbox://fonts/{owner}/{fontstack}/{range}.pbf'
+};
+client.createStyle(style, function(err, createdStyle) {
+  console.log(createdStyle);
+});
+```
+
+Returns **Promise** response
+
+# deleteIcon
+
+Delete an icon from a sprite.
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `iconName` **string** icon's name
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.deleteIcon('style-id', 'icon-name', function(err) {
+  if (!err) console.log('deleted icon!');
+});
+```
+
+Returns **Promise** response
+
+# deleteStyle
+
+Deletes a particular style.
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.readStyle('style-id', function(err, response) {
+  if (!err) console.log(response);
+});
+```
+
+Returns **Promise** a promise with the response
+
+# embedStyle
+
+Embed a style.
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `options` **Object** optional params
+    -   `options.title` **[boolean]** If true, shows a title box in upper right
+        corner with map title and owner (optional, default `false`)
+    -   `options.zoomwheel` **[boolean]** Disables zooming with mouse scroll wheel (optional, default `true`)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+var url = client.embedStyle('style-id');
+```
+
+Returns **string** URL of style embed page
+
+# listStyles
+
+To retrieve a listing of styles for a particular account.
+
+**Parameters**
+
+-   `callback` **Function** called with (err, datasets)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.listStyles(function(err, styles) {
+  console.log(datasets);
+  // [{ version: 8,
+  //  name: 'Light',
+  //  center: [ -77.0469979435026, 38.898634927602814 ],
+  //  zoom: 12.511766533145998,
+  //  bearing: 0,
+  //  pitch: 0,
+  //  created: '2016-02-09T14:26:15.059Z',
+  //  id: 'STYLEID',
+  //  modified: '2016-02-09T14:28:31.253Z',
+  //  owner: '{username}' },
+  //  { version: 8,
+  //  name: 'Dark',
+  //  created: '2015-08-28T18:05:22.517Z',
+  //  id: 'STYILEID',
+  //  modified: '2015-08-28T18:05:22.517Z',
+  //  owner: '{username}' }]
+});
+```
+
+Returns **Promise** response
+
+# readFontGlyphRanges
+
+Get font glyph ranges
+
+**Parameters**
+
+-   `font` **string** or fonts
+-   `start` **number** character code of starting glyph
+-   `end` **number** character code of last glyph. typically the same
+    as start + 255
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.readFontGlyphRanges('Arial Unicode', 0, 255, function(err, ranges) {
+  if (!err) console.log(ranges);
+});
+```
+
+Returns **Promise** response
+
+# readSprite
+
+Read sprite
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `options` **[Object]** optional options
+    -   `options.retina` **boolean** whether the sprite JSON should be for a
+        retina sprite.
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.readSprite('style-id', {
+  retina: true
+}, function(err) {
+  if (!err) console.log('deleted!');
+});
+```
+
+Returns **Promise** response
+
+# readStyle
+
+Reads a particular style.
+
+**Parameters**
+
+-   `styleid` **string** the id for an existing style
+-   `callback` **Function** called with (err)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.deleteStyle('style-id', function(err) {
+  if (!err) console.log('deleted!');
+});
+```
+
+Returns **Promise** response
+
+# updateStyle
+
+Update a style, given the style as a JSON object.
+
+**Parameters**
+
+-   `style` **Object** Mapbox GL Style Spec object
+-   `styleid` **string** style id
+-   `callback` **Function** called with (err, datasets)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+var style = {
+  'version': 8,
+  'name': 'My Awesome Style',
+  'metadata': {},
+  'sources': {},
+  'layers': [],
+  'glyphs': 'mapbox://fonts/{owner}/{fontstack}/{range}.pbf'
+};
+client.updateStyle(style, 'style-id', function(err, createdStyle) {
+  console.log(createdStyle);
+});
+```
+
+Returns **Promise** response
+
 # createDataset
 
 To create a new dataset. Valid properties include title and description (not required).
@@ -536,6 +791,28 @@ mapboxClient.readUpload('hij456', function(err, upload) {
 
 Returns **Promise** response
 
+# encode
+
+Encodes the given [latitude, longitude] coordinates array.
+
+**Parameters**
+
+-   `coordinates` **Array&lt;Array&lt;Number&gt;&gt;** 
+-   `precision` **Number** 
+
+Returns **String** 
+
+# fromGeoJSON
+
+Encodes a GeoJSON LineString feature/geometry.
+
+**Parameters**
+
+-   `geojson` **Object** 
+-   `precision` **Number** 
+
+Returns **String** 
+
 # MapboxClient
 
 The JavaScript API to Mapbox services
@@ -762,6 +1039,36 @@ mapboxClient.getDistances([
 ```
 
 Returns **Promise** response
+
+## getStaticURL
+
+Determine a URL for a static map image, using the [Mapbox Static Map API](https://www.mapbox.com/developers/api/static/).
+
+**Parameters**
+
+-   `mapid` **string** a Mapbox map id in username.id form
+-   `options.path.style` **Array&lt;Object&gt;** optional style definitions for a path
+-   `height` **number** height of the image
+-   `position` **Object or string** either an object with longitude and latitude members, or the string 'auto'
+    -   `position.longitude` **number** east, west bearing
+    -   `position.latitude` **number** north, south bearing
+    -   `position.zoom` **number** zoom level
+-   `width` **number** width of the image
+-   `options.format` **[string]** image format. can be jpg70, jpg80, jpg90, png32, png64, png128, png256 (optional, default `png`)
+-   `options.retina` **[boolean]** whether to double image pixel density (optional, default `false`)
+-   `options.markers` **[Array&lt;Object&gt;]** an array of simple marker objects as an overlay (optional, default `[]`)
+-   `options.geojson` **[Object]** geojson data for the overlay (optional, default `{}`)
+-   `options.path` **[Object]** a path and (optional, default `{}`)
+    -   `options.path.geojson` **Array&lt;Object&gt;** data for the path as an array of longitude, latitude objects
+-   `options` **Object** all map options
+
+**Examples**
+
+```javascript
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+```
+
+Returns **string** static map url
 
 ## matching
 
