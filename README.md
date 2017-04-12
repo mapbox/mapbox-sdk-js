@@ -24,6 +24,8 @@ Generally Available
   * Retrieve, add, and edit datasets.
 * [Styles](https://www.mapbox.com/api-documentation/#styles)
   * Retrieve, add and edit styles, fonts and icons.
+* [Tokens](https://www.mapbox.com/api-documentation/#tokens)
+  * Retrieve, add and edit access tokens.
 
 Contact help@mapbox.com for information
 
@@ -99,5 +101,6 @@ Available sub-requires:
 * uploads: `require('mapbox/lib/services/uploads')`
 * tilestats: `require('mapbox/lib/services/tilestats')`
 * static: `require('mapbox/lib/services/static')`
+* tokens: `require('mapbox/lib/services/tokens')`
 
 ## [API](API.md)
