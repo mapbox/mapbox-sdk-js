@@ -1,0 +1,46 @@
+toc:
+  - MapboxClient
+  - name: Uploads
+  - listUploads
+  - createUploadCredentials
+  - createUpload
+  - readUpload
+  - deleteUpload
+  - name: Styles
+  - listStyles
+  - createStyle
+  - updateStyle
+  - deleteStyle
+  - readStyle
+  - readSprite
+  - readFontGlyphRanges
+  - addIcon
+  - deleteIcon
+  - embedStyle
+  - name: Static
+  - getStaticURL
+  - getStaticClassicURL
+  - name: Datasets
+  - listDatasets
+  - createDataset
+  - readDataset
+  - updateDataset
+  - deleteDataset
+  - listFeatures
+  - insertFeature
+  - readFeature
+  - deleteFeature
+  - name: Geocoding
+  - geocodeForward
+  - geocodeReverse
+  - name: Directions
+  - getDirections
+  - name: Distance
+  - getDistance
+  - name: Matching
+  - matching
+  - name: Tilestats
+  - getTilestats
+  - putTilestats
+  - name: Surface
+  - surface
