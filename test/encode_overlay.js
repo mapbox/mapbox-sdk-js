@@ -8,7 +8,7 @@ test('encodeGeoJSON', function(t) {
   t.equal(encodeOverlay.encodeGeoJSON({
     type: 'Point',
     coordinates: [0, 0]
-  }), 'geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B0%2C0%5D%7D)');
+  }), 'geojson({"type":"Point","coordinates":[0,0]})');
   t.end();
 });
 
