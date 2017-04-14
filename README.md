@@ -44,15 +44,41 @@ $ npm install --save mapbox
 
 ## Usage
 
-Basic usage of the geocoder:
+Setup:
 
 ```js
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('YOUR_ACCESS_TOKEN');
-client.geocodeForward('Chester, NJ', function(err, res) {
-  // res is the geocoding result as parsed JSON
+```
+
+Basic usage of the geocoder:
+
+```js
+client.geocodeForward('Chester, NJ', function(err, data, res) {
+  // data is the geocoding result as parsed JSON
+  // res is the http response, including: status, headers and entity properties
 });
 ```
+
+As an alternative to callbacks, each method also returns a Promise:
+
+```js
+client.geocodeForward('Chester, NJ')
+  .then(function(res) {
+    // res is the http response, including: status, headers and entity properties
+    var data = res.entity; // data is the geocoding result as parsed JSON
+  })
+  .catch(function(err) {
+    // handle errors
+  });
+```
+
+### pagination
+
+Listing resources may return a subset of the entire listing. If more pages are
+available the `res` object will contain a `.nextPage()` method. This method
+requires no arguments, other than an optional callback function, otherwise a
+Promise is returned. 
 
 ### sub-requiring individual services
 
