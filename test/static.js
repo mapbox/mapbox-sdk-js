@@ -47,7 +47,7 @@ test('MapboxStatic', function(t) {
   }, {
     retina: true,
     geojson: { type: 'Point', coordinates: [0, 0] }
-  })), 'https://api.mapbox.com/v4/foo/geojson(%257B%2522type%2522%253A%2522Point%2522%252C%2522coordinates%2522%253A%255B0%252C0%255D%257D)/1,2,3/10x10@2x.png', 'with geojson');
+  })), 'https://api.mapbox.com/v4/foo/geojson(%7B%22type%22:%22Point%22,%22coordinates%22:[0,0]%7D)/1,2,3/10x10@2x.png', 'with geojson');
 
   t.equal(removeToken(client.getStaticURL('foo', 10, 10, {
     longitude: 1, latitude: 2, zoom: 3
