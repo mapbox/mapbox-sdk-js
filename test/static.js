@@ -22,6 +22,14 @@ test('MapboxStatic', function(t) {
       longitude: 1, latitude: 2, zoom: 3, bearing: 90, pitch: 60
   })), 'https://api.mapbox.com/styles/v1/user/style/static/1,2,3,90,60/10x20', 'bearing and pitch option');
 
+  t.equal(removeToken(client.getStaticURL('user', 'style', 10, 20, {
+      longitude: 1, latitude: 2, zoom: 3, pitch: 60
+  })), 'https://api.mapbox.com/styles/v1/user/style/static/1,2,3,0,60/10x20', 'pitch option without bearing');
+
+  t.equal(removeToken(client.getStaticURL('user', 'style', 10, 20, {
+      longitude: 1, latitude: 2, zoom: 3, bearing: 90
+  })), 'https://api.mapbox.com/styles/v1/user/style/static/1,2,3,90/10x20', 'bearing option without pitch');
+
   t.equal(removeToken(client.getStaticURL('user', 'style', 10, 10, {
     longitude: 1, latitude: 2, zoom: 3
   }, {
