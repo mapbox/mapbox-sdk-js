@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.0.5",
+    "parse-link-header": "^0.4.1",
     "rest": "^2.0.0"
   }
 }
