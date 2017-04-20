@@ -24,6 +24,8 @@ Generally Available
   * Retrieve, add, and edit datasets.
 * [Styles](https://www.mapbox.com/api-documentation/#styles)
   * Retrieve, add and edit styles, fonts and icons.
+* [Tilesets](https://www.mapbox.com/api-documentation/#tilesets)
+  * List tilesets.
 * [Tokens](https://www.mapbox.com/api-documentation/#tokens)
   * Retrieve, add and edit access tokens.
 
@@ -80,7 +82,7 @@ client.geocodeForward('Chester, NJ')
 Listing resources may return a subset of the entire listing. If more pages are
 available the `res` object will contain a `.nextPage()` method. This method
 requires no arguments, other than an optional callback function, otherwise a
-Promise is returned. 
+Promise is returned.
 
 ### sub-requiring individual services
 
@@ -101,6 +103,7 @@ Available sub-requires:
 * uploads: `require('mapbox/lib/services/uploads')`
 * tilestats: `require('mapbox/lib/services/tilestats')`
 * static: `require('mapbox/lib/services/static')`
+* tilesets: `require('mapbox/lib/services/tilesets')`
 * tokens: `require('mapbox/lib/services/tokens')`
 
 ## [API](API.md)
