@@ -297,19 +297,9 @@ test('DatasetClient', function(datasetClient) {
       }, 'options must be a object');
       assert.throws(function() {
         client.listFeatures([], {
-          reverse: ''
-        }, function() {});
-      }, 'reverse option must be a boolean');
-      assert.throws(function() {
-        client.listFeatures([], {
           limit: ''
         }, function() {});
       }, 'limit option must be a number');
-      assert.throws(function() {
-        client.listFeatures([], {
-          start: true
-        }, function() {});
-      }, 'start option must be a string');
       assert.end();
     });
 
@@ -332,34 +322,6 @@ test('DatasetClient', function(datasetClient) {
       }, function(err, collection) {
         assert.ifError(err, 'success');
         assert.equal(collection.features.length, 1, 'returned one feature');
-        assert.end();
-      });
-    });
-
-    listFeatures.test('options.start', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      client.listFeatures(testDatasets[1], {
-        start: 'feature-1'
-      }, function(err, collection) {
-        assert.ifError(err, 'success');
-        assert.equal(collection.features.length, 1, 'returned one feature');
-        assert.end();
-      });
-    });
-
-    listFeatures.test('options.reverse', function(assert) {
-      var client = new MapboxClient(process.env.MapboxAccessToken);
-      assert.ok(client, 'created dataset client');
-      client.listFeatures(testDatasets[1], {
-        reverse: true
-      }, function(err, collection) {
-        assert.ifError(err, 'success');
-        var ids = collection.features.reduce(function(memo, feature) {
-          memo.push(feature.id);
-          return memo;
-        }, []);
-        assert.deepEqual(ids, ['feature-0', 'feature-1', 'feature-2'], 'features received in reverse order');
         assert.end();
       });
     });
