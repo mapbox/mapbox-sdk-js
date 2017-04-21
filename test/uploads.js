@@ -115,7 +115,7 @@ test('UploadClient', function(uploadClient) {
       assert.end();
     });
 
-    readUpload.test('valid request', { timeout: 50000 }, function(assert) {
+    readUpload.test('valid request', { timeout: 180000 }, function(assert) {
       assert.plan(2);
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
