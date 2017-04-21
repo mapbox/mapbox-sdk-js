@@ -105,7 +105,7 @@ test('UploadClient', function(uploadClient) {
     createUpload.end();
   });
 
-  uploadClient.test('#readUpload', { timeout: 50000 }, function(readUpload) {
+  uploadClient.test('#readUpload', { timeout: 200000 }, function(readUpload) {
     readUpload.test('typecheck', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created upload client');
