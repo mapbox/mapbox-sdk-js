@@ -6,11 +6,6 @@ var MapboxClient = require('../lib/services/datasets');
 
 test('PaginatorClient', function(paginatorClient) {
 
-  if (process.browser) {
-    paginatorClient.pass('skipping paginator in browser');
-    return paginatorClient.end();
-  }
-
   var testItems = [];
 
   paginatorClient.test('setup datasets', function(setup) {
