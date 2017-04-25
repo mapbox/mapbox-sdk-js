@@ -9,76 +9,70 @@ var MapboxClient = require('../lib/services/tokens');
  */
 test('TokenClient', function(tokenClient) {
 
-  if (process.browser) {
-    tokenClient.pass('skipping token api in browser');
-    return tokenClient.end();
-  }
+  var newTokenId;
 
+  tokenClient.test('#createToken', function(createToken) {
 
-  tokenClient.test('#listTokens', function(listTokens) {
-
-    listTokens.test('simple list', function(assert) {
+    createToken.test('valid scopes', function(assert) {
       var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created token client');
-      client.listTokens(function(err, tokens) {
+      var newTokenNote = 'mapbox-sdk-js createToken test';
+      var newTokenScopes = ['fonts:read'];
+      client.createToken(newTokenNote, newTokenScopes, function(err, token) {
         assert.ifError(err, 'success');
-        assert.ok(Array.isArray(tokens), 'lists tokens');
-        tokens.forEach(function(token) {
-          assert.ok(token.id, 'Each token has an id');
-        });
+        assert.equal(token.note, newTokenNote, 'note set');
+        assert.deepEqual(token.scopes, newTokenScopes, 'scopes set');
+        newTokenId = token.id;
         assert.end();
       });
     });
 
-    listTokens.end();
-  });
-
-  var newTokenId = '';
-  var newTokenToken = '';
-
-  tokenClient.test('#createToken', function(assert) {
-    var client = new MapboxClient(process.env.MapboxAccessToken);
-    assert.ok(client, 'created token client');
-    var newTokenNote = 'mapbox-sdk-js createToken test';
-    var newTokenScopes = ['fonts:read'];
-    client.createToken(newTokenNote, newTokenScopes, function(err, token) {
-      assert.ifError(err, 'success');
-      assert.equal(token.note, newTokenNote, 'note set');
-      assert.deepEqual(token.scopes, newTokenScopes, 'scopes set');
-      newTokenId = token.id;
-      newTokenToken = token.token;
-      assert.end();
-    });
-  });
-
-  // unfortunate workaround for cross-region replication
-  tokenClient.test('#retrieveToken', function(assert) {
-    setTimeout(function() {
-      var client = new MapboxClient(newTokenToken);
+    createToken.test('invalid scopes', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
       assert.ok(client, 'created token client');
-      client.retrieveToken(function(err, tokenStatus) {
+      var newTokenNote = 'mapbox-sdk-js createToken test';
+      var newTokenScopes = ['not:a:valid:scope'];
+      client.createToken(newTokenNote, newTokenScopes, function(err) {
+        assert.ok(err, 'error');
+        assert.equal(err.message, 'scopes are invalid', 'error message');
+        assert.end();
+      });
+    });
+
+    createToken.end();
+  });
+
+  tokenClient.test('#retrieveToken', function(retrieveToken) {
+
+    retrieveToken.test('valid token', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created token client');
+      client.retrieveToken(process.env.MapboxAccessToken, function(err, tokenStatus) {
         assert.ifError(err, 'success');
         assert.equal(tokenStatus.code, 'TokenValid');
         assert.end();
       });
-    }, 1000);
+    });
+
+    retrieveToken.test('invalid token', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created token client');
+      client.retrieveToken('pk.abc.123', function(err, tokenStatus) {
+        assert.ifError(err, 'success');
+        assert.equal(tokenStatus.code, 'TokenInvalid');
+        assert.end();
+      });
+    });
+
+    retrieveToken.end();
   });
 
   tokenClient.test('#listScopes', function(assert) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     assert.ok(client, 'created token client');
-    client.listScopes(process.env.MapboxAccessToken, function(err, scopes) {
+    client.listScopes(function(err, scopes) {
       assert.ifError(err, 'scopes could not be listed');
       assert.equal(scopes.filter(function (scope) { return scope.id === 'scopes:list'; }).length, 1, 'listing all scopes should include the scopes:list scope');
-      assert.end();
-    });
-  });
-
-  tokenClient.test('#deleteTokenAuthorization', function(assert) {
-    var client = new MapboxClient(process.env.MapboxAccessToken);
-    assert.ok(client, 'created token client');
-    client.deleteTokenAuthorization(newTokenId, function(err) {
-      assert.ifError(err, 'token authorization could not be deleted');
       assert.end();
     });
   });
@@ -90,6 +84,28 @@ test('TokenClient', function(tokenClient) {
     client.createTemporaryToken(expires, ['styles:read'], function(err, token) {
       assert.ifError(err, 'success');
       assert.ok(token.token, 'token exists');
+      assert.end();
+    });
+  });
+
+  tokenClient.test('#listTokens', function(assert) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    assert.ok(client, 'created token client');
+    client.listTokens(function(err, tokens) {
+      assert.ifError(err, 'success');
+      assert.ok(Array.isArray(tokens), 'lists tokens');
+      tokens.forEach(function(token) {
+        assert.ok(token.id, 'Each token has an id');
+      });
+      assert.end();
+    });
+  });
+
+  tokenClient.test('#deleteTokenAuthorization', function(assert) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    assert.ok(client, 'created token client');
+    client.deleteTokenAuthorization(newTokenId, function(err) {
+      assert.ifError(err, 'token authorization could not be deleted');
       assert.end();
     });
   });

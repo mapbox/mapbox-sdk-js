@@ -16,7 +16,7 @@ var newStyleFixture = {
 };
 
 function removeToken(url) {
-  return url.replace(/(\?|&)access_token.*$/, '');
+  return url.replace(/[pst]k\.[^&]+/, '<snip>');
 }
 
 test('StyleClient', function(styleClient) {
@@ -128,10 +128,10 @@ test('StyleClient', function(styleClient) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     assert.ok(client, 'created style client');
     assert.equal(removeToken(client.embedStyle('f00')),
-      'https://api.mapbox.com/styles/v1/' + client.owner + '/f00.html?zoomwheel=true&title=false');
+      'https://api.mapbox.com/styles/v1/' + client.owner + '/f00.html?access_token=<snip>&zoomwheel=true&title=false');
     assert.equal(removeToken(client.embedStyle('f00', {
       zoomwheel: false, title: true
-    })), 'https://api.mapbox.com/styles/v1/' + client.owner + '/f00.html?zoomwheel=false&title=true');
+    })), 'https://api.mapbox.com/styles/v1/' + client.owner + '/f00.html?access_token=<snip>&zoomwheel=false&title=true');
     assert.end();
   });
 
