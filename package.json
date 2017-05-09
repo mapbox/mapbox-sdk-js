@@ -35,6 +35,10 @@
     "sdk"
   ],
   "author": "Tom MacWright",
+  "contributors": [
+    { "name" : "Andrew Harvey", "email": "andrew@alantgeo.com.au" },
+    { "name": "Scott Andrews", "email": "scott@mapbox.com" }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mapbox/mapbox-sdk-js/issues"
