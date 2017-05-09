@@ -21,12 +21,6 @@ function removeToken(url) {
 
 test('StyleClient', function(styleClient) {
 
-  if (process.browser) {
-    styleClient.pass('skipping style api in browser');
-    return styleClient.end();
-  }
-
-
   /*
   styleClient.test('cleanup old test styles', function(assert) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
@@ -59,6 +53,18 @@ test('StyleClient', function(styleClient) {
         styles.forEach(function(style) {
           assert.ok(style.id, 'Each style has an id');
         });
+        assert.end();
+      });
+    });
+
+    // NOTE test may fail on the first run in a clean account
+    listStyles.test('paginated list', function(assert) {
+      var client = new MapboxClient(process.env.MapboxAccessToken);
+      assert.ok(client, 'created style client');
+      client.listStyles({ limit: 1 }, function(err, styles, response) {
+        assert.ifError(err, 'success');
+        assert.equal(typeof response.nextPage, 'function', 'has another page');
+        assert.equal(styles.length, 1);
         assert.end();
       });
     });
