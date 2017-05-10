@@ -1,4 +1,19 @@
+## 1.0.0-beta7
+
+- **Deprecation** Renamed .getStaticURL() method to .getStaticClassicURL() [#152](https://github.com/mapbox/mapbox-sdk-js/pull/152)
+- **Feature** Add Styles Static API [#152](https://github.com/mapbox/mapbox-sdk-js/pull/152)
+- **Feature** Add Tilesets API [#165](https://github.com/mapbox/mapbox-sdk-js/pull/165)
+- **Feature** Add Tokens API [#155](https://github.com/mapbox/mapbox-sdk-js/pull/155)
+- **Feature** Add response.nextPage() method for pagination of list resources [#159](https://github.com/mapbox/mapbox-sdk-js/pull/159)
+- **Bug** Avoid double URL encoding of geojson static overlays [#156](https://github.com/mapbox/mapbox-sdk-js/pull/156)
+- **Update** Remove start and reverse opts for datasets listings
+- **Update** Clarify account/profile property for Directions API [#150](https://github.com/mapbox/mapbox-sdk-js/pull/150)
+- **Update** Miscellaneous documentation polish
+
+Special thanks to @andrewharvey for significant contributions to this release
+
 ## 1.0.0-beta6
+
 - **Bug** Add `autocomplete` param to geocoding endpoint. [#126](https://github.com/mapbox/mapbox-sdk-js/pull/126)
 - **Bug** Install Promise polyfill only when needed. [#122](https://github.com/mapbox/mapbox-sdk-js/pull/122)
 - **Update** Update Map Matching to `v5`. [#128](https://github.com/mapbox/mapbox-sdk-js/pull/128)
