@@ -31,14 +31,12 @@ Generally Available
 
 Contact help@mapbox.com for information
 
-* [Distance](https://www.mapbox.com/developers/api/distance/)
+* [Matrix](https://www.mapbox.com/api-documentation/#matrix)
   * Travel-time tables between up to 100 points
   * Profiles for driving, walking and cycling
-* [Map Matching](https://www.mapbox.com/developers/api/map-matching/)
+* [Map Matching](https://www.mapbox.com/api-documentation/#map-matching)
   * Aligns GPS trace data to roads and paths from
     [OpenStreetMap](https://www.openstreetmap.org/) data
-* [Surface API](https://www.mapbox.com/developers/api/surface/)
-  * Interpolates values along lines. Useful for elevation traces.
 
 ## Installation
 
