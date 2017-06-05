@@ -897,7 +897,7 @@ Returns **Promise** response
 ## getDirections
 
 Find directions from A to B, or between any number of locations.
-Consult the [Mapbox Directions API](https://www.mapbox.com/developers/api/directions/)
+Consult the [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions)
 for more documentation.
 
 **Parameters**
@@ -975,7 +975,7 @@ mapboxClient.getDirections([
   alternatives: false,
   geometry: 'polyline'
 }, function(err, results) {
-  console.log(results.origin);
+  console.log(results);
 });
 ```
 
@@ -984,7 +984,7 @@ Returns **Promise** response
 ## getDistances
 
 Compute a table of travel-time estimates between a set of waypoints.
-Consult the [Mapbox Distance API](https://www.mapbox.com/developers/api/distance/)
+Consult the [Mapbox Matrix API](https://www.mapbox.com/api-documentation/#matrix)
 for more documentation.
 
 **Parameters**
