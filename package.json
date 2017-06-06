@@ -59,7 +59,7 @@
     "tap": "^8.0.1",
     "tap-status": "^1.0.1",
     "tape": "^4.2.0",
-    "uglifyjs": "^2.4.10"
+    "uglify-js": "^2.4.10"
   },
   "dependencies": {
     "es6-promise": "^4.0.5",
