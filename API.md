@@ -975,7 +975,7 @@ mapboxClient.getDirections([
   alternatives: false,
   geometry: 'polyline'
 }, function(err, results) {
-  console.log(results.origin);
+  console.log(results);
 });
 ```
 
