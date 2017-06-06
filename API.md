@@ -29,7 +29,7 @@ Create a style, given the style as a JSON object.
 **Parameters**
 
 -   `style` **Object** Mapbox GL Style Spec object
--   `callback` **Function** called with (err, datasets)
+-   `callback` **Function** called with (err, createdStyle)
 
 **Examples**
 
@@ -87,8 +87,8 @@ Deletes a particular style.
 ```javascript
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('ACCESSTOKEN');
-client.readStyle('style-id', function(err, response) {
-  if (!err) console.log(response);
+client.deleteStyle('style-id', function(err) {
+  if (!err) console.log('deleted!');
 });
 ```
 
@@ -122,7 +122,7 @@ To retrieve a listing of styles for a particular account.
 
 **Parameters**
 
--   `callback` **Function** called with (err, datasets)
+-   `callback` **Function** called with (err, styles)
 
 **Examples**
 
@@ -130,7 +130,7 @@ To retrieve a listing of styles for a particular account.
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('ACCESSTOKEN');
 client.listStyles(function(err, styles) {
-  console.log(datasets);
+  console.log(styles);
   // [{ version: 8,
   //  name: 'Light',
   //  center: [ -77.0469979435026, 38.898634927602814 ],
@@ -209,15 +209,15 @@ Reads a particular style.
 **Parameters**
 
 -   `styleid` **string** the id for an existing style
--   `callback` **Function** called with (err)
+-   `callback` **Function** called with (err, style)
 
 **Examples**
 
 ```javascript
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('ACCESSTOKEN');
-client.deleteStyle('style-id', function(err) {
-  if (!err) console.log('deleted!');
+client.readStyle('style-id', function(err, style) {
+  if (!err) console.log(style);
 });
 ```
 
@@ -231,7 +231,7 @@ Update a style, given the style as a JSON object.
 
 -   `style` **Object** Mapbox GL Style Spec object
 -   `styleid` **string** style id
--   `callback` **Function** called with (err, datasets)
+-   `callback` **Function** called with (err, createdStyle)
 
 **Examples**
 
@@ -423,7 +423,6 @@ This request requires an access token with the datasets:read scope.
 **Parameters**
 
 -   `opts` **[Object]** list options (optional, default `{}`)
-    -   `opts.start` **string** start location, for paging
     -   `opts.limit` **number** limit, for paging
     -   `opts.fresh` **boolean** whether to request fresh data
 -   `callback` **Function** called with (err, datasets)
@@ -467,9 +466,7 @@ This request requires an access token with the datasets:read scope.
 
 -   `dataset` **string** the id for an existing dataset
 -   `options` **[object]** an object for passing pagination arguments
-    -   `options.reverse` **[boolean]** Set to `true` to reverse the default sort order of the listing.
     -   `options.limit` **[number]** The maximum number of objects to return. This value must be between 1 and 100. The API will attempt to return the requested number of objects, but receiving fewer objects does not necessarily signal the end of the collection. Receiving an empty page of results is the only way to determine when you are at the end of a collection.
-    -   `options.start` **[string]** The object id that acts as the cursor for pagination and defines your location in the collection. This argument is exclusive so the object associated with the id provided to the start argument will not be included in the response.
 -   `callback` **Function** called with (err, collection)
 
 **Examples**
@@ -594,6 +591,162 @@ client.updateDataset('dataset-id', options, function(err, dataset) {
   //   "created": {timestamp},
   //   "modified": {timestamp}
   // }
+});
+```
+
+Returns **Promise** response
+
+# createTemporaryToken
+
+Create a temporary token
+
+**Parameters**
+
+-   `expires` **string** Time token expires in RFC 3339
+-   `scopes` **Array** List of scopes for the new token
+-   `callback` **[Function]** called with (err, token, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.createToken('2016-09-15T19:27:53.000Z', ["styles:read", "fonts:read"], function(err, createdToken) {
+  console.log(createdToken);
+});
+```
+
+Returns **Promise** response
+
+# createToken
+
+Create a token
+
+**Parameters**
+
+-   `note` **string** Note attached to the token
+-   `scopes` **Array** List of scopes for the new token
+-   `callback` **[Function]** called with (err, token, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.createToken('My top secret project', ["styles:read", "fonts:read"], function(err, createdToken) {
+  console.log(createdToken);
+});
+```
+
+Returns **Promise** response
+
+# deleteTokenAuthorization
+
+Delete a token's authorization
+
+**Parameters**
+
+-   `authorization_id` **string** Authorization ID
+-   `callback` **[Function]** called with (err, token, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.deleteTokenAuthorization('auth id', function(err) {
+});
+```
+
+Returns **Promise** response
+
+# listScopes
+
+List scopes
+
+**Parameters**
+
+-   `callback` **[Function]** called with (err, scopes, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.listScopes(function(err, scopes) {
+  console.log(scopes);
+});
+```
+
+Returns **Promise** response
+
+# listTokens
+
+To retrieve a listing of tokens for a particular account.
+
+**Parameters**
+
+-   `callback` **[Function]** called with (err, tokens, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.listTokens(function(err, tokens) {
+  console.log(tokens);
+  // [{ client: 'api'
+  //  note: 'Default Public Token',
+  //  usage: 'pk',
+  //  id: 'TOKENID',
+  //  default: true,
+  //  scopes: ['styles:tiles','styles:read','fonts:read','datasets:read'],
+  //  created: '2016-02-09T14:26:15.059Z',
+  //  modified: '2016-02-09T14:28:31.253Z',
+  //  token: 'pk.TOKEN' }]
+});
+```
+
+Returns **Promise** response
+
+# retrieveToken
+
+Retrieve a token
+
+**Parameters**
+
+-   `access_token` **string** access token to check
+-   `callback` **[Function]** called with (err, token, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.retrieveToken('ACCESSTOKEN', function(err, tokenResponse) {
+  console.log(tokenResponse);
+});
+```
+
+Returns **Promise** response
+
+# updateTokenAuthorization
+
+Update a token's authorization
+
+**Parameters**
+
+-   `authorization_id` **string** Authorization ID
+-   `scopes` **Array** List of scopes for the new token
+-   `callback` **[Function]** called with (err, token, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.updateTokenAuthorization('auth id', ["styles:read", "fonts:read"], function(err, updatedToken) {
+  console.log(updatedToken);
 });
 ```
 
@@ -909,11 +1062,14 @@ for more documentation.
     the request (optional, default `{}`)
     -   `options.profile` **[string]** the directions
         profile, which determines how to prioritize different routes.
-        Options are `'mapbox.driving'`, which assumes transportation via an
-        automobile and will use highways, `'mapbox.walking'`, which avoids
-        streets without sidewalks, and `'mapbox.cycling'`, which prefers streets
+        Options are `'driving-traffic'` for automotive routing which factors
+        in current and historic traffic conditions to avoid slowdowns,
+        `'driving'`, which assumes transportation via an
+        automobile and will use highways, `'walking'`, which avoids
+        streets without sidewalks, and `'cycling'`, which prefers streets
         with bicycle lanes and lower speed limits for transportation via
         bicycle. (optional, default `driving`)
+    -   `options.account` **[string]** Account for the profile. (optional, default `mapbox`)
     -   `options.alternatives` **[string]** whether to generate
         alternative routes along with the preferred route. (optional, default `true`)
     -   `options.geometries` **[string]** format for the returned
@@ -971,7 +1127,7 @@ mapboxClient.getDirections([
   { latitude: 33.6875431, longitude: -95.4431142 },
   { latitude: 33.6875431, longitude: -95.4831142 }
 ], {
-  profile: 'mapbox.walking',
+  profile: 'walking',
   alternatives: false,
   geometry: 'polyline'
 }, function(err, results) {
@@ -984,7 +1140,7 @@ Returns **Promise** response
 ## getDistances
 
 Compute a table of travel-time estimates between a set of waypoints.
-Consult the [Mapbox Matrix API](https://www.mapbox.com/api-documentation/#matrix)
+Consult the [Mapbox Distance API](https://www.mapbox.com/developers/api/distance/)
 for more documentation.
 
 **Parameters**
@@ -1040,9 +1196,9 @@ mapboxClient.getDistances([
 
 Returns **Promise** response
 
-## getStaticURL
+## getStaticClassicURL
 
-Determine a URL for a static map image, using the [Mapbox Static Map API](https://www.mapbox.com/developers/api/static/).
+Determine a URL for a static classic map image, using the [Mapbox Static (Classic) Map API](https://www.mapbox.com/api-documentation/pages/static_classic.html).
 
 **Parameters**
 
@@ -1066,6 +1222,50 @@ Determine a URL for a static map image, using the [Mapbox Static Map API](https:
 
 ```javascript
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
+```
+
+Returns **string** static classic map url
+
+## getStaticURL
+
+Determine a URL for a static map image, using the [Mapbox Static Map API](https://www.mapbox.com/api-documentation/#static).
+
+**Parameters**
+
+-   `username` **string** Mapbox username
+-   `options.before_layer` **string** value for controlling where the overlay is inserted in the style
+-   `width` **number** width of the image
+-   `height` **number** height of the image
+-   `position` **Object or string** either an object with longitude and latitude members, or the string 'auto'
+    -   `position.longitude` **number** east, west bearing
+    -   `position.latitude` **number** north, south bearing
+    -   `position.zoom` **number** map zoom level
+    -   `position.bearing` **number** map bearing in degrees between 0 and 360
+    -   `position.pitch` **number** map pitch in degrees between 0 (straight down, no pitch) and 60 (maximum pitch)
+-   `styleid` **string** Mapbox Style ID
+-   `options.retina` **[boolean]** whether to double image pixel density (optional, default `false`)
+-   `options.markers` **[Array&lt;Object&gt;]** an array of simple marker objects as an overlay (optional, default `[]`)
+-   `options.geojson` **[Object]** geojson data for the overlay (optional, default `{}`)
+-   `options.path` **[Object]** a path and (optional, default `{}`)
+    -   `options.path.geojson` **Array&lt;Object&gt;** data for the path as an array of longitude, latitude objects
+    -   `options.path.style` **Array&lt;Object&gt;** optional style definitions for a path
+-   `options.attribution` **boolean** controlling whether there is attribution on the image; defaults to true
+-   `options.logo` **boolean** controlling whether there is a Mapbox logo on the image; defaults to true
+-   `options` **Object** all map options
+
+**Examples**
+
+```javascript
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
+var url = mapboxClient.getStaticURL('mapbox', 'streets-v10', 600, 400, {
+  longitude: 151.22,
+  latitude: -33.87,
+  zoom: 11
+}, {
+  markers: [{ longitude: 151.22, latitude: -33.87 }],
+  before_layer: 'housenum-label'
+});
+// url = https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-l-circle(151.22,-33.87)/151.22,-33.87,11/600x400?access_token=ACCESS_TOKEN&before_layer=housenum-label
 ```
 
 Returns **string** static map url
@@ -1186,7 +1386,7 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/api-documenta
 -   `options` **[Object]** additional options meant to tune
     the request. (optional, default `{}`)
     -   `options.types` **string** a comma seperated list of types that filter
-        results to match those specified. See 
+        results to match those specified. See
         <https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location>
         for available types.
     -   `options.limit` **[number]** is the maximum number of results to return, between 1 and 5
@@ -1280,6 +1480,53 @@ client.getTilestats('tileset-id', function(err, stats) {
   //   "account": {account}
   //   ... see stats example above (for Tilestats#getTilestats)
   // }
+});
+```
+
+Returns **Promise** response
+
+# listTilesets
+
+Retrieve all tilesets
+
+**Parameters**
+
+-   `options` **[Object]** optional options
+    -   `options.limit` **Number** Maximum Number of tilesets to return
+-   `callback` **[Function]** called with (err, tilesets, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.listTilesets(function(err, tilesets) {
+  console.log(tilesets);
+});
+```
+
+Returns **Promise** response
+
+# tilequery
+
+Retrieve data about specific vector features at a specified location within a vector tileset
+
+**Parameters**
+
+-   `mapid` **String** Map ID of the tileset to query (eg. mapbox.mapbox-streets-v7)
+-   `position` **Array** An array in the form [longitude, latitude] of the position to query
+-   `options` **[Object]** optional options
+    -   `options.radius` **Number** Approximate distance in meters to query for features
+    -   `options.limit` **Number** Number of features between 1-50 to return
+-   `callback` **[Function]** called with (err, results, response)
+
+**Examples**
+
+```javascript
+var MapboxClient = require('mapbox');
+var client = new MapboxClient('ACCESSTOKEN');
+client.tilequery('mapbox.mapbox-streets-v7', [-77, 38], {}, function(err, response) {
+  console.log(response);
 });
 ```
 
