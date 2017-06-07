@@ -32,7 +32,7 @@ Generally Available
 Contact help@mapbox.com for information
 
 * [Matrix](https://www.mapbox.com/api-documentation/#matrix)
-  * Travel-time tables between up to 100 points
+  * Travel-time tables between coordinates up to 25 pairs
   * Profiles for driving, walking and cycling
 * [Map Matching](https://www.mapbox.com/api-documentation/#map-matching)
   * Aligns GPS trace data to roads and paths from
