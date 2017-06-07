@@ -28,9 +28,6 @@ Generally Available
   * List tilesets.
 * [Tokens](https://www.mapbox.com/api-documentation/#tokens)
   * Retrieve, add and edit access tokens.
-
-Contact help@mapbox.com for information
-
 * [Matrix](https://www.mapbox.com/api-documentation/#matrix)
   * Travel-time tables between coordinates up to 25 pairs
   * Profiles for driving, walking and cycling
