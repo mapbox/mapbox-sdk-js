@@ -1,3 +1,8 @@
+## 1.0.0-beta8
+
+- **Deprecation** Distance API has been deprecated and is now referred to the Matrix API. This renames .getDistance() method to .getMatrix(). [#177](https://github.com/mapbox/mapbox-sdk-js/pull/177)
+
+
 ## 1.0.0-beta7
 
 - **Deprecation** Renamed .getStaticURL() method to .getStaticClassicURL() [#152](https://github.com/mapbox/mapbox-sdk-js/pull/152)
