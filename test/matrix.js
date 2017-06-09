@@ -49,7 +49,6 @@ test('MapboxClient#getMatrix', function(t) {
     ], {
       profile: 'walking'
     }, function(err, results) {
-      console.log(err);
       t.ifError(err);
       t.ok(Array.isArray(results.durations), 'returns an array');
       t.equal(results.durations.length, 3, 'array has correct dimension');
