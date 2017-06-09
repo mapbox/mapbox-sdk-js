@@ -1141,13 +1141,12 @@ Returns **Promise** response
 
 Compute a table of travel-time estimates between a set of waypoints.
 Consult the [Mapbox Matrix API](https://www.mapbox.com/api-documentation/#matrix)
-for more documentation.
+for more documentation and limits.
 
 **Parameters**
 
--   `waypoints` **Object&lt;Object&lt;number&gt;&gt;** an array of coordinate object pairs
-    in [longitude, latitude] order. Up to
-    25 waypoints can be specified.
+-   `waypoints` **Object** an array of coordinate object pairs
+    in [longitude, latitude] order.
 -   `options` **[Object]** additional options meant to tune
     the request (optional, default `{}`)
     -   `options.profile` **[string]** the directions
@@ -1156,14 +1155,14 @@ for more documentation.
         automobile and will use highways, `'walking'`, which avoids
         streets without sidewalks, and `'cycling'`, which prefers streets
         with bicycle lanes and lower speed limits for transportation via
-        bicycle. The `'mapbox/driving-traffic'` profile is not supported. (optional, default `driving`)
+        bicycle. The `'driving-traffic'` profile is not supported. (optional, default `driving`)
 -   `callback` **Function** called with (err, results)
 
 **Examples**
 
 ```javascript
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
-// With options
+// Without options
 mapboxClient.getMatrix([{ 
   longitude: -122.42,
   latitude: 37.78
@@ -1176,6 +1175,23 @@ mapboxClient.getMatrix([{
   longitude: -122.48,
   latitude: 37.73
 }], {
+}, function(err, results) {
+  console.log(results);
+});
+
+// With options
+mapboxClient.getMatrix([{ 
+  longitude: -122.42,
+  latitude: 37.78
+},
+{ 
+  longitude: -122.45,
+  latitude: 37.91
+},
+{ 
+  longitude: -122.48,
+  latitude: 37.73
+}], { profile: 'walking' }, {
 }, function(err, results) {
   console.log(results);
 });
