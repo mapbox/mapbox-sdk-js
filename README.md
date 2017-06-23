@@ -92,7 +92,7 @@ Available sub-requires:
 * surface: `require('mapbox/lib/services/surface')`
 * matching: `require('mapbox/lib/services/matching')`
 * directions: `require('mapbox/lib/services/directions')`
-* distance: `require('mapbox/lib/services/distance')`
+* matrix: `require('mapbox/lib/services/matrix')`
 * datasets: `require('mapbox/lib/services/datasets')`
 * styles: `require('mapbox/lib/services/styles')`
 * uploads: `require('mapbox/lib/services/uploads')`
