@@ -120,6 +120,25 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.language', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.language, 'en', 'language option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      language: 'en'
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('options.dataset', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
@@ -299,6 +318,26 @@ test('MapboxClient#geocodeReverse', function(t) {
     client.geocodeReverse.apply(tester, [
     { latitude: 33.6875431, longitude: -95.4431142 },
     { types: 'country,region' },
+    function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
+  t.test('options.language', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.language, 'en', 'language option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeReverse.apply(tester, [
+    { latitude: 33.6875431, longitude: -95.4431142 },
+    { language: 'en' },
     function(err) {
       t.ifError(err);
       t.end();
