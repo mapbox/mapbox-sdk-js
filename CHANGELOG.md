@@ -1,3 +1,7 @@
+## 1.0.0-beta9 
+
+- **Feature** Add language parameter to geocoding API. [#174](https://github.com/mapbox/mapbox-sdk-js/issues/174)
+
 ## 1.0.0-beta8
 
 - **Deprecation** Distance API has been deprecated and is now referred to the Matrix API. This renames .getDistance() method to .getMatrix(). [#177](https://github.com/mapbox/mapbox-sdk-js/pull/177)
@@ -10,7 +14,6 @@
 - **Feature** Add Tilesets API [#165](https://github.com/mapbox/mapbox-sdk-js/pull/165)
 - **Feature** Add Tokens API [#155](https://github.com/mapbox/mapbox-sdk-js/pull/155)
 - **Feature** Add response.nextPage() method for pagination of list resources [#159](https://github.com/mapbox/mapbox-sdk-js/pull/159)
-- **Feature** Add language parameter to geocoding API. [#174](https://github.com/mapbox/mapbox-sdk-js/issues/174)
 - **Bug** Avoid double URL encoding of geojson static overlays [#156](https://github.com/mapbox/mapbox-sdk-js/pull/156)
 - **Update** Remove start and reverse opts for datasets listings
 - **Update** Clarify account/profile property for Directions API [#150](https://github.com/mapbox/mapbox-sdk-js/pull/150)
