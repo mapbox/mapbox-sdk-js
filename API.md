@@ -1008,9 +1008,7 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
     -   `options.bbox` **Array** a bounding box argument: this is
         a bounding box given as an array in the format [minX, minY, maxX, maxY].
         Search results will be limited to the bounding box.
-    -   `options.types` **string** a comma seperated list of types that filter
-        results to match those specified. See <https://www.mapbox.com/developers/api/geocoding/#filter-type>
-        for available types.
+    -   `options.language` **string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, separated by commas.
     -   `options.limit` **[number]** is the maximum number of results to return, between 1 and 10 inclusive.
         Some very specific queries may return fewer results than the limit. (optional, default `5`)
     -   `options.country` **string** a comma separated list of country codes to
@@ -1022,6 +1020,9 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
         permit permanent caching. (optional, default `mapbox.places`)
+    -   `options.types` **string** a comma seperated list of types that filter
+        results to match those specified. See <https://www.mapbox.com/developers/api/geocoding/#filter-type>
+        for available types.
 -   `callback` **Function** called with (err, results)
 
 **Examples**
@@ -1145,8 +1146,8 @@ for more documentation and limits.
 
 **Parameters**
 
--   `waypoints` **Object** an array of coordinate object pairs
-    in [longitude, latitude] order.
+-   `waypoints` **Array&lt;Object&gt;** an array of coordinate objects
+    in the form `{longitude: 0, latitude: 0}`.
 -   `options` **[Object]** additional options meant to tune
     the request (optional, default `{}`)
     -   `options.profile` **[string]** the directions
@@ -1163,15 +1164,15 @@ for more documentation and limits.
 ```javascript
 var mapboxClient = new MapboxClient('ACCESSTOKEN');
 // Without options
-mapboxClient.getMatrix([{ 
+mapboxClient.getMatrix([{
   longitude: -122.42,
   latitude: 37.78
 },
-{ 
+{
   longitude: -122.45,
   latitude: 37.91
 },
-{ 
+{
   longitude: -122.48,
   latitude: 37.73
 }], {
@@ -1180,15 +1181,15 @@ mapboxClient.getMatrix([{
 });
 
 // With options
-mapboxClient.getMatrix([{ 
+mapboxClient.getMatrix([{
   longitude: -122.42,
   latitude: 37.78
 },
-{ 
+{
   longitude: -122.45,
   latitude: 37.91
 },
-{ 
+{
   longitude: -122.48,
   latitude: 37.73
 }], { profile: 'walking' }, {
@@ -1405,6 +1406,7 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/api-documenta
     -   `location.longitude` **number** decimal degrees longitude, in range -180 to 180
 -   `options` **[Object]** additional options meant to tune
     the request. (optional, default `{}`)
+    -   `options.language` **string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, separated by commas.
     -   `options.types` **string** a comma seperated list of types that filter
         results to match those specified. See
         <https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location>
