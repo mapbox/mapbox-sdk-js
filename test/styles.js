@@ -158,7 +158,8 @@ test('StyleClient', function(styleClient) {
           height: 12,
           x: 0,
           y: 0,
-          pixelRatio: 1
+          pixelRatio: 1,
+          visible: true
         }
       }, 'sprite is reflected in the response');
       assert.ifError(err, 'icon has been added');
