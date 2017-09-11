@@ -611,7 +611,7 @@ Create a temporary token
 ```javascript
 var MapboxClient = require('mapbox');
 var client = new MapboxClient('ACCESSTOKEN');
-client.createToken('2016-09-15T19:27:53.000Z', ["styles:read", "fonts:read"], function(err, createdToken) {
+client.createTemporaryToken('2016-09-15T19:27:53.000Z', ["styles:read", "fonts:read"], function(err, createdToken) {
   console.log(createdToken);
 });
 ```
