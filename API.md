@@ -1433,7 +1433,7 @@ mapboxClient.geocodeReverse(
 ```javascript
 var mapboxClient = new MapboxGeocoding('ACCESSTOKEN');
 mapboxClient.geocodeReverse(
-  { latitude: 33.6875431, longitude: -95.4431142, options: { types: address, limit: 3 } },
+  { latitude: 33.6875431, longitude: -95.4431142, options: { types: 'address', limit: 3 } },
   function(err, res) {
   // res is a GeoJSON document with up to 3 geocoding matches
 });
