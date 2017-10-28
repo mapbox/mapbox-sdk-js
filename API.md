@@ -1422,7 +1422,7 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/api-documenta
 **Examples**
 
 ```javascript
-var mapboxClient = new MapboxGeocoding('ACCESSTOKEN');
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
 mapboxClient.geocodeReverse(
   { latitude: 33.6875431, longitude: -95.4431142 },
   function(err, res) {
@@ -1431,7 +1431,7 @@ mapboxClient.geocodeReverse(
 ```
 
 ```javascript
-var mapboxClient = new MapboxGeocoding('ACCESSTOKEN');
+var mapboxClient = new MapboxClient('ACCESSTOKEN');
 mapboxClient.geocodeReverse(
   { latitude: 33.6875431, longitude: -95.4431142, options: { types: address, limit: 3 } },
   function(err, res) {
