@@ -41,6 +41,15 @@ Generally Available
 $ npm install --save mapbox
 ```
 
+## React Native Installation
+
+React Native does not ship with the url module so we have to polyfill it.
+
+```sh
+npm install --save url
+npm install --save mapbox
+```
+
 ## Usage
 
 Setup:
