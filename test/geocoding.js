@@ -9,6 +9,9 @@ test('MapboxClient#geocodeForward', function(t) {
   t.test('typecheck', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
+    t.doesNotThrow(function () {
+      client.geocodeForward('foo');
+    });
     t.throws(function() {
       client.geocodeForward(null);
     }, /query/);
@@ -279,6 +282,9 @@ test('MapboxClient#geocodeReverse', function(t) {
   t.test('typecheck', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
+    t.doesNotThrow(function () {
+      client.geocodeReverse('foo');
+    });
     t.throws(function() {
       client.geocodeReverse(null);
     }, /options/, 'null string');
