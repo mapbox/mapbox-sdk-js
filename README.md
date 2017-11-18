@@ -43,10 +43,18 @@ $ npm install --save mapbox
 
 ## Usage
 
-Setup:
-
+Setup via `node`:
 ```js
 var MapboxClient = require('mapbox');
+```
+
+Setup via `script` tag:
+```
+<script src='https://unpkg.com/mapbox@1.0.0-beta9/dist/mapbox-sdk.min.js'></script>
+```
+
+Initializing:
+```js
 var client = new MapboxClient('YOUR_ACCESS_TOKEN');
 ```
 
