@@ -314,7 +314,7 @@ This request requires an access token with the datasets:write scope.
 
 **Parameters**
 
--   `id` **string** the `id` of the feature to read
+-   `id` **string** the `id` of the feature to delete
 -   `dataset` **string** the id for an existing dataset
 -   `callback` **Function** called with (err)
 
