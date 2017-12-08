@@ -9,9 +9,6 @@ test('MapboxClient#geocodeForward', function(t) {
   t.test('typecheck', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
-    t.doesNotThrow(function () {
-      client.geocodeForward('foo');
-    });
     t.throws(function() {
       client.geocodeForward(null);
     }, /query/);
@@ -24,6 +21,15 @@ test('MapboxClient#geocodeForward', function(t) {
     t.throws(function() {
       client.geocodeForward('foo', 1);
     }, /options/);
+    t.end();
+  });
+
+  t.test('promise syntax', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    t.doesNotThrow(function () {
+      client.geocodeForward('foo');
+    }, 'no callback');
     t.end();
   });
 
@@ -282,12 +288,9 @@ test('MapboxClient#geocodeReverse', function(t) {
   t.test('typecheck', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
-    t.doesNotThrow(function () {
-      client.geocodeReverse('foo');
-    });
     t.throws(function() {
       client.geocodeReverse(null);
-    }, /options/, 'null string');
+    }, /location/, 'null');
     t.throws(function() {
       client.geocodeReverse(1, function() {});
     }, /location/, 'number');
@@ -297,6 +300,15 @@ test('MapboxClient#geocodeReverse', function(t) {
     t.throws(function() {
       client.geocodeReverse('foo', 1);
     }, /location/, 'bad options 2');
+    t.end();
+  });
+
+  t.test('promise syntax', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+    t.doesNotThrow(function () {
+      client.geocodeReverse({ latitude: 33.6875431, longitude: -95.4431142 });
+    }, 'no callback');
     t.end();
   });
 
