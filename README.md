@@ -61,7 +61,7 @@ var client = new MapboxClient('YOUR_ACCESS_TOKEN');
 Basic usage of the geocoder:
 
 ```js
-client.geocodeForward('Chester, NJ', function(err, data, res) {
+client.geocodeForward('Chester, NJ', { /* optional params */ },  function(err, data, res) {
   // data is the geocoding result as parsed JSON
   // res is the http response, including: status, headers and entity properties
 });
@@ -70,7 +70,7 @@ client.geocodeForward('Chester, NJ', function(err, data, res) {
 As an alternative to callbacks, each method also returns a Promise:
 
 ```js
-client.geocodeForward('Chester, NJ')
+client.geocodeForward('Chester, NJ', { /* optional params */ })
   .then(function(res) {
     // res is the http response, including: status, headers and entity properties
     var data = res.entity; // data is the geocoding result as parsed JSON
