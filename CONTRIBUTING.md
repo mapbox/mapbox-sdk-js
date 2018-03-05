@@ -30,3 +30,13 @@ Run the tests
 ```sh
 $ npm test
 ```
+
+## Releasing
+
+- `npm run prepublish && npm run docs`
+- Update the version key in [package.json](https://github.com/mapbox/mapbox-sdk-js/blob/master/package.json#L3)
+- Outline changes in [CHANGELOG.md](https://github.com/mapbox/mapbox-sdk-js/blob/master/CHANGELOG.md)
+- Commit and push
+- `git tag -a vX.X.X -m 'vX.X.X'`
+- `git push --tags`
+- `npm publish`
