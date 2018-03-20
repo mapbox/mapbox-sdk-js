@@ -110,6 +110,25 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.country array', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.country, 'ca,us', 'country option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      country: ['ca', 'us']
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('options.types', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
@@ -129,6 +148,25 @@ test('MapboxClient#geocodeForward', function(t) {
     }]);
   });
 
+  t.test('options.types array', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.types, 'country,region,poi.landmark', 'types option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      types: ['country', 'region', 'poi.landmark']
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('options.language', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
@@ -142,6 +180,25 @@ test('MapboxClient#geocodeForward', function(t) {
 
     client.geocodeForward.apply(tester, ['Paris', {
       language: 'en'
+    }, function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
+  t.test('options.language array', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.language, 'en,fr', 'language option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeForward.apply(tester, ['Paris', {
+      language: ['en', 'fr']
     }, function(err) {
       t.ifError(err);
       t.end();
@@ -342,6 +399,26 @@ test('MapboxClient#geocodeReverse', function(t) {
     }]);
   });
 
+  t.test('options.types array', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.types, 'country,region', 'types option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeReverse.apply(tester, [
+    { latitude: 33.6875431, longitude: -95.4431142 },
+    { types: ['country', 'region'] },
+    function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
   t.test('options.language', function(t) {
     var client = new MapboxClient(process.env.MapboxAccessToken);
     t.ok(client);
@@ -356,6 +433,26 @@ test('MapboxClient#geocodeReverse', function(t) {
     client.geocodeReverse.apply(tester, [
     { latitude: 33.6875431, longitude: -95.4431142 },
     { language: 'en' },
+    function(err) {
+      t.ifError(err);
+      t.end();
+    }]);
+  });
+
+  t.test('options.language array', function(t) {
+    var client = new MapboxClient(process.env.MapboxAccessToken);
+    t.ok(client);
+
+    var tester = { client: function(opts) {
+      var params = opts.params;
+      t.equals(params.language, 'en,fr', 'language option is set');
+      opts.callback();
+      return { entity: function() {} };
+    }};
+
+    client.geocodeReverse.apply(tester, [
+    { latitude: 33.6875431, longitude: -95.4431142 },
+    { language: ['en', 'fr'] },
     function(err) {
       t.ifError(err);
       t.end();

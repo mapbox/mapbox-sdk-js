@@ -1008,10 +1008,10 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
     -   `options.bbox` **Array** a bounding box argument: this is
         a bounding box given as an array in the format [minX, minY, maxX, maxY].
         Search results will be limited to the bounding box.
-    -   `options.language` **string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, separated by commas.
+    -   `options.language` **Array&lt;string&gt; or string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, as an array or separated by commas.
     -   `options.limit` **[number]** is the maximum number of results to return, between 1 and 10 inclusive.
         Some very specific queries may return fewer results than the limit. (optional, default `5`)
-    -   `options.country` **string** a comma separated list of country codes to
+    -   `options.country` **Array&lt;string&gt; or string** an array or comma separated list of country codes to
         limit results to specified country or countries.
     -   `options.autocomplete` **[boolean]** whether to include results that include
         the query only as a prefix. This is useful for UIs where users type
@@ -1020,7 +1020,7 @@ is used by specifying `mapbox.places-permanent` as the `dataset` option.
         geocoded against. The default, mapbox.places, does not permit unlimited
         caching. `mapbox.places-permanent` is available on request and does
         permit permanent caching. (optional, default `mapbox.places`)
-    -   `options.types` **string** a comma seperated list of types that filter
+    -   `options.types` **Array&lt;string&gt; or string** an array or comma seperated list of types that filter
         results to match those specified. See <https://www.mapbox.com/developers/api/geocoding/#filter-type>
         for available types.
 -   `callback` **Function** called with (err, results)
@@ -1406,8 +1406,8 @@ there. This uses the [Mapbox Geocoding API](https://www.mapbox.com/api-documenta
     -   `location.longitude` **number** decimal degrees longitude, in range -180 to 180
 -   `options` **[Object]** additional options meant to tune
     the request. (optional, default `{}`)
-    -   `options.language` **string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, separated by commas.
-    -   `options.types` **string** a comma seperated list of types that filter
+    -   `options.language` **Array&lt;string&gt; or string** Specify the language to use for response text and, for forward geocoding, query result weighting. Options are IETF language tags comprised of a mandatory ISO 639-1 language code and optionally one or more IETF subtags for country or script. More than one value can also be specified, separated by commas or as an array.
+    -   `options.types` **Array&lt;string&gt; or string** an array or comma seperated list of types that filter
         results to match those specified. See
         <https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location>
         for available types.
