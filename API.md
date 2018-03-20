@@ -85,9 +85,6 @@ var client = new MapboxClient('ACCESSTOKEN');
 
 ## MapboxStyles
 
-
-
-
 ### listStyles
 
 To retrieve a listing of styles for a particular account.
@@ -345,9 +342,6 @@ Returns **[string][57]** URL of style embed page
 
 ## MapboxStatic
 
-
-
-
 ### getStaticURL
 
 Determine a URL for a static map image, using the [Mapbox Static Map API][65].
@@ -423,9 +417,6 @@ var mapboxClient = new MapboxClient('ACCESSTOKEN');
 Returns **[string][57]** static classic map url
 
 ## MapboxUploads
-
-
-
 
 ### listUploads
 
@@ -620,9 +611,6 @@ mapboxClient.deleteUpload('hij456', function(err) {
 Returns **[Promise][61]** response
 
 ## MapboxDatasets
-
-
-
 
 ### listDatasets
 
@@ -969,9 +957,6 @@ Returns **[Promise][61]** response
 
 ## MapboxTilesets
 
-
-
-
 ### tilequery
 
 Retrieve data about specific vector features at a specified location within a vector tileset
@@ -1020,9 +1005,6 @@ client.listTilesets(function(err, tilesets) {
 Returns **[Promise][61]** response
 
 ## MapboxGeocoding
-
-
-
 
 ### geocodeForward
 
@@ -1133,9 +1115,6 @@ Returns **[Promise][61]** response
 
 ## MapboxDirections
 
-
-
-
 ### getDirections
 
 Find directions from A to B, or between any number of locations.
@@ -1228,9 +1207,6 @@ Returns **[Promise][61]** response
 
 ## MapboxMatching
 
-
-
-
 ### matching
 
 Snap recorded location traces to roads and paths from OpenStreetMap.
@@ -1297,9 +1273,6 @@ mapboxClient.matching([
 Returns **[Promise][61]** response
 
 ## MapboxMatrix
-
-
-
 
 ### getMatrix
 
@@ -1381,9 +1354,6 @@ mapboxClient.getMatrix([{
 Returns **[Promise][61]** response
 
 ## MapboxTokens
-
-
-
 
 ### listTokens
 
@@ -1543,9 +1513,6 @@ Returns **[Promise][61]** response
 
 ## MapboxTilestats
 
-
-
-
 ### getTilestats
 
 To retrieve statistics about a specific tileset.
@@ -1613,9 +1580,6 @@ client.getTilestats('tileset-id', function(err, stats) {
 Returns **[Promise][61]** response
 
 ## MapboxSurface
-
-
-
 
 ### surface
 

@@ -1,69 +1,14 @@
 toc:
   - MapboxClient
-  - name: MapboxStyles
-    children:
-      - listStyles
-      - createStyle
-      - updateStyle
-      - deleteStyle
-      - readStyle
-      - readSprite
-      - readFontGlyphRanges
-      - addIcon
-      - deleteIcon
-      - embedStyle
-  - name: MapboxStatic
-    children:
-      - getStaticURL
-      - getStaticClassicURL
-  - name: MapboxUploads
-    children:
-      - listUploads
-      - createUploadCredentials
-      - createUpload
-      - readUpload
-      - deleteUpload
-  - name: MapboxDatasets
-    children:
-      - listDatasets
-      - createDataset
-      - readDataset
-      - updateDataset
-      - deleteDataset
-      - listFeatures
-      - insertFeature
-      - readFeature
-      - deleteFeature
-  - name: MapboxTilesets
-    children:
-      - tilequery
-      - listTilesets
-  - name: MapboxGeocoding
-    children:
-      - geocodeForward
-      - geocodeReverse
-  - name: MapboxDirections
-    children:
-      - getDirections
-  - name: MapboxMatching
-    children:
-      - matching
-  - name: MapboxMatrix
-    children:
-      - getMatrix
-  - name: MapboxTokens
-    children:
-      - listTokens
-      - createToken
-      - createTemporaryToken
-      - updateTokenAuthorization
-      - deleteTokenAuthorization
-      - retrieveToken
-      - listScopes
-  - name: MapboxTilestats
-    children:
-      - getTilestats
-      - putTilestats
-  - name: MapboxSurface
-    children:
-      - surface
+  - MapboxStyles
+  - MapboxStatic
+  - MapboxUploads
+  - MapboxDatasets
+  - MapboxTilesets
+  - MapboxGeocoding
+  - MapboxDirections
+  - MapboxMatching
+  - MapboxMatrix
+  - MapboxTokens
+  - MapboxTilestats
+  - MapboxSurface
