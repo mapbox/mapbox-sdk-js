@@ -5,33 +5,33 @@
 [![Coverage Status](https://coveralls.io/repos/mapbox/mapbox-sdk-js/badge.svg?branch=master&service=github)](https://coveralls.io/github/mapbox/mapbox-sdk-js?branch=master)
 
 A [node.js](https://nodejs.org/) and browser JavaScript client
-to Mapbox services.
+to [Mapbox services](https://www.mapbox.com/api-documentation/?language=JavaScript).
 
 ## Services
 
 Generally Available
 
-* [Geocoding](https://www.mapbox.com/api-documentation/#geocoding)
+* [Geocoding](https://www.mapbox.com/api-documentation/?language=JavaScript#geocoding)
   * Forward (place names ⇢  longitude, latitude)
   * Reverse (longitude, latitude ⇢ place names)
-* [Upload API](https://www.mapbox.com/api-documentation/#uploads)
+* [Upload API](https://www.mapbox.com/api-documentation/?language=JavaScript#uploads)
   * Upload data to be processed and hosted by Mapbox.
-* [Directions](https://www.mapbox.com/api-documentation/#directions)
+* [Directions](https://www.mapbox.com/api-documentation/?language=JavaScript#directions)
   * Profiles for driving, walking, and cycling
   * GeoJSON & Polyline formatting
   * Instructions as text or HTML
-* [Datasets](https://www.mapbox.com/api-documentation/#datasets)
+* [Datasets](https://www.mapbox.com/api-documentation/?language=JavaScript#datasets)
   * Retrieve, add, and edit datasets.
-* [Styles](https://www.mapbox.com/api-documentation/#styles)
+* [Styles](https://www.mapbox.com/api-documentation/?language=JavaScript#styles)
   * Retrieve, add and edit styles, fonts and icons.
-* [Tilesets](https://www.mapbox.com/api-documentation/#tilesets)
+* [Tilesets](https://www.mapbox.com/api-documentation/?language=JavaScript#tilesets)
   * List tilesets.
-* [Tokens](https://www.mapbox.com/api-documentation/#tokens)
+* [Tokens](https://www.mapbox.com/api-documentation/?language=JavaScript#tokens)
   * Retrieve, add and edit access tokens.
-* [Matrix](https://www.mapbox.com/api-documentation/#matrix)
+* [Matrix](https://www.mapbox.com/api-documentation/?language=JavaScript#matrix)
   * Travel-time tables between coordinates up to 25 pairs
   * Profiles for driving, walking and cycling
-* [Map Matching](https://www.mapbox.com/api-documentation/#map-matching)
+* [Map Matching](https://www.mapbox.com/api-documentation/?language=JavaScript#map-matching)
   * Aligns GPS trace data to roads and paths from
     [OpenStreetMap](https://www.openstreetmap.org/) data
 
