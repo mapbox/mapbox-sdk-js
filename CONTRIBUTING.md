@@ -35,6 +35,7 @@ $ npm test
 
 - `npm run prepublish && npm run docs`
 - Update the version key in [package.json](https://github.com/mapbox/mapbox-sdk-js/blob/master/package.json#L3)
+- Update the hardcoded version in [README.md#usage](https://github.com/mapbox/mapbox-sdk-js/blob/master/README.md#usage)
 - Outline changes in [CHANGELOG.md](https://github.com/mapbox/mapbox-sdk-js/blob/master/CHANGELOG.md)
 - Commit and push
 - `git tag -a vX.X.X -m 'vX.X.X'`
