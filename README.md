@@ -1,112 +1,206 @@
-# mapbox-sdk-js
+# @mapbox/mapbox-sdk
 
-[![npm version](https://badge.fury.io/js/mapbox.svg)](http://badge.fury.io/js/mapbox)
-[![Build Status](https://travis-ci.org/mapbox/mapbox-sdk-js.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-sdk-js)
-[![Coverage Status](https://coveralls.io/repos/mapbox/mapbox-sdk-js/badge.svg?branch=master&service=github)](https://coveralls.io/github/mapbox/mapbox-sdk-js?branch=master)
+A JS SDK for accessing [Mapbox APIs](https://github.com/mapbox/api-documentation).
 
-A [node.js](https://nodejs.org/) and browser JavaScript client
-to [Mapbox services](https://www.mapbox.com/api-documentation/?language=JavaScript).
+Works both in Node and the browser.
 
-## Services
+## Table of contents
 
-Generally Available
-
-* [Geocoding](https://www.mapbox.com/api-documentation/?language=JavaScript#geocoding)
-  * Forward (place names ⇢  longitude, latitude)
-  * Reverse (longitude, latitude ⇢ place names)
-* [Upload API](https://www.mapbox.com/api-documentation/?language=JavaScript#uploads)
-  * Upload data to be processed and hosted by Mapbox.
-* [Directions](https://www.mapbox.com/api-documentation/?language=JavaScript#directions)
-  * Profiles for driving, walking, and cycling
-  * GeoJSON & Polyline formatting
-  * Instructions as text or HTML
-* [Datasets](https://www.mapbox.com/api-documentation/?language=JavaScript#datasets)
-  * Retrieve, add, and edit datasets.
-* [Styles](https://www.mapbox.com/api-documentation/?language=JavaScript#styles)
-  * Retrieve, add and edit styles, fonts and icons.
-* [Tilesets](https://www.mapbox.com/api-documentation/?language=JavaScript#tilesets)
-  * List tilesets.
-* [Tokens](https://www.mapbox.com/api-documentation/?language=JavaScript#tokens)
-  * Retrieve, add and edit access tokens.
-* [Matrix](https://www.mapbox.com/api-documentation/?language=JavaScript#matrix)
-  * Travel-time tables between coordinates up to 25 pairs
-  * Profiles for driving, walking and cycling
-* [Map Matching](https://www.mapbox.com/api-documentation/?language=JavaScript#map-matching)
-  * Aligns GPS trace data to roads and paths from
-    [OpenStreetMap](https://www.openstreetmap.org/) data
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Creating clients](#creating-clients)
+  - [Creating and sending requests](#creating-and-sending-requests)
+- [Overview of requests, responses, and errors](#overview-of-requests-responses-and-errors)
+  - [MapiRequest](#mapirequest)
+  - [MapiResponse](#mapiresponse)
+  - [MapiError](#mapierror)
+- [Services](#services)
 
 ## Installation
 
-```sh
-$ npm install --save mapbox
 ```
+npm install @mapbox/mapbox-sdk
+```
+
+**If you are supporting older browsers, you will need a Promise polyfill.**
+[es6-promise](https://github.com/stefanpenner/es6-promise) is a good one, if you're uncertain.
 
 ## Usage
 
-Setup via `node`:
-```js
-var MapboxClient = require('mapbox');
-```
+There are 3 basic steps to getting an API response:
 
-Setup via `script` tag:
-```
-<script src='https://unpkg.com/mapbox@1.0.0-beta10/dist/mapbox-sdk.min.js'></script>
-```
+1. Create a client.
+2. Create a request.
+3. Send the request.
 
-Initializing:
-```js
-var client = new MapboxClient('YOUR_ACCESS_TOKEN');
-```
+### Creating clients
 
-Basic usage of the geocoder:
+To **create a base client**, import the factory function from `'@mapbox/mapbox-sdk'` and provide it with your access token.
+
+The then **create a service client**, import the service's factory function from `'@mapbox/mapbox-sdk/services/{service}'` and provide it with your base client.
 
 ```js
-client.geocodeForward('Chester, NJ', function(err, data, res) {
-  // data is the geocoding result as parsed JSON
-  // res is the http response, including: status, headers and entity properties
+const mbxClient = require('@mapbox/mapbox-sdk');
+const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
+const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
+
+const baseClient = mbxClient({ accessToken: MY_ACCESS_TOKEN });
+const stylesClient = mbxStyles(baseClient);
+const tilesetsClient = mbxStyles(baseClient);
+```
+
+### Creating and sending requests
+
+To **create a request**, invoke a service method.
+
+Once you've created a request, **send the request** with its `send` method.
+
+```js
+const mbxClient = require('@mapbox/mapbox-sdk');
+const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
+const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
+
+const baseClient = mbxClient({ accessToken: MY_ACCESS_TOKEN });
+const stylesService = mbxStyles(baseClient);
+const tilesetsService = mbxTilesets(baseClient);
+
+// Create a style.
+stylesService.createStyle({..})
+  .send()
+  .then(response => {..}, error => {..});
+
+// List tilesets.
+tilesetsService.listTilesets()
+  .send()
+  .then(response => {..}, error => {..})
+```
+
+## Overview of requests, responses, and errors
+
+### `MapiRequest`
+
+Service methods return `MapiRequest` objects.
+
+Typically, you'll create a `MapiRequest` then `send` it.
+`send` returns a `Promise` that resolves with a [`MapiResponse`] or rejects with a [`MapiError`].
+
+`MapiRequest`s also expose other properties and methods that you might use from time to time.
+For example:
+
+- `MapiRequest#abort` aborts the request.
+- `MapiRequest#eachPage` executes a callback for each page of a paginated API response.
+- `MapiRequest.emitter` exposes an event emitter that fires events like `downloadProgress` and `uploadProgress`.
+
+For more details, please read [the full `MapiRequest` documentation](./docs/classes.md#mapirequest).
+
+```js
+// Create a request and send it.
+stylesService.createStyle({..})
+  .send()
+  .then(response => {..}, error => {..});
+
+// Abort a request.
+const req = tilesetsService.listTilesets();
+req.send().then(response => {..}, error => {
+  // Because the request is aborted, an error will be thrown that we can
+  // catch and handle.
 });
+req.abort();
+
+// Paginate through a response.
+tilesetsService.listTilesets().eachPage((error, response, next) => {
+  // Do something with the page, then call next() to send the request
+  // for the next page.
+});
+
+// Listen for uploadProgress events.
+const req = stylesService.createStyleIcon({..});
+req.on('uploadProgress', event => {
+  // Do something with the progress event information.
+});
+req.send().then(response => {..}, error => {..});
 ```
 
-As an alternative to callbacks, each method also returns a Promise:
+### `MapiResponse`
+
+When you `send` a [`MapiRequest`], the returned `Promise` resolves with a `MapiResponse`.
+
+Typically, you use `MapiResponse.body` to access the parsed API response.
+
+`MapiResponse`s also expose other properties and methods.
+For example:
+
+- `MapiResponse#hasNextPage` indicates if there is another page of results.
+- If there is another page, `MapiResponse#nextPage` creates a [`MapiRequest`] that you can `send` to get that next page.
+- `MapiResponse.headers` exposes the parsed HTTP headers from the API response.
+
+For more details, please read [the full `MapiResponse` documentation](./docs/classes.md#mapiresponse).
 
 ```js
-client.geocodeForward('Chester, NJ')
-  .then(function(res) {
-    // res is the http response, including: status, headers and entity properties
-    var data = res.entity; // data is the geocoding result as parsed JSON
-  })
-  .catch(function(err) {
-    // handle errors
+// Read a response body.
+stylesService.getStyle({..})
+  .send()
+  .then(resp => {
+    const style = resp.body;
+    // Do something with the style.
+  }, err => {..});
+
+// Get the next page of results.
+tilesetsService.listTilesets()
+  .send()
+  .then(resp => {
+    if (resp.hasNextPage()) {
+      const nextPageReq = resp.nextPage();
+      nextPageReq.send().then(..);
+    }
+  }, err => {..});
+
+// Check the headers.
+tilesetsService.listTilesets()
+  .send()
+  .then(resp => {
+    console.log(resp.headers);
+  }, err => {..});
+```
+
+### `MapiError`
+
+If the server responds to your [`MapiRequest`] with an error, or if you abort the request, the `Promise` returned by `send` will reject with a `MapiError`.
+
+`MapiError`s expose the information you'll need to handle and respond to the error.
+For example:
+
+- `MapiError.type` exposes the type of error, so you'll know if it was an HTTP error from the server or the request was aborted.
+- `MapiError.statusCode` exposes the status code of HTTP errors.
+- `MapiError.body` exposes the body of the HTTP response, parsed as JSON if possible.
+- `MapiError.message` tells you what went wrong.
+
+For more details, please read [the full `MapiError` documentation](./docs/classes.md#mapierror).
+
+```js
+// Check the error.
+stylesService.getStyle({..})
+  .send()
+  .then(response => {..}, error => {
+    if (err.type === 'RequestAbortedError') {
+      return;
+    }
+    console.error(error.message);
   });
 ```
 
-### pagination
+## Services
 
-Listing resources may return a subset of the entire listing. If more pages are
-available the `res` object will contain a `.nextPage()` method. This method
-requires no arguments, other than an optional callback function, otherwise a
-Promise is returned.
+Please read [the full documentation for services](./docs/services.md).
 
-### sub-requiring individual services
+[`got`]: https://github.com/sindresorhus/got
 
-Each service is available as a sub-require if you'd only like to include only
-its functionality and not the entire bundle. The returned `MapboxClient`
-will have the same constructor style but only include functions necessary
-for that service's support.
+[`http`]: https://nodejs.org/api/http.html
 
-Available sub-requires:
+[`xmlhttprequest`]: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
 
-* geocoding: `require('mapbox/lib/services/geocoding')`
-* surface: `require('mapbox/lib/services/surface')`
-* matching: `require('mapbox/lib/services/matching')`
-* directions: `require('mapbox/lib/services/directions')`
-* matrix: `require('mapbox/lib/services/matrix')`
-* datasets: `require('mapbox/lib/services/datasets')`
-* styles: `require('mapbox/lib/services/styles')`
-* uploads: `require('mapbox/lib/services/uploads')`
-* tilestats: `require('mapbox/lib/services/tilestats')`
-* static: `require('mapbox/lib/services/static')`
-* tilesets: `require('mapbox/lib/services/tilesets')`
-* tokens: `require('mapbox/lib/services/tokens')`
+[`mapirequest`]: #mapirequest
 
-## [API](API.md)
+[`mapiresponse`]: #mapiresponse
+
+[`mapierror`]: #mapierror

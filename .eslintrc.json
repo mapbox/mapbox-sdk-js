@@ -1,0 +1,32 @@
+{
+  "extends": "eslint:recommended",
+  "plugins": [
+    "node"
+  ],
+  "env": {
+    "commonjs": true,
+    "es6": false
+  },
+  "globals": {
+    "Promise": true
+  },
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "rules": {
+    "strict": ["error"],
+
+    "node/no-unsupported-features": ["error"],
+    "node/no-missing-require": "error"
+  },
+  "overrides": [
+    {
+      "files": ["test/*.js", "**/__tests__/*.js"],
+      "env": {
+        "jest": true,
+        "es6": true,
+        "node": true
+      }
+    }
+  ]
+}
