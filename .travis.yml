@@ -1,18 +1,6 @@
 language: node_js
-sudo: false
-env:
-  global:
-    secure: V21kt+wQRu5UGf2jmhBe0+ZS0GuzznTPlN8Iboq3attNmOqyTBj34Ys/nD2RDSA6Cayred2T3SiTddshcv3gVC8UHh4jt4qyXkl9qhCkg3xna8i0Hw4IYu3teMM7qUFgib0iBvbo4PjYaIcS2J8ZGwnFdTcXH1bhOZkaCTooPQo=
-matrix:
-  include:
-    - node_js: '4'
-      script: 'npm run lint'
-    - node_js: '0.10'
-      script: 'npm run unit-test'
-    - node_js: '4'
-      script: 'npm run unit-test'
-    - node_js: '4'
-      before_script:
-      - export DISPLAY=:99.0
-      - sh -e /etc/init.d/xvfb start
-      script: 'npm run browser-test-ff'
+node_js:
+  - 6
+cache:
+  directories:
+    - node_modules
