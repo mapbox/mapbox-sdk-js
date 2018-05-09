@@ -4,15 +4,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const base64url = require('base64-url');
 const getPort = require('get-port');
+const MapiClient = require('../lib/classes/mapi-client');
 
 function requestConfig(service) {
   return service.client.createRequest.mock.calls[0][0];
 }
 
 function mockClient() {
-  return {
-    createRequest: jest.fn()
+  var client = {
+    createRequest: jest.fn(),
+    abortRequest: jest.fn()
   };
+  // Allow for Object.isPrototypeOf checks.
+  Object.setPrototypeOf(client, MapiClient.prototype);
+  return client;
 }
 
 function mockServer() {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <title>Test the SDK in the browser</title>
+  <style>
+    body {
+      max-width: 30em;
+      margin: 2em auto;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    code {
+      background: #eee;
+      font-weight: bold;
+    }
+    pre {
+      display: block;
+      padding: 9px 12px;
+      background: #eee;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="font-size:1.3em">Test the SDK in the browser</h1>
+  <p>
+    Open the console and use the global method <code>tryServiceMethod</code>.
+    It should log responses and errors to the console.
+    Here's its signature:
+  </p>
+  <p>
+<pre><code style="display:block;">tryServiceMethod(
+  service: string,
+  method: string,
+  config?: Object,
+  accessToken?: string
+)</code></pre>
+  </p>
+  <p>
+    You can paste an access token as the last argument or set it as the global variable <code>MAPBOX_ACCESS_TOKEN</code>.
+  </p>
+  <p>
+    <strong>Only use public or <em>very temporary</em> access tokens!</strong> This is not a secure place to put a secret token.
+  </p>
+  <p>
+    An example:
+  </p>
+  <pre><code>MAPBOX_ACCESS_TOKEN = 'pk....';
+tryServiceMethod('styles', 'getStyle', {
+  styleId: 'cjgzfhs7k00072rnkgjlcuxsu'
+});</code></pre>
+
+  <script src="bundle.js"></script>
+</body>
+</html>
