@@ -35,9 +35,18 @@ There are 3 basic steps to getting an API response:
 
 ### Creating clients
 
-To **create a base client**, import the factory function from `'@mapbox/mapbox-sdk'` and provide it with your access token.
+To **create a service client**, import the service's factory function from `'@mapbox/mapbox-sdk/services/{service}'` and provide it with your access token.
 
-The then **create a service client**, import the service's factory function from `'@mapbox/mapbox-sdk/services/{service}'` and provide it with your base client.
+The service client exposes methods that create requests.
+
+```js
+const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
+const stylesService = mbxStyles({ accessToken: MY_ACCESS_TOKEN });
+// stylesService exposes listStyles(), createStyle(), getStyle(), etc.
+```
+
+You may also **share one configuration between multiple services**.
+To do that, initialize a base client and then pass *that* into each service factory functions.
 
 ```js
 const mbxClient = require('@mapbox/mapbox-sdk');
@@ -45,13 +54,13 @@ const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
 const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
 
 const baseClient = mbxClient({ accessToken: MY_ACCESS_TOKEN });
-const stylesClient = mbxStyles(baseClient);
-const tilesetsClient = mbxStyles(baseClient);
+const stylesService = mbxStyles(baseClient);
+const tilesetsService = mbxTilesets(baseClient);
 ```
 
 ### Creating and sending requests
 
-To **create a request**, invoke a service method.
+To **create a request**, invoke a service method on a service client.
 
 Once you've created a request, **send the request** with its `send` method.
 

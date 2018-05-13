@@ -10,6 +10,7 @@
     "lint": "run-p --aggregate-output lint-md lint-js",
     "pretest": "npm run lint",
     "test": "jest",
+    "try-browser": "budo test/try-browser/try-browser.js:bundle.js -d test/try-browser -l",
     "document-services": "documentation build 'services/*.js' --shallow --format md > docs/services.md",
     "document-classes": "documentation build 'lib/classes/*.js' --shallow --format md > docs/classes.md",
     "document": "run-p --aggregate-output document-services document-classes && npm run lint-md",
@@ -74,6 +75,7 @@
   },
   "devDependencies": {
     "base64-url": "^2.2.0",
+    "budo": "^11.2.0",
     "documentation": "^6.3.2",
     "eslint": "^4.19.1",
     "eslint-plugin-node": "^6.0.1",
