@@ -45,7 +45,8 @@ const stylesService = mbxStyles({ accessToken: MY_ACCESS_TOKEN });
 // stylesService exposes listStyles(), createStyle(), getStyle(), etc.
 ```
 
-To **share configuration between multiple services**, you can create a base client and then pass *that* into the service factory functions.
+You may also **share one configuration between multiple services**.
+To do that, initialize a base client and then pass *that* into each service factory functions.
 
 ```js
 const mbxClient = require('@mapbox/mapbox-sdk');
@@ -55,16 +56,6 @@ const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
 const baseClient = mbxClient({ accessToken: MY_ACCESS_TOKEN });
 const stylesService = mbxStyles(baseClient);
 const tilesetsService = mbxTilesets(baseClient);
-```
-
-Services also expose their base client on a `client` property, so you could accomplish the same thing using that.
-
-```js
-const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
-const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
-
-const stylesService = mbxStyles({ accessToken: MY_ACCESS_TOKEN });
-const tilesetsService = mbxTilesets(stylesService.client);
 ```
 
 ### Creating and sending requests
