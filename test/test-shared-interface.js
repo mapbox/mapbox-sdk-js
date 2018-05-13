@@ -534,6 +534,13 @@ function testSharedInterface(createClient) {
       });
     });
 
+    test('request cannot be sent multiple times at once', () => {
+      expect(() => {
+        request.send();
+        request.send();
+      }).toThrow('has already been sent');
+    });
+
     test('should not error if you abort after the response is received', () => {
       return request.send().then(() => {
         expect(() => {

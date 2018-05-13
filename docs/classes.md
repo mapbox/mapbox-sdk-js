@@ -101,6 +101,10 @@ The `emitter` property is an `EventEmitter` that emits the following events:
     received an error in response, the error is available on this property.
 - `aborted` **[boolean][15]** If the request has been aborted
     (via [`abort`][8]), this property will be `true`.
+- `sent` **[boolean][15]** If the request has been sent, this property will
+    be `true`. You cannot send the same request twice, so if you need to create
+    a new request that is the equivalent of an existing one, use
+    [`clone`][10].
 - `path` **[string][11]** The request's path, including colon-prefixed route
     paratemers.
 - `origin` **[string][11]** The request's origin.
@@ -139,6 +143,9 @@ that might be aborted, you need to catch and handle such errors.
 
 This method will also abort any requests created while fetching subsequent
 pages via [`eachPage`][9].
+
+If the request has not been sent or has already been aborted, nothing
+will happen.
 
 ### eachPage
 
