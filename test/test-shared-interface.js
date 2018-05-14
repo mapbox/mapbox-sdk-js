@@ -34,7 +34,7 @@ function testSharedInterface(createClient) {
           createLocalClient({ accessToken: 'not right' });
         },
         error => {
-          expect(error.message).toBe('Invalid access token');
+          expect(error.message).toBe('Invalid token');
         }
       );
       tu.expectError(
@@ -42,7 +42,7 @@ function testSharedInterface(createClient) {
           createLocalClient({ accessToken: 'pk.ezMzMw==' });
         },
         error => {
-          expect(error.message).toBe('Invalid access token');
+          expect(error.message).toBe('Invalid token');
         }
       );
     });
