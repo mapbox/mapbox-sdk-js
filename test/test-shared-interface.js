@@ -1,10 +1,13 @@
 'use strict';
 
 const tilesets = require('../services/tilesets');
+const styles = require('../services/styles');
 const MapiRequest = require('../lib/classes/mapi-request');
 const MapiResponse = require('../lib/classes/mapi-response');
 const MapiError = require('../lib/classes/mapi-error');
 const constants = require('../lib/constants');
+const MapiClient = require('../lib/classes/mapi-client');
+
 const tu = require('./test-utils');
 
 const { mockToken, expectRejection } = tu;
@@ -49,6 +52,28 @@ function testSharedInterface(createClient) {
       const accessToken = mockToken();
       const client = createLocalClient({ accessToken });
       expect(client.accessToken).toBe(accessToken);
+    });
+  });
+
+  describe('create a service client without specifying the base client', () => {
+    test('works', () => {
+      const tilesetsClient = tilesets({ accessToken: mockToken() });
+      expect(tilesetsClient.client).toBeInstanceOf(MapiClient);
+      const request = tilesetsClient.listTilesets({ ownerId: 'mockery' });
+      expect(request.client).toBe(tilesetsClient.client);
+    });
+
+    test("a service client's base client can be reused for other service clients", () => {
+      const tilesetsClient = tilesets({ accessToken: mockToken() });
+      const stylesClient = styles(tilesetsClient.client);
+      expect(stylesClient.client).toBeInstanceOf(MapiClient);
+      expect(stylesClient.client).toBe(tilesetsClient.client);
+      const request = stylesClient.getStyle({
+        ownerId: 'mockery',
+        styleId: 'foo'
+      });
+      expect(request.client).toBe(stylesClient.client);
+      expect(request.client).toBe(tilesetsClient.client);
     });
   });
 
