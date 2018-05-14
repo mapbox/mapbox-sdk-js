@@ -6,6 +6,7 @@ const MapiRequest = require('../lib/classes/mapi-request');
 const MapiResponse = require('../lib/classes/mapi-response');
 const MapiError = require('../lib/classes/mapi-error');
 const MapiClient = require('../lib/classes/mapi-client');
+const constants = require('../lib/constants');
 const tu = require('./test-utils');
 
 const { mockToken, expectRejection } = tu;
@@ -512,11 +513,39 @@ function testSharedInterface(createClient) {
 
     test(`request.emitter emits a 'response' event with the same MapiResponse that the Promise resolves with`, () => {
       let emitterResp;
-      request.emitter.on('response', resp => {
+      request.emitter.on(constants.EVENT_RESPONSE, resp => {
         emitterResp = resp;
       });
       return request.send().then(resp => {
         expect(resp).toBe(emitterResp);
+      });
+    });
+
+    test(`request.emitter should emit uploadProgress events`, () => {
+      let progressUpload = [];
+      request.emitter.on(constants.EVENT_PROGRESS_UPLOAD, resp => {
+        progressUpload.push(Object.assign({}, resp));
+      });
+
+      return request.send().then(() => {
+        expect(progressUpload).toEqual([
+          { percent: 0, total: null, transferred: 0 },
+          { percent: 100, total: null, transferred: 0 }
+        ]);
+      });
+    });
+
+    test(`request.emitter should emit downloadProgress events`, () => {
+      let progressDownload = [];
+      request.emitter.on(constants.EVENT_PROGRESS_DOWNLOAD, resp => {
+        progressDownload.push(Object.assign({}, resp));
+      });
+
+      return request.send().then(() => {
+        expect(progressDownload).toEqual([
+          { percent: 0, total: 18, transferred: 0 },
+          { percent: 100, total: 18, transferred: 18 }
+        ]);
       });
     });
 
@@ -609,7 +638,7 @@ function testSharedInterface(createClient) {
 
     test(`request.emitter emits an 'error' event with the same MapiError that the Promise rejects with`, () => {
       let emitterError;
-      request.emitter.on('error', error => {
+      request.emitter.on(constants.EVENT_ERROR, error => {
         emitterError = error;
       });
       return expectRejection(request.send(), error => {
