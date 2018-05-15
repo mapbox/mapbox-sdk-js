@@ -35,7 +35,7 @@ function testSharedInterface(createClient) {
           createLocalClient({ accessToken: 'not right' });
         },
         error => {
-          expect(error.message).toBe('Invalid access token');
+          expect(error.message).toBe('Invalid token');
         }
       );
       tu.expectError(
@@ -43,7 +43,7 @@ function testSharedInterface(createClient) {
           createLocalClient({ accessToken: 'pk.ezMzMw==' });
         },
         error => {
-          expect(error.message).toBe('Invalid access token');
+          expect(error.message).toBe('Invalid token');
         }
       );
     });
@@ -534,6 +534,13 @@ function testSharedInterface(createClient) {
           request.send();
         }).toThrow('has already been sent');
       });
+    });
+
+    test('request cannot be sent multiple times at once', () => {
+      expect(() => {
+        request.send();
+        request.send();
+      }).toThrow('has already been sent');
     });
 
     test('should not error if you abort after the response is received', () => {

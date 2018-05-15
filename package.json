@@ -69,6 +69,7 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@mapbox/parse-mapbox-token": "^0.1.0",
     "eventemitter3": "^3.1.0",
     "got": "^8.3.1",
     "xtend": "^4.0.1"
