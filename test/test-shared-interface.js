@@ -497,34 +497,6 @@ function testSharedInterface(createClient) {
       });
     });
 
-    test(`request.emitter should emit uploadProgress events`, () => {
-      let progressUpload = [];
-      request.emitter.on(constants.EVENT_PROGRESS_UPLOAD, resp => {
-        progressUpload.push(Object.assign({}, resp));
-      });
-
-      return request.send().then(() => {
-        expect(progressUpload).toEqual([
-          { percent: 0, total: null, transferred: 0 },
-          { percent: 100, total: null, transferred: 0 }
-        ]);
-      });
-    });
-
-    test(`request.emitter should emit downloadProgress events`, () => {
-      let progressDownload = [];
-      request.emitter.on(constants.EVENT_PROGRESS_DOWNLOAD, resp => {
-        progressDownload.push(Object.assign({}, resp));
-      });
-
-      return request.send().then(() => {
-        expect(progressDownload).toEqual([
-          { percent: 0, total: 18, transferred: 0 },
-          { percent: 100, total: 18, transferred: 18 }
-        ]);
-      });
-    });
-
     test('response is saved on request.response', () => {
       return request.send().then(resp => {
         expect(request.response).toBe(resp);
