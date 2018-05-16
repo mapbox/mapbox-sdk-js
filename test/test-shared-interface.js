@@ -610,7 +610,7 @@ function testSharedInterface(createClient) {
 
     test(`error.message combines status code and the error's message property`, () => {
       return expectRejection(request.send(), error => {
-        expect(error.message).toBe('404: Style not found');
+        expect(error.message).toBe('Style not found');
       });
     });
 

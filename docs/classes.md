@@ -73,8 +73,7 @@ method should reject with a `MapiError`.
     the HTTP response.
 - `body` **([Object][12] \| [string][11])?** If the server sent a response body,
     this property exposes that response, parsed as JSON if possible.
-- `message` **[string][11]?** A summary of the error, including the
-    status code and whatever message could be derived from the
+- `message` **[string][11]?** Whatever message could be derived from the
     call site and HTTP response.
 
 ## MapiRequest
