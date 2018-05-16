@@ -15,6 +15,7 @@ Works both in Node and the browser.
   - [MapiResponse](#mapiresponse)
   - [MapiError](#mapierror)
 - [Services](#services)
+- [Development](#development)
 
 ## Installation
 
@@ -201,6 +202,10 @@ stylesService.getStyle({..})
 ## Services
 
 Please read [the full documentation for services](./docs/services.md).
+
+## Development
+
+Please read [`./docs/development.md`](./docs/development.md).
 
 [`got`]: https://github.com/sindresorhus/got
 
