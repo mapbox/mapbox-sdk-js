@@ -21,7 +21,12 @@ test('errors early if access token not provided', () => {
   );
 });
 
-describe('test node progress events', () => {
+// Note: there are discrepancies between the node progress events
+// and browser progress events. For now we are assuming
+// the discrepancies are not worth normalizing across these
+// two platforms as no one would be planning to use them
+// in unison.
+describe('test progress events', () => {
   let request;
   const { mockToken } = tu;
 
@@ -32,15 +37,20 @@ describe('test node progress events', () => {
   beforeEach(() => {
     mockXHR.setup();
     const accessToken = mockToken();
+    const responseBody = { mockStyle: true };
+
+    // To mock the progress event
+    // server needs to send the `Content-length` header
+    // ref: https://github.com/jameslnewell/xhr-mock/tree/master/packages/xhr-mock#upload-progress
     mockXHR.get(
       `https://api.mapbox.com/styles/v1/mockuser/foo?access_token=${accessToken}`,
       {
         status: 200,
         headers: {
-          'Content-Length': '18',
+          'Content-Length': JSON.stringify(responseBody).length,
           'Content-Type': 'application/json; charset=utf-8'
         },
-        body: JSON.stringify({ mockStyle: true })
+        body: JSON.stringify(responseBody)
       }
     );
     const client = browserClient({ accessToken });
@@ -52,7 +62,7 @@ describe('test node progress events', () => {
     });
   });
 
-  test('request.emitter should emit uploadProgress events', () => {
+  test('request.emitter should not emit uploadProgress events', () => {
     let progressUpload = [];
     request.emitter.on(constants.EVENT_PROGRESS_UPLOAD, resp => {
       progressUpload.push(Object.assign({}, resp));
