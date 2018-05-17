@@ -5,7 +5,9 @@ const styles = require('../services/styles');
 const MapiRequest = require('../lib/classes/mapi-request');
 const MapiResponse = require('../lib/classes/mapi-response');
 const MapiError = require('../lib/classes/mapi-error');
+const constants = require('../lib/constants');
 const MapiClient = require('../lib/classes/mapi-client');
+
 const tu = require('./test-utils');
 
 const { mockToken, expectRejection } = tu;
@@ -512,7 +514,7 @@ function testSharedInterface(createClient) {
 
     test(`request.emitter emits a 'response' event with the same MapiResponse that the Promise resolves with`, () => {
       let emitterResp;
-      request.emitter.on('response', resp => {
+      request.emitter.on(constants.EVENT_RESPONSE, resp => {
         emitterResp = resp;
       });
       return request.send().then(resp => {
@@ -616,7 +618,7 @@ function testSharedInterface(createClient) {
 
     test(`request.emitter emits an 'error' event with the same MapiError that the Promise rejects with`, () => {
       let emitterError;
-      request.emitter.on('error', error => {
+      request.emitter.on(constants.EVENT_ERROR, error => {
         emitterError = error;
       });
       return expectRejection(request.send(), error => {
