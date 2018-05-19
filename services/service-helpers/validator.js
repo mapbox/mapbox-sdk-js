@@ -88,6 +88,18 @@ v.file = wrapCheck(function(value) {
   return 'must be a filename or Readable stream';
 });
 
+v.oneOf = function() {
+  var possibilities = Array.prototype.slice.call(arguments);
+  return wrapCheck(function(value) {
+    for (var i = 0; i < possibilities.length; i++) {
+      if (value === possibilities[i]) {
+        return;
+      }
+    }
+    return 'must be one of ' + possibilities.join(', ');
+  });
+};
+
 function required(value) {
   if (isEmpty(value)) {
     return 'is required';

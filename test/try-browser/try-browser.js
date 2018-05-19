@@ -10,7 +10,8 @@ window.tryServiceMethod = function(
   serviceName,
   methodName,
   config,
-  accessToken
+  accessToken,
+  callback
 ) {
   config = config || {};
   accessToken = accessToken || window.MAPBOX_ACCESS_TOKEN;
@@ -44,9 +45,13 @@ window.tryServiceMethod = function(
 
   service[methodName](config)
     .send()
-    .then(log, log);
+    .then(
+      function(response) {
+        console.log(response);
+        if (callback) callback(response);
+      },
+      function(error) {
+        console.error(error);
+      }
+    );
 };
-
-function log(msg) {
-  console.log(msg);
-}

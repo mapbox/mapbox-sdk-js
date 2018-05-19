@@ -30,8 +30,9 @@
 <pre><code style="display:block;">tryServiceMethod(
   service: string,
   method: string,
-  config?: Object,
-  accessToken?: string
+  config: ?Object,
+  accessToken: ?string,
+  callback: ?(response) => void,
 )</code></pre>
   </p>
   <p>
