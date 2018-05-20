@@ -112,7 +112,7 @@ v.stringOrArrayOfStrings = wrapCheck(function(value) {
   ) {
     return;
   }
-  return 'must be a string or an array of strings';
+  return 'must be a string or array of strings';
 });
 
 function required(value) {
