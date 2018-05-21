@@ -23,6 +23,34 @@ v.validate = function(schema, config) {
   });
 };
 
+v.oneOf = function(options) {
+  if (!Array.isArray(options)) {
+    throw new Error('oneOf expects an array');
+  }
+  var checks = [];
+  options.forEach(function(option) {
+    if (!option || !option.__check) {
+      throw new Error(option + ' is not a valid option');
+    }
+    checks.push(option.__check);
+  });
+
+  return wrapCheck(function(value) {
+    var messages = checks
+      .map(function(check) {
+        return check(value);
+      })
+      .filter(function(message) {
+        return message;
+      });
+
+    // no match
+    if (messages.length === checks.length) {
+      return messages.join(' or ');
+    }
+  });
+};
+
 v.string = wrapCheck(function(value) {
   if (typeof value !== 'string') {
     return 'must be a string';
@@ -73,6 +101,17 @@ v.arrayOfStrings = wrapCheck(function(value) {
   }
 });
 
+v.arrayOfObjects = wrapCheck(function(value) {
+  if (
+    !Array.isArray(value) ||
+    !value.every(function(x) {
+      return typeof x === 'object';
+    })
+  ) {
+    return 'must be an array of objects';
+  }
+});
+
 v.file = wrapCheck(function(value) {
   // If we're in a browser so Blob is available, the file must be that.
   // In Node, however, it could be a filepath or a pipeable (Readable) stream.
@@ -114,6 +153,9 @@ function wrapCheck(check) {
     wrappedRequired(config, key);
     wrapped(config, key);
   };
+
+  wrapped.__check = check;
+
   return wrapped;
 }
 
