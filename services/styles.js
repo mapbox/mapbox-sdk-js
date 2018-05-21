@@ -181,10 +181,7 @@ Styles.createStyleIcon = function(config) {
     method: 'PUT',
     path: '/styles/v1/:ownerId/:styleId/sprite/:iconId',
     params: pick(config, ['ownerId', 'styleId', 'iconId']),
-    file: config.file,
-    headers: {
-      'Content-Type': 'application/octet-stream'
-    }
+    file: config.file
   });
 };
 

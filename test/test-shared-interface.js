@@ -371,19 +371,19 @@ function testSharedInterface(createClient) {
       client = createLocalClient({ accessToken });
     });
 
-    test('default headers', () => {
+    test('default headers with body', () => {
       const sendRequest = () => {
         return client
           .createRequest({
-            method: 'GET',
-            path: '/styles/v1/:ownerId'
+            method: 'POST',
+            path: '/styles/v1/:ownerId',
+            body: { style: {} }
           })
           .send();
       };
       return server.captureRequest(sendRequest).then(req => {
         expect(req.headers).toMatchObject({
-          'content-type': 'application/json',
-          accept: 'application/json'
+          'content-type': 'application/json'
         });
       });
     });
@@ -392,8 +392,9 @@ function testSharedInterface(createClient) {
       const sendRequest = () => {
         return client
           .createRequest({
-            method: 'GET',
+            method: 'POST',
             path: '/styles/v1/:ownerId',
+            body: { style: {} },
             headers: {
               'Content-Type': 'application/octet-stream',
               Accept: 'text/csv'
@@ -425,8 +426,6 @@ function testSharedInterface(createClient) {
       };
       return server.captureRequest(sendRequest).then(req => {
         expect(req.headers).toMatchObject({
-          'content-type': 'application/json',
-          accept: 'application/json',
           'if-unmodified-since': 'Wed, 11 Apr 2018 17:09:50 GMT',
           'x-horse-name': 'Steuben',
           'x-dog-name': 'Paul, Cat'
