@@ -114,6 +114,8 @@ The `emitter` property is an `EventEmitter` that emits the following events:
     be interpolated the path.
 - `headers` **[Object][12]** The request's headers,
 - `body` **([Object][12] | null)** A JSON body to send with the request.
+    If the request has a body, it will also be sent with the header
+    'Content-Type: application/json'.
 - `file` **([Blob][20] \| [ArrayBuffer][21] \| [string][11] | ReadStream)** A file to
     send with the request. The browser client accepts Blobs and ArrayBuffers;
     the Node client accepts strings (filepaths) and ReadStreams.
