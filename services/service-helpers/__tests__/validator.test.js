@@ -502,3 +502,123 @@ describe('v.arrayOfObjects', () => {
     ).toBeUndefined();
   });
 });
+
+describe('v.arrayOf', () => {
+  const validateForArrayOf = config => {
+    return v.validate(
+      {
+        prop: v.arrayOf(v.string.required)
+      },
+      config
+    );
+  };
+
+  const expectRejection = config => {
+    tu.expectError(
+      () => validateForArrayOf(config),
+      error => {
+        expect(error.message).toBe('prop must be an array');
+      }
+    );
+  };
+
+  test('rejects strings', () => {
+    expectRejection({ prop: 'strings' });
+  });
+
+  test('rejects array of numbers', () => {
+    expect(() => validateForArrayOf({ prop: [9, 'strings'] })).toThrowError(
+      `prop array's every element must be a string`
+    );
+  });
+
+  test('accepts undefined / null', () => {
+    expect(() => validateForArrayOf({ prop: undefined })).not.toThrowError();
+  });
+
+  test('accepts empty array', () => {
+    expect(validateForArrayOf({ prop: [] })).toBeUndefined();
+  });
+
+  test('accepts string array', () => {
+    expect(validateForArrayOf({ prop: ['str'] })).toBeUndefined();
+  });
+
+  // test('accepts string & null mix array', () => {
+  //   expect(validateForArrayOf({ prop: ['str', null] })).toBeUndefined();
+  // });
+});
+
+describe('v.arrayOf required', () => {
+  const validateForArrayOf = config => {
+    return v.validate(
+      {
+        prop: v.arrayOf(v.string).required
+      },
+      config
+    );
+  };
+
+  const expectRejection = config => {
+    tu.expectError(
+      () => validateForArrayOf(config),
+      error => {
+        expect(error.message).toBe('prop must be an array');
+      }
+    );
+  };
+
+  test('rejects strings', () => {
+    expectRejection({ prop: 'strings' });
+  });
+
+  test('rejects array of numbers', () => {
+    expect(() => validateForArrayOf({ prop: [9, 'strings'] })).toThrowError(
+      `prop array's every element must be a string`
+    );
+  });
+
+  test('rejects undefined', () => {
+    expect(() => validateForArrayOf({ prop: undefined })).toThrowError(
+      `prop is required`
+    );
+  });
+
+  test('accepts empty array', () => {
+    expect(validateForArrayOf({ prop: [] })).toBeUndefined();
+  });
+});
+describe('compose of v.arrayOf & v.oneOf', () => {
+  const validator = config => {
+    return v.validate(
+      {
+        prop: v.arrayOf(v.oneOf([v.string, v.number])).required
+      },
+      config
+    );
+  };
+
+  test('rejects undefined', () => {
+    expect(() => validator({ prop: undefined })).toThrowError(
+      `prop is required`
+    );
+  });
+
+  test('rejects other types', () => {
+    expect(() => validator({ prop: [9, 'strin', false] })).toThrowError(
+      `prop array's every element must be a string or must be a number`
+    );
+  });
+
+  test('accepts a mix array', () => {
+    expect(validator({ prop: [9, 'str'] })).toBeUndefined();
+  });
+
+  test('accepts all strings', () => {
+    expect(validator({ prop: ['abc', 'str'] })).toBeUndefined();
+  });
+
+  test('accepts all numbers', () => {
+    expect(validator({ prop: [10, 2] })).toBeUndefined();
+  });
+});
