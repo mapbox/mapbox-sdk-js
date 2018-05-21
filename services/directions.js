@@ -35,6 +35,7 @@ var Directions = {};
  */
 Directions.getDirections = function(config) {
   config.profile = config.profile || 'driving';
+
   v.validate(
     {
       profile: v.string,
@@ -141,7 +142,7 @@ Directions.getDirections = function(config) {
     path: '/directions/v5/:profile/:coordinates',
     params: {
       profile: config.profile,
-      coordinates: wayPoints.coordinates.join(';') // exception! unlike others coordinates are delimited by `;`
+      coordinates: wayPoints.coordinates.join(';')
     },
     query: query
   });
