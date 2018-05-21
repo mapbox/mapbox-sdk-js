@@ -371,3 +371,134 @@ describe('v.file in Node', () => {
     ).toBeUndefined();
   });
 });
+
+describe('v.oneOf', () => {
+  describe('pair combination', () => {
+    const validateForOneOf = config => {
+      return v.validate(
+        {
+          prop: v.oneOf([v.arrayOfStrings, v.string])
+        },
+        config
+      );
+    };
+
+    const expectRejection = config => {
+      tu.expectError(
+        () => validateForOneOf(config),
+        error => {
+          expect(error.message).toBe(
+            'prop must be an array of strings or must be a string'
+          );
+        }
+      );
+    };
+
+    test('rejects numbers', () => {
+      expectRejection({ prop: 4 });
+    });
+    test('rejects objects', () => {
+      expectRejection({ prop: { foo: 'bar' } });
+    });
+    test('rejects boolean', () => {
+      expectRejection({ prop: true });
+    });
+
+    test('fails on array of booleans', () => {
+      expectRejection({ prop: [true] });
+    });
+
+    test('pass unstrict', () => {
+      expect(validateForOneOf({})).toBeUndefined();
+    });
+
+    test('accepts strings', () => {
+      expect(validateForOneOf({ prop: 'strings' })).toBeUndefined();
+    });
+
+    test('accepts arrays of strings', () => {
+      expect(validateForOneOf({ prop: ['a', 'b'] })).toBeUndefined();
+    });
+  });
+
+  describe('required', () => {
+    const strictValidateForOneOf = config => {
+      return v.validate(
+        {
+          prop: v.oneOf([v.arrayOfStrings, v.string]).required
+        },
+        config
+      );
+    };
+
+    test('required', () => {
+      expect(() => strictValidateForOneOf({})).toThrowError('prop is required');
+    });
+
+    test('accepts strings', () => {
+      expect(strictValidateForOneOf({ prop: 'strings' })).toBeUndefined();
+    });
+
+    test('accepts arrays of strings', () => {
+      expect(strictValidateForOneOf({ prop: ['a', 'b'] })).toBeUndefined();
+    });
+
+    test('should throw when some of oneOf item have required', () => {
+      expect(() =>
+        v.validate(
+          {
+            prop: v.oneOf([v.arrayOfStrings.required, v.string]).required
+          },
+          { prop: ['a', 'b'] }
+        )
+      ).toThrow();
+      expect(() =>
+        v.validate(
+          {
+            prop: v.oneOf([v.arrayOfStrings.required, v.string])
+          },
+          { prop: ['a', 'b'] }
+        )
+      ).toThrow();
+    });
+  });
+});
+
+describe('v.arrayOfObjects', () => {
+  const validateForArrayOfObjects = config => {
+    return v.validate(
+      {
+        prop: v.arrayOfObjects.required
+      },
+      config
+    );
+  };
+
+  const expectRejection = config => {
+    tu.expectError(
+      () => validateForArrayOfObjects(config),
+      error => {
+        expect(error.message).toBe('prop must be an array of objects');
+      }
+    );
+  };
+
+  test('rejects strings', () => {
+    expectRejection({ prop: 'strings' });
+  });
+  test('rejects numbers', () => {
+    expectRejection({ prop: 4 });
+  });
+  test('rejects objects', () => {
+    expectRejection({ prop: { foo: 'bar' } });
+  });
+  test('rejects boolean', () => {
+    expectRejection({ prop: true });
+  });
+
+  test('accepts arrays of objects', () => {
+    expect(
+      validateForArrayOfObjects({ prop: [{ a: 'a' }, { b: 'b' }] })
+    ).toBeUndefined();
+  });
+});
