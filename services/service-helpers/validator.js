@@ -51,6 +51,45 @@ v.oneOf = function(options) {
   });
 };
 
+v.arrayOf = function(option) {
+  if (!option || !(option.__check || option.__required_check)) {
+    throw new Error(option + ' is not a valid option');
+  }
+
+  var check = option.__check;
+  var required = false;
+
+  if (option.__required_check) {
+    check = option.__required_check;
+    required = true;
+  }
+
+  return wrapCheck(function(values) {
+    if (required && values == null) {
+      return 'is required';
+    }
+
+    // prevents values other than null,undefined,Array when required==false
+    if (values != null && !Array.isArray(values)) {
+      return 'must be an array';
+    }
+
+    if (Array.isArray(values)) {
+      var message = values
+        .map(function(val) {
+          return check(val);
+        })
+        .find(function(message) {
+          return message;
+        });
+
+      if (message) {
+        return "array's every element " + message;
+      }
+    }
+  });
+};
+
 v.string = wrapCheck(function(value) {
   if (typeof value !== 'string') {
     return 'must be a string';
@@ -153,6 +192,8 @@ function wrapCheck(check) {
     wrappedRequired(config, key);
     wrapped(config, key);
   };
+
+  wrapped.required.__required_check = check;
 
   wrapped.__check = check;
 
