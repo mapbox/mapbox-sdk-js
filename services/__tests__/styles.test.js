@@ -131,10 +131,7 @@ describe('createStyleIcon', () => {
       path: '/styles/v1/:ownerId/:styleId/sprite/:iconId',
       method: 'PUT',
       params: { styleId: 'foo', iconId: 'bar' },
-      file: 'path/to/file.svg',
-      headers: {
-        'Content-Type': 'application/octet-stream'
-      }
+      file: 'path/to/file.svg'
     });
   });
 });
