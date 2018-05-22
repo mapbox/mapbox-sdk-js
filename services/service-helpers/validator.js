@@ -23,73 +23,6 @@ v.validate = function(schema, config) {
   });
 };
 
-v.oneOf = function(options) {
-  if (!Array.isArray(options)) {
-    throw new Error('oneOf expects an array');
-  }
-  var checks = [];
-  options.forEach(function(option) {
-    if (!option || !option.__check) {
-      throw new Error(option + ' is not a valid option');
-    }
-    checks.push(option.__check);
-  });
-
-  return wrapCheck(function(value) {
-    var messages = checks
-      .map(function(check) {
-        return check(value);
-      })
-      .filter(function(message) {
-        return message;
-      });
-
-    // no match
-    if (messages.length === checks.length) {
-      return messages.join(' or ');
-    }
-  });
-};
-
-v.arrayOf = function(option) {
-  if (!option || !(option.__check || option.__required_check)) {
-    throw new Error(option + ' is not a valid option');
-  }
-
-  var check = option.__check;
-  var required = false;
-
-  if (option.__required_check) {
-    check = option.__required_check;
-    required = true;
-  }
-
-  return wrapCheck(function(values) {
-    if (required && values == null) {
-      return 'is required';
-    }
-
-    // prevents values other than null,undefined,Array when required==false
-    if (values != null && !Array.isArray(values)) {
-      return 'must be an array';
-    }
-
-    if (Array.isArray(values)) {
-      var message = values
-        .map(function(val) {
-          return check(val);
-        })
-        .find(function(message) {
-          return message;
-        });
-
-      if (message) {
-        return "array's every element " + message;
-      }
-    }
-  });
-};
-
 v.string = wrapCheck(function(value) {
   if (typeof value !== 'string') {
     return 'must be a string';
@@ -140,17 +73,6 @@ v.arrayOfStrings = wrapCheck(function(value) {
   }
 });
 
-v.arrayOfObjects = wrapCheck(function(value) {
-  if (
-    !Array.isArray(value) ||
-    !value.every(function(x) {
-      return typeof x === 'object';
-    })
-  ) {
-    return 'must be an array of objects';
-  }
-});
-
 v.file = wrapCheck(function(value) {
   // If we're in a browser so Blob is available, the file must be that.
   // In Node, however, it could be a filepath or a pipeable (Readable) stream.
@@ -175,6 +97,62 @@ v.oneOf = function() {
       }
     }
     return 'must be one of ' + possibilities.join(', ');
+  });
+};
+
+v.oneOfType = function() {
+  var options = Array.prototype.slice.call(arguments);
+
+  var checks = [];
+  options.forEach(function(option) {
+    if (!option || !option.__check) {
+      throw new Error(option + ' is not a valid option');
+    }
+    checks.push(option.__check);
+  });
+
+  return wrapCheck(function(value) {
+    var messages = checks
+      .map(function(check) {
+        return check(value);
+      })
+      .filter(function(message) {
+        return message;
+      });
+
+    // no match
+    if (messages.length === checks.length) {
+      return messages
+        .map(function(m, index) {
+          return index === 0 ? m : m.replace(/^must be /g, '');
+        })
+        .join(' or ');
+    }
+  });
+};
+
+v.arrayOf = function(option) {
+  var check = option.__check;
+
+  return wrapCheck(function(values) {
+    // prevents values other than null,undefined,Array
+    if (values != null && !Array.isArray(values)) {
+      return 'must be an array';
+    }
+
+    if (Array.isArray(values)) {
+      var message = values
+        .map(function(val) {
+          return check(val);
+        })
+        .find(function(message) {
+          return message;
+        });
+
+      if (message) {
+        return 'must be an array whose every element ' + message;
+      }
+    }
   });
 };
 
@@ -220,8 +198,9 @@ function wrapCheck(check) {
     wrapped(config, key);
   };
 
-  wrapped.required.__required_check = check;
-
+  // appending a private property which can then be used by validators
+  // which internally use simpler validators.
+  wrapped.required.__check = check;
   wrapped.__check = check;
 
   return wrapped;
