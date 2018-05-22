@@ -131,10 +131,7 @@ describe('createStyleIcon', () => {
       path: '/styles/v1/:ownerId/:styleId/sprite/:iconId',
       method: 'PUT',
       params: { styleId: 'foo', iconId: 'bar' },
-      file: 'path/to/file.svg',
-      headers: {
-        'Content-Type': 'application/octet-stream'
-      }
+      file: 'path/to/file.svg'
     });
   });
 });
@@ -153,9 +150,9 @@ describe('deleteStyleIcon', () => {
   });
 });
 
-describe('getStyleSpriteJson', () => {
-  test('works', () => {
-    styles.getStyleSpriteJson({
+describe('getStyleSprite', () => {
+  test('fetches JSON by default', () => {
+    styles.getStyleSprite({
       styleId: 'foo'
     });
     expect(tu.requestConfig(styles)).toEqual({
@@ -163,14 +160,14 @@ describe('getStyleSpriteJson', () => {
       method: 'GET',
       params: {
         styleId: 'foo',
-        ownerId: undefined,
         fileName: 'sprite.json'
       }
     });
   });
 
-  test('high resolution', () => {
-    styles.getStyleSpriteJson({
+  test('high resolution JSON', () => {
+    styles.getStyleSprite({
+      format: 'json',
       styleId: 'foo',
       highRes: true
     });
@@ -179,9 +176,105 @@ describe('getStyleSpriteJson', () => {
       method: 'GET',
       params: {
         styleId: 'foo',
-        ownerId: undefined,
         fileName: 'sprite@2x.json'
       }
+    });
+  });
+
+  test('regular resolution PNG', () => {
+    styles.getStyleSprite({
+      format: 'png',
+      styleId: 'foo'
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      method: 'GET',
+      params: {
+        styleId: 'foo',
+        fileName: 'sprite.png'
+      }
+    });
+  });
+
+  test('high resolution PNG', () => {
+    styles.getStyleSprite({
+      format: 'png',
+      styleId: 'foo',
+      highRes: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      method: 'GET',
+      params: {
+        styleId: 'foo',
+        fileName: 'sprite@2x.png'
+      }
+    });
+  });
+});
+
+describe('getFontGlyphRange', () => {
+  test('with one font', () => {
+    styles.getFontGlyphRange({
+      fonts: 'Ubuntu Bold',
+      start: 0,
+      end: 255
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/fonts/v1/:ownerId/:fontList/:fileName',
+      method: 'GET',
+      params: {
+        fontList: ['Ubuntu Bold'],
+        fileName: '0-255.pbf'
+      }
+    });
+  });
+
+  test('with multiple font', () => {
+    styles.getFontGlyphRange({
+      fonts: ['Ubuntu Bold', 'Ubuntu Light'],
+      start: 0,
+      end: 255
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/fonts/v1/:ownerId/:fontList/:fileName',
+      method: 'GET',
+      params: {
+        fontList: ['Ubuntu Bold', 'Ubuntu Light'],
+        fileName: '0-255.pbf'
+      }
+    });
+  });
+});
+
+describe('getEmbeddableHtml', () => {
+  test('works', () => {
+    styles.getEmbeddableHtml({
+      styleId: 'foo'
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:fileName',
+      method: 'GET',
+      params: {
+        fileName: 'foo.html'
+      },
+      query: {}
+    });
+  });
+
+  test('with non-default scrollZoom and title', () => {
+    styles.getEmbeddableHtml({
+      styleId: 'foo',
+      scrollZoom: false,
+      title: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:fileName',
+      method: 'GET',
+      params: {
+        fileName: 'foo.html'
+      },
+      query: { zoomwheel: 'false', title: 'true' }
     });
   });
 });
