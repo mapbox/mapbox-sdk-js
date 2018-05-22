@@ -657,30 +657,6 @@ function testSharedInterface(createClient) {
     });
   });
 
-  describe('failure to parse body as JSON', () => {
-    let request;
-    beforeEach(() => {
-      server.setResponse((req, res) => {
-        res.append('Content-Type', 'application/json; charset=utf-8');
-        res.send('{egg}');
-      });
-
-      const accessToken = mockToken();
-      const client = createLocalClient({ accessToken });
-      request = client.createRequest({
-        method: 'GET',
-        path: '/styles/v1/:ownerId/:styleId',
-        params: { styleId: 'foo' }
-      });
-    });
-
-    test(`request.send's Promise rejects with a SyntaxError`, () => {
-      return expectRejection(request.send(), error => {
-        expect(error.message).toMatch(/Unexpected token e/);
-      });
-    });
-  });
-
   describe('paginated GET that succeeds for every page', () => {
     let request;
     beforeEach(() => {

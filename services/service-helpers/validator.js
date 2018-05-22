@@ -166,6 +166,33 @@ v.file = wrapCheck(function(value) {
   return 'must be a filename or Readable stream';
 });
 
+v.oneOf = function() {
+  var possibilities = Array.prototype.slice.call(arguments);
+  return wrapCheck(function(value) {
+    for (var i = 0; i < possibilities.length; i++) {
+      if (value === possibilities[i]) {
+        return;
+      }
+    }
+    return 'must be one of ' + possibilities.join(', ');
+  });
+};
+
+v.stringOrArrayOfStrings = wrapCheck(function(value) {
+  if (typeof value === 'string') {
+    return;
+  }
+  if (
+    Array.isArray(value) &&
+    value.every(function(x) {
+      return typeof x === 'string';
+    })
+  ) {
+    return;
+  }
+  return 'must be a string or an array of strings';
+});
+
 function required(value) {
   if (isEmpty(value)) {
     return 'is required';

@@ -1,5 +1,6 @@
 'use strict';
 
+var xtend = require('xtend');
 var v = require('./service-helpers/validator');
 var pick = require('./service-helpers/pick');
 var createServiceFactory = require('./service-helpers/create-service-factory');
@@ -212,35 +213,117 @@ Styles.deleteStyleIcon = function(config) {
 };
 
 /**
- * Get a style's spritesheet in the JSON format.
+ * Get a style sprite's image or JSON document.
+ *
+ * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json).
  *
  * @param {Object} config
  * @param {string} config.styleId
+ * @param {'json' | 'png'} [config.format="json"]
  * @param {boolean} [config.highRes] - If true, returns spritesheet with 2x
  *   resolution.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
-Styles.getStyleSpriteJson = function(config) {
+Styles.getStyleSprite = function(config) {
   v.validate(
     {
       styleId: v.string.required,
+      format: v.oneOf('json', 'png'),
       highRes: v.boolean,
       ownerId: v.string
     },
     config
   );
 
-  var fileName = 'sprite' + (config.highRes ? '@2x' : '') + '.json';
+  var format = config.format || 'json';
+  var fileName = 'sprite' + (config.highRes ? '@2x' : '') + '.' + format;
 
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId/:fileName',
-    params: {
-      fileName: fileName,
-      ownerId: config.ownerId,
-      styleId: config.styleId
-    }
+    params: xtend(pick(config, ['ownerId', 'styleId']), {
+      fileName: fileName
+    })
+  });
+};
+
+/**
+ * Get a font glyph range.
+ *
+ * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges).
+ *
+ * @param {Object} config
+ * @param {string|Array<string>} config.fonts - An array of font names.
+ * @param {number} config.start - Character code of the starting glyph.
+ * @param {number} config.end - Character code of the last glyph,
+ *   typically equivalent to`config.start + 255`.
+ * @param {string} [config.ownerId]
+ * @return {MapiRequest}
+ */
+Styles.getFontGlyphRange = function(config) {
+  v.validate(
+    {
+      fonts: v.stringOrArrayOfStrings.required,
+      start: v.number.required,
+      end: v.number.required,
+      ownerId: v.string
+    },
+    config
+  );
+
+  var fileName = config.start + '-' + config.end + '.pbf';
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/fonts/v1/:ownerId/:fontList/:fileName',
+    params: xtend(pick(config, ['ownerId']), {
+      fontList: [].concat(config.fonts),
+      fileName: fileName
+    })
+  });
+};
+
+/**
+ * Get embeddable HTML displaying a map.
+ *
+ * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style).
+ *
+ * @param {Object} config
+ * @param {string} styleId
+ * @param {boolean} [scrollZoom=true] - If `false`, zooming the map by scrolling will
+ *   be disbaled.
+ * @param {boolean} [title=false] - If `true`, the map's title and owner is displayed
+ *   in the upper right corner of the map.
+ * @param {ownerId} [ownerId]
+ */
+Styles.getEmbeddableHtml = function(config) {
+  v.validate(
+    {
+      styleId: v.string.required,
+      scrollZoom: v.boolean,
+      title: v.boolean,
+      ownerId: v.string
+    },
+    config
+  );
+
+  var fileName = config.styleId + '.html';
+  var query = {};
+  if (config.scrollZoom !== undefined) {
+    query.zoomwheel = String(config.scrollZoom);
+  }
+  if (config.title !== undefined) {
+    query.title = String(config.title);
+  }
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/styles/v1/:ownerId/:fileName',
+    params: xtend(pick(config, ['ownerId']), {
+      fileName: fileName
+    }),
+    query: query
   });
 };
 
