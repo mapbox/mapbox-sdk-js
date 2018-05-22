@@ -372,12 +372,12 @@ describe('v.file in Node', () => {
   });
 });
 
-describe('v.oneOf', () => {
+describe('v.oneOfType', () => {
   describe('pair combination', () => {
     const validateForOneOf = config => {
       return v.validate(
         {
-          prop: v.oneOf([v.arrayOfStrings, v.string])
+          prop: v.oneOfType(v.arrayOfStrings, v.string)
         },
         config
       );
@@ -388,7 +388,7 @@ describe('v.oneOf', () => {
         () => validateForOneOf(config),
         error => {
           expect(error.message).toBe(
-            'prop must be an array of strings or must be a string'
+            'prop must be an array of strings or a string'
           );
         }
       );
@@ -425,7 +425,7 @@ describe('v.oneOf', () => {
     const strictValidateForOneOf = config => {
       return v.validate(
         {
-          prop: v.oneOf([v.arrayOfStrings, v.string]).required
+          prop: v.oneOfType(v.arrayOfStrings, v.string).required
         },
         config
       );
@@ -442,64 +442,6 @@ describe('v.oneOf', () => {
     test('accepts arrays of strings', () => {
       expect(strictValidateForOneOf({ prop: ['a', 'b'] })).toBeUndefined();
     });
-
-    test('should throw when some of oneOf item have required', () => {
-      expect(() =>
-        v.validate(
-          {
-            prop: v.oneOf([v.arrayOfStrings.required, v.string]).required
-          },
-          { prop: ['a', 'b'] }
-        )
-      ).toThrow();
-      expect(() =>
-        v.validate(
-          {
-            prop: v.oneOf([v.arrayOfStrings.required, v.string])
-          },
-          { prop: ['a', 'b'] }
-        )
-      ).toThrow();
-    });
-  });
-});
-
-describe('v.arrayOfObjects', () => {
-  const validateForArrayOfObjects = config => {
-    return v.validate(
-      {
-        prop: v.arrayOfObjects.required
-      },
-      config
-    );
-  };
-
-  const expectRejection = config => {
-    tu.expectError(
-      () => validateForArrayOfObjects(config),
-      error => {
-        expect(error.message).toBe('prop must be an array of objects');
-      }
-    );
-  };
-
-  test('rejects strings', () => {
-    expectRejection({ prop: 'strings' });
-  });
-  test('rejects numbers', () => {
-    expectRejection({ prop: 4 });
-  });
-  test('rejects objects', () => {
-    expectRejection({ prop: { foo: 'bar' } });
-  });
-  test('rejects boolean', () => {
-    expectRejection({ prop: true });
-  });
-
-  test('accepts arrays of objects', () => {
-    expect(
-      validateForArrayOfObjects({ prop: [{ a: 'a' }, { b: 'b' }] })
-    ).toBeUndefined();
   });
 });
 
@@ -528,7 +470,7 @@ describe('v.arrayOf', () => {
 
   test('rejects array of numbers', () => {
     expect(() => validateForArrayOf({ prop: [9, 'strings'] })).toThrowError(
-      `prop array's every element must be a string`
+      `prop must be an array whose every element must be a string`
     );
   });
 
@@ -544,9 +486,10 @@ describe('v.arrayOf', () => {
     expect(validateForArrayOf({ prop: ['str'] })).toBeUndefined();
   });
 
-  // test('accepts string & null mix array', () => {
-  //   expect(validateForArrayOf({ prop: ['str', null] })).toBeUndefined();
-  // });
+  test('accepts null/empty', () => {
+    expect(validateForArrayOf({ prop: null })).toBeUndefined();
+    expect(validateForArrayOf({})).toBeUndefined();
+  });
 });
 
 describe('v.arrayOf required', () => {
@@ -574,7 +517,7 @@ describe('v.arrayOf required', () => {
 
   test('rejects array of numbers', () => {
     expect(() => validateForArrayOf({ prop: [9, 'strings'] })).toThrowError(
-      `prop array's every element must be a string`
+      `prop must be an array whose every element must be a string`
     );
   });
 
@@ -588,11 +531,11 @@ describe('v.arrayOf required', () => {
     expect(validateForArrayOf({ prop: [] })).toBeUndefined();
   });
 });
-describe('compose of v.arrayOf & v.oneOf', () => {
+describe('compose v.arrayOf & v.oneOfType', () => {
   const validator = config => {
     return v.validate(
       {
-        prop: v.arrayOf(v.oneOf([v.string, v.number])).required
+        prop: v.arrayOf(v.oneOfType(v.string, v.number)).required
       },
       config
     );
@@ -606,7 +549,7 @@ describe('compose of v.arrayOf & v.oneOf', () => {
 
   test('rejects other types', () => {
     expect(() => validator({ prop: [9, 'strin', false] })).toThrowError(
-      `prop array's every element must be a string or must be a number`
+      `prop must be an array whose every element must be a string`
     );
   });
 
@@ -620,5 +563,24 @@ describe('compose of v.arrayOf & v.oneOf', () => {
 
   test('accepts all numbers', () => {
     expect(validator({ prop: [10, 2] })).toBeUndefined();
+  });
+});
+
+describe('compose v.arrayOf & v.oneOf', () => {
+  const validator = config => {
+    return v.validate(
+      {
+        prop: v.arrayOf(v.oneOf('hello', 'world', 'kindle')).required
+      },
+      config
+    );
+  };
+
+  test('rejects other types', () => {
+    expect(() => validator({ prop: ['hello', 'wrld'] })).toThrowError();
+  });
+
+  test('accepts valid options', () => {
+    expect(() => validator({ prop: ['hello', 'world'] })).not.toThrowError();
   });
 });
