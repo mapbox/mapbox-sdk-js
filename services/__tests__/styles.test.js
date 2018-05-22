@@ -258,7 +258,7 @@ describe('getEmbeddableHtml', () => {
       params: {
         fileName: 'foo.html'
       },
-      query: { zoomwheel: 'true', title: 'false' }
+      query: {}
     });
   });
 

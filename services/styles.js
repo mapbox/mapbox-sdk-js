@@ -308,9 +308,14 @@ Styles.getEmbeddableHtml = function(config) {
     config
   );
 
-  var scrollZoom = config.scrollZoom !== undefined ? config.scrollZoom : true;
-  var title = config.title !== undefined ? config.title : false;
   var fileName = config.styleId + '.html';
+  var query = {};
+  if (config.scrollZoom !== undefined) {
+    query.zoomwheel = String(config.scrollZoom);
+  }
+  if (config.title !== undefined) {
+    query.title = String(config.title);
+  }
 
   return this.client.createRequest({
     method: 'GET',
@@ -318,10 +323,7 @@ Styles.getEmbeddableHtml = function(config) {
     params: xtend(pick(config, ['ownerId']), {
       fileName: fileName
     }),
-    query: {
-      zoomwheel: String(scrollZoom),
-      title: String(title)
-    }
+    query: query
   });
 };
 
