@@ -163,12 +163,7 @@ Tokens.updateToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.getToken = function(config) {
-  v.validate(
-    {
-      ownerId: v.string
-    },
-    config
-  );
+  v.validate({}, config);
 
   return this.client.createRequest({
     method: 'GET',
