@@ -75,6 +75,39 @@ Tokens.createToken = function(config) {
 };
 
 /**
+ * Create a new temporary access token.
+ *
+ * See the [public documentation](https://www.mapbox.com/api-documentation/#create-temporary-token).
+ *
+ * @param {Object} [config]
+ * @param {string} [config.expires]
+ * @param {Array<string>} [config.scopes]
+ * @param {string} [config.ownerId]
+ * @return {MapiRequest}
+ */
+Tokens.createTemporaryToken = function(config) {
+  config = config || {};
+  v.validate(
+    {
+      expires: v.date.required,
+      scopes: v.arrayOfStrings.required,
+      ownerId: v.string
+    },
+    config
+  );
+
+  return this.client.createRequest({
+    method: 'POST',
+    path: '/tokens/v2/:ownerId',
+    params: pick(config, ['ownerId']),
+    body: {
+      expires: new Date(config.expires).toISOString(),
+      scopes: config.scopes
+    }
+  });
+};
+
+/**
  * Update an access token.
  *
  * See the [public documentation](https://www.mapbox.com/api-documentation/#update-a-token).
@@ -118,6 +151,28 @@ Tokens.updateToken = function(config) {
     path: '/tokens/v2/:ownerId/:tokenId',
     params: pick(config, ['ownerId', 'tokenId']),
     body: body
+  });
+};
+
+/**
+ * Get data about the client's access token.
+ *
+ * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-token).
+ *
+ * @param {Object} config
+ * @return {MapiRequest}
+ */
+Tokens.getToken = function(config) {
+  v.validate(
+    {
+      ownerId: v.string
+    },
+    config
+  );
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/tokens/v2'
   });
 };
 
