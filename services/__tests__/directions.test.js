@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('getDirections', () => {
   test('works', () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -35,7 +35,7 @@ describe('getDirections', () => {
 
   test('it omits queries not supplied', () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -63,9 +63,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('it reads way_points props', () => {
+  test('it reads wayPoints props', () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
@@ -81,7 +81,7 @@ describe('getDirections', () => {
       ],
       profile: 'walking',
       steps: false,
-      continue_straight: false
+      continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
       path: '/directions/v5/:profile/:coordinates',
@@ -99,9 +99,9 @@ describe('getDirections', () => {
     });
   });
 
-  test(`it works if an optional way_points.bearing is missing at some places`, () => {
+  test(`it works if an optional wayPoints.bearing is missing at some places`, () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -122,7 +122,7 @@ describe('getDirections', () => {
       ],
       profile: 'walking',
       steps: false,
-      continue_straight: false
+      continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
       path: '/directions/v5/:profile/:coordinates',
@@ -139,9 +139,9 @@ describe('getDirections', () => {
     });
   });
 
-  test(`it works if an optional way_points.radius is missing at some places`, () => {
+  test(`it works if an optional wayPoints.radius is missing at some places`, () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
@@ -163,7 +163,7 @@ describe('getDirections', () => {
       ],
       profile: 'walking',
       steps: false,
-      continue_straight: false
+      continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
       path: '/directions/v5/:profile/:coordinates',
@@ -181,9 +181,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('way_points.radius can be any of string or number', () => {
+  test('wayPoints.radius can be any of string or number', () => {
     directions.getDirections({
-      way_points: [
+      wayPoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
