@@ -250,7 +250,7 @@ See [the public documentation][38].
 **Parameters**
 
 - `config` **[Object][21]** 
-  - `config.fonts` **[Array][25]&lt;[string][22]>** An array of font names.
+  - `config.fonts` **([string][22] \| [Array][25]&lt;[string][22]>)** An array of font names.
   - `config.start` **[number][32]** Character code of the starting glyph.
   - `config.end` **[number][32]** Character code of the last glyph,
       typically equivalent to`config.start + 255`.

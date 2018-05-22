@@ -254,7 +254,7 @@ Styles.getStyleSprite = function(config) {
  * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges).
  *
  * @param {Object} config
- * @param {Array<string>} config.fonts - An array of font names.
+ * @param {string|Array<string>} config.fonts - An array of font names.
  * @param {number} config.start - Character code of the starting glyph.
  * @param {number} config.end - Character code of the last glyph,
  *   typically equivalent to`config.start + 255`.
@@ -264,7 +264,7 @@ Styles.getStyleSprite = function(config) {
 Styles.getFontGlyphRange = function(config) {
   v.validate(
     {
-      fonts: v.arrayOfStrings.required,
+      fonts: v.stringOrArrayOfStrings.required,
       start: v.number.required,
       end: v.number.required,
       ownerId: v.string
@@ -272,14 +272,13 @@ Styles.getFontGlyphRange = function(config) {
     config
   );
 
-  var fontList = config.fonts.join(',');
   var fileName = config.start + '-' + config.end + '.pbf';
 
   return this.client.createRequest({
     method: 'GET',
     path: '/fonts/v1/:ownerId/:fontList/:fileName',
     params: xtend(pick(config, ['ownerId']), {
-      fontList: fontList,
+      fontList: [].concat(config.fonts),
       fileName: fileName
     })
   });
@@ -322,11 +321,6 @@ Styles.getEmbeddableHtml = function(config) {
     query: {
       zoomwheel: String(scrollZoom),
       title: String(title)
-    },
-    headers: {
-      // Makes this request a "simple" request, so an OPTIONS preflight
-      // request is not sent from the browser, which the server rejects.
-      'Content-Type': 'text/plain'
     }
   });
 };

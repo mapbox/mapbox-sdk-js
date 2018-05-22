@@ -216,7 +216,7 @@ describe('getStyleSprite', () => {
 describe('getFontGlyphRange', () => {
   test('with one font', () => {
     styles.getFontGlyphRange({
-      fonts: ['Ubuntu Bold'],
+      fonts: 'Ubuntu Bold',
       start: 0,
       end: 255
     });
@@ -224,7 +224,7 @@ describe('getFontGlyphRange', () => {
       path: '/fonts/v1/:ownerId/:fontList/:fileName',
       method: 'GET',
       params: {
-        fontList: 'Ubuntu Bold',
+        fontList: ['Ubuntu Bold'],
         fileName: '0-255.pbf'
       }
     });
@@ -240,7 +240,7 @@ describe('getFontGlyphRange', () => {
       path: '/fonts/v1/:ownerId/:fontList/:fileName',
       method: 'GET',
       params: {
-        fontList: 'Ubuntu Bold,Ubuntu Light',
+        fontList: ['Ubuntu Bold', 'Ubuntu Light'],
         fileName: '0-255.pbf'
       }
     });
@@ -258,9 +258,6 @@ describe('getEmbeddableHtml', () => {
       params: {
         fileName: 'foo.html'
       },
-      headers: {
-        'Content-Type': 'text/plain'
-      },
       query: { zoomwheel: 'true', title: 'false' }
     });
   });
@@ -276,9 +273,6 @@ describe('getEmbeddableHtml', () => {
       method: 'GET',
       params: {
         fileName: 'foo.html'
-      },
-      headers: {
-        'Content-Type': 'text/plain'
       },
       query: { zoomwheel: 'false', title: 'true' }
     });

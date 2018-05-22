@@ -100,6 +100,21 @@ v.oneOf = function() {
   });
 };
 
+v.stringOrArrayOfStrings = wrapCheck(function(value) {
+  if (typeof value === 'string') {
+    return;
+  }
+  if (
+    Array.isArray(value) &&
+    value.every(function(x) {
+      return typeof x === 'string';
+    })
+  ) {
+    return;
+  }
+  return 'must be a string or an array of strings';
+});
+
 function required(value) {
   if (isEmpty(value)) {
     return 'is required';
