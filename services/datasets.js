@@ -159,7 +159,7 @@ Datasets.listFeatures = function(config) {
 };
 
 /**
- * Update a feature in a dataset, or create a new one.
+ * Add a feature to a dataset, or update an existing one.
  *
  * See the [public documentation](https://www.mapbox.com/api-documentation/#insert-or-update-a-feature).
  *
@@ -169,7 +169,7 @@ Datasets.listFeatures = function(config) {
  * @param {Object} config.feature
  * @return {MapiRequest}
  */
-Datasets.updateFeature = function(config) {
+Datasets.putFeature = function(config) {
   v.validate(
     {
       datasetId: v.string.required,

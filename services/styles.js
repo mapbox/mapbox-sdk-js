@@ -158,7 +158,7 @@ Styles.listStyles = function(config) {
 };
 
 /**
- * Add an icon to a style.
+ * Add an icon to a style, or update an existing one.
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -167,7 +167,7 @@ Styles.listStyles = function(config) {
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
-Styles.createStyleIcon = function(config) {
+Styles.putStyleIcon = function(config) {
   v.validate(
     {
       styleId: v.string.required,

@@ -129,9 +129,9 @@ describe('listFeatures', () => {
   });
 });
 
-describe('updateFeature', () => {
+describe('putFeature', () => {
   test('updates an existing feature with partial data', () => {
-    datasets.updateFeature({
+    datasets.putFeature({
       datasetId: 'mock-dataset',
       featureId: 'mock-feature',
       feature: { geometry: { type: 'Point', coordinates: [0, 10] } }
@@ -148,7 +148,7 @@ describe('updateFeature', () => {
   });
 
   test('creates a brand new feature', () => {
-    datasets.updateFeature({
+    datasets.putFeature({
       datasetId: 'mock-dataset',
       featureId: 'mock-feature',
       feature: {
@@ -173,7 +173,7 @@ describe('updateFeature', () => {
   test('errors if feature ID does not match featureId in config', () => {
     tu.expectError(
       () => {
-        datasets.updateFeature({
+        datasets.putFeature({
           datasetId: 'mock-dataset',
           featureId: 'mock-feature',
           feature: {
