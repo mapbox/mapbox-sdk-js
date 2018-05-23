@@ -1,14 +1,17 @@
 'use strict';
+/**
+ * NOTE: this would soon be moved to an independent package.
+ */
 
 var isPlainObject = require('is-plain-obj');
 
 var v = {};
 
-v.validate = function(a, b) {
-  if (isPlainObject(b)) {
-    validateObject(a, b);
+v.validate = function(schema, value) {
+  if (isPlainObject(value)) {
+    validateObject(schema, value);
   } else {
-    validateNonObject(a, b);
+    validateNonObject(schema, value);
   }
 };
 
@@ -125,14 +128,7 @@ v.arrayOf = wrapValidateWithArgs(function arrayOf(value, args) {
   }
 });
 
-v.required = function wrappedRequired(validate) {
-  return function required(value, key) {
-    if (isEmpty(value)) {
-      throw new Error(key + ' is required');
-    }
-    validate(value, key);
-  };
-};
+v.required = wrappedRequired;
 
 function validateObject(schema, value) {
   var valueKeys = Object.keys(value);
@@ -153,7 +149,7 @@ function validateObject(schema, value) {
 }
 
 function validateNonObject(validate, value) {
-  var msg = validate(value);
+  var msg = validate(value, 'value');
   if (msg) {
     complain(msg);
   }
@@ -188,6 +184,15 @@ function wrapValidateWithArgs(validate) {
       }
       return validate(value, args);
     };
+  };
+}
+
+function wrappedRequired(validate) {
+  return function required(value, key) {
+    if (isEmpty(value)) {
+      throw new Error(key + ' is required');
+    }
+    validate(value, key);
   };
 }
 
