@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('getDirections', () => {
   test('works', () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -23,7 +23,7 @@ describe('getDirections', () => {
       ]
     });
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1',
@@ -35,7 +35,7 @@ describe('getDirections', () => {
 
   test('it omits queries not supplied', () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -50,7 +50,7 @@ describe('getDirections', () => {
       geometries: 'polyline'
     });
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1',
@@ -63,9 +63,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('it reads wayPoints props', () => {
+  test('it reads waypoints props', () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
@@ -84,7 +84,7 @@ describe('getDirections', () => {
       continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1',
@@ -93,15 +93,15 @@ describe('getDirections', () => {
       query: {
         steps: false,
         continue_straight: false,
-        radius: '2000;2000',
-        bearing: '45,20;46,21'
+        radiuses: '2000;2000',
+        bearings: '45,20;46,21'
       }
     });
   });
 
-  test(`it works if an optional wayPoints.bearing is missing at some places`, () => {
+  test(`it works if an optional waypoints.bearing is missing at some places`, () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2
@@ -125,7 +125,7 @@ describe('getDirections', () => {
       continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1;2.2,1.1;2.2,1.1',
@@ -134,14 +134,14 @@ describe('getDirections', () => {
       query: {
         steps: false,
         continue_straight: false,
-        bearing: ';;45,32;'
+        bearings: ';;45,32;'
       }
     });
   });
 
-  test(`it works if an optional wayPoints.radius is missing at some places`, () => {
+  test(`it works if an optional waypoints.radius is missing at some places`, () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
@@ -166,7 +166,7 @@ describe('getDirections', () => {
       continueStraight: false
     });
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1;2.2,1.1;2.2,1.1',
@@ -175,15 +175,15 @@ describe('getDirections', () => {
       query: {
         steps: false,
         continue_straight: false,
-        bearing: ';;45,32;',
-        radius: '2000;;;'
+        bearings: ';;45,32;',
+        radiuses: '2000;;;'
       }
     });
   });
 
-  test('wayPoints.radius can be any of string or number', () => {
+  test('waypoints.radius can be any of string or number', () => {
     directions.getDirections({
-      wayPoints: [
+      waypoints: [
         {
           latitude: 1.1,
           longitude: 2.2,
@@ -198,14 +198,14 @@ describe('getDirections', () => {
     });
 
     expect(tu.requestConfig(directions)).toEqual({
-      path: '/directions/v5/:profile/:coordinates',
+      path: '/directions/v5/mapbox/:profile/:coordinates',
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1',
         profile: 'driving'
       },
       query: {
-        radius: '2000;unlimited'
+        radiuses: '2000;unlimited'
       }
     });
   });

@@ -16,7 +16,7 @@ var Directions = {};
  *
  * @param {Object} config
  * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile="driving"]
- * @param {Array<wayPoints>} config.wayPoints - An ordered array of `wayPoint` object. There can be between 2 and 25 wayPoints.
+ * @param {Array<waypoints>} config.waypoints - An ordered array of `waypoint` object. There can be between 2 and 25 waypoints.
  * @param {boolean} [config.alternatives=false] - Whether to try to return alternative routes.
  * @param {Array<'duration'|'distance'|'speed'|'congestion'>} [config.annotations] - Whether or not to return additional metadata along the route.
  * @param {boolean} [config.bannerInstructions=false] -  Should be used in conjunction with `steps`.
@@ -35,7 +35,7 @@ Directions.getDirections = function(config) {
   v.validate(
     {
       profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
-      wayPoints: v.arrayOf(v.plainObject).required,
+      waypoints: v.arrayOf(v.plainObject).required,
       alternatives: v.boolean,
       annotations: v.arrayOf(
         v.oneOf('duration', 'distance', 'speed', 'congestion')
@@ -62,15 +62,15 @@ Directions.getDirections = function(config) {
    * all the properties that depend on the order of coordinates into
    * one object for ease of use.
    *
-   * @typedef {Object} wayPoints
+   * @typedef {Object} waypoints
    * @property {number} latitude
    * @property {number} longitude
    * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
    * @property {Array<number>} [bearing] - Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
    * @property {number|'unlimited'} [radius] - Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-   * @property {string} [wayPointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+   * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
    */
-  config.wayPoints.forEach(function(wayPoint) {
+  config.waypoints.forEach(function(waypoint) {
     v.validate(
       {
         latitude: v.number.required,
@@ -78,49 +78,49 @@ Directions.getDirections = function(config) {
         approach: v.oneOf('unrestricted', 'curb'),
         bearing: v.arrayOf(v.number),
         radius: v.oneOfType(v.number, v.oneOf('unlimited')),
-        wayPointName: v.string
+        waypointName: v.string
       },
-      wayPoint
+      waypoint
     );
   });
 
-  var wayPoints = {
+  var waypoints = {
     coordinates: [],
     approach: [],
     bearing: [],
     radius: [],
-    wayPointName: []
+    waypointName: []
   };
 
-  config.wayPoints.forEach(function(wayPoint) {
-    wayPoints.coordinates.push(wayPoint.longitude + ',' + wayPoint.latitude);
+  config.waypoints.forEach(function(waypoint) {
+    waypoints.coordinates.push(waypoint.longitude + ',' + waypoint.latitude);
 
     // join props which come in pairs
     ['bearing'].forEach(function(prop) {
-      if (wayPoint.hasOwnProperty(prop) && wayPoint[prop] != null) {
-        wayPoint[prop] = wayPoint[prop].join(',');
+      if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
+        waypoint[prop] = waypoint[prop].join(',');
       }
     });
 
-    ['approach', 'bearing', 'radius', 'wayPointName'].forEach(function(prop) {
-      if (wayPoint.hasOwnProperty(prop) && wayPoint[prop] != null) {
-        wayPoints[prop].push(wayPoint[prop]);
+    ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
+      if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
+        waypoints[prop].push(waypoint[prop]);
       } else {
-        wayPoints[prop].push('');
+        waypoints[prop].push('');
       }
     });
   });
 
-  ['approach', 'bearing', 'radius', 'wayPointName'].forEach(function(prop) {
+  ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
     // avoid sending params which are all `;`
     if (
-      wayPoints[prop].every(function(char) {
+      waypoints[prop].every(function(char) {
         return char == '';
       })
     ) {
-      delete wayPoints[prop];
+      delete waypoints[prop];
     } else {
-      wayPoints[prop] = wayPoints[prop].join(';');
+      waypoints[prop] = waypoints[prop].join(';');
     }
   });
 
@@ -137,18 +137,18 @@ Directions.getDirections = function(config) {
     steps: config.steps,
     voice_instructions: config.voiceInstructions,
     voice_units: config.voiceUnits,
-    approach: wayPoints.approach,
-    bearing: wayPoints.bearing,
-    radius: wayPoints.radius,
-    waypoint_name: wayPoints.wayPointName
+    approaches: waypoints.approach,
+    bearings: waypoints.bearing,
+    radiuses: waypoints.radius,
+    waypoint_names: waypoints.waypointName
   };
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/directions/v5/:profile/:coordinates',
+    path: '/directions/v5/mapbox/:profile/:coordinates',
     params: {
       profile: config.profile,
-      coordinates: wayPoints.coordinates.join(';')
+      coordinates: waypoints.coordinates.join(';')
     },
     query: pick(query, function(_, val) {
       return val != null;
