@@ -4,38 +4,6 @@ var isPlainObject = require('is-plain-obj');
 
 var v = {};
 
-function validateObject(schema, value) {
-  var valueKeys = Object.keys(value);
-  var schemaKeys = Object.keys(schema);
-  valueKeys.forEach(function(valueKey) {
-    if (!schema[valueKey]) {
-      throw new Error(valueKey + ' is not a valid option');
-    }
-  });
-  schemaKeys.forEach(function(schemaKey) {
-    var validate = schema[schemaKey];
-    var propertyValue = value[schemaKey];
-    var msg = validate(propertyValue, schemaKey);
-    if (msg) {
-      complain(msg, schemaKey);
-    }
-  });
-}
-
-function validateNonObject(validate, value) {
-  var msg = validate(value);
-  if (msg) {
-    complain(msg);
-  }
-}
-
-function complain(msg, key) {
-  if (key) {
-    throw new Error(key + ' must be ' + msg);
-  }
-  throw new Error('expected ' + msg);
-}
-
 v.validate = function(a, b) {
   if (isPlainObject(b)) {
     validateObject(a, b);
@@ -98,7 +66,7 @@ v.plainObject = wrapValidate(function plainObject(value) {
   }
 });
 
-v.range = wrapValidateWithArguments(function numberGreaterThan(value, args) {
+v.range = wrapValidateWithArgs(function numberGreaterThan(value, args) {
   var min = args[0];
   var max = args[1];
   if (typeof value !== 'number' || value < min || value > max) {
@@ -116,7 +84,7 @@ v.coordinates = wrapValidate(function coordinates(value) {
   }
 });
 
-v.oneOf = wrapValidateWithArguments(function oneOf(value, options) {
+v.oneOf = wrapValidateWithArgs(function oneOf(value, options) {
   for (var i = 0; i < options.length; i++) {
     if (value === options[i]) {
       return;
@@ -125,10 +93,7 @@ v.oneOf = wrapValidateWithArguments(function oneOf(value, options) {
   return orList(options.map(JSON.stringify));
 });
 
-v.oneOfType = wrapValidateWithArguments(function oneOfType(
-  value,
-  wrappedCheckers
-) {
+v.oneOfType = wrapValidateWithArgs(function oneOfType(value, wrappedCheckers) {
   var messages = wrappedCheckers
     .map(function(wrappedChecker) {
       return wrappedChecker(value);
@@ -146,7 +111,7 @@ v.oneOfType = wrapValidateWithArguments(function oneOfType(
   return orList(messages);
 });
 
-v.arrayOf = wrapValidateWithArguments(function arrayOf(value, args) {
+v.arrayOf = wrapValidateWithArgs(function arrayOf(value, args) {
   if (!Array.isArray(value)) {
     return 'an array';
   }
@@ -169,6 +134,38 @@ v.required = function wrappedRequired(validate) {
   };
 };
 
+function validateObject(schema, value) {
+  var valueKeys = Object.keys(value);
+  var schemaKeys = Object.keys(schema);
+  valueKeys.forEach(function(valueKey) {
+    if (!schema[valueKey]) {
+      throw new Error(valueKey + ' is not a valid option');
+    }
+  });
+  schemaKeys.forEach(function(schemaKey) {
+    var validate = schema[schemaKey];
+    var propertyValue = value[schemaKey];
+    var msg = validate(propertyValue, schemaKey);
+    if (msg) {
+      complain(msg, schemaKey);
+    }
+  });
+}
+
+function validateNonObject(validate, value) {
+  var msg = validate(value);
+  if (msg) {
+    complain(msg);
+  }
+}
+
+function complain(msg, key) {
+  if (key) {
+    throw new Error(key + ' must be ' + msg);
+  }
+  throw new Error('expected ' + msg);
+}
+
 function isEmpty(value) {
   return value === undefined || value === null;
 }
@@ -182,7 +179,7 @@ function wrapValidate(validate) {
   };
 }
 
-function wrapValidateWithArguments(validate) {
+function wrapValidateWithArgs(validate) {
   return function wrappedValidateWithArguments() {
     var args = Array.prototype.slice.call(arguments);
     return function(value) {
@@ -203,4 +200,10 @@ function orList(list) {
     .join(' or ');
 }
 
-module.exports = v;
+module.exports = {
+  v: v,
+  orList: orList,
+  isEmpty: isEmpty,
+  wrapValidate: wrapValidate,
+  wrapValidateWithArgs: wrapValidateWithArgs
+};

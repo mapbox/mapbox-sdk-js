@@ -1,6 +1,6 @@
 'use strict';
 
-const v = require('../validator2');
+const v = require('../validator2').v;
 
 describe('string', () => {
   describe('outside object', () => {
