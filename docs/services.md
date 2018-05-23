@@ -11,7 +11,7 @@
   - [updateDataset](#updatedataset)
   - [deleteDataset](#deletedataset)
   - [listFeatures](#listfeatures)
-  - [updateFeature](#updatefeature)
+  - [putFeature](#putfeature)
   - [getFeature](#getfeature)
   - [deleteFeature](#deletefeature)
 - [Tilequery](#tilequery)
@@ -32,7 +32,7 @@
   - [updateStyle](#updatestyle)
   - [deleteStyle](#deletestyle)
   - [listStyles](#liststyles)
-  - [createStyleIcon](#createstyleicon)
+  - [putStyleIcon](#putstyleicon)
   - [deleteStyleIcon](#deletestyleicon)
   - [getStyleSprite](#getstylesprite)
   - [getFontGlyphRange](#getfontglyphrange)
@@ -144,9 +144,9 @@ See the [public documentation][75].
 
 Returns **MapiRequest** 
 
-### updateFeature
+### putFeature
 
-Update a feature in a dataset, or create a new one.
+Add a feature to a dataset, or update an existing one.
 
 See the [public documentation][77].
 
@@ -427,9 +427,9 @@ List styles in your account.
 
 Returns **MapiRequest** 
 
-### createStyleIcon
+### putStyleIcon
 
-Add an icon to a style.
+Add an icon to a style, or update an existing one.
 
 #### Parameters
 
@@ -554,7 +554,7 @@ Type: [Object][68]
 
 [16]: #parameters-6
 
-[17]: #updatefeature
+[17]: #putfeature
 
 [18]: #parameters-7
 
@@ -630,7 +630,7 @@ Type: [Object][68]
 
 [54]: #parameters-23
 
-[55]: #createstyleicon
+[55]: #putstyleicon
 
 [56]: #parameters-24
 
