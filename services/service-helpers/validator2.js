@@ -195,20 +195,12 @@ function wrapValidateWithArguments(validate) {
 }
 
 function orList(list) {
-  if (list.length === 1) {
-    return list;
+  if (list.length < 2) {
+    return list[0];
   }
-  if (list.length === 2) {
-    return list.join(' or ');
-  }
-  return list
-    .map(function(item, index) {
-      if (index === list.length - 1) {
-        return 'or ' + item;
-      }
-      return item;
-    })
-    .join(', ');
+  return [list.slice(0, list.length - 1).join(', ')]
+    .concat(list.slice(list.length - 1))
+    .join(' or ');
 }
 
 module.exports = v;

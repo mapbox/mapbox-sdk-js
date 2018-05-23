@@ -145,7 +145,7 @@ describe('oneOfType', () => {
   test('failure', () => {
     expect(() => {
       v.validate(v.oneOfType(v.string, v.number, v.arrayOf(v.number)), true);
-    }).toThrow('expected a string, a number, or an array');
+    }).toThrow('expected a string, a number or an array');
     expect(() => {
       v.validate(v.oneOfType(v.string, v.arrayOf(v.number)), [1, 'foo']);
     }).toThrow('expected a string or an array whose every item is a number');
