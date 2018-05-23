@@ -10,12 +10,22 @@ describe('string', () => {
     test('failure', () => {
       expect(() => v.validate(v.string, 7)).toThrow('expected a string');
     });
+
+    test('failure', () => {
+      expect(() => v.validate(v.required(v.string), undefined)).toThrow(
+        'value is required'
+      );
+    });
   });
 
   describe('inside object', () => {
     test('success', () => {
       expect(() => v.validate({ foo: v.string }, { foo: 'bb' })).not.toThrow();
     });
+    test('success', () => {
+      expect(() => v.validate({ foo: v.string }, {})).not.toThrow();
+    });
+
     test('failure', () => {
       expect(() => v.validate({ foo: v.string }, { foo: 7 })).toThrow(
         'foo must be a string'
