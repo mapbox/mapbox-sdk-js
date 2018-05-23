@@ -9,7 +9,9 @@
 - [Tokens](#tokens)
   - [listTokens](#listtokens)
   - [createToken](#createtoken)
+  - [createTemporaryToken](#createtemporarytoken)
   - [updateToken](#updatetoken)
+  - [getToken](#gettoken)
   - [deleteToken](#deletetoken)
   - [listScopes](#listscopes)
 - [Styles](#styles)
@@ -33,12 +35,12 @@ Tilesets API service.
 
 List a user's tilesets.
 
-See the [public documentation][23].
+See the [public documentation][25].
 
 **Parameters**
 
-- `config` **[Object][24]?** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -50,24 +52,24 @@ Directions API service.
 
 Get directions.
 
-See the [Mapbox Directions API][26].
+See the [Mapbox Directions API][28].
 
 **Parameters**
 
-- `config` **[Object][24]** 
+- `config` **[Object][26]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][27]&lt;[waypoints][28]>** An ordered array of `waypoint` object. There can be between 2 and 25 waypoints.
-  - `config.alternatives` **[boolean][29]** Whether to try to return alternative routes. (optional, default `false`)
-  - `config.annotations` **[Array][27]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
-  - `config.bannerInstructions` **[boolean][29]**  Should be used in conjunction with `steps`. (optional, default `false`)
-  - `config.continueStraight` **[boolean][29]?** Sets the allowed direction of travel when departing intermediate waypoints.
-  - `config.exclude` **[string][25]?** Exclude certain road types from routing.
+  - `config.waypoints` **[Array][29]&lt;[waypoints][30]>** An ordered array of `waypoint` object. There can be between 2 and 25 waypoints.
+  - `config.alternatives` **[boolean][31]** Whether to try to return alternative routes. (optional, default `false`)
+  - `config.annotations` **[Array][29]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
+  - `config.bannerInstructions` **[boolean][31]**  Should be used in conjunction with `steps`. (optional, default `false`)
+  - `config.continueStraight` **[boolean][31]?** Sets the allowed direction of travel when departing intermediate waypoints.
+  - `config.exclude` **[string][27]?** Exclude certain road types from routing.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][25]** Language of returned turn-by-turn text instructions. (optional, default `"en"`)
+  - `config.language` **[string][27]** Language of returned turn-by-turn text instructions. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.roundaboutExits` **[boolean][29]** Emit instructions at roundabout exits. (optional, default `false`)
-  - `config.steps` **[boolean][29]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
-  - `config.voiceInstructions` **[boolean][29]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
+  - `config.roundaboutExits` **[boolean][31]** Emit instructions at roundabout exits. (optional, default `false`)
+  - `config.steps` **[boolean][31]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
+  - `config.voiceInstructions` **[boolean][31]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)
 
 Returns **MapiRequest** 
@@ -80,12 +82,12 @@ Tokens API service.
 
 List a user's access tokens.
 
-See the [public documentation][30].
+See the [public documentation][32].
 
 **Parameters**
 
-- `config` **[Object][24]?** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -93,18 +95,33 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [public documentation][31].
+See the [public documentation][33].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
 
 **Parameters**
 
-- `config` **[Object][24]?** 
-  - `config.note` **[string][25]?** 
-  - `config.scopes` **[Array][27]&lt;[string][25]>?** 
-  - `config.resources` **[Array][27]&lt;[string][25]>?** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]?** 
+  - `config.note` **[string][27]?** 
+  - `config.scopes` **[Array][29]&lt;[string][27]>?** 
+  - `config.resources` **[Array][29]&lt;[string][27]>?** 
+  - `config.ownerId` **[string][27]?** 
+
+Returns **MapiRequest** 
+
+### createTemporaryToken
+
+Create a new temporary access token.
+
+See the [public documentation][34].
+
+**Parameters**
+
+- `config` **[Object][26]?** 
+  - `config.expires` **[string][27]?** 
+  - `config.scopes` **[Array][29]&lt;[string][27]>?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -112,19 +129,31 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [public documentation][32].
+See the [public documentation][35].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.tokenId` **[string][25]** 
-  - `config.note` **[string][25]?** 
-  - `config.scopes` **[Array][27]&lt;[string][25]>?** 
-  - `config.resources` **[Array][27]&lt;[string][25]>?** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.tokenId` **[string][27]** 
+  - `config.note` **[string][27]?** 
+  - `config.scopes` **[Array][29]&lt;[string][27]>?** 
+  - `config.resources` **[Array][29]&lt;[string][27]>?** 
+  - `config.ownerId` **[string][27]?** 
+
+Returns **MapiRequest** 
+
+### getToken
+
+Get data about the client's access token.
+
+See the [public documentation][36].
+
+**Parameters**
+
+- `config` **[Object][26]** 
 
 Returns **MapiRequest** 
 
@@ -132,13 +161,13 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [public documentation][33].
+See the [public documentation][37].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.tokenId` **[string][25]** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.tokenId` **[string][27]** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -147,12 +176,12 @@ Returns **MapiRequest**
 List a user's available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [public documentation][34].
+See the [public documentation][38].
 
 **Parameters**
 
-- `config` **[Object][24]?** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -164,13 +193,13 @@ Styles API service.
 
 Get a style.
 
-See the [public documentation][35].
+See the [public documentation][39].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -178,13 +207,13 @@ Returns **MapiRequest**
 
 Create a style.
 
-See the [public documentation][36].
+See the [public documentation][40].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.style` **[Object][24]** Stylesheet JSON object.
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.style` **[Object][26]** Stylesheet JSON object.
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -192,16 +221,16 @@ Returns **MapiRequest**
 
 Update a style.
 
-See the [public documentation][37].
+See the [public documentation][41].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
-  - `config.style` **[Object][24]** Stylesheet JSON object.
-  - `config.lastKnownModification` **([string][25] \| [number][38] \| [Date][39])?** Datetime of last
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
+  - `config.style` **[Object][26]** Stylesheet JSON object.
+  - `config.lastKnownModification` **([string][27] \| [number][42] \| [Date][43])?** Datetime of last
       known update. Passed as 'If-Unmodified-Since' HTTP header.
-  - `config.ownerId` **[string][25]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -211,9 +240,9 @@ Delete a style.
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -223,10 +252,10 @@ List styles in your account.
 
 **Parameters**
 
-- `config` **[Object][24]?** 
-  - `config.start` **[string][25]?** The style ID of the last style in the
+- `config` **[Object][26]?** 
+  - `config.start` **[string][27]?** The style ID of the last style in the
       previous page.
-  - `config.ownerId` **[string][25]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -236,11 +265,11 @@ Add an icon to a style.
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
-  - `config.iconId` **[string][25]** 
-  - `config.file` **([Blob][40] \| [ArrayBuffer][41] \| [string][25] | ReadableStream)** An SVG file.
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
+  - `config.iconId` **[string][27]** 
+  - `config.file` **([Blob][44] \| [ArrayBuffer][45] \| [string][27] | ReadableStream)** An SVG file.
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -250,10 +279,10 @@ Remove an icon from a style.
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
-  - `config.iconId` **[string][25]** 
-  - `config.ownerId` **[string][25]?** 
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
+  - `config.iconId` **[string][27]** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -261,16 +290,16 @@ Returns **MapiRequest**
 
 Get a style sprite's image or JSON document.
 
-See [the public documentation][42].
+See [the public documentation][46].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.styleId` **[string][25]** 
+- `config` **[Object][26]** 
+  - `config.styleId` **[string][27]** 
   - `config.format` **(`"json"` \| `"png"`)**  (optional, default `"json"`)
-  - `config.highRes` **[boolean][29]?** If true, returns spritesheet with 2x
+  - `config.highRes` **[boolean][31]?** If true, returns spritesheet with 2x
       resolution.
-  - `config.ownerId` **[string][25]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -278,16 +307,16 @@ Returns **MapiRequest**
 
 Get a font glyph range.
 
-See [the public documentation][43].
+See [the public documentation][47].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-  - `config.fonts` **([string][25] \| [Array][27]&lt;[string][25]>)** An array of font names.
-  - `config.start` **[number][38]** Character code of the starting glyph.
-  - `config.end` **[number][38]** Character code of the last glyph,
+- `config` **[Object][26]** 
+  - `config.fonts` **([string][27] \| [Array][29]&lt;[string][27]>)** An array of font names.
+  - `config.start` **[number][42]** Character code of the starting glyph.
+  - `config.end` **[number][42]** Character code of the last glyph,
       typically equivalent to`config.start + 255`.
-  - `config.ownerId` **[string][25]?** 
+  - `config.ownerId` **[string][27]?** 
 
 Returns **MapiRequest** 
 
@@ -295,15 +324,15 @@ Returns **MapiRequest**
 
 Get embeddable HTML displaying a map.
 
-See [the public documentation][44].
+See [the public documentation][48].
 
 **Parameters**
 
-- `config` **[Object][24]** 
-- `styleId` **[string][25]** 
-- `scrollZoom` **[boolean][29]** If `false`, zooming the map by scrolling will
+- `config` **[Object][26]** 
+- `styleId` **[string][27]** 
+- `scrollZoom` **[boolean][31]** If `false`, zooming the map by scrolling will
     be disbaled. (optional, default `true`)
-- `title` **[boolean][29]** If `true`, the map's title and owner is displayed
+- `title` **[boolean][31]** If `true`, the map's title and owner is displayed
     in the upper right corner of the map. (optional, default `false`)
 - `ownerId` **ownerId?** 
 
@@ -314,16 +343,16 @@ This might differ from the HTTP API as we have combined
 all the properties that depend on the order of coordinates into
 one object for ease of use.
 
-Type: [Object][24]
+Type: [Object][26]
 
 **Properties**
 
-- `latitude` **[number][38]** 
-- `longitude` **[number][38]** 
+- `latitude` **[number][42]** 
+- `longitude` **[number][42]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-- `bearing` **[Array][27]&lt;[number][38]>?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
-- `radius` **([number][38] \| `"unlimited"`)?** Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-- `waypointName` **[string][25]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+- `bearing` **[Array][29]&lt;[number][42]>?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+- `radius` **([number][42] \| `"unlimited"`)?** Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
+- `waypointName` **[string][27]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
 
 [1]: #tilesets
 
@@ -339,76 +368,84 @@ Type: [Object][24]
 
 [7]: #createtoken
 
-[8]: #updatetoken
+[8]: #createtemporarytoken
 
-[9]: #deletetoken
+[9]: #updatetoken
 
-[10]: #listscopes
+[10]: #gettoken
 
-[11]: #styles
+[11]: #deletetoken
 
-[12]: #getstyle
+[12]: #listscopes
 
-[13]: #createstyle
+[13]: #styles
 
-[14]: #updatestyle
+[14]: #getstyle
 
-[15]: #deletestyle
+[15]: #createstyle
 
-[16]: #liststyles
+[16]: #updatestyle
 
-[17]: #createstyleicon
+[17]: #deletestyle
 
-[18]: #deletestyleicon
+[18]: #liststyles
 
-[19]: #getstylesprite
+[19]: #createstyleicon
 
-[20]: #getfontglyphrange
+[20]: #deletestyleicon
 
-[21]: #getembeddablehtml
+[21]: #getstylesprite
 
-[22]: #waypoints
+[22]: #getfontglyphrange
 
-[23]: https://www.mapbox.com/api-documentation/#list-tilesets
+[23]: #getembeddablehtml
 
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[24]: #waypoints
 
-[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[25]: https://www.mapbox.com/api-documentation/#list-tilesets
 
-[26]: https://www.mapbox.com/api-documentation/#directions
+[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[28]: #waypoints
+[28]: https://www.mapbox.com/api-documentation/#directions
 
-[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[30]: https://www.mapbox.com/api-documentation/#list-tokens
+[30]: #waypoints
 
-[31]: https://www.mapbox.com/api-documentation/#create-token
+[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[32]: https://www.mapbox.com/api-documentation/#update-a-token
+[32]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[33]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[33]: https://www.mapbox.com/api-documentation/#create-token
 
-[34]: https://www.mapbox.com/api-documentation/#list-scopes
+[34]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[35]: https://www.mapbox.com/api-documentation/#retrieve-a-style
+[35]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[36]: https://www.mapbox.com/api-documentation/#create-a-style
+[36]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[37]: https://www.mapbox.com/api-documentation/#update-a-style
+[37]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[38]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[38]: https://www.mapbox.com/api-documentation/#list-scopes
 
-[39]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
+[39]: https://www.mapbox.com/api-documentation/#retrieve-a-style
 
-[40]: https://developer.mozilla.org/docs/Web/API/Blob
+[40]: https://www.mapbox.com/api-documentation/#create-a-style
 
-[41]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[41]: https://www.mapbox.com/api-documentation/#update-a-style
 
-[42]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json
+[42]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[43]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges
+[43]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-[44]: https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style
+[44]: https://developer.mozilla.org/docs/Web/API/Blob
+
+[45]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+
+[46]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json
+
+[47]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges
+
+[48]: https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style
