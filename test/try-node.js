@@ -9,6 +9,7 @@ const mbxTilesets = require('../services/tilesets');
 const mbxTokens = require('../services/tokens');
 const mbxDatasets = require('../services/datasets');
 const mbxTilequery = require('../services/tilequery');
+const mbxGeocoding = require('../services/geocoding');
 
 const description = 'FOR TESTING ONLY! Try out the mapbox-sdk.';
 const help = `
@@ -55,7 +56,8 @@ const services = {
   tilesets: mbxTilesets(baseClient),
   tokens: mbxTokens(baseClient),
   datasets: mbxDatasets(baseClient),
-  tilequery: mbxTilequery(baseClient)
+  tilequery: mbxTilequery(baseClient),
+  geocoding: mbxGeocoding(baseClient)
 };
 
 const service = services[serviceName];
