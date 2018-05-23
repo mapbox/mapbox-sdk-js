@@ -23,7 +23,7 @@
   - [getStyleSprite](#getstylesprite)
   - [getFontGlyphRange](#getfontglyphrange)
   - [getEmbeddableHtml](#getembeddablehtml)
-- [wayPoints](#waypoints)
+- [waypoints](#waypoints)
 
 ## Tilesets
 
@@ -56,7 +56,7 @@ See the [Mapbox Directions API][26].
 
 - `config` **[Object][24]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.wayPoints` **[Array][27]&lt;[wayPoints][28]>** An ordered array of `wayPoint` object. There can be between 2 and 25 wayPoints.
+  - `config.waypoints` **[Array][27]&lt;[waypoints][28]>** An ordered array of `waypoint` object. There can be between 2 and 25 waypoints.
   - `config.alternatives` **[boolean][29]** Whether to try to return alternative routes. (optional, default `false`)
   - `config.annotations` **[Array][27]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
   - `config.bannerInstructions` **[boolean][29]**  Should be used in conjunction with `steps`. (optional, default `false`)
@@ -307,7 +307,7 @@ See [the public documentation][44].
     in the upper right corner of the map. (optional, default `false`)
 - `ownerId` **ownerId?** 
 
-## wayPoints
+## waypoints
 
 A collection of ordered way points with optional properties.
 This might differ from the HTTP API as we have combined
@@ -323,7 +323,7 @@ Type: [Object][24]
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
 - `bearing` **[Array][27]&lt;[number][38]>?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
 - `radius` **([number][38] \| `"unlimited"`)?** Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-- `wayPointName` **[string][25]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+- `waypointName` **[string][25]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
 
 [1]: #tilesets
 
