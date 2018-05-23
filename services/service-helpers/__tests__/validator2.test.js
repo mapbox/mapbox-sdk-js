@@ -37,6 +37,53 @@ describe('string', () => {
   });
 });
 
+describe('range', () => {
+  test('success', () => {
+    expect(() => {
+      v.validate(v.range(1, 5), 4);
+    }).not.toThrow();
+    expect(() => {
+      v.validate(v.range(1, 5), 2.33);
+    }).not.toThrow();
+  });
+  test('failure', () => {
+    expect(() => {
+      v.validate(v.range(1, 5), 'foo');
+    }).toThrow('expected a number between 1 and 5, inclusive');
+    expect(() => {
+      v.validate(v.range(1, 5), 6);
+    }).toThrow('expected a number between 1 and 5, inclusive');
+    expect(() => {
+      v.validate(v.range(1, 5), -2);
+    }).toThrow('expected a number between 1 and 5, inclusive');
+  });
+});
+
+describe('coordinates', () => {
+  test('success', () => {
+    expect(() => {
+      v.validate(v.coordinates, [10, 11]);
+    }).not.toThrow();
+    expect(() => {
+      v.validate(v.coordinates, [-90, -83]);
+    }).not.toThrow();
+  });
+  test('failure', () => {
+    expect(() => {
+      v.validate(v.coordinates, 'foo');
+    }).toThrow('expected an array of [longitude, latitude]');
+    expect(() => {
+      v.validate(v.coordinates, 2);
+    }).toThrow('expected an array of [longitude, latitude]');
+    expect(() => {
+      v.validate(v.coordinates, [-181, 10]);
+    }).toThrow('expected an array of [longitude, latitude]');
+    expect(() => {
+      v.validate(v.coordinates, [-180, 91]);
+    }).toThrow('expected an array of [longitude, latitude]');
+  });
+});
+
 describe('oneOf', () => {
   describe('outside object', () => {
     test('success', () => {
