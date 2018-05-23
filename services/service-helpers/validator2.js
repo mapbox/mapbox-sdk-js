@@ -1,6 +1,6 @@
 'use strict';
 
-var isPlainObject = require('is-plain-object');
+var isPlainObject = require('is-plain-obj');
 
 var v = {};
 
@@ -95,6 +95,24 @@ v.file = wrapValidate(function file(value) {
 v.plainObject = wrapValidate(function plainObject(value) {
   if (!isPlainObject(value)) {
     return 'an object';
+  }
+});
+
+v.range = wrapValidateWithArguments(function numberGreaterThan(value, args) {
+  var min = args[0];
+  var max = args[1];
+  if (typeof value !== 'number' || value < min || value > max) {
+    return 'a number between ' + min + ' and ' + max + ', inclusive';
+  }
+});
+
+v.coordinates = wrapValidate(function coordinates(value) {
+  if (
+    !Array.isArray(value) ||
+    !!v.range(-180, 180)(value[0]) ||
+    !!v.range(-90, 90)(value[1])
+  ) {
+    return 'an array of [longitude, latitude]';
   }
 });
 
