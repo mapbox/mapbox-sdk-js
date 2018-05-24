@@ -5,6 +5,8 @@ var mbxClient = require('../..');
 var mbxStyles = require('../../services/styles');
 var mbxTilesets = require('../../services/tilesets');
 var mbxTokens = require('../../services/tokens');
+var mbxDatasets = require('../../services/datasets');
+var mbxTilequery = require('../../services/tilequery');
 
 window.tryServiceMethod = function(
   serviceName,
@@ -28,7 +30,9 @@ window.tryServiceMethod = function(
   var services = {
     styles: mbxStyles(baseClient),
     tilesets: mbxTilesets(baseClient),
-    tokens: mbxTokens(baseClient)
+    tokens: mbxTokens(baseClient),
+    datasets: mbxDatasets(baseClient),
+    tilequery: mbxTilequery(baseClient)
   };
 
   var service = services[serviceName];

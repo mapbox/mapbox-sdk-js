@@ -120,9 +120,9 @@ describe('listStyles', () => {
   });
 });
 
-describe('createStyleIcon', () => {
+describe('putStyleIcon', () => {
   test('works', () => {
-    styles.createStyleIcon({
+    styles.putStyleIcon({
       styleId: 'foo',
       iconId: 'bar',
       file: 'path/to/file.svg'

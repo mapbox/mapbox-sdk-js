@@ -7,6 +7,8 @@ const mbxClient = require('..');
 const mbxStyles = require('../services/styles');
 const mbxTilesets = require('../services/tilesets');
 const mbxTokens = require('../services/tokens');
+const mbxDatasets = require('../services/datasets');
+const mbxTilequery = require('../services/tilequery');
 
 const description = 'FOR TESTING ONLY! Try out the mapbox-sdk.';
 const help = `
@@ -51,7 +53,9 @@ const baseClient = mbxClient({ accessToken });
 const services = {
   styles: mbxStyles(baseClient),
   tilesets: mbxTilesets(baseClient),
-  tokens: mbxTokens(baseClient)
+  tokens: mbxTokens(baseClient),
+  datasets: mbxDatasets(baseClient),
+  tilequery: mbxTilequery(baseClient)
 };
 
 const service = services[serviceName];
