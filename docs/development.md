@@ -6,6 +6,7 @@
 - The following verbs should be used for each method type:
   - `get` and `list` for `GET` requests
   - `create` for `POST` requests
-  - `update` for `PATCH` and `PUT` requests
+  - `update` for `PATCH` requests
+  - `put` for `PUT` requests
   - `delete` for `DELETE` requests
 - Only used special verbs when a clear title can't be constructed from the above verbs.
