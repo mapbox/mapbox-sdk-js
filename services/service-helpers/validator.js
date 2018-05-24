@@ -100,6 +100,62 @@ v.oneOf = function() {
   });
 };
 
+v.oneOfType = function() {
+  var options = Array.prototype.slice.call(arguments);
+
+  var checks = [];
+  options.forEach(function(option) {
+    if (!option || !option.__check) {
+      throw new Error(option + ' is not a valid option');
+    }
+    checks.push(option.__check);
+  });
+
+  return wrapCheck(function(value) {
+    var messages = checks
+      .map(function(check) {
+        return check(value);
+      })
+      .filter(function(message) {
+        return message;
+      });
+
+    // no match
+    if (messages.length === checks.length) {
+      return messages
+        .map(function(m, index) {
+          return index === 0 ? m : m.replace(/^must be /g, '');
+        })
+        .join(' or ');
+    }
+  });
+};
+
+v.arrayOf = function(option) {
+  var check = option.__check;
+
+  return wrapCheck(function(values) {
+    // prevents values other than null,undefined,Array
+    if (values != null && !Array.isArray(values)) {
+      return 'must be an array';
+    }
+
+    if (Array.isArray(values)) {
+      var message = values
+        .map(function(val) {
+          return check(val);
+        })
+        .find(function(message) {
+          return message;
+        });
+
+      if (message) {
+        return 'must be an array whose every element ' + message;
+      }
+    }
+  });
+};
+
 v.stringOrArrayOfStrings = wrapCheck(function(value) {
   if (typeof value === 'string') {
     return;
@@ -141,6 +197,12 @@ function wrapCheck(check) {
     wrappedRequired(config, key);
     wrapped(config, key);
   };
+
+  // appending a private property which can then be used by validators
+  // which internally use simpler validators.
+  wrapped.required.__check = check;
+  wrapped.__check = check;
+
   return wrapped;
 }
 
