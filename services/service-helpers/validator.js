@@ -1,48 +1,223 @@
 'use strict';
+/**
+ * Validators are functions which assert certain type.
+ * They can return a string which can then be used
+ * to display a helpful error message.
+ * They can also return a function for a custom error message.
+ */
+var isPlainObject = require('is-plain-obj');
 
 var v = {};
 
-v.validate = function(schema, config) {
-  config = config || {};
-  var configKeys = Object.keys(config);
-  var schemaKeys = Object.keys(schema);
-  configKeys.forEach(function(configKey) {
-    if (!schema[configKey]) {
-      throw new Error(configKey + ' is not a valid option');
-    }
-  });
-  schemaKeys.forEach(function(schemaKey) {
-    var schemaValue = schema[schemaKey];
-    if (!Array.isArray(schemaValue)) {
-      schemaValue(config, schemaKey);
+/**
+ * Runners
+ *
+ * Take root validators and run assertion
+ */
+v.warn = function(rootValidator, apiName) {
+  return function(value) {
+    var messages = validate(rootValidator, value);
+    // all good
+    if (!messages) {
       return;
     }
-    schemaValue.forEach(function(check) {
-      check(config, schemaKey);
-    });
-  });
+    // messages array follows the convention
+    // [...path, result]
+    // path is an array of object keys / array indices
+    // result is output of the validator
+    var len = messages.length;
+
+    var result = messages[len - 1];
+    var path = messages.slice(0, len - 1);
+
+    if (path.length == 0) {
+      // Calling it value since there is no identifiable path
+      path = ['value'];
+    }
+
+    var errorMessage =
+      typeof result === 'function'
+        ? result({ path: path })
+        : formatErrorMessage(path, result);
+
+    if (apiName) {
+      errorMessage = apiName + ': ' + errorMessage;
+    }
+
+    throw new Error(errorMessage);
+  };
 };
 
-v.string = wrapCheck(function(value) {
-  if (typeof value !== 'string') {
-    return 'must be a string';
-  }
-});
+/**
+ * Higher Order Validators
+ *
+ * validators which take other validators as input
+ * and output a new validator
+ */
+v.shapeOf = function shapeOf(validatorObj) {
+  var validators = objectEntries(validatorObj);
+  return function shapeOfValidator(value) {
+    var validationResult = validate(v.plainObject, value);
 
-v.number = wrapCheck(function(value) {
-  if (typeof value !== 'number') {
-    return 'must be a number';
-  }
-});
+    if (validationResult) {
+      return validationResult;
+    }
 
-v.boolean = wrapCheck(function(value) {
+    var key, validator;
+    for (var i = 0; i < validators.length; i++) {
+      key = validators[i].key;
+      validator = validators[i].val;
+      validationResult = validate(validator, value[key]);
+
+      if (validationResult) {
+        return [key].concat(validationResult);
+      }
+    }
+  };
+};
+
+v.arrayOf = function arrayOf(validator) {
+  return function arrayOfValidator(value) {
+    var validationResult = validate(v.plainArray, value);
+
+    if (validationResult) {
+      return validationResult;
+    }
+
+    for (var i = 0; i < value.length; i++) {
+      validationResult = validate(validator, value[i]);
+
+      if (validationResult) {
+        return [i].concat(validationResult);
+      }
+    }
+  };
+};
+
+v.required = function required(validator) {
+  function requiredValidator(value) {
+    if (value == null) {
+      return function(options) {
+        return formatErrorMessage(options.path);
+      };
+    }
+    return validator.apply(this, arguments);
+  }
+  requiredValidator.__required = true;
+
+  return requiredValidator;
+};
+
+v.oneOfType = function oneOfType() {
+  var validators = Array.prototype.slice.call(arguments);
+  return function oneOfTypeValidator(value) {
+    var messages = validators
+      .map(function(validator) {
+        return validate(validator, value);
+      })
+      .filter(function(message) {
+        return !!message;
+      });
+
+    // If we don't have as many messages as no. of validators,
+    // then at least one validator was ok with the value.
+    if (messages.length !== validators.length) {
+      return;
+    }
+
+    // check primitive type
+    if (
+      messages.every(function(message) {
+        return message.length === 1 && typeof message[0] === 'string';
+      })
+    ) {
+      return orList(
+        messages.map(function(m) {
+          return m[0];
+        })
+      );
+    }
+
+    // Complex oneOfTypes like
+    // v.oneOftypes(v.shapeOf({name: v.string}), v.shapeOf({name: v.number}))
+    // are complex ¯\_(ツ)_/¯. For the current scope
+    // only returning the longest message.
+    return messages.reduce(function(max, arr) {
+      return arr.length > max.length ? arr : max;
+    });
+  };
+};
+
+/**
+ * Meta Validators
+ * which take options as argument (not validators)
+ * and return a new primitive validator
+ */
+v.equal = function equal(compareWith) {
+  return function equalValidator(value) {
+    if (value !== compareWith) {
+      return JSON.stringify(compareWith);
+    }
+  };
+};
+
+v.oneOf = function oneOf() {
+  var validators = Array.prototype.slice.call(arguments).map(function(value) {
+    return v.equal(value);
+  });
+
+  return v.oneOfType.apply(this, validators);
+};
+
+v.range = function range(compareWith) {
+  var min = compareWith[0];
+  var max = compareWith[1];
+  return function rangeValidator(value) {
+    var validationResult = validate(v.number, value);
+
+    if (validationResult || value < min || value > max) {
+      return 'number between ' + min + ' & ' + max + ' (inclusive)';
+    }
+  };
+};
+
+/**
+ * Primitive validators
+ *
+ * simple validators which return a string or undefined
+ */
+v.boolean = function boolean(value) {
   if (typeof value !== 'boolean') {
-    return 'must be a boolean';
+    return 'boolean';
   }
-});
+};
 
-v.date = wrapCheck(function(value) {
-  var msg = 'must be a date';
+v.number = function number(value) {
+  if (typeof value !== 'number') {
+    return 'number';
+  }
+};
+
+v.plainArray = function plainArray(value) {
+  if (!Array.isArray(value)) {
+    return 'array';
+  }
+};
+
+v.plainObject = function plainObject(value) {
+  if (!isPlainObject(value)) {
+    return 'object';
+  }
+};
+
+v.string = function string(value) {
+  if (typeof value !== 'string') {
+    return 'string';
+  }
+};
+
+v.date = function date(value) {
+  var msg = 'date';
   if (typeof value === 'boolean') {
     return msg;
   }
@@ -54,156 +229,81 @@ v.date = wrapCheck(function(value) {
   } catch (e) {
     return msg;
   }
-});
+};
 
-v.plainObject = wrapCheck(function(value) {
-  if (typeof value !== 'object' || Array.isArray(value)) {
-    return 'must be an object';
+v.coordinates = function coordinates(value) {
+  var validationResult =
+    validate(v.arrayOf(v.number), value) ||
+    validate(v.range([-180, 180]), value[0]) ||
+    validate(v.range([-90, 90]), value[1]);
+
+  if (validationResult || value.length !== 2) {
+    return 'array of [longitude, latitude]';
   }
-});
+};
 
-v.arrayOfStrings = wrapCheck(function(value) {
-  if (
-    !Array.isArray(value) ||
-    !value.every(function(x) {
-      return typeof x === 'string';
-    })
-  ) {
-    return 'must be an array of strings';
-  }
-});
-
-v.file = wrapCheck(function(value) {
+v.file = function file(value) {
   // If we're in a browser so Blob is available, the file must be that.
   // In Node, however, it could be a filepath or a pipeable (Readable) stream.
   if (typeof window !== 'undefined') {
     if (value instanceof global.Blob || value instanceof global.ArrayBuffer) {
       return;
     }
-    return 'must be a Blob or ArrayBuffer';
+    return 'Blob or ArrayBuffer';
   }
   if (typeof value === 'string' || value.pipe !== undefined) {
     return;
   }
-  return 'must be a filename or Readable stream';
-});
-
-v.oneOf = function() {
-  var possibilities = Array.prototype.slice.call(arguments);
-  return wrapCheck(function(value) {
-    for (var i = 0; i < possibilities.length; i++) {
-      if (value === possibilities[i]) {
-        return;
-      }
-    }
-    return 'must be one of ' + possibilities.join(', ');
-  });
+  return 'Filename or Readable stream';
 };
 
-v.oneOfType = function() {
-  var options = Array.prototype.slice.call(arguments);
-
-  var checks = [];
-  options.forEach(function(option) {
-    if (!option || !option.__check) {
-      throw new Error(option + ' is not a valid option');
-    }
-    checks.push(option.__check);
-  });
-
-  return wrapCheck(function(value) {
-    var messages = checks
-      .map(function(check) {
-        return check(value);
-      })
-      .filter(function(message) {
-        return message;
-      });
-
-    // no match
-    if (messages.length === checks.length) {
-      return messages
-        .map(function(m, index) {
-          return index === 0 ? m : m.replace(/^must be /g, '');
-        })
-        .join(' or ');
-    }
-  });
-};
-
-v.arrayOf = function(option) {
-  var check = option.__check;
-
-  return wrapCheck(function(values) {
-    // prevents values other than null,undefined,Array
-    if (values != null && !Array.isArray(values)) {
-      return 'must be an array';
-    }
-
-    if (Array.isArray(values)) {
-      var message = values
-        .map(function(val) {
-          return check(val);
-        })
-        .find(function(message) {
-          return message;
-        });
-
-      if (message) {
-        return 'must be an array whose every element ' + message;
-      }
-    }
-  });
-};
-
-v.stringOrArrayOfStrings = wrapCheck(function(value) {
-  if (typeof value === 'string') {
+function validate(validator, value) {
+  // assertions are optional by default unless wrapped in v.require
+  if (value == null && !validator.hasOwnProperty('__required')) {
     return;
   }
-  if (
-    Array.isArray(value) &&
-    value.every(function(x) {
-      return typeof x === 'string';
-    })
-  ) {
-    return;
-  }
-  return 'must be a string or array of strings';
-});
 
-function required(value) {
-  if (isEmpty(value)) {
-    return 'is required';
+  var result = validator(value);
+
+  if (result) {
+    return Array.isArray(result) ? result : [result];
   }
 }
-var wrappedRequired = wrapCheck(required);
 
-function isEmpty(value) {
-  return value === undefined || value === null;
-}
-
-function wrapCheck(check) {
-  function wrapped(config, key) {
-    var value = config[key];
-    if (check !== required && isEmpty(value)) {
-      return;
-    }
-    var msg = check(value);
-    if (msg) {
-      throw new Error(key + ' ' + msg);
-    }
+function orList(list) {
+  if (list.length < 2) {
+    return list[0];
   }
-  wrapped.required = function(config, key) {
-    wrappedRequired(config, key);
-    wrapped(config, key);
-  };
-
-  // appending a private property which can then be used by validators
-  // which internally use simpler validators.
-  wrapped.required.__check = check;
-  wrapped.__check = check;
-
-  return wrapped;
+  return [list.slice(0, list.length - 1).join(', ')]
+    .concat(list.slice(list.length - 1))
+    .join(' or ');
 }
 
-module.exports = v;
+function formatErrorMessage(path, result) {
+  var arrayCulprit = isArrayCulprit(path);
+  if (result) {
+    result =
+      'must be ' + (/^[aeiou]/.test(result) ? 'an ' : 'a ') + result + '.';
+  }
+
+  if (arrayCulprit) {
+    result = result || 'cannot be undefined/null.';
+    return 'Item at position ' + path.join('.') + ' ' + result;
+  }
+
+  result = result || 'is required.';
+
+  return path.join('.') + ' ' + result;
+}
+
+function isArrayCulprit(path) {
+  return typeof path[path.length - 1] == 'number' || typeof path[0] == 'number';
+}
+
+function objectEntries(obj) {
+  return Object.keys(obj || {}).map(function(key) {
+    return { key: key, val: obj[key] };
+  });
+}
+
+module.exports = { v: v, validate: validate };
