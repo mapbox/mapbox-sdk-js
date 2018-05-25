@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator');
+var v = require('./service-helpers/validator').v;
 var createServiceFactory = require('./service-helpers/create-service-factory');
 var pick = require('./service-helpers/pick');
 
@@ -32,10 +32,20 @@ var Directions = {};
  * @return {MapiRequest}
  */
 Directions.getDirections = function(config) {
-  v.validate(
-    {
+  v.warn(
+    v.shapeOf({
       profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
-      waypoints: v.arrayOf(v.plainObject).required,
+      waypoints: v.required(
+        v.arrayOf(
+          v.shapeOf({
+            coordinates: v.required(v.coordinates),
+            approach: v.oneOf('unrestricted', 'curb'),
+            bearing: v.arrayOf(v.number),
+            radius: v.oneOfType(v.number, v.equal('unlimited')),
+            waypointName: v.string
+          })
+        )
+      ),
       alternatives: v.boolean,
       annotations: v.arrayOf(
         v.oneOf('duration', 'distance', 'speed', 'congestion')
@@ -50,39 +60,10 @@ Directions.getDirections = function(config) {
       steps: v.boolean,
       voiceInstructions: v.boolean,
       voiceUnits: v.string
-    },
-    config
-  );
+    })
+  )(config);
 
   config.profile = config.profile || 'driving';
-
-  /**
-   * A collection of ordered way points with optional properties.
-   * This might differ from the HTTP API as we have combined
-   * all the properties that depend on the order of coordinates into
-   * one object for ease of use.
-   *
-   * @typedef {Object} waypoints
-   * @property {number} latitude
-   * @property {number} longitude
-   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-   * @property {Array<number>} [bearing] - Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
-   * @property {number|'unlimited'} [radius] - Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-   * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
-   */
-  config.waypoints.forEach(function(waypoint) {
-    v.validate(
-      {
-        latitude: v.number.required,
-        longitude: v.number.required,
-        approach: v.oneOf('unrestricted', 'curb'),
-        bearing: v.arrayOf(v.number),
-        radius: v.oneOfType(v.number, v.oneOf('unlimited')),
-        waypointName: v.string
-      },
-      waypoint
-    );
-  });
 
   var waypoints = {
     coordinates: [],
@@ -92,8 +73,22 @@ Directions.getDirections = function(config) {
     waypointName: []
   };
 
+  /**
+   * A collection of ordered way points with optional properties.
+   * This might differ from the HTTP API as we have combined
+   * all the properties that depend on the order of coordinates into
+   * one object for ease of use.
+   *
+   * @typedef {Object} waypoints
+   * @property {Array<number>} coordinates - An array containing pair of longitude, latitude.
+   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
+   * @property {number|'unlimited'} [radius] - Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
+   * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+   */
   config.waypoints.forEach(function(waypoint) {
-    waypoints.coordinates.push(waypoint.longitude + ',' + waypoint.latitude);
+    waypoints.coordinates.push(
+      waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
+    );
 
     // join props which come in pairs
     ['bearing'].forEach(function(prop) {
