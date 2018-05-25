@@ -13,12 +13,10 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         }
       ]
     });
@@ -37,12 +35,10 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         }
       ],
       profile: 'walking',
@@ -67,14 +63,12 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           radius: 2000,
           bearing: [45, 20]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           radius: 2000,
           bearing: [46, 21]
         }
@@ -103,21 +97,17 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           bearing: [45, 32]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         }
       ],
       profile: 'walking',
@@ -143,22 +133,18 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           radius: 2000
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           bearing: [45, 32]
         },
         {
-          latitude: 1.1,
-          longitude: 2.2
+          coordinates: [2.2, 1.1]
         }
       ],
       profile: 'walking',
@@ -185,13 +171,11 @@ describe('getDirections', () => {
     directions.getDirections({
       waypoints: [
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           radius: 2000
         },
         {
-          latitude: 1.1,
-          longitude: 2.2,
+          coordinates: [2.2, 1.1],
           radius: 'unlimited'
         }
       ]

@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator');
+var v = require('./service-helpers/validator').v;
 var pick = require('./service-helpers/pick');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
@@ -27,18 +27,17 @@ var Tilequery = {};
  * @return {MapiRequest}
  */
 Tilequery.listFeatures = function(config) {
-  v.validate(
-    {
-      mapId: v.stringOrArrayOfStrings.required,
-      longitude: v.number.required,
-      latitude: v.number.required,
+  v.warn(
+    v.shapeOf({
+      mapId: v.required(v.oneOfType(v.string, v.arrayOf(v.string))),
+      longitude: v.required(v.number),
+      latitude: v.required(v.number),
       radius: v.number,
       limit: v.number,
       dedupe: v.boolean,
-      layers: v.arrayOfStrings
-    },
-    config
-  );
+      layers: v.arrayOf(v.string)
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'GET',
