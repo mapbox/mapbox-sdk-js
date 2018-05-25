@@ -3,52 +3,44 @@
  */
 'use strict';
 
-const v = require('../validator');
-const tu = require('../../../test/test-utils');
+const { v, validate } = require('../validator');
+
+var t = function(rootcheck) {
+  return function(value) {
+    var messages = validate(rootcheck, value);
+    return messages;
+  };
+};
+
+var req = v.required;
 
 describe('v.file in the browser', () => {
-  const validateForFile = config => {
-    return v.validate(
-      {
-        prop: v.file.required
-      },
-      config
-    );
-  };
-
-  const expectRejection = config => {
-    tu.expectError(
-      () => validateForFile(config),
-      error => {
-        expect(error.message).toBe('prop must be a Blob or ArrayBuffer');
-      }
-    );
-  };
+  const check = t(v.shapeOf({ prop: req(v.file) }));
 
   test('rejects strings', () => {
-    expectRejection({ prop: 'path/to/file.txt' });
+    expect(check({ prop: 'path/to/file.txt' })).toEqual([
+      'prop',
+      'Blob or ArrayBuffer'
+    ]);
   });
+
   test('rejects numbers', () => {
-    expectRejection({ prop: 4 });
+    expect(check({ prop: 4 })).toEqual(['prop', 'Blob or ArrayBuffer']);
   });
   test('rejects booleans', () => {
-    expectRejection({ prop: true });
+    expect(check({ prop: false })).toEqual(['prop', 'Blob or ArrayBuffer']);
   });
   test('rejects objects', () => {
-    expectRejection({ prop: { foo: 'bar' } });
+    expect(check({ prop: {} })).toEqual(['prop', 'Blob or ArrayBuffer']);
   });
   test('rejects arrays', () => {
-    expectRejection({ prop: ['a', 'b'] });
+    expect(check({ prop: [] })).toEqual(['prop', 'Blob or ArrayBuffer']);
   });
 
   test('accepts Blobs', () => {
-    expect(
-      validateForFile({ prop: new global.Blob(['blobbbbb']) })
-    ).toBeUndefined();
+    expect(check({ prop: new global.Blob(['blobbbbb']) })).toBeUndefined();
   });
   test('accepts ArrayBuffers', () => {
-    expect(
-      validateForFile({ prop: new global.ArrayBuffer(3) })
-    ).toBeUndefined();
+    expect(check({ prop: new global.ArrayBuffer(3) })).toBeUndefined();
   });
 });
