@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator');
+var v = require('./service-helpers/validator').v;
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
@@ -18,12 +18,11 @@ var Tilesets = {};
  * @return {MapiRequest}
  */
 Tilesets.listTilesets = function(config) {
-  v.validate(
-    {
+  v.warn(
+    v.shapeOf({
       ownerId: v.string
-    },
-    config
-  );
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'GET',
