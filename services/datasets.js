@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator');
+var v = require('./service-helpers/validator').v;
 var pick = require('./service-helpers/pick');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
@@ -17,7 +17,7 @@ var Datasets = {};
  * @return {MapiRequest}
  */
 Datasets.listDatasets = function(config) {
-  v.validate({}, config);
+  v.warn(v.shapeOf({}))(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -36,13 +36,12 @@ Datasets.listDatasets = function(config) {
  * @return {MapiRequest}
  */
 Datasets.createDataset = function(config) {
-  v.validate(
-    {
+  v.warn(
+    v.shapeOf({
       name: v.string,
       description: v.string
-    },
-    config
-  );
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'POST',
@@ -61,12 +60,12 @@ Datasets.createDataset = function(config) {
  * @return {MapiRequest}
  */
 Datasets.getDataset = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required
-    },
-    config
-  );
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
+      description: v.string
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -87,14 +86,13 @@ Datasets.getDataset = function(config) {
  * @return {MapiRequest}
  */
 Datasets.updateDataset = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required,
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
       name: v.string,
       description: v.string
-    },
-    config
-  );
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'PATCH',
@@ -114,12 +112,11 @@ Datasets.updateDataset = function(config) {
  * @return {MapiRequest}
  */
 Datasets.deleteDataset = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required
-    },
-    config
-  );
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string)
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'DELETE',
@@ -141,14 +138,13 @@ Datasets.deleteDataset = function(config) {
  * @return {MapiRequest}
  */
 Datasets.listFeatures = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required,
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
       limit: v.number,
       start: v.string
-    },
-    config
-  );
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -170,14 +166,13 @@ Datasets.listFeatures = function(config) {
  * @return {MapiRequest}
  */
 Datasets.putFeature = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required,
-      featureId: v.string.required,
-      feature: v.plainObject.required
-    },
-    config
-  );
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
+      featureId: v.required(v.string),
+      feature: v.required(v.plainObject)
+    })
+  )(config);
 
   if (
     config.feature.id !== undefined &&
@@ -205,13 +200,12 @@ Datasets.putFeature = function(config) {
  * @return {MapiRequest}
  */
 Datasets.getFeature = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required,
-      featureId: v.string.required
-    },
-    config
-  );
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
+      featureId: v.required(v.string)
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -231,13 +225,12 @@ Datasets.getFeature = function(config) {
  * @return {MapiRequest}
  */
 Datasets.deleteFeature = function(config) {
-  v.validate(
-    {
-      datasetId: v.string.required,
-      featureId: v.string.required
-    },
-    config
-  );
+  v.warn(
+    v.shapeOf({
+      datasetId: v.required(v.string),
+      featureId: v.required(v.string)
+    })
+  )(config);
 
   return this.client.createRequest({
     method: 'DELETE',
