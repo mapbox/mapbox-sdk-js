@@ -82,7 +82,7 @@ v.shape = function shape(validatorObj) {
       });
 
       return (
-        'The following keys of object at ' +
+        'The following keys of ' +
         options.path.join('.') +
         ' did not pass validation:' +
         '\n' +
