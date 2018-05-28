@@ -598,63 +598,63 @@ describe('v.file in Node', () => {
   });
 });
 
-describe('v.warn', () => {
+describe('v.assert', () => {
   test('string', () => {
-    var check = v.warn(v.string);
+    var check = v.assert(v.string);
     expect(() => check(9)).toThrowError('value must be a string.');
   });
 
   test('number', () => {
-    var check = v.warn(v.number);
+    var check = v.assert(v.number);
     expect(() => check(false)).toThrowError('value must be a number.');
   });
 
   test('range', () => {
-    var check = v.warn(v.range([0, 10]));
+    var check = v.assert(v.range([0, 10]));
     expect(() => check(11)).toThrowError(
       'value must be a number between 0 & 10 (inclusive)'
     );
   });
 
   test('boolean', () => {
-    var check = v.warn(v.boolean);
+    var check = v.assert(v.boolean);
     expect(() => check(9)).toThrowError('value must be a boolean.');
   });
 
   test('coordinates', () => {
-    var check = v.warn(v.coordinates);
+    var check = v.assert(v.coordinates);
     expect(() => check(9)).toThrowError(
       'value must be an array of [longitude, latitude].'
     );
   });
 
   test('date', () => {
-    var check = v.warn(v.date);
+    var check = v.assert(v.date);
     expect(() => check(false)).toThrowError('value must be a date.');
   });
 
   test('plainArray', () => {
-    var check = v.warn(v.plainArray);
+    var check = v.assert(v.plainArray);
     expect(() => check(false)).toThrowError('value must be an array.');
   });
 
   test('plainObject', () => {
-    var check = v.warn(v.plainObject);
+    var check = v.assert(v.plainObject);
     expect(() => check(false)).toThrowError('value must be an object.');
   });
 
   test('plainObject', () => {
-    var check = v.warn(v.plainObject);
+    var check = v.assert(v.plainObject);
     expect(() => check(false)).toThrowError('value must be an object.');
   });
 
   test('equal', () => {
-    var check = v.warn(v.equal('Delhi'));
+    var check = v.assert(v.equal('Delhi'));
     expect(() => check(false)).toThrowError('value must be a "Delhi".');
   });
 
   test('v.oneOfType', () => {
-    var check = v.warn(
+    var check = v.assert(
       v.shape({
         prop: v.shape({
           person: v.shape({
@@ -678,11 +678,11 @@ describe('v.warn', () => {
 
   describe('v.shape', () => {
     test('simple object', () => {
-      var check = v.warn(v.shape({ prop: v.string }));
+      var check = v.assert(v.shape({ prop: v.string }));
       expect(() => check({ prop: 9 })).toThrowError('prop must be a string.');
     });
     test('nested object', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({ person: v.shape({ name: v.string }) })
         })
@@ -698,7 +698,7 @@ describe('v.warn', () => {
     });
 
     test('nested object with array', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({ person: v.shape({ name: v.arrayOf(v.string) }) })
         })
@@ -712,7 +712,7 @@ describe('v.warn', () => {
     });
 
     test('nested object with oneOfType', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({
             person: v.shape({
@@ -730,14 +730,16 @@ describe('v.warn', () => {
 
   describe('v.arrayOf', () => {
     test('simple array', () => {
-      var check = v.warn(v.arrayOf(v.range([0, 5])));
+      var check = v.assert(v.arrayOf(v.range([0, 5])));
       expect(() => check([2, 6])).toThrowError(
         'Item at position 1 must be a number between 0 & 5 (inclusive).'
       );
     });
 
     test('array with object', () => {
-      var check = v.warn(v.arrayOf(v.shape({ prop: v.arrayOf(v.equal('c')) })));
+      var check = v.assert(
+        v.arrayOf(v.shape({ prop: v.arrayOf(v.equal('c')) }))
+      );
       expect(() => check([{ prop: ['c'] }, { prop: ['c', 'd'] }])).toThrowError(
         'Item at position 1.prop.1 must be a "c".'
       );
@@ -746,13 +748,13 @@ describe('v.warn', () => {
 
   describe('v.oneOf', () => {
     test('simple array', () => {
-      var check = v.warn(v.oneOf(9, 10));
+      var check = v.assert(v.oneOf(9, 10));
       expect(() => check([20])).toThrowError('value must be a 9 or 10.');
       expect(() => check(11)).toThrowError('value must be a 9 or 10.');
     });
 
     test('nested', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({
             person: v.shape({ name: v.oneOf('Jack', 'Daniels') })
@@ -768,53 +770,53 @@ describe('v.warn', () => {
 
 describe('v.required', () => {
   test('string', () => {
-    var check = v.warn(req(v.string));
+    var check = v.assert(req(v.string));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('number', () => {
-    var check = v.warn(req(v.number));
+    var check = v.assert(req(v.number));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('range', () => {
-    var check = v.warn(req(v.range([0, 10])));
+    var check = v.assert(req(v.range([0, 10])));
     expect(() => check(null)).toThrowError('value is required.');
   });
 
   test('boolean', () => {
-    var check = v.warn(req(v.boolean));
+    var check = v.assert(req(v.boolean));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('coordinates', () => {
-    var check = v.warn(req(v.coordinates));
+    var check = v.assert(req(v.coordinates));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('date', () => {
-    var check = v.warn(req(v.date));
+    var check = v.assert(req(v.date));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('plainArray', () => {
-    var check = v.warn(req(v.plainArray));
+    var check = v.assert(req(v.plainArray));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('plainObject', () => {
-    var check = v.warn(req(v.plainObject));
+    var check = v.assert(req(v.plainObject));
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('equal', () => {
-    var check = v.warn(req(v.equal));
+    var check = v.assert(req(v.equal));
 
     expect(() => check()).toThrowError('value is required.');
   });
 
   test('v.oneOf', () => {
-    var check = v.warn(
+    var check = v.assert(
       v.shape({
         prop: v.shape({
           person: v.shape({ name: req(v.oneOf('Jack', 'Daniels')) })
@@ -827,7 +829,7 @@ describe('v.required', () => {
   });
 
   test('v.oneOfType', () => {
-    var check = v.warn(
+    var check = v.assert(
       v.shape({
         prop: v.shape({
           person: v.shape({
@@ -843,7 +845,7 @@ describe('v.required', () => {
 
   describe('v.shape', () => {
     test('simple object', () => {
-      var check = v.warn(req(v.shape({ prop: v.string })));
+      var check = v.assert(req(v.shape({ prop: v.string })));
 
       expect(() => check()).toThrowError('value is required.');
 
@@ -851,12 +853,12 @@ describe('v.required', () => {
     });
 
     test('required prop', () => {
-      var check = v.warn(req(v.shape({ prop: req(v.string) })));
+      var check = v.assert(req(v.shape({ prop: req(v.string) })));
       expect(() => check({})).toThrowError('prop is required.');
     });
 
     test('nested required prop', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({ person: v.shape({ name: req(v.string) }) })
         })
@@ -872,7 +874,7 @@ describe('v.required', () => {
     });
 
     test('nested object with array', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({
             person: v.arrayOf(v.shape({ name: v.arrayOf(req(v.string)) }))
@@ -892,7 +894,7 @@ describe('v.required', () => {
     });
 
     test('nested object with required oneOfType', () => {
-      var check = v.warn(
+      var check = v.assert(
         v.shape({
           prop: v.shape({
             person: v.shape({
@@ -918,7 +920,7 @@ describe('v.required', () => {
 
   describe('v.arrayOf', () => {
     test('simple array', () => {
-      var check = v.warn(req(v.arrayOf(v.string)));
+      var check = v.assert(req(v.arrayOf(v.string)));
 
       expect(() => check()).toThrowError('value is required.');
 
@@ -926,7 +928,9 @@ describe('v.required', () => {
     });
 
     test('array with nested object', () => {
-      var check = v.warn(v.arrayOf(req(v.shape({ prop: req(v.equal('c')) }))));
+      var check = v.assert(
+        v.arrayOf(req(v.shape({ prop: req(v.equal('c')) })))
+      );
       expect(() => check([{ prop: 'c' }, null])).toThrowError(
         'Item at position 1 cannot be undefined/null.'
       );

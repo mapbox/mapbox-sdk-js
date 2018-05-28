@@ -14,7 +14,7 @@ var v = {};
  *
  * Take root validators and run assertion
  */
-v.warn = function(rootValidator, apiName) {
+v.assert = function(rootValidator, apiName) {
   return function(value) {
     var messages = validate(rootValidator, value);
     // all good
