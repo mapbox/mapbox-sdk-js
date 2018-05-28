@@ -15,7 +15,7 @@ var t = function(rootcheck) {
 var req = v.required;
 
 describe('v.file in the browser', () => {
-  const check = t(v.shapeOf({ prop: req(v.file) }));
+  const check = t(v.shape({ prop: req(v.file) }));
 
   test('rejects strings', () => {
     expect(check({ prop: 'path/to/file.txt' })).toEqual([

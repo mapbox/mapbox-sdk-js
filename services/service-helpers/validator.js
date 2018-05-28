@@ -54,9 +54,9 @@ v.warn = function(rootValidator, apiName) {
  * validators which take other validators as input
  * and output a new validator
  */
-v.shapeOf = function shapeOf(validatorObj) {
+v.shape = function shape(validatorObj) {
   var validators = objectEntries(validatorObj);
-  return function shapeOfValidator(value) {
+  return function shapeValidator(value) {
     var validationResult = validate(v.plainObject, value);
 
     if (validationResult) {
@@ -139,7 +139,7 @@ v.oneOfType = function oneOfType() {
     }
 
     // Complex oneOfTypes like
-    // v.oneOftypes(v.shapeOf({name: v.string}), v.shapeOf({name: v.number}))
+    // v.oneOftypes(v.shape({name: v.string}), v.shape({name: v.number}))
     // are complex ¯\_(ツ)_/¯. For the current scope
     // only returning the longest message.
     return messages.reduce(function(max, arr) {

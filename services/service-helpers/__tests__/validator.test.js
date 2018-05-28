@@ -11,9 +11,9 @@ var t = function(rootcheck) {
 
 var req = v.required;
 
-describe('v.shapeOf', () => {
+describe('v.shape', () => {
   test('plain object', () => {
-    var check = t(v.shapeOf({ name: v.string }));
+    var check = t(v.shape({ name: v.string }));
 
     expect(check({})).toBeUndefined();
 
@@ -23,25 +23,25 @@ describe('v.shapeOf', () => {
   });
 
   test('irrelevant values in object', () => {
-    let check = t(v.shapeOf({ name: v.string }));
+    let check = t(v.shape({ name: v.string }));
 
     expect(check({ garbage: 'garbage' })).toBeUndefined();
   });
 
   test('required', () => {
-    var check = t(v.shapeOf({ name: req(v.string) }));
+    var check = t(v.shape({ name: req(v.string) }));
 
     expect(check({})).toEqual(['name', expect.any(Function)]);
   });
 
   test('empty values', () => {
-    var check = t(v.shapeOf({ name: v.string }));
+    var check = t(v.shape({ name: v.string }));
 
     expect(check(undefined)).toBeUndefined();
   });
 
   test('nested object', () => {
-    var check = t(v.shapeOf({ person: v.shapeOf({ name: v.string }) }));
+    var check = t(v.shape({ person: v.shape({ name: v.string }) }));
 
     expect(check({ person: { name: 'jack' } })).toBeUndefined();
 
@@ -59,7 +59,7 @@ describe('v.shapeOf', () => {
   });
 
   test('empty values to a nested object', () => {
-    var check = t(v.shapeOf({ person: v.shapeOf({ name: v.string }) }));
+    var check = t(v.shape({ person: v.shape({ name: v.string }) }));
 
     expect(check()).toEqual();
 
@@ -73,7 +73,7 @@ describe('v.shapeOf', () => {
   });
 
   test('top level require ', () => {
-    var check = t(req(v.shapeOf({ person: v.shapeOf({ name: v.string }) })));
+    var check = t(req(v.shape({ person: v.shape({ name: v.string }) })));
 
     expect(check()).toEqual([expect.any(Function)]);
 
@@ -81,7 +81,7 @@ describe('v.shapeOf', () => {
   });
 
   test('nested require', () => {
-    var check = t(v.shapeOf({ person: req(v.shapeOf({ name: v.string })) }));
+    var check = t(v.shape({ person: req(v.shape({ name: v.string })) }));
 
     expect(check({})).toEqual(['person', expect.any(Function)]);
 
@@ -92,9 +92,9 @@ describe('v.shapeOf', () => {
 
   test('deep nesting', () => {
     var check = t(
-      v.shapeOf({
-        person: v.shapeOf({
-          name: v.shapeOf({ first: req(v.shapeOf({ initial: v.string })) })
+      v.shape({
+        person: v.shape({
+          name: v.shape({ first: req(v.shape({ initial: v.string })) })
         })
       })
     );
@@ -189,9 +189,9 @@ describe('v.arrayOf', () => {
   });
 });
 
-describe('mix of v.arrayOf & v.shapeOf', () => {
-  test('arrayOf <- shapeOf', () => {
-    var check = t(v.arrayOf(v.shapeOf({ name: req(v.string) })));
+describe('mix of v.arrayOf & v.shape', () => {
+  test('arrayOf <- shape', () => {
+    var check = t(v.arrayOf(v.shape({ name: req(v.string) })));
 
     expect(check([{ name: 'ram' }, 9])).toEqual([1, 'object']);
 
@@ -200,8 +200,8 @@ describe('mix of v.arrayOf & v.shapeOf', () => {
     expect(check([{ name: null }])).toEqual([0, 'name', expect.any(Function)]);
   });
 
-  test('shapeOf <- arrayOf', () => {
-    var check = t(v.shapeOf({ name: v.arrayOf(v.string) }));
+  test('shape <- arrayOf', () => {
+    var check = t(v.shape({ name: v.arrayOf(v.string) }));
 
     expect(check({ name: [] })).toBeUndefined();
 
@@ -253,7 +253,7 @@ describe('v.oneOfType', () => {
   });
 
   test('nested object', () => {
-    var check = t(v.shapeOf({ name: v.oneOfType(v.number, v.string) }));
+    var check = t(v.shape({ name: v.oneOfType(v.number, v.string) }));
 
     expect(check({ name: 'jack' })).toBeUndefined();
 
@@ -265,7 +265,7 @@ describe('v.oneOfType', () => {
   test('nested array', () => {
     var check = t(
       v.arrayOf(
-        v.shapeOf({
+        v.shape({
           name: v.oneOfType(v.number, v.string)
         })
       )
@@ -285,7 +285,7 @@ describe('v.oneOfType', () => {
   });
 
   test('complex type with primitive', () => {
-    var check = t(req(v.oneOfType(v.shapeOf({ name: v.string }), v.string)));
+    var check = t(req(v.oneOfType(v.shape({ name: v.string }), v.string)));
 
     expect(check({ name: 'jack' })).toBeUndefined();
 
@@ -306,7 +306,7 @@ describe('v.oneOfType', () => {
     var check = t(
       req(
         v.oneOfType(
-          v.shapeOf({ name: v.oneOfType(v.string, v.number) }),
+          v.shape({ name: v.oneOfType(v.string, v.number) }),
           v.arrayOf(v.oneOfType(v.string, v.number))
         )
       )
@@ -333,8 +333,8 @@ describe('v.oneOfType', () => {
     var check = t(
       req(
         v.oneOfType(
-          v.shapeOf({ name: req(v.string) }),
-          v.shapeOf({ name: v.number })
+          v.shape({ name: req(v.string) }),
+          v.shape({ name: v.number })
         )
       )
     );
@@ -369,10 +369,10 @@ describe('v.string', () => {
   });
 
   test('inside an object', () => {
-    expect(t(v.shapeOf({ name: req(v.string) }))({ name: 'jack' })).toBe(
+    expect(t(v.shape({ name: req(v.string) }))({ name: 'jack' })).toBe(
       undefined
     );
-    expect(t(v.shapeOf({ name: v.string }))({ name: 9 })).toEqual([
+    expect(t(v.shape({ name: v.string }))({ name: 9 })).toEqual([
       'name',
       'string'
     ]);
@@ -437,29 +437,28 @@ describe('v.oneOf', () => {
 
   describe('inside object', () => {
     test('success', () => {
-      expect(
-        t(v.shapeOf({ foo: v.oneOf('aa', 'bb') }))({ foo: 'bb' })
-      ).toEqual();
+      expect(t(v.shape({ foo: v.oneOf('aa', 'bb') }))({ foo: 'bb' })).toEqual();
     });
     test('failure', () => {
-      expect(t(v.shapeOf({ foo: v.oneOf('aa', 'bb') }))({ foo: 'cc' })).toEqual(
-        ['foo', '"aa" or "bb"']
-      );
+      expect(t(v.shape({ foo: v.oneOf('aa', 'bb') }))({ foo: 'cc' })).toEqual([
+        'foo',
+        '"aa" or "bb"'
+      ]);
     });
   });
 
   describe('required', () => {
     test('success', () => {
       expect(
-        t(v.shapeOf({ foo: req(v.oneOf('aa', 'bb')) }))({ foo: 'aa' })
+        t(v.shape({ foo: req(v.oneOf('aa', 'bb')) }))({ foo: 'aa' })
       ).toEqual();
       expect(
-        t(v.shapeOf({ foo: req(v.oneOf('aa', 'bb')) }))({ foo: 'bb' })
+        t(v.shape({ foo: req(v.oneOf('aa', 'bb')) }))({ foo: 'bb' })
       ).toEqual();
     });
 
     test('failure', () => {
-      expect(t(v.shapeOf({ foo: req(v.oneOf('aa', 'bb')) }))({})).toEqual([
+      expect(t(v.shape({ foo: req(v.oneOf('aa', 'bb')) }))({})).toEqual([
         'foo',
         expect.any(Function)
       ]);
@@ -557,7 +556,7 @@ describe('v.date', () => {
 });
 
 describe('v.file in Node', () => {
-  var check = t(v.shapeOf({ prop: v.file }));
+  var check = t(v.shape({ prop: v.file }));
 
   test('rejects numbers', () => {
     expect(check({ prop: 4 })).toEqual(['prop', 'Filename or Readable stream']);
@@ -656,9 +655,9 @@ describe('v.warn', () => {
 
   test('v.oneOfType', () => {
     var check = v.warn(
-      v.shapeOf({
-        prop: v.shapeOf({
-          person: v.shapeOf({
+      v.shape({
+        prop: v.shape({
+          person: v.shape({
             weight: v.oneOfType(v.string, v.range([0, 100]))
           })
         })
@@ -677,15 +676,15 @@ describe('v.warn', () => {
     );
   });
 
-  describe('v.shapeOf', () => {
+  describe('v.shape', () => {
     test('simple object', () => {
-      var check = v.warn(v.shapeOf({ prop: v.string }));
+      var check = v.warn(v.shape({ prop: v.string }));
       expect(() => check({ prop: 9 })).toThrowError('prop must be a string.');
     });
     test('nested object', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({ person: v.shapeOf({ name: v.string }) })
+        v.shape({
+          prop: v.shape({ person: v.shape({ name: v.string }) })
         })
       );
 
@@ -700,8 +699,8 @@ describe('v.warn', () => {
 
     test('nested object with array', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({ person: v.shapeOf({ name: v.arrayOf(v.string) }) })
+        v.shape({
+          prop: v.shape({ person: v.shape({ name: v.arrayOf(v.string) }) })
         })
       );
       expect(() => check({ prop: { person: { name: 9 } } })).toThrowError(
@@ -714,9 +713,9 @@ describe('v.warn', () => {
 
     test('nested object with oneOfType', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({
-            person: v.shapeOf({
+        v.shape({
+          prop: v.shape({
+            person: v.shape({
               name: v.oneOfType(v.arrayOf(v.string), v.plainObject)
             })
           })
@@ -738,9 +737,7 @@ describe('v.warn', () => {
     });
 
     test('array with object', () => {
-      var check = v.warn(
-        v.arrayOf(v.shapeOf({ prop: v.arrayOf(v.equal('c')) }))
-      );
+      var check = v.warn(v.arrayOf(v.shape({ prop: v.arrayOf(v.equal('c')) })));
       expect(() => check([{ prop: ['c'] }, { prop: ['c', 'd'] }])).toThrowError(
         'Item at position 1.prop.1 must be a "c".'
       );
@@ -756,9 +753,9 @@ describe('v.warn', () => {
 
     test('nested', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({
-            person: v.shapeOf({ name: v.oneOf('Jack', 'Daniels') })
+        v.shape({
+          prop: v.shape({
+            person: v.shape({ name: v.oneOf('Jack', 'Daniels') })
           })
         })
       );
@@ -818,9 +815,9 @@ describe('v.required', () => {
 
   test('v.oneOf', () => {
     var check = v.warn(
-      v.shapeOf({
-        prop: v.shapeOf({
-          person: v.shapeOf({ name: req(v.oneOf('Jack', 'Daniels')) })
+      v.shape({
+        prop: v.shape({
+          person: v.shape({ name: req(v.oneOf('Jack', 'Daniels')) })
         })
       })
     );
@@ -831,9 +828,9 @@ describe('v.required', () => {
 
   test('v.oneOfType', () => {
     var check = v.warn(
-      v.shapeOf({
-        prop: v.shapeOf({
-          person: v.shapeOf({
+      v.shape({
+        prop: v.shape({
+          person: v.shape({
             weight: req(v.oneOfType(v.string, v.range([0, 100])))
           })
         })
@@ -844,9 +841,9 @@ describe('v.required', () => {
     );
   });
 
-  describe('v.shapeOf', () => {
+  describe('v.shape', () => {
     test('simple object', () => {
-      var check = v.warn(req(v.shapeOf({ prop: v.string })));
+      var check = v.warn(req(v.shape({ prop: v.string })));
 
       expect(() => check()).toThrowError('value is required.');
 
@@ -854,14 +851,14 @@ describe('v.required', () => {
     });
 
     test('required prop', () => {
-      var check = v.warn(req(v.shapeOf({ prop: req(v.string) })));
+      var check = v.warn(req(v.shape({ prop: req(v.string) })));
       expect(() => check({})).toThrowError('prop is required.');
     });
 
     test('nested required prop', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({ person: v.shapeOf({ name: req(v.string) }) })
+        v.shape({
+          prop: v.shape({ person: v.shape({ name: req(v.string) }) })
         })
       );
 
@@ -876,9 +873,9 @@ describe('v.required', () => {
 
     test('nested object with array', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({
-            person: v.arrayOf(v.shapeOf({ name: v.arrayOf(req(v.string)) }))
+        v.shape({
+          prop: v.shape({
+            person: v.arrayOf(v.shape({ name: v.arrayOf(req(v.string)) }))
           })
         })
       );
@@ -896,9 +893,9 @@ describe('v.required', () => {
 
     test('nested object with required oneOfType', () => {
       var check = v.warn(
-        v.shapeOf({
-          prop: v.shapeOf({
-            person: v.shapeOf({
+        v.shape({
+          prop: v.shape({
+            person: v.shape({
               name: req(v.oneOfType(v.arrayOf(v.string), v.plainObject))
             })
           })
@@ -929,9 +926,7 @@ describe('v.required', () => {
     });
 
     test('array with nested object', () => {
-      var check = v.warn(
-        v.arrayOf(req(v.shapeOf({ prop: req(v.equal('c')) })))
-      );
+      var check = v.warn(v.arrayOf(req(v.shape({ prop: req(v.equal('c')) }))));
       expect(() => check([{ prop: 'c' }, null])).toThrowError(
         'Item at position 1 cannot be undefined/null.'
       );
