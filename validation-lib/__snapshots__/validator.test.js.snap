@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`v.assert v.shape multiple errors missing values 1`] = `
-"The following keys of object at value did not pass validation:
+"The following keys of value did not pass validation:
 
       >waypoints: waypoints is required.
 
@@ -9,11 +9,11 @@ exports[`v.assert v.shape multiple errors missing values 1`] = `
 `;
 
 exports[`v.assert v.shape multiple errors nested values 1`] = `
-"The following keys of object at value did not pass validation:
+"The following keys of value did not pass validation:
 
       >profile: profile must be a \\"driving-traffic\\", \\"driving\\", \\"walking\\" or \\"cycling\\".
 
-      >waypoints: The following keys of object at waypoints.0 did not pass validation:
+      >waypoints: The following keys of waypoints.0 did not pass validation:
       
             >coordinates: coordinates must be an array of [longitude, latitude].
       
