@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator').v;
+var v = require('./service-helpers/validator');
 var pick = require('./service-helpers/pick');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
@@ -19,11 +19,9 @@ var Tokens = {};
  * @return {MapiRequest}
  */
 Tokens.listTokens = function(config) {
-  v.warn(
-    v.shapeOf({
-      ownerId: v.string
-    })
-  )(config);
+  v.assertShape({
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -50,14 +48,12 @@ Tokens.listTokens = function(config) {
 Tokens.createToken = function(config) {
   config = config || {};
 
-  v.warn(
-    v.shapeOf({
-      ownerId: v.string,
-      note: v.string,
-      scopes: v.arrayOf(v.string),
-      resources: v.arrayOf(v.string)
-    })
-  )(config);
+  v.assertShape({
+    ownerId: v.string,
+    note: v.string,
+    scopes: v.arrayOf(v.string),
+    resources: v.arrayOf(v.string)
+  })(config);
 
   var body = {};
   body.scopes = config.scopes || [];
@@ -89,13 +85,11 @@ Tokens.createToken = function(config) {
  */
 Tokens.createTemporaryToken = function(config) {
   config = config || {};
-  v.warn(
-    v.shapeOf({
-      expires: v.required(v.date),
-      scopes: v.required(v.arrayOf(v.string)),
-      ownerId: v.string
-    })
-  )(config);
+  v.assertShape({
+    expires: v.required(v.date),
+    scopes: v.required(v.arrayOf(v.string)),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'POST',
@@ -125,15 +119,13 @@ Tokens.createTemporaryToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.updateToken = function(config) {
-  v.warn(
-    v.shapeOf({
-      tokenId: v.required(v.string),
-      note: v.string,
-      scopes: v.arrayOf(v.string),
-      resources: v.arrayOf(v.string),
-      ownerId: v.string
-    })
-  )(config);
+  v.assertShape({
+    tokenId: v.required(v.string),
+    note: v.string,
+    scopes: v.arrayOf(v.string),
+    resources: v.arrayOf(v.string),
+    ownerId: v.string
+  })(config);
 
   var body = {};
   if (config.scopes) {
@@ -163,7 +155,7 @@ Tokens.updateToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.getToken = function(config) {
-  v.warn(v.shapeOf({}))(config);
+  v.assertShape({})(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -182,12 +174,10 @@ Tokens.getToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.deleteToken = function(config) {
-  v.warn(
-    v.shapeOf({
-      tokenId: v.required(v.string),
-      ownerId: v.string
-    })
-  )(config);
+  v.assertShape({
+    tokenId: v.required(v.string),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
@@ -207,11 +197,9 @@ Tokens.deleteToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.listScopes = function(config) {
-  v.warn(
-    v.shapeOf({
-      ownerId: v.string
-    })
-  )(config);
+  v.assertShape({
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',

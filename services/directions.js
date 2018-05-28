@@ -1,6 +1,6 @@
 'use strict';
 
-var v = require('./service-helpers/validator').v;
+var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 var pick = require('./service-helpers/pick');
 
@@ -32,36 +32,34 @@ var Directions = {};
  * @return {MapiRequest}
  */
 Directions.getDirections = function(config) {
-  v.warn(
-    v.shapeOf({
-      profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
-      waypoints: v.required(
-        v.arrayOf(
-          v.shapeOf({
-            coordinates: v.required(v.coordinates),
-            approach: v.oneOf('unrestricted', 'curb'),
-            bearing: v.arrayOf(v.number),
-            radius: v.oneOfType(v.number, v.equal('unlimited')),
-            waypointName: v.string
-          })
-        )
-      ),
-      alternatives: v.boolean,
-      annotations: v.arrayOf(
-        v.oneOf('duration', 'distance', 'speed', 'congestion')
-      ),
-      bannerInstructions: v.boolean,
-      continueStraight: v.boolean,
-      exclude: v.string,
-      geometries: v.string,
-      language: v.string,
-      overview: v.string,
-      roundaboutExits: v.boolean,
-      steps: v.boolean,
-      voiceInstructions: v.boolean,
-      voiceUnits: v.string
-    })
-  )(config);
+  v.assertShape({
+    profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
+    waypoints: v.required(
+      v.arrayOf(
+        v.shape({
+          coordinates: v.required(v.coordinates),
+          approach: v.oneOf('unrestricted', 'curb'),
+          bearing: v.arrayOf(v.number),
+          radius: v.oneOfType(v.number, v.equal('unlimited')),
+          waypointName: v.string
+        })
+      )
+    ),
+    alternatives: v.boolean,
+    annotations: v.arrayOf(
+      v.oneOf('duration', 'distance', 'speed', 'congestion')
+    ),
+    bannerInstructions: v.boolean,
+    continueStraight: v.boolean,
+    exclude: v.string,
+    geometries: v.string,
+    language: v.string,
+    overview: v.string,
+    roundaboutExits: v.boolean,
+    steps: v.boolean,
+    voiceInstructions: v.boolean,
+    voiceUnits: v.string
+  })(config);
 
   config.profile = config.profile || 'driving';
 
