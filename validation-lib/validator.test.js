@@ -724,6 +724,58 @@ describe('v.assert', () => {
       );
     });
   });
+
+  describe('v.shape multiple errors', () => {
+    var check = v.assert(
+      v.shape({
+        profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
+        waypoints: v.required(
+          v.arrayOf(
+            v.shape({
+              coordinates: v.required(v.coordinates),
+              approach: v.oneOf('unrestricted', 'curb'),
+              bearing: v.arrayOf(v.number),
+              radius: v.oneOfType(v.number, v.equal('unlimited')),
+              waypointName: v.string
+            })
+          )
+        ),
+        alternatives: v.boolean
+      })
+    );
+    test('passes', () => {
+      expect(() =>
+        check({
+          waypoints: { coordinates: [10, 10] },
+          alternatives: false
+        })
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    test('missing values', () => {
+      expect(() =>
+        check({
+          alternatives: 9
+        })
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    test('nested values', () => {
+      expect(() =>
+        check({
+          profile: 'wrong',
+          waypoints: [
+            {
+              coordinates: false,
+              radius: 'limited',
+              bearing: [9, 9, 'str']
+            }
+          ],
+          alternatives: 9
+        })
+      ).toThrowErrorMatchingSnapshot();
+    });
+  });
 });
 
 describe('v.required', () => {

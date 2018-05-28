@@ -6,6 +6,7 @@
  * They can also return a function for a custom error message.
  */
 var isPlainObject = require('is-plain-obj');
+var xtend = require('xtend');
 
 var v = {};
 
@@ -14,34 +15,19 @@ var v = {};
  *
  * Take root validators and run assertion
  */
-v.assert = function(rootValidator, apiName) {
+v.assert = function(rootValidator, options) {
+  options = options || {};
   return function(value) {
-    var messages = validate(rootValidator, value);
+    var message = validate(rootValidator, value);
     // all good
-    if (!messages) {
+    if (!message) {
       return;
     }
-    // messages array follows the convention
-    // [...path, result]
-    // path is an array of object keys / array indices
-    // result is output of the validator
-    var len = messages.length;
 
-    var result = messages[len - 1];
-    var path = messages.slice(0, len - 1);
+    var errorMessage = processMessage(message, options);
 
-    if (path.length == 0) {
-      // Calling it value since there is no identifiable path
-      path = ['value'];
-    }
-
-    var errorMessage =
-      typeof result === 'function'
-        ? result({ path: path })
-        : formatErrorMessage(path, result);
-
-    if (apiName) {
-      errorMessage = apiName + ': ' + errorMessage;
+    if (options.apiName) {
+      errorMessage = options.apiName + ': ' + errorMessage;
     }
 
     throw new Error(errorMessage);
@@ -64,15 +50,46 @@ v.shape = function shape(validatorObj) {
     }
 
     var key, validator;
+    var errorMessages = [];
+
     for (var i = 0; i < validators.length; i++) {
       key = validators[i].key;
-      validator = validators[i].val;
+      validator = validators[i].value;
       validationResult = validate(validator, value[key]);
 
       if (validationResult) {
-        return [key].concat(validationResult);
+        // return [key].concat(validationResult);
+        errorMessages.push([key].concat(validationResult));
       }
     }
+
+    if (errorMessages.length < 2) {
+      return errorMessages[0];
+    }
+
+    // enumerate all the error messages
+    return function(options) {
+      var indent = '\n      ';
+      errorMessages = errorMessages.map(function(message) {
+        return (
+          '>' +
+          message[0] +
+          ': ' +
+          processMessage(message, options)
+            .split('\n')
+            .join(indent) // indents any inner nesting
+        );
+      });
+
+      return (
+        'The following keys of object at ' +
+        options.path.join('.') +
+        ' did not pass validation:' +
+        '\n' +
+        indent +
+        errorMessages.join('\n' + indent)
+      );
+    };
   };
 };
 
@@ -98,7 +115,12 @@ v.required = function required(validator) {
   function requiredValidator(value) {
     if (value == null) {
       return function(options) {
-        return formatErrorMessage(options.path);
+        return formatErrorMessage(
+          options,
+          isArrayCulprit(options.path)
+            ? 'cannot be undefined/null.'
+            : 'is required.'
+        );
       };
     }
     return validator.apply(this, arguments);
@@ -139,9 +161,8 @@ v.oneOfType = function oneOfType() {
     }
 
     // Complex oneOfTypes like
-    // v.oneOftypes(v.shape({name: v.string}), v.shape({name: v.number}))
-    // are complex ¯\_(ツ)_/¯. For the current scope
-    // only returning the longest message.
+    // `v.oneOftypes(v.shape({name: v.string})`, `v.shape({name: v.number}))`
+    // are complex ¯\_(ツ)_/¯. For the current scope only returning the longest message.
     return messages.reduce(function(max, arr) {
       return arr.length > max.length ? arr : max;
     });
@@ -255,6 +276,27 @@ function validate(validator, value) {
   }
 }
 
+function processMessage(message, options) {
+  // message array follows the convention
+  // [...path, result]
+  // path is an array of object keys / array indices
+  // result is output of the validator
+  var len = message.length;
+
+  var result = message[len - 1];
+  var path = message.slice(0, len - 1);
+
+  if (path.length == 0) {
+    // Calling it value since there is no identifiable path
+    path = ['value'];
+  }
+  options = xtend(options, { path: path });
+
+  return typeof result === 'function'
+    ? result(options) // allows customization of result
+    : formatErrorMessage(options, prettifyResult(result));
+}
+
 function orList(list) {
   if (list.length < 2) {
     return list[0];
@@ -264,21 +306,16 @@ function orList(list) {
     .join(' or ');
 }
 
-function formatErrorMessage(path, result) {
-  var arrayCulprit = isArrayCulprit(path);
-  if (result) {
-    result =
-      'must be ' + (/^[aeiou]/.test(result) ? 'an ' : 'a ') + result + '.';
-  }
+function prettifyResult(result) {
+  return 'must be ' + (/^[aeiou]/.test(result) ? 'an ' : 'a ') + result + '.';
+}
 
-  if (arrayCulprit) {
-    result = result || 'cannot be undefined/null.';
-    return 'Item at position ' + path.join('.') + ' ' + result;
-  }
+function formatErrorMessage(options, prettyResult) {
+  var arrayCulprit = isArrayCulprit(options.path);
+  var output = options.path.join('.') + ' ' + prettyResult;
+  var prepend = arrayCulprit ? 'Item at position ' : '';
 
-  result = result || 'is required.';
-
-  return path.join('.') + ' ' + result;
+  return prepend + output;
 }
 
 function isArrayCulprit(path) {
@@ -287,10 +324,11 @@ function isArrayCulprit(path) {
 
 function objectEntries(obj) {
   return Object.keys(obj || {}).map(function(key) {
-    return { key: key, val: obj[key] };
+    return { key: key, value: obj[key] };
   });
 }
 
 v.validate = validate;
+v.processMessage = processMessage;
 
 module.exports = v;
