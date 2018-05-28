@@ -1,10 +1,10 @@
 'use strict';
 
-const { v, validate } = require('../validator');
+const v = require('../validator');
 
 var t = function(rootcheck) {
   return function(value) {
-    var messages = validate(rootcheck, value);
+    var messages = v.validate(rootcheck, value);
     return messages;
   };
 };
