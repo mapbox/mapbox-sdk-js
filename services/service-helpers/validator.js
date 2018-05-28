@@ -306,4 +306,6 @@ function objectEntries(obj) {
   });
 }
 
-module.exports = { v: v, validate: validate };
+v.validate = validate;
+
+module.exports = v;
