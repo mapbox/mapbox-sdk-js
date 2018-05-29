@@ -514,10 +514,8 @@ Type: [Object][38]
 
 **Properties**
 
-- `latitude` **[number][46]** 
-- `longitude` **[number][46]** 
+- `coordinates` **[Array][51]&lt;[number][46]>** An array containing pair of longitude, latitude.
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-- `bearing` **[Array][51]&lt;[number][46]>?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
 - `radius` **([number][46] \| `"unlimited"`)?** Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
 - `waypointName` **[string][39]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
 
