@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "JS SDK for accessing Mapbox APIs",
   "main": "index.js",
+  "files": [
+    "umd",
+    "lib",
+    "services"
+  ],
   "scripts": {
     "format": "prettier --write '**/*.js'",
     "lint-md": "remark-preset-davidtheclark",
@@ -14,7 +19,9 @@
     "document-services": "documentation build 'services/*.js' --shallow --format md > docs/services.md",
     "document-classes": "documentation build 'lib/classes/*.js' --shallow --format md > docs/classes.md",
     "document": "run-p --aggregate-output document-services document-classes && npm run lint-md",
-    "precommit": "npm run document && git add docs && lint-staged"
+    "precommit": "npm run document && git add docs && lint-staged",
+    "bundle": "rollup --config ./rollup.config.js && uglifyjs umd/mapbox-sdk.js > umd/mapbox-sdk.min.js",
+    "prepublishOnly": "npm run bundle"
   },
   "repository": {
     "type": "git",
@@ -91,6 +98,10 @@
     "npm-run-all": "^4.1.3",
     "prettier": "^1.12.1",
     "remark-preset-davidtheclark": "^0.8.1",
+    "rollup": "^0.59.3",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "uglify-js": "^3.3.27",
     "xhr-mock": "^2.3.2"
   },
   "engines": {

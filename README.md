@@ -15,6 +15,7 @@ Works both in Node and the browser.
   - [MapiResponse](#mapiresponse)
   - [MapiError](#mapierror)
 - [Services](#services)
+- [Pre-bundled files on unpkg.com](#pre-bundled-files-on-unpkgcom)
 - [Development](#development)
 
 ## Installation
@@ -25,6 +26,8 @@ npm install @mapbox/mapbox-sdk
 
 **If you are supporting older browsers, you will need a Promise polyfill.**
 [es6-promise](https://github.com/stefanpenner/es6-promise) is a good one, if you're uncertain.
+
+If you aren't using a JS module bundler, read ["Pre-bundled files on unpkg.com"](#pre-bundled-files-on-unpkgcom)
 
 ## Usage
 
@@ -202,6 +205,31 @@ stylesService.getStyle({..})
 ## Services
 
 Please read [the full documentation for services](./docs/services.md).
+
+## Pre-bundled files on unpkg.com
+
+If you aren't using a JS module bundler, you can use a `<script>` tag referencing pre-bundled files on the CDN [unpkg.com](https://unpkg.com/).
+
+```html
+<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.js"></script>
+<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+```
+
+These files are a UMD build of the package, exposing a `mapboxSdk` function that creates a client, initializes *all* the services, and attaches those services to the client.
+Here's how you might use it.
+
+```html
+<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script>
+  var mapboxClient = mapboxSdk({ accessToken: MY_ACCESS_TOKEN });
+  mapboxClient.styles.getStyle(..)
+    .send()
+    .then(..);
+  mapboxClient.tilesets.listTilesets(..)
+    .send()
+    .then(..);
+</script>
+```
 
 ## Development
 
