@@ -19,12 +19,9 @@ var Tokens = {};
  * @return {MapiRequest}
  */
 Tokens.listTokens = function(config) {
-  v.validate(
-    {
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -50,12 +47,13 @@ Tokens.listTokens = function(config) {
  */
 Tokens.createToken = function(config) {
   config = config || {};
-  v.validate({
+
+  v.assertShape({
     ownerId: v.string,
     note: v.string,
-    scopes: v.arrayOfStrings,
-    resources: v.arrayOfStrings
-  });
+    scopes: v.arrayOf(v.string),
+    resources: v.arrayOf(v.string)
+  })(config);
 
   var body = {};
   body.scopes = config.scopes || [];
@@ -87,14 +85,11 @@ Tokens.createToken = function(config) {
  */
 Tokens.createTemporaryToken = function(config) {
   config = config || {};
-  v.validate(
-    {
-      expires: v.date.required,
-      scopes: v.arrayOfStrings.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    expires: v.required(v.date),
+    scopes: v.required(v.arrayOf(v.string)),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'POST',
@@ -124,16 +119,13 @@ Tokens.createTemporaryToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.updateToken = function(config) {
-  v.validate(
-    {
-      tokenId: v.string.required,
-      note: v.string,
-      scopes: v.arrayOfStrings,
-      resources: v.arrayOfStrings,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    tokenId: v.required(v.string),
+    note: v.string,
+    scopes: v.arrayOf(v.string),
+    resources: v.arrayOf(v.string),
+    ownerId: v.string
+  })(config);
 
   var body = {};
   if (config.scopes) {
@@ -163,7 +155,7 @@ Tokens.updateToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.getToken = function(config) {
-  v.validate({}, config);
+  v.assertShape({})(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -182,13 +174,10 @@ Tokens.getToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.deleteToken = function(config) {
-  v.validate(
-    {
-      tokenId: v.string.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    tokenId: v.required(v.string),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
@@ -208,12 +197,9 @@ Tokens.deleteToken = function(config) {
  * @return {MapiRequest}
  */
 Tokens.listScopes = function(config) {
-  v.validate(
-    {
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',

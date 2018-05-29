@@ -21,13 +21,10 @@ var Styles = {};
  * @return {MapiRequest}
  */
 Styles.getStyle = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -47,13 +44,10 @@ Styles.getStyle = function(config) {
  * @return {MapiRequest}
  */
 Styles.createStyle = function(config) {
-  v.validate(
-    {
-      style: v.plainObject,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    style: v.plainObject,
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'POST',
@@ -77,15 +71,12 @@ Styles.createStyle = function(config) {
  * @return {MapiRequest}
  */
 Styles.updateStyle = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      style: v.plainObject.required,
-      lastKnownModification: v.date,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    style: v.required(v.plainObject),
+    lastKnownModification: v.date,
+    ownerId: v.string
+  })(config);
 
   var headers = {};
   if (config.lastKnownModification) {
@@ -111,13 +102,10 @@ Styles.updateStyle = function(config) {
  * @return {MapiRequest}
  */
 Styles.deleteStyle = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
@@ -137,13 +125,10 @@ Styles.deleteStyle = function(config) {
  */
 Styles.listStyles = function(config) {
   config = config || {};
-  v.validate(
-    {
-      start: v.string,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    start: v.string,
+    ownerId: v.string
+  })(config);
 
   var query = {};
   if (config.start) {
@@ -168,15 +153,12 @@ Styles.listStyles = function(config) {
  * @return {MapiRequest}
  */
 Styles.putStyleIcon = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      iconId: v.string.required,
-      file: v.file,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    iconId: v.required(v.string),
+    file: v.file,
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'PUT',
@@ -196,14 +178,11 @@ Styles.putStyleIcon = function(config) {
  * @return {MapiRequest}
  */
 Styles.deleteStyleIcon = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      iconId: v.string.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    iconId: v.required(v.string),
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
@@ -226,15 +205,12 @@ Styles.deleteStyleIcon = function(config) {
  * @return {MapiRequest}
  */
 Styles.getStyleSprite = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      format: v.oneOf('json', 'png'),
-      highRes: v.boolean,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    format: v.oneOf('json', 'png'),
+    highRes: v.boolean,
+    ownerId: v.string
+  })(config);
 
   var format = config.format || 'json';
   var fileName = 'sprite' + (config.highRes ? '@2x' : '') + '.' + format;
@@ -262,15 +238,12 @@ Styles.getStyleSprite = function(config) {
  * @return {MapiRequest}
  */
 Styles.getFontGlyphRange = function(config) {
-  v.validate(
-    {
-      fonts: v.stringOrArrayOfStrings.required,
-      start: v.number.required,
-      end: v.number.required,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    fonts: v.required(v.oneOfType(v.string, v.arrayOf(v.string))),
+    start: v.required(v.number),
+    end: v.required(v.number),
+    ownerId: v.string
+  })(config);
 
   var fileName = config.start + '-' + config.end + '.pbf';
 
@@ -298,15 +271,12 @@ Styles.getFontGlyphRange = function(config) {
  * @param {ownerId} [ownerId]
  */
 Styles.getEmbeddableHtml = function(config) {
-  v.validate(
-    {
-      styleId: v.string.required,
-      scrollZoom: v.boolean,
-      title: v.boolean,
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    styleId: v.required(v.string),
+    scrollZoom: v.boolean,
+    title: v.boolean,
+    ownerId: v.string
+  })(config);
 
   var fileName = config.styleId + '.html';
   var query = {};

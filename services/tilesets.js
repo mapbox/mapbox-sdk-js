@@ -18,12 +18,9 @@ var Tilesets = {};
  * @return {MapiRequest}
  */
 Tilesets.listTilesets = function(config) {
-  v.validate(
-    {
-      ownerId: v.string
-    },
-    config
-  );
+  v.assertShape({
+    ownerId: v.string
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
