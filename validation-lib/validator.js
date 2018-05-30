@@ -291,7 +291,7 @@ function processMessage(message, options) {
   var result = message[len - 1];
   var path = message.slice(0, len - 1);
 
-  if (path.length == 0) {
+  if (path.length === 0) {
     // Calling it value since there is no identifiable path
     path = ['value'];
   }
