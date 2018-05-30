@@ -126,7 +126,7 @@ Matching.getMatching = function(config) {
       .join(';');
   }
 
-  var query = {
+  var body = {
     annotations: config.annotations,
     geometries: config.geometries,
     language: config.language,
@@ -137,17 +137,17 @@ Matching.getMatching = function(config) {
     radiuses: matchPath.radius,
     waypoints: matchPath.isWaypoint,
     timestamps: matchPath.timestamp,
-    waypoint_names: matchPath.waypointName
+    waypoint_names: matchPath.waypointName,
+    coordinates: matchPath.coordinates
   };
 
   return this.client.createRequest({
-    method: 'GET',
-    path: '/matching/v5/mapbox/:profile/:coordinates.json',
+    method: 'POST',
+    path: '/matching/v5/mapbox/:profile',
     params: {
-      profile: config.profile,
-      coordinates: matchPath.coordinates
+      profile: config.profile
     },
-    query: pick(query, function(_, val) {
+    body: pick(body, function(_, val) {
       return val != null;
     })
   });
