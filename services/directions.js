@@ -108,7 +108,7 @@ Directions.getDirections = function(config) {
     // avoid sending params which are all `;`
     if (
       directionsPath[prop].every(function(char) {
-        return char == '';
+        return char === '';
       })
     ) {
       delete directionsPath[prop];
