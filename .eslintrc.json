@@ -1,8 +1,6 @@
 {
   "extends": "eslint:recommended",
-  "plugins": [
-    "node"
-  ],
+  "plugins": ["node"],
   "env": {
     "commonjs": true,
     "es6": false
@@ -15,7 +13,7 @@
   },
   "rules": {
     "strict": ["error"],
-
+    "eqeqeq": ["error", "smart"],
     "node/no-unsupported-features": ["error"],
     "node/no-missing-require": "error"
   },

@@ -140,7 +140,7 @@ describe('getMatching', () => {
     });
   });
 
-  test(`it understands other coordinate properties`, () => {
+  test('it understands other coordinate properties', () => {
     matching.getMatching({
       matchPath: [
         {
@@ -178,7 +178,8 @@ describe('getMatching', () => {
         steps: true,
         radiuses: ';;50;',
         waypoint_names: ';;special;',
-        waypoints: '0;1;;3'
+        waypoints: '0;1;;3',
+        timestamps: ';;0;'
       }
     });
   });

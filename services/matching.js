@@ -97,7 +97,7 @@ Matching.getMatching = function(config) {
       // avoid sending params which are all `;`
       if (
         matchPath[prop].every(function(value) {
-          return value == '';
+          return value === '';
         })
       ) {
         delete matchPath[prop];
@@ -113,7 +113,7 @@ Matching.getMatching = function(config) {
 
   if (
     matchPath.isWaypoint.every(function(value) {
-      return value == true;
+      return value === true;
     })
   ) {
     delete matchPath.isWaypoint;
@@ -121,7 +121,7 @@ Matching.getMatching = function(config) {
     // the api requires the indexes to be sent
     matchPath.isWaypoint = matchPath.isWaypoint
       .map(function(val, i) {
-        return val == true ? i : '';
+        return val === true ? i : '';
       })
       .join(';');
   }

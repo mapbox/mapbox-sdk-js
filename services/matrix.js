@@ -66,7 +66,7 @@ Matrix.getMatrix = function(config) {
 
   if (
     matrixPath.approach.every(function(value) {
-      return value == '';
+      return value === '';
     })
   ) {
     delete matrixPath.approach;
