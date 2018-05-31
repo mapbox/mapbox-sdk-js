@@ -93,7 +93,7 @@ describe('getDirections', () => {
     });
   });
 
-  test(`it works if an optional directionsPath.bearing is missing at some places`, () => {
+  test('it works if an optional directionsPath.bearing is missing at some places', () => {
     directions.getDirections({
       directionsPath: [
         {
@@ -129,7 +129,7 @@ describe('getDirections', () => {
     });
   });
 
-  test(`it works if an optional directionsPath.radius is missing at some places`, () => {
+  test('it works if an optional directionsPath.radius is missing at some places', () => {
     directions.getDirections({
       directionsPath: [
         {
