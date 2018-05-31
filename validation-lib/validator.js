@@ -131,7 +131,9 @@ v.required = function required(validator) {
 };
 
 v.oneOfType = function oneOfType() {
-  var validators = Array.prototype.slice.call(arguments);
+  var validators = Array.isArray(arguments[0])
+    ? arguments[0]
+    : Array.prototype.slice.call(arguments);
   return function oneOfTypeValidator(value) {
     var messages = validators
       .map(function(validator) {
@@ -183,7 +185,10 @@ v.equal = function equal(compareWith) {
 };
 
 v.oneOf = function oneOf() {
-  var validators = Array.prototype.slice.call(arguments).map(function(value) {
+  var options = Array.isArray(arguments[0])
+    ? arguments[0]
+    : Array.prototype.slice.call(arguments);
+  var validators = options.map(function(value) {
     return v.equal(value);
   });
 

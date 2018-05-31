@@ -9,6 +9,19 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  */
 var Geocoding = {};
 
+var featureTypes = [
+  'country',
+  'region',
+  'postcode',
+  'district',
+  'place',
+  'locality',
+  'neighborhood',
+  'address',
+  'poi',
+  'poi.landmark'
+];
+
 /**
  * Search for a place.
  *
@@ -32,7 +45,7 @@ Geocoding.forwardGeocode = function(config) {
     mode: v.required(v.oneOf('mapbox.places', 'mapbox.places-permanent')),
     country: v.oneOfType(v.string, v.arrayOf(v.string)),
     proximity: v.coordinates,
-    types: v.arrayOf(v.string),
+    types: v.arrayOf(v.oneOf(featureTypes)),
     autocomplete: v.boolean,
     bbox: v.arrayOf(v.number),
     limit: v.number,
@@ -76,7 +89,7 @@ Geocoding.reverseGeocode = function(config) {
     query: v.required(v.coordinates),
     mode: v.required(v.oneOf('mapbox.places', 'mapbox.places-permanent')),
     country: v.oneOfType(v.string, v.arrayOf(v.string)),
-    types: v.arrayOf(v.string),
+    types: v.arrayOf(v.oneOf(featureTypes)),
     bbox: v.arrayOf(v.number),
     limit: v.number,
     language: v.oneOfType(v.string, v.arrayOf(v.string)),
