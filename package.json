@@ -6,7 +6,8 @@
   "files": [
     "umd",
     "lib",
-    "services"
+    "services",
+    "validation-lib"
   ],
   "scripts": {
     "format": "prettier --write '**/*.js'",
