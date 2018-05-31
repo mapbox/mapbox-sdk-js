@@ -13,6 +13,7 @@ const mbxGeocoding = require('../services/geocoding');
 const mbxDirections = require('../services/directions');
 const mbxMatching = require('../services/matching');
 const mbxMatrix = require('../services/matrix');
+const mbxUploads = require('../services/uploads');
 
 const description = 'FOR TESTING ONLY! Try out the mapbox-sdk.';
 const help = `
@@ -63,7 +64,8 @@ const services = {
   geocoding: mbxGeocoding(baseClient),
   directions: mbxDirections(baseClient),
   matching: mbxMatching(baseClient),
-  matrix: mbxMatrix(baseClient)
+  matrix: mbxMatrix(baseClient),
+  uploads: mbxUploads(baseClient)
 };
 
 const service = services[serviceName];
