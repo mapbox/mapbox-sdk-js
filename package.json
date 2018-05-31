@@ -7,7 +7,9 @@
     "umd",
     "lib",
     "services",
-    "validation-lib"
+    "validation-lib",
+    "test/test-shared-interface.js",
+    "test/test-utils.js"
   ],
   "scripts": {
     "format": "prettier --write '**/*.js'",
