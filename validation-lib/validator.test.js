@@ -253,6 +253,22 @@ describe('v.oneOfType', () => {
     expect(check(false)).toEqual(['number, string, array or object']);
   });
 
+  test('multiple types as an array', () => {
+    var check = t(
+      req(v.oneOfType([v.number, v.string, v.plainArray, v.plainObject]))
+    );
+
+    expect(check([])).toBeUndefined();
+
+    expect(check(9)).toBeUndefined();
+
+    expect(check({})).toBeUndefined();
+
+    expect(check('good')).toBeUndefined();
+
+    expect(check(false)).toEqual(['number, string, array or object']);
+  });
+
   test('nested object', () => {
     var check = t(v.shape({ name: v.oneOfType(v.number, v.string) }));
 
@@ -430,9 +446,11 @@ describe('v.oneOf', () => {
     test('success', () => {
       expect(t(v.oneOf('aa', 'bb'))('aa')).toBeUndefined();
       expect(t(v.oneOf('aa', 'bb'))('bb')).toBeUndefined();
+      expect(t(v.oneOf(['aa', 'bb']))('bb')).toBeUndefined();
     });
     test('failure', () => {
       expect(t(v.oneOf('aa', 'bb'))('cc')).toEqual(['"aa" or "bb"']);
+      expect(t(v.oneOf(['aa', 'bb']))('cc')).toEqual(['"aa" or "bb"']);
     });
   });
 
