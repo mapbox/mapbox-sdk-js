@@ -7,8 +7,8 @@
 - [Directions](#directions)
   - [getDirections](#getdirections)
 - [Geocoding](#geocoding)
-  - [geocodeForward](#geocodeforward)
-  - [geocodeReverse](#geocodereverse)
+  - [forwardGeocode](#forwardgeocode)
+  - [reverseGeocode](#reversegeocode)
 - [Tilequery](#tilequery)
   - [listFeatures](#listfeatures)
 - [Datasets](#datasets)
@@ -94,7 +94,7 @@ Returns **MapiRequest**
 
 Geocoding API service.
 
-### geocodeForward
+### forwardGeocode
 
 Search for a place.
 
@@ -115,7 +115,7 @@ See the [public documentation][79].
 
 Returns **MapiRequest** 
 
-### geocodeReverse
+### reverseGeocode
 
 Search for places near coordinates.
 
@@ -124,11 +124,11 @@ See the [public documentation][81].
 #### Parameters
 
 - `config` **[Object][73]** 
-  - `config.query` **\[[number][80], [number][80]]** `[longitude, latitude]`
+  - `config.query` **\[longitude, latitude]** `[longitude, latitude]`
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** 
   - `config.country` **([string][74] \| [Array][76]&lt;[string][74]>)?** 
   - `config.types` **[Array][76]&lt;[string][74]>?** 
-  - `config.bbox` **\[[number][80], [number][80], [number][80], [number][80]]?** `[minX, minY, maxX, maxY]`
+  - `config.bbox` **\[longitude, latitude, longitude, latitude]?** `[minX, minY, maxX, maxY]`
   - `config.limit` **[number][80]** If using this option, you must provide a single item for `types`. (optional, default `1`)
   - `config.language` **([string][74] \| [Array][76]&lt;[string][74]>)?** 
   - `config.reverseMode` **(`"distance"` \| `"score"`)**  (optional, default `'distance'`)
@@ -582,11 +582,11 @@ Type: [Object][73]
 
 [7]: #geocoding
 
-[8]: #geocodeforward
+[8]: #forwardgeocode
 
 [9]: #parameters-2
 
-[10]: #geocodereverse
+[10]: #reversegeocode
 
 [11]: #parameters-3
 
