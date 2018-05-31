@@ -3,6 +3,8 @@
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 var pick = require('./service-helpers/pick');
+var objectMap = require('./service-helpers/object-map');
+var urlUtils = require('../lib/helpers/url-utils');
 
 /**
  * Map Matching API service.
@@ -126,30 +128,43 @@ Matching.getMatching = function(config) {
       .join(';');
   }
 
-  var body = {
-    annotations: config.annotations,
-    geometries: config.geometries,
-    language: config.language,
-    overview: config.overview,
-    steps: config.steps,
-    tidy: config.tidy,
-    approaches: matchPath.approach,
-    radiuses: matchPath.radius,
-    waypoints: matchPath.isWaypoint,
-    timestamps: matchPath.timestamp,
-    waypoint_names: matchPath.waypointName,
-    coordinates: matchPath.coordinates
-  };
+  var body = pick(
+    {
+      annotations: config.annotations,
+      geometries: config.geometries,
+      language: config.language,
+      overview: config.overview,
+      steps: config.steps,
+      tidy: config.tidy,
+      approaches: matchPath.approach,
+      radiuses: matchPath.radius,
+      waypoints: matchPath.isWaypoint,
+      timestamps: matchPath.timestamp,
+      waypoint_names: matchPath.waypointName,
+      coordinates: matchPath.coordinates
+    },
+    function(_, val) {
+      return val != null;
+    }
+  );
+  body = objectMap(body, function(_, value) {
+    // appendQueryObject omits boolean values
+    return typeof value === 'boolean' ? JSON.stringify(value) : value;
+  });
+  body = urlUtils.appendQueryObject('', body).substring(1); // need to remove the `?`
 
+  // the matching api expects a form-urlencoded
+  // post request.
   return this.client.createRequest({
     method: 'POST',
     path: '/matching/v5/mapbox/:profile',
     params: {
       profile: config.profile
     },
-    body: pick(body, function(_, val) {
-      return val != null;
-    })
+    body: body,
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    }
   });
 };
 
