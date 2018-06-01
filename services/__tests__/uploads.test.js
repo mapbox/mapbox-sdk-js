@@ -21,11 +21,7 @@ describe('listUploads', () => {
 
 describe('createUploadCredentials', () => {
   test('works', () => {
-    uploads.createUploadCredentials({
-      tileset: 'tilted_towers',
-      url: 'mapbox://datasets/kushan2020/cio5g309a004eusknialll02g',
-      name: 'dusty_devote'
-    });
+    uploads.createUploadCredentials({});
     expect(tu.requestConfig(uploads)).toEqual({
       path: '/uploads/v1/:ownerId/credentials',
       method: 'POST',
@@ -37,17 +33,17 @@ describe('createUploadCredentials', () => {
 describe('createUpload', () => {
   test('works', () => {
     uploads.createUpload({
-      tileset: 'tilted_towers',
-      url: 'mapbox://datasets/kushan2020/cio5g309a004eusknialll02g',
-      name: 'dusty_devote'
+      mapId: 'tilted_towers',
+      s3Url: 'mapbox://datasets/kushan2020/cio5g309a004eusknialll02g',
+      tilesetName: 'dusty_devote'
     });
     expect(tu.requestConfig(uploads)).toEqual({
       path: '/uploads/v1/:ownerId',
       method: 'POST',
       body: {
-        tileset: 'tilted_towers',
-        url: 'mapbox://datasets/kushan2020/cio5g309a004eusknialll02g',
-        name: 'dusty_devote'
+        mapId: 'tilted_towers',
+        s3Url: 'mapbox://datasets/kushan2020/cio5g309a004eusknialll02g',
+        tilesetName: 'dusty_devote'
       }
     });
   });

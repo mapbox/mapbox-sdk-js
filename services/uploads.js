@@ -51,17 +51,17 @@ Uploads.createUploadCredentials = function(config) {
  *
  * See the [public documentation](https://www.mapbox.com/api-documentation/#create-an-upload).
  *
- * @param {Object} [config
- * @param {string} config.tileset - the map ID to create or replace in the format  username.nameoftileset - limited to 32 characters (only  - and  _ special characters allowed, limit does not include username)
- * @param {string} config.url - HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded
- * @param {string} [config.name] - name for the tileset - limited to 64 characters
+ * @param {Object} config
+ * @param {string} config.mapId - the map ID to create or replace in the format  username.nameoftileset - limited to 32 characters (only  - and  _ special characters allowed, limit does not include username)
+ * @param {string} config.s3Url - HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded
+ * @param {string} [config.tilesetName] - name for the tileset - limited to 64 characters
  * @return {MapiRequest}
  */
 Uploads.createUpload = function(config) {
   v.assertShape({
-    tileset: v.required(v.string),
-    url: v.required(v.string),
-    name: v.string
+    mapId: v.required(v.string),
+    s3Url: v.required(v.string),
+    tilesetName: v.string
   })(config);
 
   return this.client.createRequest({
@@ -76,7 +76,7 @@ Uploads.createUpload = function(config) {
  *
  * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-upload-status).
  *
- * @param {Object} [config
+ * @param {Object} config
  * @param {string} config.uploadId
  * @return {MapiRequest}
  */
@@ -97,7 +97,7 @@ Uploads.getUpload = function(config) {
  *
  * See the [public documentation](https://www.mapbox.com/api-documentation/#remove-an-upload).
  *
- * @param {Object} [config
+ * @param {Object} config
  * @param {string} config.uploadId
  * @return {MapiRequest}
  */
