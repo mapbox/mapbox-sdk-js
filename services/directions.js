@@ -2,7 +2,7 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
-var pick = require('./service-helpers/pick');
+var objectClean = require('./service-helpers/object-clean');
 
 /**
  * Directions API service.
@@ -63,7 +63,7 @@ Directions.getDirections = function(config) {
 
   config.profile = config.profile || 'driving';
 
-  var directionsPath = {
+  var path = {
     coordinates: [],
     approach: [],
     bearing: [],
@@ -84,7 +84,7 @@ Directions.getDirections = function(config) {
    * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
    */
   config.directionsPath.forEach(function(waypoint) {
-    directionsPath.coordinates.push(
+    path.coordinates.push(
       waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
     );
 
@@ -97,9 +97,9 @@ Directions.getDirections = function(config) {
 
     ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
       if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
-        directionsPath[prop].push(waypoint[prop]);
+        path[prop].push(waypoint[prop]);
       } else {
-        directionsPath[prop].push('');
+        path[prop].push('');
       }
     });
   });
@@ -107,13 +107,13 @@ Directions.getDirections = function(config) {
   ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
     // avoid sending params which are all `;`
     if (
-      directionsPath[prop].every(function(char) {
+      path[prop].every(function(char) {
         return char === '';
       })
     ) {
-      delete directionsPath[prop];
+      delete path[prop];
     } else {
-      directionsPath[prop] = directionsPath[prop].join(';');
+      path[prop] = path[prop].join(';');
     }
   });
 
@@ -130,10 +130,10 @@ Directions.getDirections = function(config) {
     steps: config.steps,
     voice_instructions: config.voiceInstructions,
     voice_units: config.voiceUnits,
-    approaches: directionsPath.approach,
-    bearings: directionsPath.bearing,
-    radiuses: directionsPath.radius,
-    waypoint_names: directionsPath.waypointName
+    approaches: path.approach,
+    bearings: path.bearing,
+    radiuses: path.radius,
+    waypoint_names: path.waypointName
   };
 
   return this.client.createRequest({
@@ -141,11 +141,9 @@ Directions.getDirections = function(config) {
     path: '/directions/v5/mapbox/:profile/:coordinates',
     params: {
       profile: config.profile,
-      coordinates: directionsPath.coordinates.join(';')
+      coordinates: path.coordinates.join(';')
     },
-    query: pick(query, function(_, val) {
-      return val != null;
-    })
+    query: objectClean(query)
   });
 };
 
