@@ -2,8 +2,8 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
-var pick = require('./service-helpers/pick');
 var objectMap = require('./service-helpers/object-map');
+var objectClean = require('./service-helpers/object-clean');
 var urlUtils = require('../lib/helpers/url-utils');
 
 /**
@@ -52,7 +52,7 @@ Matching.getMatching = function(config) {
 
   config.profile = config.profile || 'driving';
 
-  var matchPath = {
+  var path = {
     coordinates: [],
     approach: [],
     radius: [],
@@ -76,20 +76,20 @@ Matching.getMatching = function(config) {
    * @property {date} [timestamp] - Unix timestamp corresponding the coordinate.
    */
   config.matchPath.forEach(function(obj) {
-    matchPath.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
+    path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
 
     // isWaypoint
     if (obj.hasOwnProperty('isWaypoint') && obj.isWaypoint != null) {
-      matchPath.isWaypoint.push(obj.isWaypoint);
+      path.isWaypoint.push(obj.isWaypoint);
     } else {
-      matchPath.isWaypoint.push(true); // default value
+      path.isWaypoint.push(true); // default value
     }
 
     ['approach', 'radius', 'waypointName', 'timestamp'].forEach(function(prop) {
       if (obj.hasOwnProperty(prop) && obj[prop] != null) {
-        matchPath[prop].push(obj[prop]);
+        path[prop].push(obj[prop]);
       } else {
-        matchPath[prop].push('');
+        path[prop].push('');
       }
     });
   });
@@ -98,60 +98,55 @@ Matching.getMatching = function(config) {
     function(prop) {
       // avoid sending params which are all `;`
       if (
-        matchPath[prop].every(function(value) {
+        path[prop].every(function(value) {
           return value === '';
         })
       ) {
-        delete matchPath[prop];
+        delete path[prop];
       } else {
-        matchPath[prop] = matchPath[prop].join(';');
+        path[prop] = path[prop].join(';');
       }
     }
   );
 
   // the api requires the first and last items to be true.
-  matchPath.isWaypoint[0] = true;
-  matchPath.isWaypoint[matchPath.isWaypoint.length - 1] = true;
+  path.isWaypoint[0] = true;
+  path.isWaypoint[path.isWaypoint.length - 1] = true;
 
   if (
-    matchPath.isWaypoint.every(function(value) {
+    path.isWaypoint.every(function(value) {
       return value === true;
     })
   ) {
-    delete matchPath.isWaypoint;
+    delete path.isWaypoint;
   } else {
     // the api requires the indexes to be sent
-    matchPath.isWaypoint = matchPath.isWaypoint
+    path.isWaypoint = path.isWaypoint
       .map(function(val, i) {
         return val === true ? i : '';
       })
       .join(';');
   }
 
-  var body = pick(
-    {
-      annotations: config.annotations,
-      geometries: config.geometries,
-      language: config.language,
-      overview: config.overview,
-      steps: config.steps,
-      tidy: config.tidy,
-      approaches: matchPath.approach,
-      radiuses: matchPath.radius,
-      waypoints: matchPath.isWaypoint,
-      timestamps: matchPath.timestamp,
-      waypoint_names: matchPath.waypointName,
-      coordinates: matchPath.coordinates
-    },
-    function(_, val) {
-      return val != null;
-    }
-  );
+  var body = objectClean({
+    annotations: config.annotations,
+    geometries: config.geometries,
+    language: config.language,
+    overview: config.overview,
+    steps: config.steps,
+    tidy: config.tidy,
+    approaches: path.approach,
+    radiuses: path.radius,
+    waypoints: path.isWaypoint,
+    timestamps: path.timestamp,
+    waypoint_names: path.waypointName,
+    coordinates: path.coordinates
+  });
+
   body = objectMap(body, function(_, value) {
-    // appendQueryObject omits boolean values
+    // appendQueryObject doesn't stringify booleans
     return typeof value === 'boolean' ? JSON.stringify(value) : value;
   });
-  body = urlUtils.appendQueryObject('', body).substring(1); // need to remove the `?`
 
   // the matching api expects a form-urlencoded
   // post request.
@@ -161,7 +156,7 @@ Matching.getMatching = function(config) {
     params: {
       profile: config.profile
     },
-    body: body,
+    body: urlUtils.appendQueryObject('', body).substring(1), // need to remove the char`?`
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }

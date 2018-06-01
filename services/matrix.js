@@ -2,7 +2,7 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
-var pick = require('./service-helpers/pick');
+var objectClean = require('./service-helpers/object-clean');
 
 /**
  * Map Matching API service.
@@ -40,7 +40,7 @@ Matrix.getMatrix = function(config) {
 
   config.profile = config.profile || 'driving';
 
-  var matrixPath = {
+  var path = {
     coordinates: [],
     approach: []
   };
@@ -55,23 +55,23 @@ Matrix.getMatrix = function(config) {
    * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
    */
   config.matrixPath.forEach(function(obj) {
-    matrixPath.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
+    path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
 
     if (obj.hasOwnProperty('approach') && obj.approach != null) {
-      matrixPath.approach.push(obj.approach);
+      path.approach.push(obj.approach);
     } else {
-      matrixPath.approach.push(''); // default value
+      path.approach.push(''); // default value
     }
   });
 
   if (
-    matrixPath.approach.every(function(value) {
+    path.approach.every(function(value) {
       return value === '';
     })
   ) {
-    delete matrixPath.approach;
+    delete path.approach;
   } else {
-    matrixPath.approach = matrixPath.approach.join(';');
+    path.approach = path.approach.join(';');
   }
 
   var query = {
@@ -81,7 +81,7 @@ Matrix.getMatrix = function(config) {
     destinations: Array.isArray(config.destinations)
       ? config.destinations.join(';')
       : config.destinations,
-    approaches: matrixPath.approach,
+    approaches: path.approach,
     annotations: config.annotations && config.annotations.join(',')
   };
 
@@ -90,11 +90,9 @@ Matrix.getMatrix = function(config) {
     path: '/directions-matrix/v1/mapbox/:profile/:coordinates',
     params: {
       profile: config.profile,
-      coordinates: matrixPath.coordinates.join(';')
+      coordinates: path.coordinates.join(';')
     },
-    query: pick(query, function(_, val) {
-      return val != null;
-    })
+    query: objectClean(query)
   });
 };
 
