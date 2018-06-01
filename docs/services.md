@@ -369,7 +369,7 @@ See the [public documentation][107].
 
 - `config` **[Object][83]** 
   - `config.query` **[string][84]** A place name.
-  - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** 
+  - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)**  (optional, default `"mapbox.places"`)
   - `config.country` **([string][84] \| [Array][97]&lt;[string][84]>)?** 
   - `config.proximity` **\[[number][91], [number][91]]?** `[longitude, latitude]`
   - `config.types` **[Array][97]&lt;[string][84]>?** 
@@ -390,7 +390,7 @@ See the [public documentation][108].
 
 - `config` **[Object][83]** 
   - `config.query` **\[longitude, latitude]** `[longitude, latitude]`
-  - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** 
+  - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)**  (optional, default `"mapbox.places"`)
   - `config.country` **([string][84] \| [Array][97]&lt;[string][84]>)?** 
   - `config.types` **[Array][97]&lt;[string][84]>?** 
   - `config.bbox` **\[longitude, latitude, longitude, latitude]?** `[minX, minY, maxX, maxY]`
