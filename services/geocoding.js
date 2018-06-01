@@ -29,7 +29,7 @@ var featureTypes = [
  *
  * @param {Object} config
  * @param {string} config.query - A place name.
- * @param {'mapbox.places'|'mapbox.places-permanent'} config.mode
+ * @param {'mapbox.places'|'mapbox.places-permanent'} [config.mode="mapbox.places"]
  * @param {string|Array<string>} [config.country]
  * @param {[number, number]} [config.proximity] - `[longitude, latitude]`
  * @param {Array<string>} [config.types]
@@ -42,7 +42,7 @@ var featureTypes = [
 Geocoding.forwardGeocode = function(config) {
   v.assertShape({
     query: v.required(v.string),
-    mode: v.required(v.oneOf('mapbox.places', 'mapbox.places-permanent')),
+    mode: v.oneOf('mapbox.places', 'mapbox.places-permanent'),
     country: v.oneOfType(v.string, v.arrayOf(v.string)),
     proximity: v.coordinates,
     types: v.arrayOf(v.oneOf(featureTypes)),
@@ -51,6 +51,8 @@ Geocoding.forwardGeocode = function(config) {
     limit: v.number,
     language: v.oneOfType(v.string, v.arrayOf(v.string))
   })(config);
+
+  config.mode = config.mode || 'mapbox.places';
 
   return this.client.createRequest({
     method: 'GET',
@@ -75,7 +77,7 @@ Geocoding.forwardGeocode = function(config) {
  *
  * @param {Object} config
  * @param {[longitude, latitude]} config.query - `[longitude, latitude]`
- * @param {'mapbox.places'|'mapbox.places-permanent'} config.mode
+ * @param {'mapbox.places'|'mapbox.places-permanent'} [config.mode="mapbox.places"]
  * @param {string|Array<string>} [config.country]
  * @param {Array<string>} [config.types]
  * @param {[longitude, latitude, longitude, latitude]} [config.bbox] - `[minX, minY, maxX, maxY]`
@@ -87,7 +89,7 @@ Geocoding.forwardGeocode = function(config) {
 Geocoding.reverseGeocode = function(config) {
   v.assertShape({
     query: v.required(v.coordinates),
-    mode: v.required(v.oneOf('mapbox.places', 'mapbox.places-permanent')),
+    mode: v.oneOf('mapbox.places', 'mapbox.places-permanent'),
     country: v.oneOfType(v.string, v.arrayOf(v.string)),
     types: v.arrayOf(v.oneOf(featureTypes)),
     bbox: v.arrayOf(v.number),
@@ -95,6 +97,8 @@ Geocoding.reverseGeocode = function(config) {
     language: v.oneOfType(v.string, v.arrayOf(v.string)),
     reverseMode: v.oneOf('distance', 'score')
   })(config);
+
+  config.mode = config.mode || 'mapbox.places';
 
   return this.client.createRequest({
     method: 'GET',

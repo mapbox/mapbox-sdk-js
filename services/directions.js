@@ -2,7 +2,7 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
-var pick = require('./service-helpers/pick');
+var objectClean = require('./service-helpers/object-clean');
 
 /**
  * Directions API service.
@@ -16,7 +16,7 @@ var Directions = {};
  *
  * @param {Object} config
  * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile="driving"]
- * @param {Array<waypoints>} config.waypoints - An ordered array of `waypoint` object. There can be between 2 and 25 waypoints.
+ * @param {Array<DirectionsPath>} config.directionsPath -  An ordered array of object containing coordinates and related properties. There can be between 2 and 25 waypoints.
  * @param {boolean} [config.alternatives=false] - Whether to try to return alternative routes.
  * @param {Array<'duration'|'distance'|'speed'|'congestion'>} [config.annotations] - Whether or not to return additional metadata along the route.
  * @param {boolean} [config.bannerInstructions=false] -  Should be used in conjunction with `steps`.
@@ -34,7 +34,7 @@ var Directions = {};
 Directions.getDirections = function(config) {
   v.assertShape({
     profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
-    waypoints: v.required(
+    directionsPath: v.required(
       v.arrayOf(
         v.shape({
           coordinates: v.required(v.coordinates),
@@ -63,7 +63,7 @@ Directions.getDirections = function(config) {
 
   config.profile = config.profile || 'driving';
 
-  var waypoints = {
+  var path = {
     coordinates: [],
     approach: [],
     bearing: [],
@@ -77,14 +77,14 @@ Directions.getDirections = function(config) {
    * all the properties that depend on the order of coordinates into
    * one object for ease of use.
    *
-   * @typedef {Object} waypoints
+   * @typedef {Object} DirectionsPath
    * @property {Array<number>} coordinates - An array containing pair of longitude, latitude.
    * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
    * @property {number|'unlimited'} [radius] - Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
    * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
    */
-  config.waypoints.forEach(function(waypoint) {
-    waypoints.coordinates.push(
+  config.directionsPath.forEach(function(waypoint) {
+    path.coordinates.push(
       waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
     );
 
@@ -97,9 +97,9 @@ Directions.getDirections = function(config) {
 
     ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
       if (waypoint.hasOwnProperty(prop) && waypoint[prop] != null) {
-        waypoints[prop].push(waypoint[prop]);
+        path[prop].push(waypoint[prop]);
       } else {
-        waypoints[prop].push('');
+        path[prop].push('');
       }
     });
   });
@@ -107,13 +107,13 @@ Directions.getDirections = function(config) {
   ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
     // avoid sending params which are all `;`
     if (
-      waypoints[prop].every(function(char) {
-        return char == '';
+      path[prop].every(function(char) {
+        return char === '';
       })
     ) {
-      delete waypoints[prop];
+      delete path[prop];
     } else {
-      waypoints[prop] = waypoints[prop].join(';');
+      path[prop] = path[prop].join(';');
     }
   });
 
@@ -130,10 +130,10 @@ Directions.getDirections = function(config) {
     steps: config.steps,
     voice_instructions: config.voiceInstructions,
     voice_units: config.voiceUnits,
-    approaches: waypoints.approach,
-    bearings: waypoints.bearing,
-    radiuses: waypoints.radius,
-    waypoint_names: waypoints.waypointName
+    approaches: path.approach,
+    bearings: path.bearing,
+    radiuses: path.radius,
+    waypoint_names: path.waypointName
   };
 
   return this.client.createRequest({
@@ -141,11 +141,9 @@ Directions.getDirections = function(config) {
     path: '/directions/v5/mapbox/:profile/:coordinates',
     params: {
       profile: config.profile,
-      coordinates: waypoints.coordinates.join(';')
+      coordinates: path.coordinates.join(';')
     },
-    query: pick(query, function(_, val) {
-      return val != null;
-    })
+    query: objectClean(query)
   });
 };
 
