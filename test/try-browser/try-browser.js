@@ -10,6 +10,7 @@ var mbxTilequery = require('../../services/tilequery');
 var mbxDirections = require('../../services/directions');
 var mbxMatching = require('../../services/matching');
 var mbxMatrix = require('../../services/matrix');
+var mbxUploads = require('../../services/uploads');
 
 window.tryServiceMethod = function(
   serviceName,
@@ -38,7 +39,8 @@ window.tryServiceMethod = function(
     tilequery: mbxTilequery(baseClient),
     directions: mbxDirections(baseClient),
     matching: mbxMatching(baseClient),
-    matrix: mbxMatrix(baseClient)
+    matrix: mbxMatrix(baseClient),
+    uploads: mbxUploads(baseClient)
   };
 
   var service = services[serviceName];
