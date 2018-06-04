@@ -17,4 +17,6 @@ toc:
       - DirectionsWaypoint
       - MatchPath
       - MatrixPath
+      - Coordinates
+      - BoundingBox
 

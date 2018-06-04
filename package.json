@@ -19,7 +19,7 @@
     "pretest": "npm run lint",
     "test": "jest",
     "try-browser": "budo test/try-browser/try-browser.js:bundle.js -d test/try-browser -l",
-    "document-services": "documentation build 'services/*.js' --shallow --format md --config conf/service-documentation.yml > docs/services.md",
+    "document-services": "documentation build services/service-helpers/generic-types.js 'services/*.js' --shallow --format md --config conf/service-documentation.yml > docs/services.md",
     "document-classes": "documentation build 'lib/classes/*.js' --shallow --format md --config conf/classes-documentation.yml > docs/classes.md",
     "document": "run-p --aggregate-output document-services document-classes && npm run lint-md",
     "precommit": "npm run document && git add docs && lint-staged",

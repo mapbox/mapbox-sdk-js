@@ -85,7 +85,7 @@ Directions.getDirections = function(config) {
 
   /**
    * @typedef {Object} DirectionsWaypoint
-   * @property {[number, number]} coordinates - `[longitude, latitude]`
+   * @property {Coordinates} coordinates
    * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach the waypoint.
    * @property {[number, number]} [bearing] - Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
    *   This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,

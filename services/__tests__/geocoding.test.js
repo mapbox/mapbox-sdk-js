@@ -25,36 +25,7 @@ describe('forwardGeocode', () => {
     });
   });
 
-  test('with almost all config options, avoiding arrays when possible', () => {
-    geocoding.forwardGeocode({
-      query: 'Tucson',
-      mode: 'mapbox.places-permanent',
-      country: 'AO',
-      proximity: [3, 4],
-      types: ['country', 'region'],
-      autocomplete: false,
-      bbox: [1, 2, 3, 4],
-      language: 'de'
-    });
-    expect(tu.requestConfig(geocoding)).toEqual({
-      method: 'GET',
-      path: '/geocoding/v5/:mode/:query.json',
-      params: {
-        query: 'Tucson',
-        mode: 'mapbox.places-permanent'
-      },
-      query: {
-        country: 'AO',
-        proximity: [3, 4],
-        types: ['country', 'region'],
-        autocomplete: false,
-        bbox: [1, 2, 3, 4],
-        language: 'de'
-      }
-    });
-  });
-
-  test('with all config options, using arrays when possible', () => {
+  test('with all config options', () => {
     geocoding.forwardGeocode({
       query: 'Tucson',
       mode: 'mapbox.places-permanent',
@@ -103,35 +74,7 @@ describe('reverseGeocode', () => {
     });
   });
 
-  test('with almost all config options, avoiding arrays when possible', () => {
-    geocoding.reverseGeocode({
-      query: [15, 14],
-      mode: 'mapbox.places-permanent',
-      country: 'AO',
-      types: ['country', 'region'],
-      autocomplete: false,
-      bbox: [1, 2, 3, 4],
-      limit: 3,
-      language: 'de'
-    });
-    expect(tu.requestConfig(geocoding)).toEqual({
-      method: 'GET',
-      path: '/geocoding/v5/:mode/:query.json',
-      params: {
-        query: [15, 14],
-        mode: 'mapbox.places-permanent'
-      },
-      query: {
-        country: 'AO',
-        types: ['country', 'region'],
-        bbox: [1, 2, 3, 4],
-        limit: 3,
-        language: 'de'
-      }
-    });
-  });
-
-  test('with all config options, using arrays when possible', () => {
+  test('with all config options', () => {
     geocoding.reverseGeocode({
       query: [15, 14],
       mode: 'mapbox.places-permanent',
