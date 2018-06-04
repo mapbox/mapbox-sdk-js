@@ -24,8 +24,8 @@
 - [Datasets](#datasets)
   - [listDatasets](#listdatasets)
   - [createDataset](#createdataset)
-  - [getDataset](#getdataset)
-  - [updateDataset](#updatedataset)
+  - [getMetadata](#getmetadata)
+  - [updateMetadata](#updatemetadata)
   - [deleteDataset](#deletedataset)
   - [listFeatures](#listfeatures)
   - [putFeature](#putfeature)
@@ -333,11 +333,14 @@ Returns **MapiRequest**
 
 Datasets API service.
 
+Learn more about this service and response data structures in
+[the HTTP service documentation][125].
+
 ### listDatasets
 
 List datasets in your account.
 
-See the [public documentation][125].
+See the [corresponding HTTP service documentation][126].
 
 #### Parameters
 
@@ -347,9 +350,9 @@ Returns **MapiRequest**
 
 ### createDataset
 
-Create a new dataset.
+Create a new, empty dataset.
 
-See the [public documentation][126].
+See the [corresponding HTTP service documentation][127].
 
 #### Parameters
 
@@ -359,11 +362,11 @@ See the [public documentation][126].
 
 Returns **MapiRequest** 
 
-### getDataset
+### getMetadata
 
-Get a dataset.
+Get metadata about a dataset.
 
-See the [public documentation][127].
+See the [corresponding HTTP service documentation][128].
 
 #### Parameters
 
@@ -372,11 +375,11 @@ See the [public documentation][127].
 
 Returns **MapiRequest** 
 
-### updateDataset
+### updateMetadata
 
-Update the properties of a dataset.
+Update user-defined properties of a dataset's metadata.
 
-See the [public documentation][128].
+See the [corresponding HTTP service documentation][129].
 
 #### Parameters
 
@@ -389,9 +392,9 @@ Returns **MapiRequest**
 
 ### deleteDataset
 
-Delete a dataset.
+Delete a dataset, including all features it contains.
 
-See the [public documentation][129].
+See the [corresponding HTTP service documentation][130].
 
 #### Parameters
 
@@ -404,7 +407,10 @@ Returns **MapiRequest**
 
 List features in a dataset.
 
-See the [public documentation][130].
+This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
+the `limit` and `start` options.
+
+See the [corresponding HTTP service documentation][131].
 
 #### Parameters
 
@@ -418,16 +424,17 @@ Returns **MapiRequest**
 
 ### putFeature
 
-Add a feature to a dataset, or update an existing one.
+Add a feature to a dataset or update an existing one.
 
-See the [public documentation][131].
+See the [corresponding HTTP service documentation][132].
 
 #### Parameters
 
 - `config` **[Object][106]** 
   - `config.datasetId` **[string][107]** 
   - `config.featureId` **[string][107]** 
-  - `config.feature` **[Object][106]** 
+  - `config.feature` **[Object][106]** Valid GeoJSON that is not a `FeatureCollection`.
+      If the feature has a top-level `id` property, it must match the `featureId` you specify.
 
 Returns **MapiRequest** 
 
@@ -435,7 +442,7 @@ Returns **MapiRequest**
 
 Get a feature in a dataset.
 
-See the [public documentation][132].
+See the [corresponding HTTP service documentation][133].
 
 #### Parameters
 
@@ -449,7 +456,7 @@ Returns **MapiRequest**
 
 Delete a feature in a dataset.
 
-See the [public documentation][133].
+See the [corresponding HTTP service documentation][134].
 
 #### Parameters
 
@@ -467,7 +474,7 @@ Tilequery API service.
 
 List features within a radius of a point on a map (or several maps).
 
-See the [public documentation][134].
+See the [public documentation][135].
 
 #### Parameters
 
@@ -492,7 +499,7 @@ Tilesets API service.
 
 List a user's tilesets.
 
-See the [public documentation][135].
+See the [public documentation][136].
 
 #### Parameters
 
@@ -509,7 +516,7 @@ Geocoding API service.
 
 Search for a place.
 
-See the [public documentation][136].
+See the [public documentation][137].
 
 #### Parameters
 
@@ -530,7 +537,7 @@ Returns **MapiRequest**
 
 Search for places near coordinates.
 
-See the [public documentation][137].
+See the [public documentation][138].
 
 #### Parameters
 
@@ -554,13 +561,13 @@ Directions API service.
 
 Get directions.
 
-See the [Mapbox Directions API][138].
+See the [Mapbox Directions API][139].
 
 #### Parameters
 
 - `config` **[Object][106]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.directionsPath` **[Array][117]&lt;[DirectionsPath][139]>**  An ordered array of object containing coordinates and related properties. There can be between 2 and 25 waypoints.
+  - `config.directionsPath` **[Array][117]&lt;[DirectionsPath][140]>**  An ordered array of object containing coordinates and related properties. There can be between 2 and 25 waypoints.
   - `config.alternatives` **[boolean][115]** Whether to try to return alternative routes. (optional, default `false`)
   - `config.annotations` **[Array][117]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
   - `config.bannerInstructions` **[boolean][115]**  Should be used in conjunction with `steps`. (optional, default `false`)
@@ -584,12 +591,12 @@ Map Matching API service.
 
 Snap recorded location traces to roads and paths
 
-See the [Mapbox Map Matching API][140].
+See the [Mapbox Map Matching API][141].
 
 #### Parameters
 
 - `config` **[Object][106]** 
-  - `config.matchPath` **[Array][117]&lt;[MatchPath][141]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
+  - `config.matchPath` **[Array][117]&lt;[MatchPath][142]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
   - `config.annotations` **[Array][117]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Whether or not to return additional metadata along the route.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
@@ -608,12 +615,12 @@ Map Matching API service.
 
 Returns a duration and/or distance matrix showing travel times and distances between coordinates.
 
-See the [Mapbox Direction Matrix API][142].
+See the [Mapbox Direction Matrix API][143].
 
 #### Parameters
 
 - `config` **[Object][106]** 
-  - `config.matrixPath` **[Array][117]&lt;[MatrixPath][143]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
+  - `config.matrixPath` **[Array][117]&lt;[MatrixPath][144]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
   - `config.sources` **[Array][117]&lt;(`"all"` \| [number][110])>?** Use coordinates with given index as sources.
   - `config.destinations` **[Array][117]&lt;(`"all"` \| [number][110])>?** Use coordinates with given index as destinations.
@@ -629,7 +636,7 @@ Tokens API service.
 
 List a user's access tokens.
 
-See the [public documentation][144].
+See the [public documentation][145].
 
 #### Parameters
 
@@ -642,7 +649,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [public documentation][145].
+See the [public documentation][146].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
@@ -661,7 +668,7 @@ Returns **MapiRequest**
 
 Create a new temporary access token.
 
-See the [public documentation][146].
+See the [public documentation][147].
 
 #### Parameters
 
@@ -676,7 +683,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [public documentation][147].
+See the [public documentation][148].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
@@ -696,7 +703,7 @@ Returns **MapiRequest**
 
 Get data about the client's access token.
 
-See the [public documentation][148].
+See the [public documentation][149].
 
 #### Parameters
 
@@ -708,7 +715,7 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [public documentation][149].
+See the [public documentation][150].
 
 #### Parameters
 
@@ -723,7 +730,7 @@ Returns **MapiRequest**
 List a user's available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [public documentation][150].
+See the [public documentation][151].
 
 #### Parameters
 
@@ -796,7 +803,7 @@ Type: [Object][106]
   - `marker.coordinates` **\[[number][110], [number][110]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
   - `marker.label` **[string][107]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][151]
+      through `z`, `0` through `99`, or a valid [Maki][152]
       icon. If a letter is requested, it will be rendered in uppercase only.
   - `marker.color` **[string][107]?** A 3- or 6-digit hexadecimal color code.
 
@@ -919,11 +926,11 @@ Type: [Object][106]
 
 [40]: #parameters-17
 
-[41]: #getdataset
+[41]: #getmetadata
 
 [42]: #parameters-18
 
-[43]: #updatedataset
+[43]: #updatemetadata
 
 [44]: #parameters-19
 
@@ -1087,56 +1094,58 @@ Type: [Object][106]
 
 [124]: https://www.mapbox.com/api-documentation/#remove-an-upload
 
-[125]: https://www.mapbox.com/api-documentation/#list-datasets
+[125]: https://www.mapbox.com/api-documentation/#datasets
 
-[126]: https://www.mapbox.com/api-documentation/#create-dataset
+[126]: https://www.mapbox.com/api-documentation/#list-datasets
 
-[127]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+[127]: https://www.mapbox.com/api-documentation/#create-dataset
 
-[128]: https://www.mapbox.com/api-documentation/#update-a-dataset
+[128]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
 
-[129]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+[129]: https://www.mapbox.com/api-documentation/#update-a-dataset
 
-[130]: https://www.mapbox.com/api-documentation/#list-features
+[130]: https://www.mapbox.com/api-documentation/#delete-a-dataset
 
-[131]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+[131]: https://www.mapbox.com/api-documentation/#list-features
 
-[132]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+[132]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
 
-[133]: https://www.mapbox.com/api-documentation/#delete-a-feature
+[133]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
 
-[134]: https://www.mapbox.com/api-documentation/#tilequery
+[134]: https://www.mapbox.com/api-documentation/#delete-a-feature
 
-[135]: https://www.mapbox.com/api-documentation/#list-tilesets
+[135]: https://www.mapbox.com/api-documentation/#tilequery
 
-[136]: https://www.mapbox.com/api-documentation/#search-for-places
+[136]: https://www.mapbox.com/api-documentation/#list-tilesets
 
-[137]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
+[137]: https://www.mapbox.com/api-documentation/#search-for-places
 
-[138]: https://www.mapbox.com/api-documentation/#directions
+[138]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
 
-[139]: #directionspath
+[139]: https://www.mapbox.com/api-documentation/#directions
 
-[140]: https://www.mapbox.com/api-documentation/#map-matching
+[140]: #directionspath
 
-[141]: #matchpath
+[141]: https://www.mapbox.com/api-documentation/#map-matching
 
-[142]: https://www.mapbox.com/api-documentation/#matrix
+[142]: #matchpath
 
-[143]: #matrixpath
+[143]: https://www.mapbox.com/api-documentation/#matrix
 
-[144]: https://www.mapbox.com/api-documentation/#list-tokens
+[144]: #matrixpath
 
-[145]: https://www.mapbox.com/api-documentation/#create-token
+[145]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[146]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[146]: https://www.mapbox.com/api-documentation/#create-token
 
-[147]: https://www.mapbox.com/api-documentation/#update-a-token
+[147]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[148]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[148]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[149]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[149]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[150]: https://www.mapbox.com/api-documentation/#list-scopes
+[150]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[151]: https://www.mapbox.com/maki/
+[151]: https://www.mapbox.com/api-documentation/#list-scopes
+
+[152]: https://www.mapbox.com/maki/
