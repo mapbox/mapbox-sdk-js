@@ -14,7 +14,7 @@ toc:
     description: |
       Data structures used in service method configuration.
     children:
-      - DirectionsPath
+      - DirectionsWaypoint
       - MatchPath
       - MatrixPath
 
