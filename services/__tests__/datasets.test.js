@@ -43,9 +43,9 @@ describe('createDataset', () => {
   });
 });
 
-describe('getDataset', () => {
+describe('getMetadata', () => {
   test('works', () => {
-    datasets.getDataset({ datasetId: 'mock-dataset' });
+    datasets.getMetadata({ datasetId: 'mock-dataset' });
     expect(tu.requestConfig(datasets)).toEqual({
       path: '/datasets/v1/:ownerId/:datasetId',
       method: 'GET',
@@ -56,9 +56,9 @@ describe('getDataset', () => {
   });
 });
 
-describe('updateDataset', () => {
+describe('updateMetadata', () => {
   test('works', () => {
-    datasets.updateDataset({ datasetId: 'mock-dataset' });
+    datasets.updateMetadata({ datasetId: 'mock-dataset' });
     expect(tu.requestConfig(datasets)).toEqual({
       path: '/datasets/v1/:ownerId/:datasetId',
       method: 'PATCH',
@@ -70,7 +70,7 @@ describe('updateDataset', () => {
   });
 
   test('with properties', () => {
-    datasets.updateDataset({
+    datasets.updateMetadata({
       datasetId: 'mock-dataset',
       name: 'mock-name',
       description: 'mock-description'
