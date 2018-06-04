@@ -1,0 +1,20 @@
+toc:
+  - Styles
+  - Static
+  - Uploads
+  - Datasets
+  - Tilequery
+  - Tilesets
+  - Geocoding
+  - Directions
+  - Matching
+  - Matrix
+  - Tokens
+  - name: Data structures
+    description: |
+      Data structures used in service method configuration.
+    children:
+      - DirectionsPath
+      - MatchPath
+      - MatrixPath
+
