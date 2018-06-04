@@ -7,7 +7,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 /**
  * Datasets API service.
  *
- * Learn more about this service and response data structures in
+ * Learn more about this service and its responses in
  * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#datasets).
  */
 var Datasets = {};

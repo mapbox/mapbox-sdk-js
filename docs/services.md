@@ -53,7 +53,7 @@
   - [deleteToken](#deletetoken)
   - [listScopes](#listscopes)
 - [Data structures](#data-structures)
-  - [DirectionsPath](#directionspath)
+  - [DirectionsWaypoint](#directionswaypoint)
   - [MatchPath](#matchpath)
   - [MatrixPath](#matrixpath)
 - [SimpleMarkerOverlay](#simplemarkeroverlay)
@@ -333,7 +333,7 @@ Returns **MapiRequest**
 
 Datasets API service.
 
-Learn more about this service and response data structures in
+Learn more about this service and its responses in
 [the HTTP service documentation][125].
 
 ### listDatasets
@@ -557,26 +557,31 @@ Returns **MapiRequest**
 
 Directions API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][139].
+
 ### getDirections
 
 Get directions.
 
-See the [Mapbox Directions API][139].
+Please read [the full HTTP service documentation][139]
+to understand all of the available options.
 
 #### Parameters
 
 - `config` **[Object][106]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.directionsPath` **[Array][117]&lt;[DirectionsPath][140]>**  An ordered array of object containing coordinates and related properties. There can be between 2 and 25 waypoints.
+  - `config.directionsPath` **[Array][117]&lt;[DirectionsWaypoint][140]>** An ordered array of [`DirectionsWaypoint`][91] objects, between 2 and 25.
   - `config.alternatives` **[boolean][115]** Whether to try to return alternative routes. (optional, default `false`)
   - `config.annotations` **[Array][117]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
-  - `config.bannerInstructions` **[boolean][115]**  Should be used in conjunction with `steps`. (optional, default `false`)
+  - `config.bannerInstructions` **[boolean][115]** Should be used in conjunction with `steps`. (optional, default `false`)
   - `config.continueStraight` **[boolean][115]?** Sets the allowed direction of travel when departing intermediate waypoints.
-  - `config.exclude` **[string][107]?** Exclude certain road types from routing.
+  - `config.exclude` **[string][107]?** Exclude certain road types from routing. See HTTP service documentation for options.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][107]** Language of returned turn-by-turn text instructions. (optional, default `"en"`)
+  - `config.language` **[string][107]** Language of returned turn-by-turn text instructions.
+      See options listed in [the HTTP service documentation][141]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.roundaboutExits` **[boolean][115]** Emit instructions at roundabout exits. (optional, default `false`)
+  - `config.roundaboutExits` **[boolean][115]** Emit insbtructions at roundabout exits. (optional, default `false`)
   - `config.steps` **[boolean][115]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.voiceInstructions` **[boolean][115]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)
@@ -591,12 +596,12 @@ Map Matching API service.
 
 Snap recorded location traces to roads and paths
 
-See the [Mapbox Map Matching API][141].
+See the [Mapbox Map Matching API][142].
 
 #### Parameters
 
 - `config` **[Object][106]** 
-  - `config.matchPath` **[Array][117]&lt;[MatchPath][142]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
+  - `config.matchPath` **[Array][117]&lt;[MatchPath][143]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
   - `config.annotations` **[Array][117]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Whether or not to return additional metadata along the route.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
@@ -615,12 +620,12 @@ Map Matching API service.
 
 Returns a duration and/or distance matrix showing travel times and distances between coordinates.
 
-See the [Mapbox Direction Matrix API][143].
+See the [Mapbox Direction Matrix API][144].
 
 #### Parameters
 
 - `config` **[Object][106]** 
-  - `config.matrixPath` **[Array][117]&lt;[MatrixPath][144]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
+  - `config.matrixPath` **[Array][117]&lt;[MatrixPath][145]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
   - `config.sources` **[Array][117]&lt;(`"all"` \| [number][110])>?** Use coordinates with given index as sources.
   - `config.destinations` **[Array][117]&lt;(`"all"` \| [number][110])>?** Use coordinates with given index as destinations.
@@ -636,7 +641,7 @@ Tokens API service.
 
 List a user's access tokens.
 
-See the [public documentation][145].
+See the [public documentation][146].
 
 #### Parameters
 
@@ -649,7 +654,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [public documentation][146].
+See the [public documentation][147].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
@@ -668,7 +673,7 @@ Returns **MapiRequest**
 
 Create a new temporary access token.
 
-See the [public documentation][147].
+See the [public documentation][148].
 
 #### Parameters
 
@@ -683,7 +688,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [public documentation][148].
+See the [public documentation][149].
 
 `resources` are only available for users with the `token_resources`
 feature flag.
@@ -703,7 +708,7 @@ Returns **MapiRequest**
 
 Get data about the client's access token.
 
-See the [public documentation][149].
+See the [public documentation][150].
 
 #### Parameters
 
@@ -715,7 +720,7 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [public documentation][150].
+See the [public documentation][151].
 
 #### Parameters
 
@@ -730,7 +735,7 @@ Returns **MapiRequest**
 List a user's available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [public documentation][151].
+See the [public documentation][152].
 
 #### Parameters
 
@@ -743,21 +748,19 @@ Returns **MapiRequest**
 
 Data structures used in service method configuration.
 
-### DirectionsPath
-
-A collection of ordered way points with optional properties.
-This might differ from the HTTP API as we have combined
-all the properties that depend on the order of coordinates into
-one object for ease of use.
+### DirectionsWaypoint
 
 Type: [Object][106]
 
 #### Properties
 
-- `coordinates` **[Array][117]&lt;[number][110]>** An array containing pair of longitude, latitude.
-- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-- `radius` **([number][110] \| `"unlimited"`)?** Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-- `waypointName` **[string][107]?** Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+- `coordinates` **\[[number][110], [number][110]]** `[longitude, latitude]`
+- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
+- `bearing` **\[[number][110], [number][110]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+    This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
+    and the second is the range of degrees the angle can deviate by.
+- `radius` **([number][110] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+- `waypointName` **[string][107]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
 
 ### MatchPath
 
@@ -803,7 +806,7 @@ Type: [Object][106]
   - `marker.coordinates` **\[[number][110], [number][110]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
   - `marker.label` **[string][107]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][152]
+      through `z`, `0` through `99`, or a valid [Maki][153]
       icon. If a letter is requested, it will be rendered in uppercase only.
   - `marker.color` **[string][107]?** A 3- or 6-digit hexadecimal color code.
 
@@ -1026,7 +1029,7 @@ Type: [Object][106]
 
 [90]: #data-structures
 
-[91]: #directionspath
+[91]: #directionswaypoint
 
 [92]: #properties
 
@@ -1124,28 +1127,30 @@ Type: [Object][106]
 
 [139]: https://www.mapbox.com/api-documentation/#directions
 
-[140]: #directionspath
+[140]: #directionswaypoint
 
-[141]: https://www.mapbox.com/api-documentation/#map-matching
+[141]: https://www.mapbox.com/api-documentation/#instructions-languages
 
-[142]: #matchpath
+[142]: https://www.mapbox.com/api-documentation/#map-matching
 
-[143]: https://www.mapbox.com/api-documentation/#matrix
+[143]: #matchpath
 
-[144]: #matrixpath
+[144]: https://www.mapbox.com/api-documentation/#matrix
 
-[145]: https://www.mapbox.com/api-documentation/#list-tokens
+[145]: #matrixpath
 
-[146]: https://www.mapbox.com/api-documentation/#create-token
+[146]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[147]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[147]: https://www.mapbox.com/api-documentation/#create-token
 
-[148]: https://www.mapbox.com/api-documentation/#update-a-token
+[148]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[149]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[149]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[150]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[150]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[151]: https://www.mapbox.com/api-documentation/#list-scopes
+[151]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[152]: https://www.mapbox.com/maki/
+[152]: https://www.mapbox.com/api-documentation/#list-scopes
+
+[153]: https://www.mapbox.com/maki/
