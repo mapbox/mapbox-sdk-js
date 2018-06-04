@@ -6,26 +6,31 @@ var objectClean = require('./service-helpers/object-clean');
 
 /**
  * Directions API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#directions).
  */
 var Directions = {};
 
 /**
  * Get directions.
  *
- * See the [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions).
+ * Please read [the full HTTP service documentation](https://www.mapbox.com/api-documentation/#directions)
+ * to understand all of the available options.
  *
  * @param {Object} config
  * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile="driving"]
- * @param {Array<DirectionsPath>} config.directionsPath -  An ordered array of object containing coordinates and related properties. There can be between 2 and 25 waypoints.
+ * @param {Array<DirectionsWaypoint>} config.directionsPath - An ordered array of [`DirectionsWaypoint`](#directionswaypoint) objects, between 2 and 25.
  * @param {boolean} [config.alternatives=false] - Whether to try to return alternative routes.
  * @param {Array<'duration'|'distance'|'speed'|'congestion'>} [config.annotations] - Whether or not to return additional metadata along the route.
- * @param {boolean} [config.bannerInstructions=false] -  Should be used in conjunction with `steps`.
+ * @param {boolean} [config.bannerInstructions=false] - Should be used in conjunction with `steps`.
  * @param {boolean} [config.continueStraight] - Sets the allowed direction of travel when departing intermediate waypoints.
- * @param {string} [config.exclude] - Exclude certain road types from routing.
+ * @param {string} [config.exclude] - Exclude certain road types from routing. See HTTP service documentation for options.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
+ *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
- * @param {boolean} [config.roundaboutExits=false] - Emit instructions at roundabout exits.
+ * @param {boolean} [config.roundaboutExits=false] - Emit insbtructions at roundabout exits.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.voiceInstructions=false] - Whether or not to return SSML marked-up text for voice guidance along the route.
  * @param {'imperial'|'metric'} [config.voiceUnits="imperial"] - Which type of units to return in the text for voice instructions.
@@ -39,7 +44,7 @@ Directions.getDirections = function(config) {
         v.shape({
           coordinates: v.required(v.coordinates),
           approach: v.oneOf('unrestricted', 'curb'),
-          bearing: v.arrayOf(v.number),
+          bearing: v.arrayOf(v.range([0, 360])),
           radius: v.oneOfType(v.number, v.equal('unlimited')),
           waypointName: v.string
         })
@@ -71,17 +76,22 @@ Directions.getDirections = function(config) {
     waypointName: []
   };
 
+  var waypointCount = config.directionsPath.length;
+  if (waypointCount < 2 || waypointCount > 25) {
+    throw new Error(
+      'directionsPath include between 2 and 25 DirectionsWaypoints'
+    );
+  }
+
   /**
-   * A collection of ordered way points with optional properties.
-   * This might differ from the HTTP API as we have combined
-   * all the properties that depend on the order of coordinates into
-   * one object for ease of use.
-   *
-   * @typedef {Object} DirectionsPath
-   * @property {Array<number>} coordinates - An array containing pair of longitude, latitude.
-   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-   * @property {number|'unlimited'} [radius] - Maximum distance in meters that each coordinate is allowed to move when snapped to a nearby road segment.
-   * @property {string} [waypointName] - Custom names for waypoints used for the arrival instruction in banners and voice instructions.
+   * @typedef {Object} DirectionsWaypoint
+   * @property {[number, number]} coordinates - `[longitude, latitude]`
+   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach the waypoint.
+   * @property {[number, number]} [bearing] - Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+   *   This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
+   *   and the second is the range of degrees the angle can deviate by.
+   * @property {number|'unlimited'} [radius] - Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+   * @property {string} [waypointName] - Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
    */
   config.directionsPath.forEach(function(waypoint) {
     path.coordinates.push(
