@@ -6,13 +6,16 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
  * Datasets API service.
+ *
+ * Learn more about this service and response data structures in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#datasets).
  */
 var Datasets = {};
 
 /**
  * List datasets in your account.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#list-datasets).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-datasets).
  *
  * @return {MapiRequest}
  */
@@ -26,9 +29,9 @@ Datasets.listDatasets = function(config) {
 };
 
 /**
- * Create a new dataset.
+ * Create a new, empty dataset.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#create-dataset).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-dataset).
  *
  * @param {Object} config
  * @param {string} [config.name]
@@ -49,15 +52,15 @@ Datasets.createDataset = function(config) {
 };
 
 /**
- * Get a dataset.
+ * Get metadata about a dataset.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-dataset).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @return {MapiRequest}
  */
-Datasets.getDataset = function(config) {
+Datasets.getMetadata = function(config) {
   v.assertShape({
     datasetId: v.required(v.string),
     description: v.string
@@ -71,9 +74,9 @@ Datasets.getDataset = function(config) {
 };
 
 /**
- * Update the properties of a dataset.
+ * Update user-defined properties of a dataset's metadata.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#update-a-dataset).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#update-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -81,7 +84,7 @@ Datasets.getDataset = function(config) {
  * @param {string} [config.description]
  * @return {MapiRequest}
  */
-Datasets.updateDataset = function(config) {
+Datasets.updateMetadata = function(config) {
   v.assertShape({
     datasetId: v.required(v.string),
     name: v.string,
@@ -97,9 +100,9 @@ Datasets.updateDataset = function(config) {
 };
 
 /**
- * Delete a dataset.
+ * Delete a dataset, including all features it contains.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#delete-a-dataset).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#delete-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -120,7 +123,10 @@ Datasets.deleteDataset = function(config) {
 /**
  * List features in a dataset.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#list-features).
+ * This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
+ * the `limit` and `start` options.
+ *
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-features).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -145,14 +151,15 @@ Datasets.listFeatures = function(config) {
 };
 
 /**
- * Add a feature to a dataset, or update an existing one.
+ * Add a feature to a dataset or update an existing one.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#insert-or-update-a-feature).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#insert-or-update-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @param {string} config.featureId
- * @param {Object} config.feature
+ * @param {Object} config.feature - Valid GeoJSON that is not a `FeatureCollection`.
+ *   If the feature has a top-level `id` property, it must match the `featureId` you specify.
  * @return {MapiRequest}
  */
 Datasets.putFeature = function(config) {
@@ -180,7 +187,7 @@ Datasets.putFeature = function(config) {
 /**
  * Get a feature in a dataset.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-feature).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -203,7 +210,7 @@ Datasets.getFeature = function(config) {
 /**
  * Delete a feature in a dataset.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#delete-a-feature).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#delete-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
