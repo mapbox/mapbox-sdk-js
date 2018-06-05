@@ -20,9 +20,9 @@ var Directions = {};
  *
  * @param {Object} config
  * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile="driving"]
- * @param {Array<DirectionsWaypoint>} config.directionsPath - An ordered array of [`DirectionsWaypoint`](#directionswaypoint) objects, between 2 and 25.
+ * @param {Array<DirectionsWaypoint>} config.waypoints - An ordered array of [`DirectionsWaypoint`](#directionswaypoint) objects, between 2 and 25 (inclusive).
  * @param {boolean} [config.alternatives=false] - Whether to try to return alternative routes.
- * @param {Array<'duration'|'distance'|'speed'|'congestion'>} [config.annotations] - Whether or not to return additional metadata along the route.
+ * @param {Array<'duration'|'distance'|'speed'|'congestion'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {boolean} [config.bannerInstructions=false] - Should be used in conjunction with `steps`.
  * @param {boolean} [config.continueStraight] - Sets the allowed direction of travel when departing intermediate waypoints.
  * @param {string} [config.exclude] - Exclude certain road types from routing. See HTTP service documentation for options.
@@ -39,7 +39,7 @@ var Directions = {};
 Directions.getDirections = function(config) {
   v.assertShape({
     profile: v.oneOf('driving-traffic', 'driving', 'walking', 'cycling'),
-    directionsPath: v.required(
+    waypoints: v.required(
       v.arrayOf(
         v.shape({
           coordinates: v.required(v.coordinates),
@@ -76,10 +76,10 @@ Directions.getDirections = function(config) {
     waypointName: []
   };
 
-  var waypointCount = config.directionsPath.length;
+  var waypointCount = config.waypoints.length;
   if (waypointCount < 2 || waypointCount > 25) {
     throw new Error(
-      'directionsPath include between 2 and 25 DirectionsWaypoints'
+      'waypoints must include between 2 and 25 DirectionsWaypoints'
     );
   }
 
@@ -93,7 +93,7 @@ Directions.getDirections = function(config) {
    * @property {number|'unlimited'} [radius] - Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
    * @property {string} [waypointName] - Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
    */
-  config.directionsPath.forEach(function(waypoint) {
+  config.waypoints.forEach(function(waypoint) {
     path.coordinates.push(
       waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
     );

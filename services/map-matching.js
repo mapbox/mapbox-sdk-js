@@ -8,28 +8,30 @@ var urlUtils = require('../lib/helpers/url-utils');
 
 /**
  * Map Matching API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#map-matching).
  */
-var Matching = {};
+var MapMatching = {};
 
 /**
- * Snap recorded location traces to roads and paths
- *
- * See the [Mapbox Map Matching API](https://www.mapbox.com/api-documentation/#map-matching).
+ * Snap recorded location traces to roads and paths.
  *
  * @param {Object} config
- * @param {Array<MatchPath>} config.matchPath - An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
- * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile=driving]
- * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Whether or not to return additional metadata along the route.
+ * @param {Array<MapMatchingPoint>} config.points - An ordered array of [`MapMatchingPoint`](#mapmatchingpoint)s, between 2 and 100 (inclusive).
+ * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile=driving] - A directions profile ID.
+ * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
+ *   See [supported languages](https://www.mapbox.com/api-documentation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.tidy=false] - Whether or not to transparently remove clusters and re-sample traces for improved map matching results.
  * @return {MapiRequest}
  */
-Matching.getMatching = function(config) {
+MapMatching.getMatching = function(config) {
   v.assertShape({
-    matchPath: v.required(
+    points: v.required(
       v.arrayOf(
         v.shape({
           coordinates: v.required(v.coordinates),
@@ -50,6 +52,11 @@ Matching.getMatching = function(config) {
     tidy: v.boolean
   })(config);
 
+  var waypointCount = config.points.length;
+  if (waypointCount < 2 || waypointCount > 100) {
+    throw new Error('points must include between 2 and 100 MapMatchingPoint');
+  }
+
   config.profile = config.profile || 'driving';
 
   var path = {
@@ -62,20 +69,15 @@ Matching.getMatching = function(config) {
   };
 
   /**
-   * An ordered array of object with coordinates and related properties.
-   * This might differ from the HTTP API as we have combined
-   * all the properties that depend on the order of coordinates into
-   * one object for ease of use.
-   *
-   * @typedef {Object} MatchPath
-   * @property {Array<number>} coordinates - An array containing (longitude, latitude).
+   * @typedef {Object} MapMatchingPoint
+   * @property {Coordinates} coordinates
    * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
    * @property {number} [radius=5] - A number in meters indicating the assumed precision of the used tracking device.
-   * @property {boolean} [isWaypoint=true] - Whether this coordinate is waypoint or not. Note! the first and last coordinates will always have to be true.
-   * @property {string} [waypointName] - Custom names for waypoint used for the arrival instruction in banners and voice instructions.
-   * @property {date} [timestamp] - Unix timestamp corresponding the coordinate.
+   * @property {boolean} [isWaypoint=true] - Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
+   * @property {string} [waypointName] - Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
+   * @property {tring | number | Date} [timestamp] - Datetime corresponding to the coordinate.
    */
-  config.matchPath.forEach(function(obj) {
+  config.points.forEach(function(obj) {
     path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
 
     // isWaypoint
@@ -85,7 +87,13 @@ Matching.getMatching = function(config) {
       path.isWaypoint.push(true); // default value
     }
 
-    ['approach', 'radius', 'waypointName', 'timestamp'].forEach(function(prop) {
+    if (obj.hasOwnProperty('timestamp') && obj.timestamp != null) {
+      path.timestamp.push(Number(new Date(obj.timestamp)));
+    } else {
+      path.timestamp.push('');
+    }
+
+    ['approach', 'radius', 'waypointName'].forEach(function(prop) {
       if (obj.hasOwnProperty(prop) && obj[prop] != null) {
         path[prop].push(obj[prop]);
       } else {
@@ -163,4 +171,4 @@ Matching.getMatching = function(config) {
   });
 };
 
-module.exports = createServiceFactory(Matching);
+module.exports = createServiceFactory(MapMatching);

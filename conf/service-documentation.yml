@@ -7,7 +7,7 @@ toc:
   - Tilesets
   - Geocoding
   - Directions
-  - Matching
+  - MapMatching
   - Matrix
   - Tokens
   - name: Data structures
@@ -15,7 +15,7 @@ toc:
       Data structures used in service method configuration.
     children:
       - DirectionsWaypoint
-      - MatchPath
+      - MapMatchingPoint
       - MatrixPath
       - Coordinates
       - BoundingBox
