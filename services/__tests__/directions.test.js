@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('getDirections', () => {
   test('works', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -33,7 +33,7 @@ describe('getDirections', () => {
 
   test('it omits queries not supplied', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -59,9 +59,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('it reads directionsPath props', () => {
+  test('it reads waypoints props', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1],
           radius: 2000,
@@ -93,9 +93,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('it works if an optional directionsPath.bearing is missing at some places', () => {
+  test('it works if an optional waypoints.bearing is missing at some places', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -129,9 +129,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('it works if an optional directionsPath.radius is missing at some places', () => {
+  test('it works if an optional waypoints.radius is missing at some places', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1],
           radius: 2000
@@ -167,9 +167,9 @@ describe('getDirections', () => {
     });
   });
 
-  test('directionsPath.radius can be any of string or number', () => {
+  test('waypoints.radius can be any of string or number', () => {
     directions.getDirections({
-      directionsPath: [
+      waypoints: [
         {
           coordinates: [2.2, 1.1],
           radius: 2000
