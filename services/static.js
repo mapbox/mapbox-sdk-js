@@ -1,0 +1,245 @@
+'use strict';
+
+var polyline = require('@mapbox/polyline');
+var v = require('./service-helpers/validator');
+var createServiceFactory = require('./service-helpers/create-service-factory');
+var pick = require('./service-helpers/pick');
+
+/**
+ * Static API service.
+ */
+var Static = {};
+
+/**
+ * Get a static map image.
+ *
+ * See [the public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-static-map-from-a-style).
+ *
+ * **If you just want the URL for the static map image, create a request
+ * and get it's URL with `MapiRequest#url`.**
+ *
+ * @param {Object} config
+ * @param {string} config.ownerId - The owner of the map style.
+ * @param {string} config.styleId - The map's style ID.
+ * @param {number} config.width - Width of the image in pixels, between 1 and 1280.
+ * @param {number} config.height - Height of the image in pixels, between 1 and 1280.
+ * @param {[number, number]|'auto'} config.coordinates - `[longitude, latitude]`
+ *   for the center of image; or `'auto'` to fit the map within the bounds of
+ *   the overlay features.
+ * @param {number} config.zoom - Between 0 and 20.
+ * @param {number} [config.bearing] - Between 0 and 360.
+ * @param {number} [config.pitch] - Between 0 and 60.
+ * @param {Overlay|Array<Overlay>} [config.overlay] - One or more overlays.
+ *   Overlays should be in z-index order: the first in the array will be on the
+ *   bottom; the last will be on the top. Overlays are objects that match one
+ *   of the following types.
+ *   - [`SimpleMarkerOverlay`](#simplemarkeroverlay)
+ *   - [`CustomMarkerOverlay`](#custommarkeroverlay)
+ *   - [`PathOverlay`](#pathoverlay)
+ *   - [`GeoJsonOverlay`](#geojsonoverlay)
+ * @param {boolean} [config.highRes=false]
+ * @param {string} [config.insertOverlayBeforeLayer] - The ID of the style layer
+ *   that overlays should be inserted *before*.
+ * @param {boolean} [config.attribution=true] - Whether there is attribution
+ *   on the map image.
+ * @param {boolean} [config.logo=true] - Whether there is a Mapbox logo
+ *   on the map image.
+ * @return {MapiRequest}
+ */
+Static.getStaticImage = function(config) {
+  v.assertShape({
+    ownerId: v.required(v.string),
+    styleId: v.required(v.string),
+    width: v.required(v.range([1, 1280])),
+    height: v.required(v.range([1, 1280])),
+    coordinates: v.required(v.oneOfType(v.coordinates, v.oneOf('auto'))),
+    zoom: v.required(v.range([0, 20])),
+    bearing: v.range([0, 360]),
+    pitch: v.range([0, 60]),
+    overlay: v.oneOfType(v.plainObject, v.arrayOf(v.plainObject)),
+    highRes: v.boolean,
+    insertOverlayBeforeLayer: v.string,
+    attribution: v.boolean,
+    logo: v.boolean
+  })(config);
+
+  var encodedOverlay = []
+    .concat(config.overlay || [])
+    .map(function(overlayItem) {
+      if (overlayItem.marker) {
+        return encodeMarkerOverlay(overlayItem.marker);
+      }
+      if (overlayItem.path) {
+        return encodePathOverlay(overlayItem.path);
+      }
+      return encodeGeoJsonOverlay(overlayItem.geoJson);
+    })
+    .join(',');
+
+  var encodedPosition =
+    config.coordinates === 'auto' ? ['auto'] : config.coordinates;
+  encodedPosition = encodedPosition
+    .concat([config.zoom, config.bearing, config.pitch])
+    .filter(function(item) {
+      return item !== undefined;
+    })
+    .join(',');
+
+  var encodedDimensions = config.width + 'x' + config.height;
+  if (config.highRes) {
+    encodedDimensions += '@2x';
+  }
+
+  var preEncodedUrlParts = [encodedOverlay, encodedPosition, encodedDimensions]
+    .filter(function(item) {
+      return !!item;
+    })
+    .join('/');
+
+  var query = {};
+  if (config.attribution !== undefined) {
+    query.attribution = String(config.attribution);
+  }
+  if (config.logo !== undefined) {
+    query.logo = String(config.logo);
+  }
+  if (config.insertOverlayBeforeLayer !== undefined) {
+    query.before_layer = config.insertOverlayBeforeLayer;
+  }
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/styles/v1/:ownerId/:styleId/static/' + preEncodedUrlParts,
+    routeParams: pick(config, ['ownerId', 'styleId']),
+    query: query
+  });
+};
+
+function encodeMarkerOverlay(o) {
+  if (o.url) {
+    return encodeCustomMarkerOverlay(o);
+  }
+  return encodeSimpleMarkerOverlay(o);
+}
+
+/**
+ * A simple marker overlay.
+ * @typedef {Object} SimpleMarkerOverlay
+ * @property {Object} marker
+ * @property {[number, number]} marker.coordinates - `[longitude, latitude]`
+ * @property {'large'|'small'} [marker.size='small']
+ * @property {string} [marker.label] - Marker symbol. Options are an alphanumeric label `a`
+ *   through `z`, `0` through `99`, or a valid [Maki](https://www.mapbox.com/maki/)
+ *   icon. If a letter is requested, it will be rendered in uppercase only.
+ * @property {string} [marker.color] - A 3- or 6-digit hexadecimal color code.
+ */
+
+function encodeSimpleMarkerOverlay(o) {
+  v.assertShape({
+    coordinates: v.required(v.coordinates),
+    size: v.oneOf('large', 'small'),
+    label: v.string,
+    color: v.string
+  })(o);
+
+  var result = o.size === 'large' ? 'pin-l' : 'pin-s';
+  if (o.label) {
+    result += '-' + String(o.label).toLowerCase();
+  }
+  if (o.color) {
+    result += '+' + sanitizeHexColor(o.color);
+  }
+  result += '(' + o.coordinates.join(',') + ')';
+  return result;
+}
+
+/**
+ * A marker overlay with a custom image.
+ * @typedef {Object} CustomMarkerOverlay
+ * @property {Object} marker
+ * @property {[number, number]} marker.coordinates - `[longitude, latitude]`
+ * @property {string} marker.url
+ */
+
+function encodeCustomMarkerOverlay(o) {
+  v.assertShape({
+    coordinates: v.required(v.coordinates),
+    url: v.required(v.string)
+  })(o);
+
+  var result = 'url-' + encodeURIComponent(o.url);
+  result += '(' + o.coordinates.join(',') + ')';
+  return result;
+}
+
+/**
+ * A stylable line.
+ * @typedef {Object} PathOverlay
+ * @property {Object} path
+ * @property {Array<[number, number]>} path.coordinates - An array of coordinates
+ *   describing the path.
+ * @property {number} [path.strokeWidth]
+ * @property {string} [path.strokeColor]
+ * @property {number} [path.strokeOpacity] - Must be paired with strokeColor.
+ * @property {string} [path.fillColor] - Must be paired with strokeColor.
+ * @property {number} [path.fillOpacity] - Must be paired with fillColor.
+ */
+
+function encodePathOverlay(o) {
+  v.assertShape({
+    coordinates: v.required(v.arrayOf(v.coordinates)),
+    strokeWidth: v.number,
+    strokeColor: v.string,
+    strokeOpacity: v.number,
+    fillColor: v.string,
+    fillOpacity: v.number
+  })(o);
+
+  if (o.strokeOpacity !== undefined && o.strokeColor === undefined) {
+    throw new Error('strokeOpacity requires strokeColor');
+  }
+  if (o.fillColor !== undefined && o.strokeColor === undefined) {
+    throw new Error('fillColor requires strokeColor');
+  }
+  if (o.fillOpacity !== undefined && o.fillColor === undefined) {
+    throw new Error('fillOpacity requires fillColor');
+  }
+
+  var result = 'path';
+  if (o.strokeWidth) {
+    result += '-' + o.strokeWidth;
+  }
+  if (o.strokeColor) {
+    result += '+' + sanitizeHexColor(o.strokeColor);
+  }
+  if (o.strokeOpacity) {
+    result += '-' + o.strokeOpacity;
+  }
+  if (o.fillColor) {
+    result += '+' + sanitizeHexColor(o.fillColor);
+  }
+  if (o.fillOpacity) {
+    result += '-' + o.fillOpacity;
+  }
+  var encodedPolyline = polyline.encode(o.coordinates);
+  result += '(' + encodeURIComponent(encodedPolyline) + ')';
+  return result;
+}
+
+/**
+ * GeoJSON to overlay the map.
+ * @typedef {Object} GeoJsonOverlay
+ * @property {Object} geoJson - Valid GeoJSON.
+ */
+
+function encodeGeoJsonOverlay(o) {
+  v.assert(v.required(v.plainObject))(o);
+
+  return 'geojson(' + encodeURIComponent(JSON.stringify(o)) + ')';
+}
+
+function sanitizeHexColor(color) {
+  return color.replace(/^#/, '');
+}
+
+module.exports = createServiceFactory(Static);
