@@ -1,11 +1,11 @@
 'use strict';
 
-const matchingService = require('../matching');
+const mapMatchingService = require('../map-matching');
 const tu = require('../../test/test-utils');
 
-let matching;
+let mapMatching;
 beforeEach(() => {
-  matching = matchingService(tu.mockClient());
+  mapMatching = mapMatchingService(tu.mockClient());
 });
 
 function urlEncodeBody(body) {
@@ -16,8 +16,8 @@ function urlEncodeBody(body) {
 
 describe('getMatching', () => {
   test('works', () => {
-    matching.getMatching({
-      matchPath: [
+    mapMatching.getMatching({
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -26,7 +26,7 @@ describe('getMatching', () => {
         }
       ]
     });
-    expect(tu.requestConfig(matching)).toEqual({
+    expect(tu.requestConfig(mapMatching)).toEqual({
       path: '/matching/v5/mapbox/:profile',
       method: 'POST',
       body: urlEncodeBody([['coordinates', '2.2,1.1;2.2,1.1']]),
@@ -36,8 +36,8 @@ describe('getMatching', () => {
   });
 
   test('it understands isWaypoint', () => {
-    matching.getMatching({
-      matchPath: [
+    mapMatching.getMatching({
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -56,7 +56,7 @@ describe('getMatching', () => {
       tidy: true,
       geometries: 'polyline6'
     });
-    expect(tu.requestConfig(matching)).toEqual({
+    expect(tu.requestConfig(mapMatching)).toEqual({
       path: '/matching/v5/mapbox/:profile',
       method: 'POST',
       body: urlEncodeBody([
@@ -71,8 +71,8 @@ describe('getMatching', () => {
   });
 
   test('it omits waypoints if all isWaypoints are true', () => {
-    matching.getMatching({
-      matchPath: [
+    mapMatching.getMatching({
+      points: [
         {
           coordinates: [2.2, 1.1],
           isWaypoint: true
@@ -93,7 +93,7 @@ describe('getMatching', () => {
       profile: 'walking',
       steps: false
     });
-    expect(tu.requestConfig(matching)).toEqual({
+    expect(tu.requestConfig(mapMatching)).toEqual({
       path: '/matching/v5/mapbox/:profile',
       method: 'POST',
       body: urlEncodeBody([
@@ -106,8 +106,8 @@ describe('getMatching', () => {
   });
 
   test('it always keeps first and last waypoint', () => {
-    matching.getMatching({
-      matchPath: [
+    mapMatching.getMatching({
+      points: [
         {
           coordinates: [2.2, 1.1],
           isWaypoint: false
@@ -128,7 +128,7 @@ describe('getMatching', () => {
       profile: 'walking',
       steps: false
     });
-    expect(tu.requestConfig(matching)).toEqual({
+    expect(tu.requestConfig(mapMatching)).toEqual({
       path: '/matching/v5/mapbox/:profile',
       method: 'POST',
       body: urlEncodeBody([
@@ -142,8 +142,8 @@ describe('getMatching', () => {
   });
 
   test('it understands other coordinate properties', () => {
-    matching.getMatching({
-      matchPath: [
+    mapMatching.getMatching({
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -154,20 +154,21 @@ describe('getMatching', () => {
         },
         {
           coordinates: [2.2, 1.1],
-          timestamp: 0,
+          timestamp: 1528157886576,
           waypointName: 'special',
           radius: 50,
           isWaypoint: false
         },
         {
           coordinates: [2.2, 1.1],
+          timestamp: new Date(1528157886888),
           approach: 'unrestricted'
         }
       ],
       profile: 'walking',
       steps: true
     });
-    expect(tu.requestConfig(matching)).toEqual({
+    expect(tu.requestConfig(mapMatching)).toEqual({
       path: '/matching/v5/mapbox/:profile',
       method: 'POST',
       params: {
@@ -179,7 +180,7 @@ describe('getMatching', () => {
         ['approaches', ';curb;;unrestricted'],
         ['radiuses', ';;50;'],
         ['waypoints', '0;1;;3'],
-        ['timestamps', ';;0;'],
+        ['timestamps', ';;1528157886576;1528157886888'],
         ['waypoint_names', ';;special;'],
         ['coordinates', '2.2,1.1;2.2,1.1;2.2,1.1;2.2,1.1']
       ])

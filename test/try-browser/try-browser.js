@@ -8,7 +8,7 @@ var mbxTokens = require('../../services/tokens');
 var mbxDatasets = require('../../services/datasets');
 var mbxTilequery = require('../../services/tilequery');
 var mbxDirections = require('../../services/directions');
-var mbxMatching = require('../../services/matching');
+var mbxMapMatching = require('../../services/map-matching');
 var mbxMatrix = require('../../services/matrix');
 var mbxUploads = require('../../services/uploads');
 
@@ -38,7 +38,7 @@ window.tryServiceMethod = function(
     datasets: mbxDatasets(baseClient),
     tilequery: mbxTilequery(baseClient),
     directions: mbxDirections(baseClient),
-    matching: mbxMatching(baseClient),
+    mapMatching: mbxMapMatching(baseClient),
     matrix: mbxMatrix(baseClient),
     uploads: mbxUploads(baseClient)
   };

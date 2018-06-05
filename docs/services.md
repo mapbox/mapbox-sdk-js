@@ -40,7 +40,7 @@
   - [reverseGeocode](#reversegeocode)
 - [Directions](#directions)
   - [getDirections](#getdirections)
-- [Matching](#matching)
+- [MapMatching](#mapmatching)
   - [getMatching](#getmatching)
 - [Matrix](#matrix)
   - [getMatrix](#getmatrix)
@@ -54,7 +54,7 @@
   - [listScopes](#listscopes)
 - [Data structures](#data-structures)
   - [DirectionsWaypoint](#directionswaypoint)
-  - [MatchPath](#matchpath)
+  - [MapMatchingPoint](#mapmatchingpoint)
   - [MatrixPath](#matrixpath)
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
@@ -582,9 +582,9 @@ to understand all of the available options.
 
 - `config` **[Object][108]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.directionsPath` **[Array][119]&lt;[DirectionsWaypoint][148]>** An ordered array of [`DirectionsWaypoint`][91] objects, between 2 and 25.
+  - `config.waypoints` **[Array][119]&lt;[DirectionsWaypoint][148]>** An ordered array of [`DirectionsWaypoint`][91] objects, between 2 and 25 (inclusive).
   - `config.alternatives` **[boolean][117]** Whether to try to return alternative routes. (optional, default `false`)
-  - `config.annotations` **[Array][119]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Whether or not to return additional metadata along the route.
+  - `config.annotations` **[Array][119]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Specify additional metadata that should be returned.
   - `config.bannerInstructions` **[boolean][117]** Should be used in conjunction with `steps`. (optional, default `false`)
   - `config.continueStraight` **[boolean][117]?** Sets the allowed direction of travel when departing intermediate waypoints.
   - `config.exclude` **[string][109]?** Exclude certain road types from routing. See HTTP service documentation for options.
@@ -599,24 +599,26 @@ to understand all of the available options.
 
 Returns **MapiRequest** 
 
-## Matching
+## MapMatching
 
 Map Matching API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][150].
+
 ### getMatching
 
-Snap recorded location traces to roads and paths
-
-See the [Mapbox Map Matching API][150].
+Snap recorded location traces to roads and paths.
 
 #### Parameters
 
 - `config` **[Object][108]** 
-  - `config.matchPath` **[Array][119]&lt;[MatchPath][151]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
-  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
-  - `config.annotations` **[Array][119]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Whether or not to return additional metadata along the route.
+  - `config.points` **[Array][119]&lt;[MapMatchingPoint][151]>** An ordered array of [`MapMatchingPoint`][93]s, between 2 and 100 (inclusive).
+  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A directions profile ID. (optional, default `driving`)
+  - `config.annotations` **[Array][119]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][109]** Language of returned turn-by-turn text instructions. (optional, default `"en"`)
+  - `config.language` **[string][109]** Language of returned turn-by-turn text instructions.
+      See [supported languages][149]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
   - `config.steps` **[boolean][117]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.tidy` **[boolean][117]** Whether or not to transparently remove clusters and re-sample traces for improved map matching results. (optional, default `false`)
@@ -773,23 +775,18 @@ Type: [Object][108]
 - `radius` **([number][112] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
 - `waypointName` **[string][109]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
 
-### MatchPath
-
-An ordered array of object with coordinates and related properties.
-This might differ from the HTTP API as we have combined
-all the properties that depend on the order of coordinates into
-one object for ease of use.
+### MapMatchingPoint
 
 Type: [Object][108]
 
 #### Properties
 
-- `coordinates` **[Array][119]&lt;[number][112]>** An array containing (longitude, latitude).
+- `coordinates` **[Coordinates][142]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
 - `radius` **[number][112]?** A number in meters indicating the assumed precision of the used tracking device.
-- `isWaypoint` **[boolean][117]?** Whether this coordinate is waypoint or not. Note! the first and last coordinates will always have to be true.
-- `waypointName` **[string][109]?** Custom names for waypoint used for the arrival instruction in banners and voice instructions.
-- `timestamp` **[date][113]?** Unix timestamp corresponding the coordinate.
+- `isWaypoint` **[boolean][117]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
+- `waypointName` **[string][109]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
+- `timestamp` **(tring | [number][112] \| [Date][113])?** Datetime corresponding to the coordinate.
 
 ### MatrixPath
 
@@ -1008,7 +1005,7 @@ Type: [Object][108]
 
 [68]: #parameters-29
 
-[69]: #matching
+[69]: #mapmatching
 
 [70]: #getmatching
 
@@ -1056,7 +1053,7 @@ Type: [Object][108]
 
 [92]: #properties
 
-[93]: #matchpath
+[93]: #mapmatchingpoint
 
 [94]: #properties-1
 
@@ -1172,7 +1169,7 @@ Type: [Object][108]
 
 [150]: https://www.mapbox.com/api-documentation/#map-matching
 
-[151]: #matchpath
+[151]: #mapmatchingpoint
 
 [152]: https://www.mapbox.com/api-documentation/#matrix
 
