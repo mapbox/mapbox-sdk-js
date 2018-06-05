@@ -11,7 +11,7 @@ const mbxDatasets = require('../services/datasets');
 const mbxTilequery = require('../services/tilequery');
 const mbxGeocoding = require('../services/geocoding');
 const mbxDirections = require('../services/directions');
-const mbxMatching = require('../services/matching');
+const mbxMapMatching = require('../services/map-matching');
 const mbxMatrix = require('../services/matrix');
 const mbxUploads = require('../services/uploads');
 
@@ -63,7 +63,7 @@ const services = {
   tilequery: mbxTilequery(baseClient),
   geocoding: mbxGeocoding(baseClient),
   directions: mbxDirections(baseClient),
-  matching: mbxMatching(baseClient),
+  matching: mbxMapMatching(baseClient),
   matrix: mbxMatrix(baseClient),
   uploads: mbxUploads(baseClient)
 };
