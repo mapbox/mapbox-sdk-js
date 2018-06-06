@@ -7,13 +7,16 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
  * Styles API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#styles).
  */
 var Styles = {};
 
 /**
  * Get a style.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -36,7 +39,7 @@ Styles.getStyle = function(config) {
 /**
  * Create a style.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#create-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-a-style).
  *
  * @param {Object} config
  * @param {Object} config.style - Stylesheet JSON object.
@@ -60,7 +63,7 @@ Styles.createStyle = function(config) {
 /**
  * Update a style.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#update-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#update-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -118,8 +121,7 @@ Styles.deleteStyle = function(config) {
  * List styles in your account.
  *
  * @param {Object} [config]
- * @param {string} [config.start] - The style ID of the last style in the
- *   previous page.
+ * @param {string} [config.start] - The style ID to start at, for paginated results.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
@@ -148,7 +150,7 @@ Styles.listStyles = function(config) {
  * @param {Object} config
  * @param {string} config.styleId
  * @param {string} config.iconId
- * @param {(Blob|ArrayBuffer|string|ReadableStream)} config.file - An SVG file.
+ * @param {UploadableFile} config.file - An SVG file.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
@@ -194,7 +196,7 @@ Styles.deleteStyleIcon = function(config) {
 /**
  * Get a style sprite's image or JSON document.
  *
- * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -227,7 +229,7 @@ Styles.getStyleSprite = function(config) {
 /**
  * Get a font glyph range.
  *
- * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges).
  *
  * @param {Object} config
  * @param {string|Array<string>} config.fonts - An array of font names.
@@ -260,7 +262,7 @@ Styles.getFontGlyphRange = function(config) {
 /**
  * Get embeddable HTML displaying a map.
  *
- * See [the public documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style).
  *
  * @param {Object} config
  * @param {string} styleId
