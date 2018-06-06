@@ -49,7 +49,7 @@ var MapboxClient = require('mapbox');
 ```
 
 Setup via `script` tag:
-```
+```html
 <script src='https://unpkg.com/mapbox@1.0.0-beta10/dist/mapbox-sdk.min.js'></script>
 ```
 
