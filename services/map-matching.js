@@ -52,9 +52,9 @@ MapMatching.getMatching = function(config) {
     tidy: v.boolean
   })(config);
 
-  var waypointCount = config.points.length;
-  if (waypointCount < 2 || waypointCount > 100) {
-    throw new Error('points must include between 2 and 100 MapMatchingPoint');
+  var pointCount = config.points.length;
+  if (pointCount < 2 || pointCount > 100) {
+    throw new Error('points must include between 2 and 100 MapMatchingPoints');
   }
 
   config.profile = config.profile || 'driving';
