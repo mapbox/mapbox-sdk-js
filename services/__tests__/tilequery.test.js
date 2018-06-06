@@ -11,9 +11,8 @@ beforeEach(() => {
 describe('listFeatures', () => {
   test('with minimal config', () => {
     tilequery.listFeatures({
-      mapId: 'foo',
-      longitude: 10,
-      latitude: 12
+      mapIds: ['foo'],
+      coordinates: [10, 12]
     });
     expect(tu.requestConfig(tilequery)).toEqual({
       path: '/v4/:mapIds/tilequery/:coordinates.json',
@@ -28,9 +27,8 @@ describe('listFeatures', () => {
 
   test('with multiple map IDs', () => {
     tilequery.listFeatures({
-      mapId: ['foo', 'bar'],
-      longitude: 10,
-      latitude: 12
+      mapIds: ['foo', 'bar'],
+      coordinates: [10, 12]
     });
     expect(tu.requestConfig(tilequery)).toEqual({
       path: '/v4/:mapIds/tilequery/:coordinates.json',
@@ -45,9 +43,8 @@ describe('listFeatures', () => {
 
   test('with all config options', () => {
     tilequery.listFeatures({
-      mapId: ['foo', 'bar'],
-      longitude: 10,
-      latitude: 12,
+      mapIds: ['foo', 'bar'],
+      coordinates: [10, 12],
       radius: 39,
       limit: 3,
       dedupe: false,

@@ -472,23 +472,23 @@ Returns **MapiRequest**
 
 Tilequery API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][93].
+
 ### listFeatures
 
 List features within a radius of a point on a map (or several maps).
 
-See the [public documentation][93].
-
 **Parameters**
 
 - `config` **[Object][64]** 
-  - `config.mapId` **([string][65] \| [Array][74]&lt;[string][65]>)** 
-  - `config.longitude` **[number][68]** 
-  - `config.latitude` **[number][68]** 
+  - `config.mapIds` **[Array][74]&lt;[string][65]>** The maps being queried.
+      If you need to composite multiple layers, provide multiple map IDs.
+  - `config.coordinates` **[Coordinates][77]** The longitude and latitude to be queried.
   - `config.radius` **[number][68]** The approximate distance in meters to query for features. (optional, default `0`)
   - `config.limit` **[number][68]** The number of features to return, between 1 and 50. (optional, default `5`)
   - `config.dedupe` **[boolean][72]** Whether or not to deduplicate results. (optional, default `true`)
-  - `config.geometry` **(`"polygon"` \| `"linestring"` \| `"point"`)?** Search only for the specified
-      geometry types.
+  - `config.geometry` **(`"polygon"` \| `"linestring"` \| `"point"`)?** Queries for a specific geometry type.
   - `config.layers` **[Array][74]&lt;[string][65]>?** IDs of vector layers to query.
 
 Returns **MapiRequest** 
