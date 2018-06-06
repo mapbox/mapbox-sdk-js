@@ -6,22 +6,21 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
  * Tokens API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#tokens).
  */
 var Tokens = {};
 
 /**
- * List a user's access tokens.
+ * List your access tokens.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#list-tokens).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-tokens).
  *
- * @param {Object} [config]
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.listTokens = function(config) {
-  v.assertShape({
-    ownerId: v.string
-  })(config);
+  v.assertShape({})(config);
 
   return this.client.createRequest({
     method: 'GET',
@@ -33,23 +32,17 @@ Tokens.listTokens = function(config) {
 /**
  * Create a new access token.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#create-token).
- *
- * `resources` are only available for users with the `token_resources`
- * feature flag.
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-token).
  *
  * @param {Object} [config]
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.createToken = function(config) {
   config = config || {};
-
   v.assertShape({
-    ownerId: v.string,
     note: v.string,
     scopes: v.arrayOf(v.string),
     resources: v.arrayOf(v.string)
@@ -75,20 +68,18 @@ Tokens.createToken = function(config) {
 /**
  * Create a new temporary access token.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#create-temporary-token).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-temporary-token).
  *
  * @param {Object} [config]
  * @param {string} [config.expires]
  * @param {Array<string>} [config.scopes]
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.createTemporaryToken = function(config) {
   config = config || {};
   v.assertShape({
     expires: v.required(v.date),
-    scopes: v.required(v.arrayOf(v.string)),
-    ownerId: v.string
+    scopes: v.required(v.arrayOf(v.string))
   })(config);
 
   return this.client.createRequest({
@@ -105,17 +96,13 @@ Tokens.createTemporaryToken = function(config) {
 /**
  * Update an access token.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#update-a-token).
- *
- * `resources` are only available for users with the `token_resources`
- * feature flag.
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#update-a-token).
  *
  * @param {Object} config
  * @param {string} config.tokenId
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.updateToken = function(config) {
@@ -123,8 +110,7 @@ Tokens.updateToken = function(config) {
     tokenId: v.required(v.string),
     note: v.string,
     scopes: v.arrayOf(v.string),
-    resources: v.arrayOf(v.string),
-    ownerId: v.string
+    resources: v.arrayOf(v.string)
   })(config);
 
   var body = {};
@@ -149,9 +135,8 @@ Tokens.updateToken = function(config) {
 /**
  * Get data about the client's access token.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-token).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-token).
  *
- * @param {Object} config
  * @return {MapiRequest}
  */
 Tokens.getToken = function(config) {
@@ -166,17 +151,15 @@ Tokens.getToken = function(config) {
 /**
  * Delete an access token.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token).
  *
  * @param {Object} config
  * @param {string} config.tokenId
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.deleteToken = function(config) {
   v.assertShape({
-    tokenId: v.required(v.string),
-    ownerId: v.string
+    tokenId: v.required(v.string)
   })(config);
 
   return this.client.createRequest({
@@ -187,19 +170,15 @@ Tokens.deleteToken = function(config) {
 };
 
 /**
- * List a user's available scopes. Each item is a metadata
+ * List your available scopes. Each item is a metadata
  * object about the scope, not just the string scope.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#list-scopes).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-scopes).
  *
- * @param {Object} [config]
- * @param {string} [config.ownerId]
  * @return {MapiRequest}
  */
 Tokens.listScopes = function(config) {
-  v.assertShape({
-    ownerId: v.string
-  })(config);
+  v.assertShape({})(config);
 
   return this.client.createRequest({
     method: 'GET',

@@ -12,7 +12,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 var Tilesets = {};
 
 /**
- * List tilesets.
+ * List a user's tilesets.
  *
  * @param {Object} [config]
  * @param {string} [config.ownerId]
