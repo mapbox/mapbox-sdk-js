@@ -265,11 +265,14 @@ Returns **MapiRequest**
 
 Uploads API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][78].
+
 ### listUploads
 
-List all recent upload statuses
+List the statuses of all recent uploads.
 
-See the [public documentation][78].
+See the [corresponding HTTP service documentation][79].
 
 **Parameters**
 
@@ -282,11 +285,11 @@ Returns **MapiRequest**
 
 Create s3 credentials.
 
-See the [public documentation][79].
+See the [corresponding HTTP service documentation][80].
 
 **Parameters**
 
-- `config` **[Object][64]?** 
+- `config`  
 
 Returns **MapiRequest** 
 
@@ -294,22 +297,23 @@ Returns **MapiRequest**
 
 Create an upload.
 
-See the [public documentation][80].
+See the [corresponding HTTP service documentation][81].
 
 **Parameters**
 
 - `config` **[Object][64]** 
-  - `config.mapId` **[string][65]** the map ID to create or replace in the format  username.nameoftileset - limited to 32 characters (only  - and  \_ special characters allowed, limit does not include username)
-  - `config.s3Url` **[string][65]** HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded
-  - `config.tilesetName` **[string][65]?** name for the tileset - limited to 64 characters
+  - `config.mapId` **[string][65]** The map ID to create or replace in the format `username.nameoftileset`.
+      Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
+  - `config.s3Url` **[string][65]** HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded.
+  - `config.tilesetName` **[string][65]?** Name for the tileset. Limited to 64 characters.
 
 Returns **MapiRequest** 
 
 ### getUpload
 
-Get an upload status.
+Get an upload's status.
 
-See the [public documentation][81].
+See the [corresponding HTTP service documentation][82].
 
 **Parameters**
 
@@ -322,7 +326,7 @@ Returns **MapiRequest**
 
 Delete an upload.
 
-See the [public documentation][82].
+See the [corresponding HTTP service documentation][83].
 
 **Parameters**
 
@@ -336,13 +340,13 @@ Returns **MapiRequest**
 Datasets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][83].
+[the HTTP service documentation][84].
 
 ### listDatasets
 
 List datasets in your account.
 
-See the [corresponding HTTP service documentation][84].
+See the [corresponding HTTP service documentation][85].
 
 **Parameters**
 
@@ -354,7 +358,7 @@ Returns **MapiRequest**
 
 Create a new, empty dataset.
 
-See the [corresponding HTTP service documentation][85].
+See the [corresponding HTTP service documentation][86].
 
 **Parameters**
 
@@ -368,7 +372,7 @@ Returns **MapiRequest**
 
 Get metadata about a dataset.
 
-See the [corresponding HTTP service documentation][86].
+See the [corresponding HTTP service documentation][87].
 
 **Parameters**
 
@@ -381,7 +385,7 @@ Returns **MapiRequest**
 
 Update user-defined properties of a dataset's metadata.
 
-See the [corresponding HTTP service documentation][87].
+See the [corresponding HTTP service documentation][88].
 
 **Parameters**
 
@@ -396,7 +400,7 @@ Returns **MapiRequest**
 
 Delete a dataset, including all features it contains.
 
-See the [corresponding HTTP service documentation][88].
+See the [corresponding HTTP service documentation][89].
 
 **Parameters**
 
@@ -412,7 +416,7 @@ List features in a dataset.
 This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
 the `limit` and `start` options.
 
-See the [corresponding HTTP service documentation][89].
+See the [corresponding HTTP service documentation][90].
 
 **Parameters**
 
@@ -428,7 +432,7 @@ Returns **MapiRequest**
 
 Add a feature to a dataset or update an existing one.
 
-See the [corresponding HTTP service documentation][90].
+See the [corresponding HTTP service documentation][91].
 
 **Parameters**
 
@@ -444,7 +448,7 @@ Returns **MapiRequest**
 
 Get a feature in a dataset.
 
-See the [corresponding HTTP service documentation][91].
+See the [corresponding HTTP service documentation][92].
 
 **Parameters**
 
@@ -458,7 +462,7 @@ Returns **MapiRequest**
 
 Delete a feature in a dataset.
 
-See the [corresponding HTTP service documentation][92].
+See the [corresponding HTTP service documentation][93].
 
 **Parameters**
 
@@ -473,7 +477,7 @@ Returns **MapiRequest**
 Tilequery API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][93].
+[the HTTP service documentation][94].
 
 ### listFeatures
 
@@ -498,7 +502,7 @@ Returns **MapiRequest**
 Tilesets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][94].
+[the HTTP service documentation][95].
 
 ### listTilesets
 
@@ -516,13 +520,13 @@ Returns **MapiRequest**
 Geocoding API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][95].
+[the HTTP service documentation][96].
 
 ### forwardGeocode
 
 Search for a place.
 
-See the [public documentation][96].
+See the [public documentation][97].
 
 **Parameters**
 
@@ -530,15 +534,15 @@ See the [public documentation][96].
   - `config.query` **[string][65]** A place name.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.country` **[Array][74]&lt;[string][65]>?** Limits results to one or more countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][97].
+      Each item in the array should be an [ISO 3166 alpha 2 country code][98].
   - `config.proximity` **[Coordinates][77]?** Bias local results based on a provided location.
   - `config.types` **[Array][74]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.autocomplete` **[boolean][72]** Return autocomplete results or not. (optional, default `true`)
-  - `config.bbox` **[BoundingBox][98]?** Limit results to a bounding box.
+  - `config.bbox` **[BoundingBox][99]?** Limit results to a bounding box.
   - `config.limit` **[number][68]** Limit the number of results returned. (optional, default `5`)
   - `config.language` **[Array][74]&lt;[string][65]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
-     Options are [IETF language tags][99] comprised of a mandatory
-     [ISO 639-1 language code][100] and optionally one or more IETF subtags for country or script.
+     Options are [IETF language tags][100] comprised of a mandatory
+     [ISO 639-1 language code][101] and optionally one or more IETF subtags for country or script.
 
 Returns **MapiRequest** 
 
@@ -546,7 +550,7 @@ Returns **MapiRequest**
 
 Search for places near coordinates.
 
-See the [public documentation][101].
+See the [public documentation][102].
 
 **Parameters**
 
@@ -554,13 +558,13 @@ See the [public documentation][101].
   - `config.query` **[Coordinates][77]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.country` **[Array][74]&lt;[string][65]>?** Limits results to one or more countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][97].
+      Each item in the array should be an [ISO 3166 alpha 2 country code][98].
   - `config.types` **[Array][74]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
-  - `config.bbox` **[BoundingBox][98]?** Limit results to a bounding box.
+  - `config.bbox` **[BoundingBox][99]?** Limit results to a bounding box.
   - `config.limit` **[number][68]** Limit the number of results returned. If using this option, you must provide a single item for `types`. (optional, default `1`)
   - `config.language` **[Array][74]&lt;[string][65]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
-     Options are [IETF language tags][99] comprised of a mandatory
-     [ISO 639-1 language code][100] and optionally one or more IETF subtags for country or script.
+     Options are [IETF language tags][100] comprised of a mandatory
+     [ISO 639-1 language code][101] and optionally one or more IETF subtags for country or script.
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
 
 Returns **MapiRequest** 
@@ -570,20 +574,20 @@ Returns **MapiRequest**
 Directions API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][102].
+[the HTTP service documentation][103].
 
 ### getDirections
 
 Get directions.
 
-Please read [the full HTTP service documentation][102]
+Please read [the full HTTP service documentation][103]
 to understand all of the available options.
 
 **Parameters**
 
 - `config` **[Object][64]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][74]&lt;[DirectionsWaypoint][103]>** An ordered array of [`DirectionsWaypoint`][52] objects, between 2 and 25 (inclusive).
+  - `config.waypoints` **[Array][74]&lt;[DirectionsWaypoint][104]>** An ordered array of [`DirectionsWaypoint`][52] objects, between 2 and 25 (inclusive).
   - `config.alternatives` **[boolean][72]** Whether to try to return alternative routes. (optional, default `false`)
   - `config.annotations` **[Array][74]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Specify additional metadata that should be returned.
   - `config.bannerInstructions` **[boolean][72]** Should be used in conjunction with `steps`. (optional, default `false`)
@@ -591,7 +595,7 @@ to understand all of the available options.
   - `config.exclude` **[string][65]?** Exclude certain road types from routing. See HTTP service documentation for options.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
   - `config.language` **[string][65]** Language of returned turn-by-turn text instructions.
-      See options listed in [the HTTP service documentation][104]. (optional, default `"en"`)
+      See options listed in [the HTTP service documentation][105]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
   - `config.roundaboutExits` **[boolean][72]** Emit insbtructions at roundabout exits. (optional, default `false`)
   - `config.steps` **[boolean][72]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
@@ -605,7 +609,7 @@ Returns **MapiRequest**
 Map Matching API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][105].
+[the HTTP service documentation][106].
 
 ### getMatching
 
@@ -614,12 +618,12 @@ Snap recorded location traces to roads and paths.
 **Parameters**
 
 - `config` **[Object][64]** 
-  - `config.points` **[Array][74]&lt;[MapMatchingPoint][106]>** An ordered array of [`MapMatchingPoint`][53]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][74]&lt;[MapMatchingPoint][107]>** An ordered array of [`MapMatchingPoint`][53]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A directions profile ID. (optional, default `driving`)
   - `config.annotations` **[Array][74]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
   - `config.language` **[string][65]** Language of returned turn-by-turn text instructions.
-      See [supported languages][104]. (optional, default `"en"`)
+      See [supported languages][105]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
   - `config.steps` **[boolean][72]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.tidy` **[boolean][72]** Whether or not to transparently remove clusters and re-sample traces for improved map matching results. (optional, default `false`)
@@ -631,7 +635,7 @@ Returns **MapiRequest**
 Map Matching API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][107].
+[the HTTP service documentation][108].
 
 ### getMatrix
 
@@ -640,7 +644,7 @@ Get a duration and/or distance matrix showing travel times and distances between
 **Parameters**
 
 - `config` **[Object][64]** 
-  - `config.points` **[Array][74]&lt;[MatrixPoint][108]>** An ordered array of [`MatrixPoint`][54]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][74]&lt;[MatrixPoint][109]>** An ordered array of [`MatrixPoint`][54]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
   - `config.sources` **(`"all"` \| [Array][74]&lt;[number][68]>)?** Use coordinates with given index as sources.
   - `config.destinations` **(`"all"` \| [Array][74]&lt;[number][68]>)?** Use coordinates with given index as destinations.
@@ -653,13 +657,13 @@ Returns **MapiRequest**
 Tokens API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][109].
+[the HTTP service documentation][110].
 
 ### listTokens
 
 List your access tokens.
 
-See the [corresponding HTTP service documentation][110].
+See the [corresponding HTTP service documentation][111].
 
 **Parameters**
 
@@ -671,7 +675,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [corresponding HTTP service documentation][111].
+See the [corresponding HTTP service documentation][112].
 
 **Parameters**
 
@@ -686,7 +690,7 @@ Returns **MapiRequest**
 
 Create a new temporary access token.
 
-See the [corresponding HTTP service documentation][112].
+See the [corresponding HTTP service documentation][113].
 
 **Parameters**
 
@@ -700,7 +704,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [corresponding HTTP service documentation][113].
+See the [corresponding HTTP service documentation][114].
 
 **Parameters**
 
@@ -716,7 +720,7 @@ Returns **MapiRequest**
 
 Get data about the client's access token.
 
-See the [corresponding HTTP service documentation][114].
+See the [corresponding HTTP service documentation][115].
 
 **Parameters**
 
@@ -728,7 +732,7 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [corresponding HTTP service documentation][115].
+See the [corresponding HTTP service documentation][116].
 
 **Parameters**
 
@@ -742,7 +746,7 @@ Returns **MapiRequest**
 List your available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [corresponding HTTP service documentation][116].
+See the [corresponding HTTP service documentation][117].
 
 **Parameters**
 
@@ -802,7 +806,7 @@ Type: [Object][64]
   - `marker.coordinates` **\[[number][68], [number][68]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
   - `marker.label` **[string][65]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][117]
+      through `z`, `0` through `99`, or a valid [Maki][118]
       icon. If a letter is requested, it will be rendered in uppercase only.
   - `marker.color` **[string][65]?** A 3- or 6-digit hexadecimal color code.
 
@@ -863,7 +867,7 @@ In Node, files must be `ReadableStream`s or paths pointing for the file in the f
 
 In the browser, files must be `Blob`s or `ArrayBuffer`s.
 
-Type: ([Blob][118] \| [ArrayBuffer][119] \| [string][65] | ReadableStream)
+Type: ([Blob][119] \| [ArrayBuffer][120] \| [string][65] | ReadableStream)
 
 [1]: #styles
 
@@ -1021,84 +1025,86 @@ Type: ([Blob][118] \| [ArrayBuffer][119] \| [string][65] | ReadableStream)
 
 [78]: https://www.mapbox.com/api-documentation/#uploads
 
-[79]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
+[79]: https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses
 
-[80]: https://www.mapbox.com/api-documentation/#create-an-upload
+[80]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
 
-[81]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
+[81]: https://www.mapbox.com/api-documentation/#create-an-upload
 
-[82]: https://www.mapbox.com/api-documentation/#remove-an-upload
+[82]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
 
-[83]: https://www.mapbox.com/api-documentation/#datasets
+[83]: https://www.mapbox.com/api-documentation/#remove-an-upload
 
-[84]: https://www.mapbox.com/api-documentation/#list-datasets
+[84]: https://www.mapbox.com/api-documentation/#datasets
 
-[85]: https://www.mapbox.com/api-documentation/#create-dataset
+[85]: https://www.mapbox.com/api-documentation/#list-datasets
 
-[86]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+[86]: https://www.mapbox.com/api-documentation/#create-dataset
 
-[87]: https://www.mapbox.com/api-documentation/#update-a-dataset
+[87]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
 
-[88]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+[88]: https://www.mapbox.com/api-documentation/#update-a-dataset
 
-[89]: https://www.mapbox.com/api-documentation/#list-features
+[89]: https://www.mapbox.com/api-documentation/#delete-a-dataset
 
-[90]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+[90]: https://www.mapbox.com/api-documentation/#list-features
 
-[91]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+[91]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
 
-[92]: https://www.mapbox.com/api-documentation/#delete-a-feature
+[92]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
 
-[93]: https://www.mapbox.com/api-documentation/#tilequery
+[93]: https://www.mapbox.com/api-documentation/#delete-a-feature
 
-[94]: https://www.mapbox.com/api-documentation/#tilesets
+[94]: https://www.mapbox.com/api-documentation/#tilequery
 
-[95]: https://www.mapbox.com/api-documentation/#geocoding
+[95]: https://www.mapbox.com/api-documentation/#tilesets
 
-[96]: https://www.mapbox.com/api-documentation/#search-for-places
+[96]: https://www.mapbox.com/api-documentation/#geocoding
 
-[97]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+[97]: https://www.mapbox.com/api-documentation/#search-for-places
 
-[98]: #boundingbox
+[98]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-[99]: https://en.wikipedia.org/wiki/IETF_language_tag
+[99]: #boundingbox
 
-[100]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+[100]: https://en.wikipedia.org/wiki/IETF_language_tag
 
-[101]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
+[101]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
-[102]: https://www.mapbox.com/api-documentation/#directions
+[102]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
 
-[103]: #directionswaypoint
+[103]: https://www.mapbox.com/api-documentation/#directions
 
-[104]: https://www.mapbox.com/api-documentation/#instructions-languages
+[104]: #directionswaypoint
 
-[105]: https://www.mapbox.com/api-documentation/#map-matching
+[105]: https://www.mapbox.com/api-documentation/#instructions-languages
 
-[106]: #mapmatchingpoint
+[106]: https://www.mapbox.com/api-documentation/#map-matching
 
-[107]: https://www.mapbox.com/api-documentation/#matrix
+[107]: #mapmatchingpoint
 
-[108]: #matrixpoint
+[108]: https://www.mapbox.com/api-documentation/#matrix
 
-[109]: https://www.mapbox.com/api-documentation/#tokens
+[109]: #matrixpoint
 
-[110]: https://www.mapbox.com/api-documentation/#list-tokens
+[110]: https://www.mapbox.com/api-documentation/#tokens
 
-[111]: https://www.mapbox.com/api-documentation/#create-token
+[111]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[112]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[112]: https://www.mapbox.com/api-documentation/#create-token
 
-[113]: https://www.mapbox.com/api-documentation/#update-a-token
+[113]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[114]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[114]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[115]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[115]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[116]: https://www.mapbox.com/api-documentation/#list-scopes
+[116]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[117]: https://www.mapbox.com/maki/
+[117]: https://www.mapbox.com/api-documentation/#list-scopes
 
-[118]: https://developer.mozilla.org/docs/Web/API/Blob
+[118]: https://www.mapbox.com/maki/
 
-[119]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[119]: https://developer.mozilla.org/docs/Web/API/Blob
+
+[120]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
