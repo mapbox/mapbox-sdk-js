@@ -55,6 +55,7 @@
 - [Data structures](#data-structures)
   - [DirectionsWaypoint](#directionswaypoint)
   - [MapMatchingPoint](#mapmatchingpoint)
+  - [MatrixPoint](#matrixpoint)
   - [SimpleMarkerOverlay](#simplemarkeroverlay)
   - [CustomMarkerOverlay](#custommarkeroverlay)
   - [PathOverlay](#pathoverlay)
@@ -62,8 +63,6 @@
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
 - [UploadableFile](#uploadablefile)
-- [MatrixPoint](#matrixpoint)
-  - [Properties](#properties-6)
 
 ## Styles
 
@@ -248,10 +247,10 @@ SDK returned.
   - `config.pitch` **[number][114]?** Between 0 and 60.
   - `config.overlay` **[Array][120]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
-      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][95]
-    - [`CustomMarkerOverlay`][97]
-    - [`PathOverlay`][99]
-    - [`GeoJsonOverlay`][101]
+      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][97]
+    - [`CustomMarkerOverlay`][99]
+    - [`PathOverlay`][101]
+    - [`GeoJsonOverlay`][103]
   - `config.highRes` **[boolean][118]**  (optional, default `false`)
   - `config.insertOverlayBeforeLayer` **[string][111]?** The ID of the style layer
       that overlays should be inserted *before*.
@@ -640,7 +639,7 @@ Get a duration and/or distance matrix showing travel times and distances between
 #### Parameters
 
 - `config` **[Object][110]** 
-  - `config.points` **[Array][120]&lt;[MatrixPoint][154]>** An ordered array of [`MatrixPoint`][106]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][120]&lt;[MatrixPoint][154]>** An ordered array of [`MatrixPoint`][95]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
   - `config.sources` **(`"all"` \| [Array][120]&lt;[number][114]>)?** Use coordinates with given index as sources.
   - `config.destinations` **(`"all"` \| [Array][120]&lt;[number][114]>)?** Use coordinates with given index as destinations.
@@ -790,6 +789,15 @@ Type: [Object][110]
 - `waypointName` **[string][111]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
 - `timestamp` **(tring | [number][114] \| [Date][115])?** Datetime corresponding to the coordinate.
 
+### MatrixPoint
+
+Type: [Object][110]
+
+#### Properties
+
+- `coordinates` **[Coordinates][123]** `[longitude, latitude]`
+- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
+
 ### SimpleMarkerOverlay
 
 A simple marker overlay.
@@ -864,15 +872,6 @@ In Node, files must be `ReadableStream`s or paths pointing for the file in the f
 In the browser, files must be `Blob`s or `ArrayBuffer`s.
 
 Type: ([Blob][163] \| [ArrayBuffer][164] \| [string][111] | ReadableStream)
-
-## MatrixPoint
-
-Type: [Object][110]
-
-### Properties
-
-- `coordinates` **[Coordinates][123]** `[longitude, latitude]`
-- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
 [1]: #styles
 
@@ -1062,31 +1061,31 @@ Type: [Object][110]
 
 [94]: #properties-1
 
-[95]: #simplemarkeroverlay
+[95]: #matrixpoint
 
 [96]: #properties-2
 
-[97]: #custommarkeroverlay
+[97]: #simplemarkeroverlay
 
 [98]: #properties-3
 
-[99]: #pathoverlay
+[99]: #custommarkeroverlay
 
 [100]: #properties-4
 
-[101]: #geojsonoverlay
+[101]: #pathoverlay
 
 [102]: #properties-5
 
-[103]: #coordinates
+[103]: #geojsonoverlay
 
-[104]: #boundingbox
+[104]: #properties-6
 
-[105]: #uploadablefile
+[105]: #coordinates
 
-[106]: #matrixpoint
+[106]: #boundingbox
 
-[107]: #properties-6
+[107]: #uploadablefile
 
 [108]: https://www.mapbox.com/api-documentation/#styles
 
