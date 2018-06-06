@@ -245,7 +245,7 @@ SDK returned.
   - `config.zoom` **[number][114]** Between 0 and 20.
   - `config.bearing` **[number][114]?** Between 0 and 360.
   - `config.pitch` **[number][114]?** Between 0 and 60.
-  - `config.overlay` **[Array][120]&lt;Overlay>?** Overlays should be in z-index
+  - `config.overlays` **[Array][120]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
       the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][97]
     - [`CustomMarkerOverlay`][99]

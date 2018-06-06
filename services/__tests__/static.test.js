@@ -93,7 +93,7 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: [
+      overlays: [
         // Simple markers.
         {
           marker: {
@@ -142,11 +142,13 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: {
-        marker: {
-          coordinates: [12.2, 12.8]
+      overlays: [
+        {
+          marker: {
+            coordinates: [12.2, 12.8]
+          }
         }
-      },
+      ],
       insertOverlayBeforeLayer: 'national_park'
     });
     expect(tu.requestConfig(service)).toEqual({
@@ -166,7 +168,7 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: [
+      overlays: [
         {
           geoJson: {
             type: 'Feature',
@@ -199,7 +201,7 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: [
+      overlays: [
         {
           geoJson: {
             type: 'FeatureCollection',
@@ -242,7 +244,7 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: [
+      overlays: [
         {
           path: {
             coordinates: [
@@ -270,7 +272,7 @@ describe('getStaticImage', () => {
       height: 300,
       coordinates: [12, 13],
       zoom: 3,
-      overlay: [
+      overlays: [
         {
           path: {
             coordinates: [
