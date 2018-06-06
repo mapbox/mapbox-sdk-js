@@ -55,17 +55,13 @@
 - [Data structures](#data-structures)
   - [DirectionsWaypoint](#directionswaypoint)
   - [MapMatchingPoint](#mapmatchingpoint)
+  - [SimpleMarkerOverlay](#simplemarkeroverlay)
+  - [CustomMarkerOverlay](#custommarkeroverlay)
+  - [PathOverlay](#pathoverlay)
+  - [GeoJsonOverlay](#geojsonoverlay)
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
 - [MatrixPoint](#matrixpoint)
-  - [Properties](#properties-2)
-- [SimpleMarkerOverlay](#simplemarkeroverlay)
-  - [Properties](#properties-3)
-- [CustomMarkerOverlay](#custommarkeroverlay)
-  - [Properties](#properties-4)
-- [PathOverlay](#pathoverlay)
-  - [Properties](#properties-5)
-- [GeoJsonOverlay](#geojsonoverlay)
   - [Properties](#properties-6)
 
 ## Styles
@@ -223,14 +219,16 @@ See [the public documentation][120].
 
 Static API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][121].
+
 ### getStaticImage
 
 Get a static map image.
 
-See [the public documentation][121].
-
 **If you just want the URL for the static map image, create a request
-and get it's URL with `MapiRequest#url`.**
+and get it's URL with `MapiRequest#url`.** This is what prior versions of the
+SDK returned.
 
 #### Parameters
 
@@ -239,19 +237,18 @@ and get it's URL with `MapiRequest#url`.**
   - `config.styleId` **[string][109]** The map's style ID.
   - `config.width` **[number][112]** Width of the image in pixels, between 1 and 1280.
   - `config.height` **[number][112]** Height of the image in pixels, between 1 and 1280.
-  - `config.coordinates` **(\[[number][112], [number][112]] | `"auto"`)** `[longitude, latitude]`
+  - `config.coordinates` **([Coordinates][122] \| `"auto"`)** `[longitude, latitude]`
       for the center of image; or `'auto'` to fit the map within the bounds of
       the overlay features.
   - `config.zoom` **[number][112]** Between 0 and 20.
   - `config.bearing` **[number][112]?** Between 0 and 360.
   - `config.pitch` **[number][112]?** Between 0 and 60.
-  - `config.overlay` **(Overlay | [Array][119]&lt;Overlay>)?** One or more overlays.
-      Overlays should be in z-index order: the first in the array will be on the
-      bottom; the last will be on the top. Overlays are objects that match one
-      of the following types.-   [`SimpleMarkerOverlay`][99]
-    - [`CustomMarkerOverlay`][101]
-    - [`PathOverlay`][103]
-    - [`GeoJsonOverlay`][105]
+  - `config.overlay` **[Array][119]&lt;Overlay>?** Overlays should be in z-index
+      order: the first in the array will be on the bottom; the last will be on
+      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][95]
+    - [`CustomMarkerOverlay`][97]
+    - [`PathOverlay`][99]
+    - [`GeoJsonOverlay`][101]
   - `config.highRes` **[boolean][117]**  (optional, default `false`)
   - `config.insertOverlayBeforeLayer` **[string][109]?** The ID of the style layer
       that overlays should be inserted *before*.
@@ -270,7 +267,7 @@ Uploads API service.
 
 List all recent upload statuses
 
-See the [public documentation][122].
+See the [public documentation][123].
 
 #### Parameters
 
@@ -283,7 +280,7 @@ Returns **MapiRequest**
 
 Create s3 credentials.
 
-See the [public documentation][123].
+See the [public documentation][124].
 
 #### Parameters
 
@@ -295,7 +292,7 @@ Returns **MapiRequest**
 
 Create an upload.
 
-See the [public documentation][124].
+See the [public documentation][125].
 
 #### Parameters
 
@@ -310,7 +307,7 @@ Returns **MapiRequest**
 
 Get an upload status.
 
-See the [public documentation][125].
+See the [public documentation][126].
 
 #### Parameters
 
@@ -323,7 +320,7 @@ Returns **MapiRequest**
 
 Delete an upload.
 
-See the [public documentation][126].
+See the [public documentation][127].
 
 #### Parameters
 
@@ -337,13 +334,13 @@ Returns **MapiRequest**
 Datasets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][127].
+[the HTTP service documentation][128].
 
 ### listDatasets
 
 List datasets in your account.
 
-See the [corresponding HTTP service documentation][128].
+See the [corresponding HTTP service documentation][129].
 
 #### Parameters
 
@@ -355,7 +352,7 @@ Returns **MapiRequest**
 
 Create a new, empty dataset.
 
-See the [corresponding HTTP service documentation][129].
+See the [corresponding HTTP service documentation][130].
 
 #### Parameters
 
@@ -369,7 +366,7 @@ Returns **MapiRequest**
 
 Get metadata about a dataset.
 
-See the [corresponding HTTP service documentation][130].
+See the [corresponding HTTP service documentation][131].
 
 #### Parameters
 
@@ -382,7 +379,7 @@ Returns **MapiRequest**
 
 Update user-defined properties of a dataset's metadata.
 
-See the [corresponding HTTP service documentation][131].
+See the [corresponding HTTP service documentation][132].
 
 #### Parameters
 
@@ -397,7 +394,7 @@ Returns **MapiRequest**
 
 Delete a dataset, including all features it contains.
 
-See the [corresponding HTTP service documentation][132].
+See the [corresponding HTTP service documentation][133].
 
 #### Parameters
 
@@ -413,7 +410,7 @@ List features in a dataset.
 This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
 the `limit` and `start` options.
 
-See the [corresponding HTTP service documentation][133].
+See the [corresponding HTTP service documentation][134].
 
 #### Parameters
 
@@ -429,7 +426,7 @@ Returns **MapiRequest**
 
 Add a feature to a dataset or update an existing one.
 
-See the [corresponding HTTP service documentation][134].
+See the [corresponding HTTP service documentation][135].
 
 #### Parameters
 
@@ -445,7 +442,7 @@ Returns **MapiRequest**
 
 Get a feature in a dataset.
 
-See the [corresponding HTTP service documentation][135].
+See the [corresponding HTTP service documentation][136].
 
 #### Parameters
 
@@ -459,7 +456,7 @@ Returns **MapiRequest**
 
 Delete a feature in a dataset.
 
-See the [corresponding HTTP service documentation][136].
+See the [corresponding HTTP service documentation][137].
 
 #### Parameters
 
@@ -477,7 +474,7 @@ Tilequery API service.
 
 List features within a radius of a point on a map (or several maps).
 
-See the [public documentation][137].
+See the [public documentation][138].
 
 #### Parameters
 
@@ -502,7 +499,7 @@ Tilesets API service.
 
 List a user's tilesets.
 
-See the [public documentation][138].
+See the [public documentation][139].
 
 #### Parameters
 
@@ -516,13 +513,13 @@ Returns **MapiRequest**
 Geocoding API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][139].
+[the HTTP service documentation][140].
 
 ### forwardGeocode
 
 Search for a place.
 
-See the [public documentation][140].
+See the [public documentation][141].
 
 #### Parameters
 
@@ -530,8 +527,8 @@ See the [public documentation][140].
   - `config.query` **[string][109]** A place name.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.country` **[Array][119]&lt;[string][109]>?** Limits results to one or more countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][141].
-  - `config.proximity` **[Coordinates][142]?** Bias local results based on a provided location.
+      Each item in the array should be an [ISO 3166 alpha 2 country code][142].
+  - `config.proximity` **[Coordinates][122]?** Bias local results based on a provided location.
   - `config.types` **[Array][119]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.autocomplete` **[boolean][117]** Return autocomplete results or not. (optional, default `true`)
   - `config.bbox` **[BoundingBox][143]?** Limit results to a bounding box.
@@ -551,10 +548,10 @@ See the [public documentation][146].
 #### Parameters
 
 - `config` **[Object][108]** 
-  - `config.query` **[Coordinates][142]** Coordinates at which features will be searched.
+  - `config.query` **[Coordinates][122]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.country` **[Array][119]&lt;[string][109]>?** Limits results to one or more countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][141].
+      Each item in the array should be an [ISO 3166 alpha 2 country code][142].
   - `config.types` **[Array][119]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.bbox` **[BoundingBox][143]?** Limit results to a bounding box.
   - `config.limit` **[number][112]** Limit the number of results returned. If using this option, you must provide a single item for `types`. (optional, default `1`)
@@ -640,7 +637,7 @@ Get a duration and/or distance matrix showing travel times and distances between
 #### Parameters
 
 - `config` **[Object][108]** 
-  - `config.points` **[Array][119]&lt;[MatrixPoint][153]>** An ordered array of [`MatrixPoint`][97]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][119]&lt;[MatrixPoint][153]>** An ordered array of [`MatrixPoint`][105]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
   - `config.sources` **(`"all"` \| [Array][119]&lt;[number][112]>)?** Use coordinates with given index as sources.
   - `config.destinations` **(`"all"` \| [Array][119]&lt;[number][112]>)?** Use coordinates with given index as destinations.
@@ -769,7 +766,7 @@ Type: [Object][108]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][122]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
 - `bearing` **\[[number][112], [number][112]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
@@ -783,12 +780,67 @@ Type: [Object][108]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][122]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
 - `radius` **[number][112]?** A number in meters indicating the assumed precision of the used tracking device.
 - `isWaypoint` **[boolean][117]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
 - `waypointName` **[string][109]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
 - `timestamp` **(tring | [number][112] \| [Date][113])?** Datetime corresponding to the coordinate.
+
+### SimpleMarkerOverlay
+
+A simple marker overlay.
+
+Type: [Object][108]
+
+#### Properties
+
+- `marker` **[Object][108]** 
+  - `marker.coordinates` **\[[number][112], [number][112]]** `[longitude, latitude]`
+  - `marker.size` **(`"large"` \| `"small"`)?** 
+  - `marker.label` **[string][109]?** Marker symbol. Options are an alphanumeric label `a`
+      through `z`, `0` through `99`, or a valid [Maki][161]
+      icon. If a letter is requested, it will be rendered in uppercase only.
+  - `marker.color` **[string][109]?** A 3- or 6-digit hexadecimal color code.
+
+### CustomMarkerOverlay
+
+A marker overlay with a custom image.
+
+Type: [Object][108]
+
+#### Properties
+
+- `marker` **[Object][108]** 
+  - `marker.coordinates` **\[[number][112], [number][112]]** `[longitude, latitude]`
+  - `marker.url` **[string][109]** 
+
+### PathOverlay
+
+A stylable line.
+
+Type: [Object][108]
+
+#### Properties
+
+- `path` **[Object][108]** 
+  - `path.coordinates` **[Array][119]&lt;\[[number][112], [number][112]]>** An array of coordinates
+      describing the path.
+  - `path.strokeWidth` **[number][112]?** 
+  - `path.strokeColor` **[string][109]?** 
+  - `path.strokeOpacity` **[number][112]?** Must be paired with strokeColor.
+  - `path.fillColor` **[string][109]?** Must be paired with strokeColor.
+  - `path.fillOpacity` **[number][112]?** Must be paired with fillColor.
+
+### GeoJsonOverlay
+
+GeoJSON to overlay the map.
+
+Type: [Object][108]
+
+#### Properties
+
+- `geoJson` **[Object][108]** Valid GeoJSON.
 
 ### Coordinates
 
@@ -808,63 +860,8 @@ Type: [Object][108]
 
 ### Properties
 
-- `coordinates` **[Coordinates][142]** `[longitude, latitude]`
+- `coordinates` **[Coordinates][122]** `[longitude, latitude]`
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
-
-## SimpleMarkerOverlay
-
-A simple marker overlay.
-
-Type: [Object][108]
-
-### Properties
-
-- `marker` **[Object][108]** 
-  - `marker.coordinates` **\[[number][112], [number][112]]** `[longitude, latitude]`
-  - `marker.size` **(`"large"` \| `"small"`)?** 
-  - `marker.label` **[string][109]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][161]
-      icon. If a letter is requested, it will be rendered in uppercase only.
-  - `marker.color` **[string][109]?** A 3- or 6-digit hexadecimal color code.
-
-## CustomMarkerOverlay
-
-A marker overlay with a custom image.
-
-Type: [Object][108]
-
-### Properties
-
-- `marker` **[Object][108]** 
-  - `marker.coordinates` **\[[number][112], [number][112]]** `[longitude, latitude]`
-  - `marker.url` **[string][109]** 
-
-## PathOverlay
-
-A stylable line.
-
-Type: [Object][108]
-
-### Properties
-
-- `path` **[Object][108]** 
-  - `path.coordinates` **[Array][119]&lt;\[[number][112], [number][112]]>** An array of coordinates
-      describing the path.
-  - `path.strokeWidth` **[number][112]?** 
-  - `path.strokeColor` **[string][109]?** 
-  - `path.strokeOpacity` **[number][112]?** Must be paired with strokeColor.
-  - `path.fillColor` **[string][109]?** Must be paired with strokeColor.
-  - `path.fillOpacity` **[number][112]?** Must be paired with fillColor.
-
-## GeoJsonOverlay
-
-GeoJSON to overlay the map.
-
-Type: [Object][108]
-
-### Properties
-
-- `geoJson` **[Object][108]** Valid GeoJSON.
 
 [1]: #styles
 
@@ -1054,27 +1051,27 @@ Type: [Object][108]
 
 [94]: #properties-1
 
-[95]: #coordinates
+[95]: #simplemarkeroverlay
 
-[96]: #boundingbox
+[96]: #properties-2
 
-[97]: #matrixpoint
+[97]: #custommarkeroverlay
 
-[98]: #properties-2
+[98]: #properties-3
 
-[99]: #simplemarkeroverlay
+[99]: #pathoverlay
 
-[100]: #properties-3
+[100]: #properties-4
 
-[101]: #custommarkeroverlay
+[101]: #geojsonoverlay
 
-[102]: #properties-4
+[102]: #properties-5
 
-[103]: #pathoverlay
+[103]: #coordinates
 
-[104]: #properties-5
+[104]: #boundingbox
 
-[105]: #geojsonoverlay
+[105]: #matrixpoint
 
 [106]: #properties-6
 
@@ -1106,49 +1103,49 @@ Type: [Object][108]
 
 [120]: https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style
 
-[121]: https://www.mapbox.com/api-documentation/#retrieve-a-static-map-from-a-style
+[121]: https://www.mapbox.com/api-documentation/#static
 
-[122]: https://www.mapbox.com/api-documentation/#uploads
+[122]: #coordinates
 
-[123]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
+[123]: https://www.mapbox.com/api-documentation/#uploads
 
-[124]: https://www.mapbox.com/api-documentation/#create-an-upload
+[124]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
 
-[125]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
+[125]: https://www.mapbox.com/api-documentation/#create-an-upload
 
-[126]: https://www.mapbox.com/api-documentation/#remove-an-upload
+[126]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
 
-[127]: https://www.mapbox.com/api-documentation/#datasets
+[127]: https://www.mapbox.com/api-documentation/#remove-an-upload
 
-[128]: https://www.mapbox.com/api-documentation/#list-datasets
+[128]: https://www.mapbox.com/api-documentation/#datasets
 
-[129]: https://www.mapbox.com/api-documentation/#create-dataset
+[129]: https://www.mapbox.com/api-documentation/#list-datasets
 
-[130]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+[130]: https://www.mapbox.com/api-documentation/#create-dataset
 
-[131]: https://www.mapbox.com/api-documentation/#update-a-dataset
+[131]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
 
-[132]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+[132]: https://www.mapbox.com/api-documentation/#update-a-dataset
 
-[133]: https://www.mapbox.com/api-documentation/#list-features
+[133]: https://www.mapbox.com/api-documentation/#delete-a-dataset
 
-[134]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+[134]: https://www.mapbox.com/api-documentation/#list-features
 
-[135]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+[135]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
 
-[136]: https://www.mapbox.com/api-documentation/#delete-a-feature
+[136]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
 
-[137]: https://www.mapbox.com/api-documentation/#tilequery
+[137]: https://www.mapbox.com/api-documentation/#delete-a-feature
 
-[138]: https://www.mapbox.com/api-documentation/#list-tilesets
+[138]: https://www.mapbox.com/api-documentation/#tilequery
 
-[139]: https://www.mapbox.com/api-documentation/#geocoding
+[139]: https://www.mapbox.com/api-documentation/#list-tilesets
 
-[140]: https://www.mapbox.com/api-documentation/#search-for-places
+[140]: https://www.mapbox.com/api-documentation/#geocoding
 
-[141]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+[141]: https://www.mapbox.com/api-documentation/#search-for-places
 
-[142]: #coordinates
+[142]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
 [143]: #boundingbox
 
