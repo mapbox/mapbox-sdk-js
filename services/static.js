@@ -7,32 +7,33 @@ var pick = require('./service-helpers/pick');
 
 /**
  * Static API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#static).
  */
 var Static = {};
 
 /**
  * Get a static map image.
  *
- * See [the public documentation](https://www.mapbox.com/api-documentation/#retrieve-a-static-map-from-a-style).
- *
  * **If you just want the URL for the static map image, create a request
- * and get it's URL with `MapiRequest#url`.**
+ * and get it's URL with `MapiRequest#url`.** This is what prior versions of the
+ * SDK returned.
  *
  * @param {Object} config
  * @param {string} config.ownerId - The owner of the map style.
  * @param {string} config.styleId - The map's style ID.
  * @param {number} config.width - Width of the image in pixels, between 1 and 1280.
  * @param {number} config.height - Height of the image in pixels, between 1 and 1280.
- * @param {[number, number]|'auto'} config.coordinates - `[longitude, latitude]`
+ * @param {Coordinates|'auto'} config.coordinates - `[longitude, latitude]`
  *   for the center of image; or `'auto'` to fit the map within the bounds of
  *   the overlay features.
  * @param {number} config.zoom - Between 0 and 20.
  * @param {number} [config.bearing] - Between 0 and 360.
  * @param {number} [config.pitch] - Between 0 and 60.
- * @param {Overlay|Array<Overlay>} [config.overlay] - One or more overlays.
- *   Overlays should be in z-index order: the first in the array will be on the
- *   bottom; the last will be on the top. Overlays are objects that match one
- *   of the following types.
+ * @param {Array<Overlay>} [config.overlay] - Overlays should be in z-index
+ *   order: the first in the array will be on the bottom; the last will be on
+ *   the top. Overlays are objects that match one of the following types.
  *   - [`SimpleMarkerOverlay`](#simplemarkeroverlay)
  *   - [`CustomMarkerOverlay`](#custommarkeroverlay)
  *   - [`PathOverlay`](#pathoverlay)
@@ -56,15 +57,14 @@ Static.getStaticImage = function(config) {
     zoom: v.required(v.range([0, 20])),
     bearing: v.range([0, 360]),
     pitch: v.range([0, 60]),
-    overlay: v.oneOfType(v.plainObject, v.arrayOf(v.plainObject)),
+    overlay: v.arrayOf(v.plainObject),
     highRes: v.boolean,
     insertOverlayBeforeLayer: v.string,
     attribution: v.boolean,
     logo: v.boolean
   })(config);
 
-  var encodedOverlay = []
-    .concat(config.overlay || [])
+  var encodedOverlay = (config.overlay || [])
     .map(function(overlayItem) {
       if (overlayItem.marker) {
         return encodeMarkerOverlay(overlayItem.marker);

@@ -17,6 +17,10 @@ toc:
       - DirectionsWaypoint
       - MapMatchingPoint
       - MatrixPath
+      - SimpleMarkerOverlay
+      - CustomMarkerOverlay
+      - PathOverlay
+      - GeoJsonOverlay
       - Coordinates
       - BoundingBox
 
