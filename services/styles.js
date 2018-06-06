@@ -267,7 +267,7 @@ Styles.getFontGlyphRange = function(config) {
  * @param {Object} config
  * @param {string} styleId
  * @param {boolean} [scrollZoom=true] - If `false`, zooming the map by scrolling will
- *   be disbaled.
+ *   be disabled.
  * @param {boolean} [title=false] - If `true`, the map's title and owner is displayed
  *   in the upper right corner of the map.
  * @param {ownerId} [ownerId]
