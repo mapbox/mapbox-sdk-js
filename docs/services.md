@@ -497,11 +497,12 @@ Returns **MapiRequest**
 
 Tilesets API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][94].
+
 ### listTilesets
 
-List a user's tilesets.
-
-See the [public documentation][94].
+List tilesets.
 
 **Parameters**
 
@@ -1059,7 +1060,7 @@ Type: ([Blob][117] \| [ArrayBuffer][118] \| [string][65] | ReadableStream)
 
 [93]: https://www.mapbox.com/api-documentation/#tilequery
 
-[94]: https://www.mapbox.com/api-documentation/#list-tilesets
+[94]: https://www.mapbox.com/api-documentation/#tilesets
 
 [95]: https://www.mapbox.com/api-documentation/#geocoding
 
