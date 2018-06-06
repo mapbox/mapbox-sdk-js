@@ -62,7 +62,7 @@ The `emitter` property is an `EventEmitter` that emits the following events:
     a new request that is the equivalent of an existing one, use
     [`clone`][11].
 - `path` **[string][18]** The request's path, including colon-prefixed route
-    paratemers.
+    parameters.
 - `origin` **[string][18]** The request's origin.
 - `method` **[string][18]** The request's HTTP method.
 - `query` **[Object][24]** A query object, which will be transformed into
@@ -120,7 +120,7 @@ will happen.
 
 Invoke a callback for each page of a paginated API response.
 
-The callback should have the following signautre:
+The callback should have the following signature:
 
 ```js
 (

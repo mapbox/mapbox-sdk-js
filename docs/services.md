@@ -212,7 +212,7 @@ See [the corresponding HTTP service documentation][121].
 - `config` **[Object][110]** 
 - `styleId` **[string][111]** 
 - `scrollZoom` **[boolean][118]** If `false`, zooming the map by scrolling will
-    be disbaled. (optional, default `true`)
+    be disabled. (optional, default `true`)
 - `title` **[boolean][118]** If `true`, the map's title and owner is displayed
     in the upper right corner of the map. (optional, default `false`)
 - `ownerId` **ownerId?** 
