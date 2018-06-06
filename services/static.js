@@ -31,7 +31,7 @@ var Static = {};
  * @param {number} config.zoom - Between 0 and 20.
  * @param {number} [config.bearing] - Between 0 and 360.
  * @param {number} [config.pitch] - Between 0 and 60.
- * @param {Array<Overlay>} [config.overlay] - Overlays should be in z-index
+ * @param {Array<Overlay>} [config.overlays] - Overlays should be in z-index
  *   order: the first in the array will be on the bottom; the last will be on
  *   the top. Overlays are objects that match one of the following types.
  *   - [`SimpleMarkerOverlay`](#simplemarkeroverlay)
@@ -57,14 +57,14 @@ Static.getStaticImage = function(config) {
     zoom: v.required(v.range([0, 20])),
     bearing: v.range([0, 360]),
     pitch: v.range([0, 60]),
-    overlay: v.arrayOf(v.plainObject),
+    overlays: v.arrayOf(v.plainObject),
     highRes: v.boolean,
     insertOverlayBeforeLayer: v.string,
     attribution: v.boolean,
     logo: v.boolean
   })(config);
 
-  var encodedOverlay = (config.overlay || [])
+  var encodedOverlay = (config.overlays || [])
     .map(function(overlayItem) {
       if (overlayItem.marker) {
         return encodeMarkerOverlay(overlayItem.marker);
