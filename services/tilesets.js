@@ -5,13 +5,14 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
  * Tilesets API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#tilesets).
  */
 var Tilesets = {};
 
 /**
- * List a user's tilesets.
- *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#list-tilesets).
+ * List tilesets.
  *
  * @param {Object} [config]
  * @param {string} [config.ownerId]
