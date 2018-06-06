@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('getMatrix', () => {
   test('works', () => {
     matrix.getMatrix({
-      matrixPath: [
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -33,7 +33,7 @@ describe('getMatrix', () => {
 
   test('it understands approach', () => {
     matrix.getMatrix({
-      matrixPath: [
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -65,7 +65,7 @@ describe('getMatrix', () => {
 
   test('understands annotations ', () => {
     matrix.getMatrix({
-      matrixPath: [
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -97,7 +97,7 @@ describe('getMatrix', () => {
 
   test('handles when sources & destinations are array', () => {
     matrix.getMatrix({
-      matrixPath: [
+      points: [
         {
           coordinates: [2.2, 1.1]
         },
@@ -131,7 +131,7 @@ describe('getMatrix', () => {
 
   test('handles when sources & destinations are `all`', () => {
     matrix.getMatrix({
-      matrixPath: [
+      points: [
         {
           coordinates: [2.2, 1.1]
         },

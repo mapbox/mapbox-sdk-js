@@ -55,9 +55,10 @@
 - [Data structures](#data-structures)
   - [DirectionsWaypoint](#directionswaypoint)
   - [MapMatchingPoint](#mapmatchingpoint)
-  - [MatrixPath](#matrixpath)
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
+- [MatrixPoint](#matrixpoint)
+  - [Properties](#properties-2)
 - [SimpleMarkerOverlay](#simplemarkeroverlay)
   - [Properties](#properties-3)
 - [CustomMarkerOverlay](#custommarkeroverlay)
@@ -629,20 +630,21 @@ Returns **MapiRequest**
 
 Map Matching API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][152].
+
 ### getMatrix
 
-Returns a duration and/or distance matrix showing travel times and distances between coordinates.
-
-See the [Mapbox Direction Matrix API][152].
+Get a duration and/or distance matrix showing travel times and distances between coordinates.
 
 #### Parameters
 
 - `config` **[Object][108]** 
-  - `config.matrixPath` **[Array][119]&lt;[MatrixPath][153]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
-  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
-  - `config.sources` **[Array][119]&lt;(`"all"` \| [number][112])>?** Use coordinates with given index as sources.
-  - `config.destinations` **[Array][119]&lt;(`"all"` \| [number][112])>?** Use coordinates with given index as destinations.
-  - `config.annotations` **[Array][119]&lt;(`"distance"` \| `"duration"`)>?** Whether or not to return additional metadata along the route.
+  - `config.points` **[Array][119]&lt;[MatrixPoint][153]>** An ordered array of [`MatrixPoint`][97]s, between 2 and 100 (inclusive).
+  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
+  - `config.sources` **(`"all"` \| [Array][119]&lt;[number][112]>)?** Use coordinates with given index as sources.
+  - `config.destinations` **(`"all"` \| [Array][119]&lt;[number][112]>)?** Use coordinates with given index as destinations.
+  - `config.annotations` **[Array][119]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
 
 Returns **MapiRequest** 
 
@@ -788,20 +790,6 @@ Type: [Object][108]
 - `waypointName` **[string][109]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
 - `timestamp` **(tring | [number][112] \| [Date][113])?** Datetime corresponding to the coordinate.
 
-### MatrixPath
-
-An ordered array of object with coordinates and related properties.
-This might differ from the HTTP API as we have combined
-all the properties that depend on the order of coordinates into
-one object for ease of use.
-
-Type: [Object][108]
-
-#### Properties
-
-- `coordinates` **[Array][119]&lt;[number][112]>** An array containing (longitude, latitude).
-- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-
 ### Coordinates
 
 `[longitude, latitude]`
@@ -813,6 +801,15 @@ Type: [Array][119]&lt;[number][112]>
 `[minLongitude, minLatitude, maxLongitude, maxLatitude]`
 
 Type: [Array][119]&lt;[number][112]>
+
+## MatrixPoint
+
+Type: [Object][108]
+
+### Properties
+
+- `coordinates` **[Coordinates][142]** `[longitude, latitude]`
+- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
 ## SimpleMarkerOverlay
 
@@ -1057,13 +1054,13 @@ Type: [Object][108]
 
 [94]: #properties-1
 
-[95]: #matrixpath
+[95]: #coordinates
 
-[96]: #properties-2
+[96]: #boundingbox
 
-[97]: #coordinates
+[97]: #matrixpoint
 
-[98]: #boundingbox
+[98]: #properties-2
 
 [99]: #simplemarkeroverlay
 
@@ -1173,7 +1170,7 @@ Type: [Object][108]
 
 [152]: https://www.mapbox.com/api-documentation/#matrix
 
-[153]: #matrixpath
+[153]: #matrixpoint
 
 [154]: https://www.mapbox.com/api-documentation/#list-tokens
 
