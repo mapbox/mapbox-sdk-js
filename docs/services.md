@@ -55,9 +55,9 @@
 - [Data structures](#data-structures)
   - [DirectionsWaypoint](#directionswaypoint)
   - [MapMatchingPoint](#mapmatchingpoint)
-  - [MatrixPath](#matrixpath)
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
+- [MatrixPoint](#matrixpoint)
 - [SimpleMarkerOverlay](#simplemarkeroverlay)
 - [CustomMarkerOverlay](#custommarkeroverlay)
 - [PathOverlay](#pathoverlay)
@@ -625,20 +625,21 @@ Returns **MapiRequest**
 
 Map Matching API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][106].
+
 ### getMatrix
 
-Returns a duration and/or distance matrix showing travel times and distances between coordinates.
-
-See the [Mapbox Direction Matrix API][106].
+Get a duration and/or distance matrix showing travel times and distances between coordinates.
 
 **Parameters**
 
 - `config` **[Object][62]** 
-  - `config.matrixPath` **[Array][73]&lt;[MatrixPath][107]>** An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
-  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `driving`)
-  - `config.sources` **[Array][73]&lt;(`"all"` \| [number][66])>?** Use coordinates with given index as sources.
-  - `config.destinations` **[Array][73]&lt;(`"all"` \| [number][66])>?** Use coordinates with given index as destinations.
-  - `config.annotations` **[Array][73]&lt;(`"distance"` \| `"duration"`)>?** Whether or not to return additional metadata along the route.
+  - `config.points` **[Array][73]&lt;[MatrixPoint][107]>** An ordered array of [`MatrixPoint`][56]s, between 2 and 100 (inclusive).
+  - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
+  - `config.sources` **(`"all"` \| [Array][73]&lt;[number][66]>)?** Use coordinates with given index as sources.
+  - `config.destinations` **(`"all"` \| [Array][73]&lt;[number][66]>)?** Use coordinates with given index as destinations.
+  - `config.annotations` **[Array][73]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
 
 Returns **MapiRequest** 
 
@@ -784,20 +785,6 @@ Type: [Object][62]
 - `waypointName` **[string][63]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
 - `timestamp` **(tring | [number][66] \| [Date][67])?** Datetime corresponding to the coordinate.
 
-### MatrixPath
-
-An ordered array of object with coordinates and related properties.
-This might differ from the HTTP API as we have combined
-all the properties that depend on the order of coordinates into
-one object for ease of use.
-
-Type: [Object][62]
-
-**Properties**
-
-- `coordinates` **[Array][73]&lt;[number][66]>** An array containing (longitude, latitude).
-- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-
 ### Coordinates
 
 `[longitude, latitude]`
@@ -809,6 +796,15 @@ Type: [Array][73]&lt;[number][66]>
 `[minLongitude, minLatitude, maxLongitude, maxLatitude]`
 
 Type: [Array][73]&lt;[number][66]>
+
+## MatrixPoint
+
+Type: [Object][62]
+
+**Properties**
+
+- `coordinates` **[Coordinates][96]** `[longitude, latitude]`
+- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
 ## SimpleMarkerOverlay
 
@@ -971,11 +967,11 @@ Type: [Object][62]
 
 [53]: #mapmatchingpoint
 
-[54]: #matrixpath
+[54]: #coordinates
 
-[55]: #coordinates
+[55]: #boundingbox
 
-[56]: #boundingbox
+[56]: #matrixpoint
 
 [57]: #simplemarkeroverlay
 
@@ -1077,7 +1073,7 @@ Type: [Object][62]
 
 [106]: https://www.mapbox.com/api-documentation/#matrix
 
-[107]: #matrixpath
+[107]: #matrixpoint
 
 [108]: https://www.mapbox.com/api-documentation/#list-tokens
 

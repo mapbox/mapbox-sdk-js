@@ -6,25 +6,26 @@ var objectClean = require('./service-helpers/object-clean');
 
 /**
  * Map Matching API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#matrix).
  */
 var Matrix = {};
 
 /**
- * Returns a duration and/or distance matrix showing travel times and distances between coordinates.
- *
- * See the [Mapbox Direction Matrix API](https://www.mapbox.com/api-documentation/#matrix).
+ * Get a duration and/or distance matrix showing travel times and distances between coordinates.
  *
  * @param {Object} config
- * @param {Array<MatrixPath>} config.matrixPath - An ordered array of object containing coordinates and related properties. The size of this array must be between 2 & 100 (inclusive).
- * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile=driving]
- * @param {Array<'all'|number>} [config.sources] - Use coordinates with given index as sources.
- * @param {Array<'all'|number>} [config.destinations] - Use coordinates with given index as destinations.
- * @param {Array<'distance'|'duration'>} [config.annotations] - Whether or not to return additional metadata along the route.
+ * @param {Array<MatrixPoint>} config.points - An ordered array of [`MatrixPoint`](#matrixpoint)s, between 2 and 100 (inclusive).
+ * @param {'driving-traffic'|'driving'|'walking'|'cycling'} [config.profile=driving] - A Mapbox Directions routing profile ID.
+ * @param {'all'|Array<number>} [config.sources] - Use coordinates with given index as sources.
+ * @param {'all'|Array<number>} [config.destinations] - Use coordinates with given index as destinations.
+ * @param {Array<'distance'|'duration'>} [config.annotations] - Used to specify resulting matrices.
  * @return {MapiRequest}
  */
 Matrix.getMatrix = function(config) {
   v.assertShape({
-    matrixPath: v.required(
+    points: v.required(
       v.arrayOf(
         v.shape({
           coordinates: v.required(v.coordinates),
@@ -38,6 +39,11 @@ Matrix.getMatrix = function(config) {
     destinations: v.oneOfType(v.equal('all'), v.arrayOf(v.number))
   })(config);
 
+  var pointCount = config.points.length;
+  if (pointCount < 2 || pointCount > 100) {
+    throw new Error('points must include between 2 and 100 MatrixPoints');
+  }
+
   config.profile = config.profile || 'driving';
 
   var path = {
@@ -45,16 +51,11 @@ Matrix.getMatrix = function(config) {
     approach: []
   };
   /**
-   * An ordered array of object with coordinates and related properties.
-   * This might differ from the HTTP API as we have combined
-   * all the properties that depend on the order of coordinates into
-   * one object for ease of use.
-   *
-   * @typedef {Object} MatrixPath
-   * @property {Array<number>} coordinates - An array containing (longitude, latitude).
-   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach a waypoint.
+   * @typedef {Object} MatrixPoint
+   * @property {Coordinates} coordinates - `[longitude, latitude]`
+   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach the point.
    */
-  config.matrixPath.forEach(function(obj) {
+  config.points.forEach(function(obj) {
     path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
 
     if (obj.hasOwnProperty('approach') && obj.approach != null) {
