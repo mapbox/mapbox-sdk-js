@@ -502,7 +502,7 @@ Learn more about this service and its responses in
 
 ### listTilesets
 
-List tilesets.
+List a user's tilesets.
 
 #### Parameters
 
@@ -652,16 +652,18 @@ Returns **MapiRequest**
 
 Tokens API service.
 
+Learn more about this service and its responses in
+[the HTTP service documentation][155].
+
 ### listTokens
 
-List a user's access tokens.
+List your access tokens.
 
-See the [public documentation][155].
+See the [corresponding HTTP service documentation][156].
 
 #### Parameters
 
-- `config` **[Object][110]?** 
-  - `config.ownerId` **[string][111]?** 
+- `config`  
 
 Returns **MapiRequest** 
 
@@ -669,10 +671,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [public documentation][156].
-
-`resources` are only available for users with the `token_resources`
-feature flag.
+See the [corresponding HTTP service documentation][157].
 
 #### Parameters
 
@@ -680,7 +679,6 @@ feature flag.
   - `config.note` **[string][111]?** 
   - `config.scopes` **[Array][120]&lt;[string][111]>?** 
   - `config.resources` **[Array][120]&lt;[string][111]>?** 
-  - `config.ownerId` **[string][111]?** 
 
 Returns **MapiRequest** 
 
@@ -688,14 +686,13 @@ Returns **MapiRequest**
 
 Create a new temporary access token.
 
-See the [public documentation][157].
+See the [corresponding HTTP service documentation][158].
 
 #### Parameters
 
 - `config` **[Object][110]?** 
   - `config.expires` **[string][111]?** 
   - `config.scopes` **[Array][120]&lt;[string][111]>?** 
-  - `config.ownerId` **[string][111]?** 
 
 Returns **MapiRequest** 
 
@@ -703,10 +700,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [public documentation][158].
-
-`resources` are only available for users with the `token_resources`
-feature flag.
+See the [corresponding HTTP service documentation][159].
 
 #### Parameters
 
@@ -715,7 +709,6 @@ feature flag.
   - `config.note` **[string][111]?** 
   - `config.scopes` **[Array][120]&lt;[string][111]>?** 
   - `config.resources` **[Array][120]&lt;[string][111]>?** 
-  - `config.ownerId` **[string][111]?** 
 
 Returns **MapiRequest** 
 
@@ -723,11 +716,11 @@ Returns **MapiRequest**
 
 Get data about the client's access token.
 
-See the [public documentation][159].
+See the [corresponding HTTP service documentation][160].
 
 #### Parameters
 
-- `config` **[Object][110]** 
+- `config`  
 
 Returns **MapiRequest** 
 
@@ -735,27 +728,25 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [public documentation][160].
+See the [corresponding HTTP service documentation][161].
 
 #### Parameters
 
 - `config` **[Object][110]** 
   - `config.tokenId` **[string][111]** 
-  - `config.ownerId` **[string][111]?** 
 
 Returns **MapiRequest** 
 
 ### listScopes
 
-List a user's available scopes. Each item is a metadata
+List your available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [public documentation][161].
+See the [corresponding HTTP service documentation][162].
 
 #### Parameters
 
-- `config` **[Object][110]?** 
-  - `config.ownerId` **[string][111]?** 
+- `config`  
 
 Returns **MapiRequest** 
 
@@ -811,7 +802,7 @@ Type: [Object][110]
   - `marker.coordinates` **\[[number][114], [number][114]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
   - `marker.label` **[string][111]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][162]
+      through `z`, `0` through `99`, or a valid [Maki][163]
       icon. If a letter is requested, it will be rendered in uppercase only.
   - `marker.color` **[string][111]?** A 3- or 6-digit hexadecimal color code.
 
@@ -872,7 +863,7 @@ In Node, files must be `ReadableStream`s or paths pointing for the file in the f
 
 In the browser, files must be `Blob`s or `ArrayBuffer`s.
 
-Type: ([Blob][163] \| [ArrayBuffer][164] \| [string][111] | ReadableStream)
+Type: ([Blob][164] \| [ArrayBuffer][165] \| [string][111] | ReadableStream)
 
 [1]: #styles
 
@@ -1182,22 +1173,24 @@ Type: ([Blob][163] \| [ArrayBuffer][164] \| [string][111] | ReadableStream)
 
 [154]: #matrixpoint
 
-[155]: https://www.mapbox.com/api-documentation/#list-tokens
+[155]: https://www.mapbox.com/api-documentation/#tokens
 
-[156]: https://www.mapbox.com/api-documentation/#create-token
+[156]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[157]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[157]: https://www.mapbox.com/api-documentation/#create-token
 
-[158]: https://www.mapbox.com/api-documentation/#update-a-token
+[158]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[159]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[159]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[160]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[160]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[161]: https://www.mapbox.com/api-documentation/#list-scopes
+[161]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[162]: https://www.mapbox.com/maki/
+[162]: https://www.mapbox.com/api-documentation/#list-scopes
 
-[163]: https://developer.mozilla.org/docs/Web/API/Blob
+[163]: https://www.mapbox.com/maki/
 
-[164]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[164]: https://developer.mozilla.org/docs/Web/API/Blob
+
+[165]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
