@@ -16,7 +16,7 @@ toc:
     children:
       - DirectionsWaypoint
       - MapMatchingPoint
-      - MatrixPath
+      - MatrixPoint
       - SimpleMarkerOverlay
       - CustomMarkerOverlay
       - PathOverlay
