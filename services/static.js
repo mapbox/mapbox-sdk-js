@@ -110,7 +110,7 @@ Static.getStaticImage = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId/static/' + preEncodedUrlParts,
-    routeParams: pick(config, ['ownerId', 'styleId']),
+    params: pick(config, ['ownerId', 'styleId']),
     query: query
   });
 };
