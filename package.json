@@ -79,7 +79,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@mapbox/parse-mapbox-token": "^0.1.0",
+    "@mapbox/parse-mapbox-token": "^0.2.0",
     "@mapbox/polyline": "^1.0.0",
     "eventemitter3": "^3.1.0",
     "got": "^8.3.1",
