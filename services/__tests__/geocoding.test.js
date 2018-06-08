@@ -29,7 +29,7 @@ describe('forwardGeocode', () => {
     geocoding.forwardGeocode({
       query: 'Tucson',
       mode: 'mapbox.places-permanent',
-      country: ['AO', 'AR'],
+      countries: ['AO', 'AR'],
       proximity: [3, 4],
       types: ['country', 'region'],
       autocomplete: true,
@@ -78,7 +78,7 @@ describe('reverseGeocode', () => {
     geocoding.reverseGeocode({
       query: [15, 14],
       mode: 'mapbox.places-permanent',
-      country: ['AO', 'AR'],
+      countries: ['AO', 'AR'],
       types: ['country', 'region'],
       bbox: [1, 2, 3, 4],
       limit: 3,

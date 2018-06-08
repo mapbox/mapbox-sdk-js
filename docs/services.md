@@ -533,7 +533,7 @@ See the [public documentation][143].
 - `config` **[Object][110]** 
   - `config.query` **[string][111]** A place name.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
-  - `config.country` **[Array][120]&lt;[string][111]>?** Limits results to one or more countries.
+  - `config.countries` **[Array][120]&lt;[string][111]>?** Limits results to the specified countries.
       Each item in the array should be an [ISO 3166 alpha 2 country code][144].
   - `config.proximity` **[Coordinates][123]?** Bias local results based on a provided location.
   - `config.types` **[Array][120]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
@@ -557,7 +557,7 @@ See the [public documentation][148].
 - `config` **[Object][110]** 
   - `config.query` **[Coordinates][123]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
-  - `config.country` **[Array][120]&lt;[string][111]>?** Limits results to one or more countries.
+  - `config.countries` **[Array][120]&lt;[string][111]>?** Limits results to the specified countries.
       Each item in the array should be an [ISO 3166 alpha 2 country code][144].
   - `config.types` **[Array][120]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.bbox` **[BoundingBox][145]?** Limit results to a bounding box.
