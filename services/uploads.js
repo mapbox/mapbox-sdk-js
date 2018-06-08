@@ -39,9 +39,7 @@ Uploads.listUploads = function(config) {
  *
  * @return {MapiRequest}
  */
-Uploads.createUploadCredentials = function(config) {
-  v.assertShape({})(config);
-
+Uploads.createUploadCredentials = function() {
   return this.client.createRequest({
     method: 'POST',
     path: '/uploads/v1/:ownerId/credentials'
