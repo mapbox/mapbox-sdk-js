@@ -19,13 +19,10 @@ var Tokens = {};
  *
  * @return {MapiRequest}
  */
-Tokens.listTokens = function(config) {
-  v.assertShape({})(config);
-
+Tokens.listTokens = function() {
   return this.client.createRequest({
     method: 'GET',
-    path: '/tokens/v2/:ownerId',
-    params: config
+    path: '/tokens/v2/:ownerId'
   });
 };
 
@@ -139,9 +136,7 @@ Tokens.updateToken = function(config) {
  *
  * @return {MapiRequest}
  */
-Tokens.getToken = function(config) {
-  v.assertShape({})(config);
-
+Tokens.getToken = function() {
   return this.client.createRequest({
     method: 'GET',
     path: '/tokens/v2'
@@ -177,13 +172,10 @@ Tokens.deleteToken = function(config) {
  *
  * @return {MapiRequest}
  */
-Tokens.listScopes = function(config) {
-  v.assertShape({})(config);
-
+Tokens.listScopes = function() {
   return this.client.createRequest({
     method: 'GET',
-    path: '/scopes/v1/:ownerId',
-    params: config
+    path: '/scopes/v1/:ownerId'
   });
 };
 

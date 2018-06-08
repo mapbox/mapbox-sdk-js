@@ -19,9 +19,7 @@ var Datasets = {};
  *
  * @return {MapiRequest}
  */
-Datasets.listDatasets = function(config) {
-  v.assertShape({})(config);
-
+Datasets.listDatasets = function() {
   return this.client.createRequest({
     method: 'GET',
     path: '/datasets/v1/:ownerId'

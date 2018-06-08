@@ -21,6 +21,6 @@ toc:
       - CustomMarkerOverlay
       - PathOverlay
       - GeoJsonOverlay
+      - UploadableFile
       - Coordinates
       - BoundingBox
-
