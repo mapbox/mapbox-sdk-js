@@ -33,7 +33,7 @@ Uploads.listUploads = function(config) {
 };
 
 /**
- * Create s3 credentials.
+ * Create S3 credentials.
  *
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-s3-credentials).
  *
@@ -54,21 +54,28 @@ Uploads.createUploadCredentials = function() {
  * @param {Object} config
  * @param {string} config.mapId - The map ID to create or replace in the format `username.nameoftileset`.
  *   Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
- * @param {string} config.s3Url - HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded.
+ * @param {string} config.url - Either of the following:
+ *   - HTTPS URL of the S3 object provided by [`createUploadCredentials`](#createuploadcredentials)
+ *   - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
+ *     This should be in the format `mapbox://datasets/{username}/{datasetId}`.
  * @param {string} [config.tilesetName] - Name for the tileset. Limited to 64 characters.
  * @return {MapiRequest}
  */
 Uploads.createUpload = function(config) {
   v.assertShape({
     mapId: v.required(v.string),
-    s3Url: v.required(v.string),
+    url: v.required(v.string),
     tilesetName: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'POST',
     path: '/uploads/v1/:ownerId',
-    body: config
+    body: {
+      tileset: config.mapId,
+      url: config.url,
+      name: config.tilesetName
+    }
   });
 };
 
