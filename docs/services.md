@@ -283,7 +283,7 @@ Returns **MapiRequest**
 
 ### createUploadCredentials
 
-Create s3 credentials.
+Create S3 credentials.
 
 See the [corresponding HTTP service documentation][121].
 
@@ -300,7 +300,9 @@ See the [corresponding HTTP service documentation][122].
 - `config` **[Object][105]** 
   - `config.mapId` **[string][106]** The map ID to create or replace in the format `username.nameoftileset`.
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
-  - `config.s3Url` **[string][106]** HTTPS URL of the S3 object provided in the credential request or the dataset ID of an existing Mapbox dataset to be uploaded.
+  - `config.url` **[string][106]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][28]
+    - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
+      This should be in the format `mapbox://datasets/{username}/{datasetId}`.
   - `config.tilesetName` **[string][106]?** Name for the tileset. Limited to 64 characters.
 
 Returns **MapiRequest** 
