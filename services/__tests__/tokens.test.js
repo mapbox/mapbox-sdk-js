@@ -17,15 +17,6 @@ describe('listTokens', () => {
       params: undefined
     });
   });
-
-  test('works with specified ownerId', () => {
-    tokens.listTokens({ ownerId: 'specialguy' });
-    expect(tu.requestConfig(tokens)).toEqual({
-      path: '/tokens/v2/:ownerId',
-      params: { ownerId: 'specialguy' },
-      method: 'GET'
-    });
-  });
 });
 
 describe('createToken', () => {
@@ -52,14 +43,13 @@ describe('createToken', () => {
   test('with all options', () => {
     tokens.createToken({
       scopes: ['styles:list'],
-      ownerId: 'chickentooth',
       note: 'horseleg',
       resources: ['one', 'two']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
-      params: { ownerId: 'chickentooth' },
       method: 'POST',
+      params: {},
       body: {
         scopes: ['styles:list'],
         note: 'horseleg',
