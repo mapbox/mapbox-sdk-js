@@ -1,8 +1,8 @@
 # @mapbox/mapbox-sdk
 
-A JS SDK for accessing [Mapbox APIs](https://github.com/mapbox/api-documentation).
+A JS SDK for working with [Mapbox APIs](https://github.com/mapbox/api-documentation).
 
-Works both in Node and the browser.
+Works both in Node, the browser, and React Native.
 
 ## Table of contents
 
@@ -27,7 +27,8 @@ npm install @mapbox/mapbox-sdk
 **If you are supporting older browsers, you will need a Promise polyfill.**
 [es6-promise](https://github.com/stefanpenner/es6-promise) is a good one, if you're uncertain.
 
-If you aren't using a JS module bundler, read ["Pre-bundled files on unpkg.com"](#pre-bundled-files-on-unpkgcom)
+The documentation below assumes you're using a JS module system.
+If you aren't, read ["Pre-bundled files on unpkg.com"](#pre-bundled-files-on-unpkgcom).
 
 ## Usage
 
@@ -64,9 +65,10 @@ const tilesetsService = mbxTilesets(baseClient);
 
 ### Creating and sending requests
 
-To **create a request**, invoke a service method on a service client.
+To **create a request**, invoke a method on a service client.
 
 Once you've created a request, **send the request** with its `send` method.
+It will return a Promise that resolves with a `MapiResponse`.
 
 ```js
 const mbxClient = require('@mapbox/mapbox-sdk');
@@ -89,6 +91,8 @@ tilesetsService.listTilesets()
 ```
 
 ## Overview of requests, responses, and errors
+
+**For more details, please read [the full classes documentation](./docs/classes.md).**
 
 ### `MapiRequest`
 
@@ -208,14 +212,14 @@ Please read [the full documentation for services](./docs/services.md).
 
 ## Pre-bundled files on unpkg.com
 
-If you aren't using a JS module bundler, you can use a `<script>` tag referencing pre-bundled files on the CDN [unpkg.com](https://unpkg.com/).
+If you aren't using a JS module system, you can use a `<script>` tag referencing pre-bundled files on the CDN [unpkg.com](https://unpkg.com/).
 
 ```html
 <script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.js"></script>
 <script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 ```
 
-These files are a UMD build of the package, exposing a `mapboxSdk` function that creates a client, initializes *all* the services, and attaches those services to the client.
+These files are a UMD build of the package, exposing a global `mapboxSdk` function that creates a client, initializes *all* the services, and attaches those services to the client.
 Here's how you might use it.
 
 ```html
