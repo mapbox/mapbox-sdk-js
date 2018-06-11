@@ -34,6 +34,15 @@ npm install @mapbox/mapbox-sdk
 The documentation below assumes you're using a JS module system.
 If you aren't, read ["Pre-bundled files on unpkg.com"](#pre-bundled-files-on-unpkgcom).
 
+## React Native Installation
+
+React Native does not ship with the url module so we have to polyfill it.
+
+```sh
+npm install --save url
+npm install --save mapbox
+```
+
 ## Usage
 
 There are 3 basic steps to getting an API response:
