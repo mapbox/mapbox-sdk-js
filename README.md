@@ -4,6 +4,10 @@ A JS SDK for working with [Mapbox APIs](https://github.com/mapbox/api-documentat
 
 Works both in Node, the browser, and React Native.
 
+**As of 6/11/18, the codebase has been rewritten and a new npm package released.**
+The `mapbox` package is deprecated in favor of the new `@mapbox/mapbox-sdk` package.
+Please read the documentation and open issues with questions or problems.
+
 ## Table of contents
 
 - [Installation](#installation)
