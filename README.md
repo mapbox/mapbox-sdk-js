@@ -219,15 +219,15 @@ Please read [the full documentation for services](./docs/services.md).
 If you aren't using a JS module system, you can use a `<script>` tag referencing pre-bundled files on the CDN [unpkg.com](https://unpkg.com/).
 
 ```html
-<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.js"></script>
-<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.js"></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 ```
 
 These files are a UMD build of the package, exposing a global `mapboxSdk` function that creates a client, initializes *all* the services, and attaches those services to the client.
 Here's how you might use it.
 
 ```html
-<script src="https://unpkg.com/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 <script>
   var mapboxClient = mapboxSdk({ accessToken: MY_ACCESS_TOKEN });
   mapboxClient.styles.getStyle(..)
