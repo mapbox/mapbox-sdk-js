@@ -3,6 +3,7 @@
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 var objectClean = require('./service-helpers/object-clean');
+var stringifyBooleans = require('./service-helpers/stringify-booleans');
 
 /**
  * Directions API service.
@@ -127,7 +128,7 @@ Directions.getDirections = function(config) {
     }
   });
 
-  var query = {
+  var query = stringifyBooleans({
     alternatives: config.alternatives,
     annotations: config.annotations,
     banner_instructions: config.bannerInstructions,
@@ -144,7 +145,7 @@ Directions.getDirections = function(config) {
     bearings: path.bearing,
     radiuses: path.radius,
     waypoint_names: path.waypointName
-  };
+  });
 
   return this.client.createRequest({
     method: 'GET',

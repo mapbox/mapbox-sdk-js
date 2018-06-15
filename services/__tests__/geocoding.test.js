@@ -48,7 +48,7 @@ describe('forwardGeocode', () => {
         country: ['AO', 'AR'],
         proximity: [3, 4],
         types: ['country', 'region'],
-        autocomplete: true,
+        autocomplete: 'true',
         bbox: [1, 2, 3, 4],
         limit: 3,
         language: ['de', 'bs']

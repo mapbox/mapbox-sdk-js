@@ -2,9 +2,9 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
-var objectMap = require('./service-helpers/object-map');
 var objectClean = require('./service-helpers/object-clean');
 var urlUtils = require('../lib/helpers/url-utils');
+var stringifyBooleans = require('./service-helpers/stringify-booleans');
 
 /**
  * Map Matching API service.
@@ -136,25 +136,22 @@ MapMatching.getMatching = function(config) {
       .join(';');
   }
 
-  var body = objectClean({
-    annotations: config.annotations,
-    geometries: config.geometries,
-    language: config.language,
-    overview: config.overview,
-    steps: config.steps,
-    tidy: config.tidy,
-    approaches: path.approach,
-    radiuses: path.radius,
-    waypoints: path.isWaypoint,
-    timestamps: path.timestamp,
-    waypoint_names: path.waypointName,
-    coordinates: path.coordinates
-  });
-
-  body = objectMap(body, function(_, value) {
-    // appendQueryObject doesn't stringify booleans
-    return typeof value === 'boolean' ? JSON.stringify(value) : value;
-  });
+  var body = stringifyBooleans(
+    objectClean({
+      annotations: config.annotations,
+      geometries: config.geometries,
+      language: config.language,
+      overview: config.overview,
+      steps: config.steps,
+      tidy: config.tidy,
+      approaches: path.approach,
+      radiuses: path.radius,
+      waypoints: path.isWaypoint,
+      timestamps: path.timestamp,
+      waypoint_names: path.waypointName,
+      coordinates: path.coordinates
+    })
+  );
 
   // the matching api expects a form-urlencoded
   // post request.
