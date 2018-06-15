@@ -3,6 +3,7 @@
 var xtend = require('xtend');
 var v = require('./service-helpers/validator');
 var pick = require('./service-helpers/pick');
+var stringifyBooleans = require('./service-helpers/stringify-booleans');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
@@ -61,11 +62,8 @@ Geocoding.forwardGeocode = function(config) {
 
   config.mode = config.mode || 'mapbox.places';
 
-  return this.client.createRequest({
-    method: 'GET',
-    path: '/geocoding/v5/:mode/:query.json',
-    params: pick(config, ['mode', 'query']),
-    query: xtend(
+  var query = stringifyBooleans(
+    xtend(
       { country: config.countries },
       pick(config, [
         'proximity',
@@ -76,6 +74,13 @@ Geocoding.forwardGeocode = function(config) {
         'language'
       ])
     )
+  );
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/geocoding/v5/:mode/:query.json',
+    params: pick(config, ['mode', 'query']),
+    query: query
   });
 };
 
@@ -112,11 +117,8 @@ Geocoding.reverseGeocode = function(config) {
 
   config.mode = config.mode || 'mapbox.places';
 
-  return this.client.createRequest({
-    method: 'GET',
-    path: '/geocoding/v5/:mode/:query.json',
-    params: pick(config, ['mode', 'query']),
-    query: xtend(
+  var query = stringifyBooleans(
+    xtend(
       { country: config.countries },
       pick(config, [
         'country',
@@ -127,6 +129,13 @@ Geocoding.reverseGeocode = function(config) {
         'reverseMode'
       ])
     )
+  );
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/geocoding/v5/:mode/:query.json',
+    params: pick(config, ['mode', 'query']),
+    query: query
   });
 };
 

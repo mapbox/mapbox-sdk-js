@@ -53,7 +53,7 @@ describe('getDirections', () => {
         profile: 'walking'
       },
       query: {
-        alternatives: false,
+        alternatives: 'false',
         geometries: 'polyline'
       }
     });
@@ -85,8 +85,8 @@ describe('getDirections', () => {
         profile: 'walking'
       },
       query: {
-        steps: false,
-        continue_straight: false,
+        steps: 'false',
+        continue_straight: 'false',
         radiuses: '2000;2000',
         bearings: '45,20;46,21'
       }
@@ -122,8 +122,8 @@ describe('getDirections', () => {
         profile: 'walking'
       },
       query: {
-        steps: false,
-        continue_straight: false,
+        steps: 'false',
+        continue_straight: 'false',
         bearings: ';;45,32;'
       }
     });
@@ -159,8 +159,8 @@ describe('getDirections', () => {
         profile: 'walking'
       },
       query: {
-        steps: false,
-        continue_straight: false,
+        steps: 'false',
+        continue_straight: 'false',
         bearings: ';;45,32;',
         radiuses: '2000;;;'
       }
