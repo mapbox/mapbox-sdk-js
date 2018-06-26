@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- **Chore:** Use `@mapbox/fusspot` for validation; remove the local implementation.
+
 ## 0.1.1
 
 - **Fix:** `Directions#getDirections` and `Geocoding#forwardGeocode` stringify boolean query parameters like `steps` and `autocomplete`.

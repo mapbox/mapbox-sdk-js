@@ -1,7 +1,7 @@
 'use strict';
 
 var xtend = require('xtend');
-var v = require('../../validation-lib/validator');
+var v = require('@mapbox/fusspot');
 
 function file(value) {
   // If we're in a browser so Blob is available, the file must be that.
