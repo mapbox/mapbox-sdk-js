@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.1.2
 
 - **Chore:** Use `@mapbox/fusspot` for validation; remove the local implementation.
 
