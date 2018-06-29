@@ -54,8 +54,8 @@ const stylesService = mbxStyles({ accessToken: MY_ACCESS_TOKEN });
 // stylesService exposes listStyles(), createStyle(), getStyle(), etc.
 ```
 
-You may also **share one configuration between multiple services**.
-To do that, initialize a base client and then pass *that* into each service factory functions.
+You can also **share one configuration between multiple services**.
+To do that, initialize a base client and then pass *that* into service factory functions.
 
 ```js
 const mbxClient = require('@mapbox/mapbox-sdk');
@@ -146,7 +146,7 @@ req.send().then(response => {..}, error => {..});
 
 When you `send` a [`MapiRequest`], the returned `Promise` resolves with a `MapiResponse`.
 
-Typically, you use `MapiResponse.body` to access the parsed API response.
+Typically, you'll use `MapiResponse.body` to access the parsed API response.
 
 `MapiResponse`s also expose other properties and methods.
 For example:
