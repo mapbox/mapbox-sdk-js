@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- **Fix:** Include all services in the UMD bundled client. Several were missing.
+
 ## 0.1.2
 
 - **Chore:** Use `@mapbox/fusspot` for validation; remove the local implementation.
