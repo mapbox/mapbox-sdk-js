@@ -34,17 +34,17 @@ window.tryServiceMethod = function(
 
   var baseClient = mbxClient({ accessToken: accessToken });
   var services = {
-    styles: mbxStyles(baseClient),
-    tilesets: mbxTilesets(baseClient),
-    tokens: mbxTokens(baseClient),
     datasets: mbxDatasets(baseClient),
-    tilequery: mbxTilequery(baseClient),
     directions: mbxDirections(baseClient),
+    geocoding: mbxGeocoding(baseClient),
     mapMatching: mbxMapMatching(baseClient),
     matrix: mbxMatrix(baseClient),
-    uploads: mbxUploads(baseClient),
-    geocoding: mbxGeocoding(baseClient),
-    static: mbxStatic(baseClient)
+    static: mbxStatic(baseClient),
+    styles: mbxStyles(baseClient),
+    tilequery: mbxTilequery(baseClient),
+    tilesets: mbxTilesets(baseClient),
+    tokens: mbxTokens(baseClient),
+    uploads: mbxUploads(baseClient)
   };
 
   var service = services[serviceName];

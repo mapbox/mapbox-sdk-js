@@ -1,22 +1,32 @@
 'use strict';
 
 var browserClient = require('./lib/browser/browser-client');
-var datasets = require('./services/datasets');
-var directions = require('./services/directions');
-var styles = require('./services/styles');
-var tilequery = require('./services/tilequery');
-var tilesets = require('./services/tilesets');
-var tokens = require('./services/tokens');
+var mbxDatasets = require('./services/datasets');
+var mbxDirections = require('./services/directions');
+var mbxGeocoding = require('./services/geocoding');
+var mbxMapMatching = require('./services/map-matching');
+var mbxMatrix = require('./services/matrix');
+var mbxStatic = require('./services/static');
+var mbxStyles = require('./services/styles');
+var mbxTilequery = require('./services/tilequery');
+var mbxTilesets = require('./services/tilesets');
+var mbxTokens = require('./services/tokens');
+var mbxUploads = require('./services/uploads');
 
 function mapboxSdk(options) {
   var client = browserClient(options);
 
-  client.datasets = datasets(client);
-  client.directions = directions(client);
-  client.styles = styles(client);
-  client.tilequery = tilequery(client);
-  client.tilesets = tilesets(client);
-  client.tokens = tokens(client);
+  client.datasets = mbxDatasets(client);
+  client.directions = mbxDirections(client);
+  client.geocoding = mbxGeocoding(client);
+  client.mapMatching = mbxMapMatching(client);
+  client.matrix = mbxMatrix(client);
+  client.static = mbxStatic(client);
+  client.styles = mbxStyles(client);
+  client.tilequery = mbxTilequery(client);
+  client.tilesets = mbxTilesets(client);
+  client.tokens = mbxTokens(client);
+  client.uploads = mbxUploads(client);
 
   return client;
 }

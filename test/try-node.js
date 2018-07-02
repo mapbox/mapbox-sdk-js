@@ -4,15 +4,15 @@
 
 const meow = require('meow');
 const mbxClient = require('..');
-const mbxStyles = require('../services/styles');
-const mbxTilesets = require('../services/tilesets');
-const mbxTokens = require('../services/tokens');
 const mbxDatasets = require('../services/datasets');
-const mbxTilequery = require('../services/tilequery');
-const mbxGeocoding = require('../services/geocoding');
 const mbxDirections = require('../services/directions');
+const mbxGeocoding = require('../services/geocoding');
 const mbxMapMatching = require('../services/map-matching');
 const mbxMatrix = require('../services/matrix');
+const mbxStyles = require('../services/styles');
+const mbxTilequery = require('../services/tilequery');
+const mbxTilesets = require('../services/tilesets');
+const mbxTokens = require('../services/tokens');
 const mbxUploads = require('../services/uploads');
 
 const description = 'FOR TESTING ONLY! Try out the mapbox-sdk.';
@@ -56,15 +56,15 @@ if (!serviceName || !methodName) {
 
 const baseClient = mbxClient({ accessToken });
 const services = {
-  styles: mbxStyles(baseClient),
-  tilesets: mbxTilesets(baseClient),
-  tokens: mbxTokens(baseClient),
   datasets: mbxDatasets(baseClient),
-  tilequery: mbxTilequery(baseClient),
-  geocoding: mbxGeocoding(baseClient),
   directions: mbxDirections(baseClient),
+  geocoding: mbxGeocoding(baseClient),
   matching: mbxMapMatching(baseClient),
   matrix: mbxMatrix(baseClient),
+  styles: mbxStyles(baseClient),
+  tilequery: mbxTilequery(baseClient),
+  tilesets: mbxTilesets(baseClient),
+  tokens: mbxTokens(baseClient),
   uploads: mbxUploads(baseClient)
 };
 
