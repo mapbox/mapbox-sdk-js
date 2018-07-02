@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.1.3
 
 - **Fix:** Include all services in the UMD bundled client. Several were missing.
 
