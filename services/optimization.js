@@ -51,9 +51,7 @@ Optimization.getOptimization = function(config) {
         })
       )
     ),
-    annotations: v.arrayOf(
-      v.oneOf('duration', 'distance', 'speed')
-    ),
+    annotations: v.arrayOf(v.oneOf('duration', 'distance', 'speed')),
     geometries: v.string,
     language: v.string,
     overview: v.oneOf('simplified', 'full', 'false'),
@@ -65,7 +63,8 @@ Optimization.getOptimization = function(config) {
       v.shape({
         pickup: v.number,
         dropoff: v.number
-      }))
+      })
+    )
   })(config);
 
   config.profile = config.profile || 'driving';
@@ -79,7 +78,8 @@ Optimization.getOptimization = function(config) {
   };
 
   var waypointCount = config.waypoints.length;
-  if (waypointCount < 2 || waypointCount > 12) { // updated to reflect opt restrictions
+  if (waypointCount < 2 || waypointCount > 12) {
+    // updated to reflect opt restrictions
     throw new Error(
       'waypoints must include between 2 and 12 OptimizationWaypoints'
     );
@@ -128,14 +128,11 @@ Optimization.getOptimization = function(config) {
     }
   });
 
-  if(config.distributions) {
+  if (config.distributions) {
     config.distributions.forEach(function(distribution) {
-      path.distributions.push(
-        distribution.pickup + ',' + distribution.dropoff
-      );
-    });  
+      path.distributions.push(distribution.pickup + ',' + distribution.dropoff);
+    });
   }
-  
 
   var query = stringifyBooleans({
     geometries: config.geometries,
