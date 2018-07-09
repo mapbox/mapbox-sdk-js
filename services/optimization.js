@@ -23,17 +23,14 @@ var Optimization = {};
  * @param {'driving'|'walking'|'cycling'} [config.profile="driving"]
  * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
- * @param {} [config.approaches]
- * @param {} [config.bearings]
- * @param {} [config.destination]
- * @param {} [config.distributions]
+ * @param {'any' | 'last'} [config.destination="any"] Returned route ends at `any` (default) or `last` coordinate.
+ * @param {[number, number]} [config.distributions] Array of pick-up and drop-off locations as number pairs. Each number in a pair corresponds to an index in the coordinates array: the first specifies the pick-up location and the second specifies the drop-off location.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
  *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
- * @param {} [config.overview]
- * @param {} [config.radiuses]
- * @param {} [config.roundtrip]
- * @param {} [config.source]
+ * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
+ * @param {boolean} [config.roundtrip=true] Specifies whether the trip should complete by returning to the first location. 
+ * @param {'any' | 'first'} [config.source="any"] To begin the route, start either from the first coordinate or let the Optimization API choose.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  
  * @return {MapiRequest}

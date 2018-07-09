@@ -44,6 +44,8 @@
   - [getMatching](#getmatching)
 - [Matrix](#matrix)
   - [getMatrix](#getmatrix)
+- [Optimization](#optimization)
+  - [getOptimization](#getoptimization)
 - [Tokens](#tokens)
   - [listTokens](#listtokens)
   - [createToken](#createtoken)
@@ -56,6 +58,7 @@
   - [DirectionsWaypoint](#directionswaypoint)
   - [MapMatchingPoint](#mapmatchingpoint)
   - [MatrixPoint](#matrixpoint)
+  - [OptimizationWaypoint](#optimizationwaypoint)
   - [SimpleMarkerOverlay](#simplemarkeroverlay)
   - [CustomMarkerOverlay](#custommarkeroverlay)
   - [PathOverlay](#pathoverlay)
@@ -63,10 +66,6 @@
   - [UploadableFile](#uploadablefile)
   - [Coordinates](#coordinates)
   - [BoundingBox](#boundingbox)
-- [Optimization](#optimization)
-  - [getOptimization](#getoptimization)
-- [OptimizationWaypoint](#optimizationwaypoint)
-  - [Properties](#properties-7)
 
 ## Styles
 
@@ -251,10 +250,10 @@ SDK returned.
   - `config.pitch` **[number][114]?** Between 0 and 60.
   - `config.overlays` **[Array][120]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
-      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][92]
-    - [`CustomMarkerOverlay`][94]
-    - [`PathOverlay`][96]
-    - [`GeoJsonOverlay`][98]
+      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][97]
+    - [`CustomMarkerOverlay`][99]
+    - [`PathOverlay`][101]
+    - [`GeoJsonOverlay`][103]
   - `config.highRes` **[boolean][118]**  (optional, default `false`)
   - `config.insertOverlayBeforeLayer` **[string][111]?** The ID of the style layer
       that overlays should be inserted *before*.
@@ -585,7 +584,7 @@ to understand all of the available options.
 
 - `config` **[Object][110]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][120]&lt;[DirectionsWaypoint][150]>** An ordered array of [`DirectionsWaypoint`][86] objects, between 2 and 25 (inclusive).
+  - `config.waypoints` **[Array][120]&lt;[DirectionsWaypoint][150]>** An ordered array of [`DirectionsWaypoint`][89] objects, between 2 and 25 (inclusive).
   - `config.alternatives` **[boolean][118]** Whether to try to return alternative routes. (optional, default `false`)
   - `config.annotations` **[Array][120]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Specify additional metadata that should be returned.
   - `config.bannerInstructions` **[boolean][118]** Should be used in conjunction with `steps`. (optional, default `false`)
@@ -616,7 +615,7 @@ Snap recorded location traces to roads and paths.
 #### Parameters
 
 - `config` **[Object][110]** 
-  - `config.points` **[Array][120]&lt;[MapMatchingPoint][153]>** An ordered array of [`MapMatchingPoint`][88]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][120]&lt;[MapMatchingPoint][153]>** An ordered array of [`MapMatchingPoint`][91]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A directions profile ID. (optional, default `driving`)
   - `config.annotations` **[Array][120]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
@@ -642,11 +641,43 @@ Get a duration and/or distance matrix showing travel times and distances between
 #### Parameters
 
 - `config` **[Object][110]** 
-  - `config.points` **[Array][120]&lt;[MatrixPoint][155]>** An ordered array of [`MatrixPoint`][90]s, between 2 and 100 (inclusive).
+  - `config.points` **[Array][120]&lt;[MatrixPoint][155]>** An ordered array of [`MatrixPoint`][93]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
   - `config.sources` **(`"all"` \| [Array][120]&lt;[number][114]>)?** Use coordinates with given index as sources.
   - `config.destinations` **(`"all"` \| [Array][120]&lt;[number][114]>)?** Use coordinates with given index as destinations.
   - `config.annotations` **[Array][120]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
+
+Returns **MapiRequest** 
+
+## Optimization
+
+Optimization API service.
+
+Learn more about this service and its responses in
+[the HTTP service documentation][156].
+
+### getOptimization
+
+Get a duration-optimized route.
+
+Please read [the full HTTP service documentation][156]
+to understand all of the available options.
+
+#### Parameters
+
+- `config` **[Object][110]** 
+  - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
+  - `config.waypoints` **[Array][120]&lt;[OptimizationWaypoint][157]>** An ordered array of [`OptimizationWaypoint`][95] objects, between 2 and 12 (inclusive).
+  - `config.annotations` **[Array][120]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
+  - `config.destination` **(`"any"` \| `"last"`)** Returned route ends at `any` (default) or `last` coordinate. (optional, default `"any"`)
+  - `config.distributions` **\[[number][114], [number][114]]?** Array of pick-up and drop-off locations as number pairs. Each number in a pair corresponds to an index in the coordinates array: the first specifies the pick-up location and the second specifies the drop-off location.
+  - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
+  - `config.language` **[string][111]** Language of returned turn-by-turn text instructions.
+      See options listed in [the HTTP service documentation][151]. (optional, default `"en"`)
+  - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
+  - `config.roundtrip` **[boolean][118]** Specifies whether the trip should complete by returning to the first location. (optional, default `true`)
+  - `config.source` **(`"any"` \| `"first"`)** To begin the route, start either from the first coordinate or let the Optimization API choose. (optional, default `"any"`)
+  - `config.steps` **[boolean][118]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
 
 Returns **MapiRequest** 
 
@@ -655,13 +686,13 @@ Returns **MapiRequest**
 Tokens API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][156].
+[the HTTP service documentation][158].
 
 ### listTokens
 
 List your access tokens.
 
-See the [corresponding HTTP service documentation][157].
+See the [corresponding HTTP service documentation][159].
 
 Returns **MapiRequest** 
 
@@ -669,7 +700,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [corresponding HTTP service documentation][158].
+See the [corresponding HTTP service documentation][160].
 
 #### Parameters
 
@@ -684,7 +715,7 @@ Returns **MapiRequest**
 
 Create a new temporary access token.
 
-See the [corresponding HTTP service documentation][159].
+See the [corresponding HTTP service documentation][161].
 
 #### Parameters
 
@@ -698,7 +729,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [corresponding HTTP service documentation][160].
+See the [corresponding HTTP service documentation][162].
 
 #### Parameters
 
@@ -714,7 +745,7 @@ Returns **MapiRequest**
 
 Get data about the client's access token.
 
-See the [corresponding HTTP service documentation][161].
+See the [corresponding HTTP service documentation][163].
 
 Returns **MapiRequest** 
 
@@ -722,7 +753,7 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [corresponding HTTP service documentation][162].
+See the [corresponding HTTP service documentation][164].
 
 #### Parameters
 
@@ -736,7 +767,7 @@ Returns **MapiRequest**
 List your available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [corresponding HTTP service documentation][163].
+See the [corresponding HTTP service documentation][165].
 
 Returns **MapiRequest** 
 
@@ -780,6 +811,19 @@ Type: [Object][110]
 - `coordinates` **[Coordinates][123]** `[longitude, latitude]`
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
+### OptimizationWaypoint
+
+Type: [Object][110]
+
+#### Properties
+
+- `coordinates` **[Coordinates][123]** 
+- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
+- `bearing` **\[[number][114], [number][114]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+    This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
+    and the second is the range of degrees the angle can deviate by.
+- `radius` **([number][114] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+
 ### SimpleMarkerOverlay
 
 A simple marker overlay.
@@ -792,7 +836,7 @@ Type: [Object][110]
   - `marker.coordinates` **\[[number][114], [number][114]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
   - `marker.label` **[string][111]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][164]
+      through `z`, `0` through `99`, or a valid [Maki][166]
       icon. If a letter is requested, it will be rendered in uppercase only.
   - `marker.color` **[string][111]?** A 3- or 6-digit hexadecimal color code.
 
@@ -841,7 +885,7 @@ In Node, files must be `ReadableStream`s or paths pointing for the file in the f
 
 In the browser, files must be `Blob`s or `ArrayBuffer`s.
 
-Type: ([Blob][165] \| [ArrayBuffer][166] \| [string][111] | ReadableStream)
+Type: ([Blob][167] \| [ArrayBuffer][168] \| [string][111] | ReadableStream)
 
 ### Coordinates
 
@@ -854,46 +898,6 @@ Type: [Array][120]&lt;[number][114]>
 `[minLongitude, minLatitude, maxLongitude, maxLatitude]`
 
 Type: [Array][120]&lt;[number][114]>
-
-## Optimization
-
-Optimization API service.
-
-Learn more about this service and its responses in
-[the HTTP service documentation][167].
-
-### getOptimization
-
-Get a duration-optimized route.
-
-Please read [the full HTTP service documentation][167]
-to understand all of the available options.
-
-#### Parameters
-
-- `config` **[Object][110]** 
-  - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][120]&lt;[OptimizationWaypoint][168]>** An ordered array of [`OptimizationWaypoint`][106] objects, between 2 and 12 (inclusive).
-  - `config.annotations` **[Array][120]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
-  - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][111]** Language of returned turn-by-turn text instructions.
-      See options listed in [the HTTP service documentation][151]. (optional, default `"en"`)
-  - `config.steps` **[boolean][118]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
-
-Returns **MapiRequest** 
-
-## OptimizationWaypoint
-
-Type: [Object][110]
-
-### Properties
-
-- `coordinates` **[Coordinates][123]** 
-- `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
-- `bearing` **\[[number][114], [number][114]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
-    This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
-    and the second is the range of degrees the angle can deviate by.
-- `radius` **([number][114] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
 
 [1]: #styles
 
@@ -1039,75 +1043,75 @@ Type: [Object][110]
 
 [72]: #parameters-29
 
-[73]: #tokens
+[73]: #optimization
 
-[74]: #listtokens
+[74]: #getoptimization
 
-[75]: #createtoken
+[75]: #parameters-30
 
-[76]: #parameters-30
+[76]: #tokens
 
-[77]: #createtemporarytoken
+[77]: #listtokens
 
-[78]: #parameters-31
+[78]: #createtoken
 
-[79]: #updatetoken
+[79]: #parameters-31
 
-[80]: #parameters-32
+[80]: #createtemporarytoken
 
-[81]: #gettoken
+[81]: #parameters-32
 
-[82]: #deletetoken
+[82]: #updatetoken
 
 [83]: #parameters-33
 
-[84]: #listscopes
+[84]: #gettoken
 
-[85]: #data-structures
+[85]: #deletetoken
 
-[86]: #directionswaypoint
+[86]: #parameters-34
 
-[87]: #properties
+[87]: #listscopes
 
-[88]: #mapmatchingpoint
+[88]: #data-structures
 
-[89]: #properties-1
+[89]: #directionswaypoint
 
-[90]: #matrixpoint
+[90]: #properties
 
-[91]: #properties-2
+[91]: #mapmatchingpoint
 
-[92]: #simplemarkeroverlay
+[92]: #properties-1
 
-[93]: #properties-3
+[93]: #matrixpoint
 
-[94]: #custommarkeroverlay
+[94]: #properties-2
 
-[95]: #properties-4
+[95]: #optimizationwaypoint
 
-[96]: #pathoverlay
+[96]: #properties-3
 
-[97]: #properties-5
+[97]: #simplemarkeroverlay
 
-[98]: #geojsonoverlay
+[98]: #properties-4
 
-[99]: #properties-6
+[99]: #custommarkeroverlay
 
-[100]: #uploadablefile
+[100]: #properties-5
 
-[101]: #coordinates
+[101]: #pathoverlay
 
-[102]: #boundingbox
+[102]: #properties-6
 
-[103]: #optimization
+[103]: #geojsonoverlay
 
-[104]: #getoptimization
+[104]: #properties-7
 
-[105]: #parameters-34
+[105]: #uploadablefile
 
-[106]: #optimizationwaypoint
+[106]: #coordinates
 
-[107]: #properties-7
+[107]: #boundingbox
 
 [108]: https://www.mapbox.com/api-documentation/#styles
 
@@ -1205,28 +1209,28 @@ Type: [Object][110]
 
 [155]: #matrixpoint
 
-[156]: https://www.mapbox.com/api-documentation/#tokens
+[156]: https://www.mapbox.com/api-documentation/#optimization
 
-[157]: https://www.mapbox.com/api-documentation/#list-tokens
+[157]: #optimizationwaypoint
 
-[158]: https://www.mapbox.com/api-documentation/#create-token
+[158]: https://www.mapbox.com/api-documentation/#tokens
 
-[159]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[159]: https://www.mapbox.com/api-documentation/#list-tokens
 
-[160]: https://www.mapbox.com/api-documentation/#update-a-token
+[160]: https://www.mapbox.com/api-documentation/#create-token
 
-[161]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[161]: https://www.mapbox.com/api-documentation/#create-temporary-token
 
-[162]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[162]: https://www.mapbox.com/api-documentation/#update-a-token
 
-[163]: https://www.mapbox.com/api-documentation/#list-scopes
+[163]: https://www.mapbox.com/api-documentation/#retrieve-a-token
 
-[164]: https://www.mapbox.com/maki/
+[164]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
 
-[165]: https://developer.mozilla.org/docs/Web/API/Blob
+[165]: https://www.mapbox.com/api-documentation/#list-scopes
 
-[166]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[166]: https://www.mapbox.com/maki/
 
-[167]: https://www.mapbox.com/api-documentation/#optimization
+[167]: https://developer.mozilla.org/docs/Web/API/Blob
 
-[168]: #optimizationwaypoint
+[168]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
