@@ -108,7 +108,7 @@ Optimization.getOptimization = function(config) {
     });
   });
 
-  // distributions don't necessarily align with waypoints, so join them separately
+  // distributions aren't a property of OptimizationWaypoint, so join them separately
   if (config.distributions) {
     config.distributions.forEach(function(dist) {
       path.distributions.push(dist.pickup + ',' + dist.dropoff);
