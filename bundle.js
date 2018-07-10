@@ -6,6 +6,7 @@ var mbxDirections = require('./services/directions');
 var mbxGeocoding = require('./services/geocoding');
 var mbxMapMatching = require('./services/map-matching');
 var mbxMatrix = require('./services/matrix');
+var mbxOptimization = require('./services/optimization');
 var mbxStatic = require('./services/static');
 var mbxStyles = require('./services/styles');
 var mbxTilequery = require('./services/tilequery');
@@ -21,6 +22,7 @@ function mapboxSdk(options) {
   client.geocoding = mbxGeocoding(client);
   client.mapMatching = mbxMapMatching(client);
   client.matrix = mbxMatrix(client);
+  client.optimization = mbxOptimization(client);
   client.static = mbxStatic(client);
   client.styles = mbxStyles(client);
   client.tilequery = mbxTilequery(client);

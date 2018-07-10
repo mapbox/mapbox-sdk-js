@@ -9,6 +9,7 @@ toc:
   - Directions
   - MapMatching
   - Matrix
+  - Optimization
   - Tokens
   - name: Data structures
     description: |
@@ -17,6 +18,7 @@ toc:
       - DirectionsWaypoint
       - MapMatchingPoint
       - MatrixPoint
+      - OptimizationWaypoint
       - SimpleMarkerOverlay
       - CustomMarkerOverlay
       - PathOverlay
