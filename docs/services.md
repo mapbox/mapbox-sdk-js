@@ -669,8 +669,8 @@ to understand all of the available options.
   - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
   - `config.waypoints` **[Array][120]&lt;[OptimizationWaypoint][157]>** An ordered array of [`OptimizationWaypoint`][95] objects, between 2 and 12 (inclusive).
   - `config.annotations` **[Array][120]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
-  - `config.destination` **(`"any"` \| `"last"`)** Returned route ends at `any` (default) or `last` coordinate. (optional, default `"any"`)
-  - `config.distributions` **\[[number][114], [number][114]]?** Array of pick-up and drop-off locations as number pairs. Each number in a pair corresponds to an index in the coordinates array: the first specifies the pick-up location and the second specifies the drop-off location.
+  - `config.destination` **(`"any"` \| `"last"`)** Returned route ends at `any` or `last` coordinate. (optional, default `"any"`)
+  - `config.distributions` **\[[number][114], [number][114]]?** Array of objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the coordinates array.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
   - `config.language` **[string][111]** Language of returned turn-by-turn text instructions.
       See options listed in [the HTTP service documentation][151]. (optional, default `"en"`)
