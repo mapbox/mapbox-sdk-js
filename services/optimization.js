@@ -23,16 +23,15 @@ var Optimization = {};
  * @param {'driving'|'walking'|'cycling'} [config.profile="driving"]
  * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
- * @param {'any' | 'last'} [config.destination="any"] Returned route ends at `any` or `last` coordinate.
- * @param {[number, number]} [config.distributions] Array of objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the coordinates array.
- * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
+ * @param {'any'|'last'} [config.destination="any"] - Returned route ends at `any` or `last` coordinate.
+ * @param {[object, object]} [config.distributions] - Array of objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the coordinates array.
+ * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometries.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
  *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
- * @param {boolean} [config.roundtrip=true] Specifies whether the trip should complete by returning to the first location. 
- * @param {'any' | 'first'} [config.source="any"] To begin the route, start either from the first coordinate or let the Optimization API choose.
+ * @param {boolean} [config.roundtrip=true] - Specifies whether the trip should complete by returning to the first location.
+ * @param {'any'|'first'} [config.source="any"] - To begin the route, start either from the first coordinate or let the Optimization API choose.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
- 
  * @return {MapiRequest}
  */
 Optimization.getOptimization = function(config) {
@@ -49,7 +48,7 @@ Optimization.getOptimization = function(config) {
       )
     ),
     annotations: v.arrayOf(v.oneOf('duration', 'distance', 'speed')),
-    geometries: v.string,
+    geometries: v.oneOf('geojson', 'polyline', 'polyline6'),
     language: v.string,
     overview: v.oneOf('simplified', 'full', 'false'),
     roundtrip: v.boolean,
@@ -64,8 +63,6 @@ Optimization.getOptimization = function(config) {
     )
   })(config);
 
-  config.profile = config.profile || 'driving';
-
   var path = {
     coordinates: [],
     approach: [],
@@ -76,7 +73,6 @@ Optimization.getOptimization = function(config) {
 
   var waypointCount = config.waypoints.length;
   if (waypointCount < 2 || waypointCount > 12) {
-    // updated to reflect opt restrictions
     throw new Error(
       'waypoints must include between 2 and 12 OptimizationWaypoints'
     );
@@ -112,7 +108,14 @@ Optimization.getOptimization = function(config) {
     });
   });
 
-  ['approach', 'bearing', 'radius'].forEach(function(prop) {
+  // distributions don't necessarily align with waypoints, so join them separately
+  if (config.distributions) {
+    config.distributions.forEach(function(dist) {
+      path.distributions.push(dist.pickup + ',' + dist.dropoff);
+    });
+  }
+
+  ['approach', 'bearing', 'radius', 'distributions'].forEach(function(prop) {
     // avoid sending params which are all `;`
     if (
       path[prop].every(function(char) {
@@ -125,13 +128,6 @@ Optimization.getOptimization = function(config) {
     }
   });
 
-  if (config.distributions) {
-    var distributionsList = config.distributions.map(function(dist) {
-      return [dist.pickup, dist.dropoff];
-    });
-    path.distributions.push(distributionsList.join(';'));
-  }
-
   var query = stringifyBooleans({
     geometries: config.geometries,
     language: config.language,
@@ -140,9 +136,7 @@ Optimization.getOptimization = function(config) {
     steps: config.steps,
     source: config.source,
     destination: config.destination,
-    distributions: path.distributions.length
-      ? path.distributions[0]
-      : config.distributions,
+    distributions: path.distributions,
     approaches: path.approach,
     bearings: path.bearing,
     radiuses: path.radius
@@ -152,7 +146,7 @@ Optimization.getOptimization = function(config) {
     method: 'GET',
     path: '/optimized-trips/v1/mapbox/:profile/:coordinates',
     params: {
-      profile: config.profile,
+      profile: config.profile || 'driving',
       coordinates: path.coordinates.join(';')
     },
     query: objectClean(query)

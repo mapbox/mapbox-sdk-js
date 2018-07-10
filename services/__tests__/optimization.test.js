@@ -31,7 +31,7 @@ describe('getOptimization', () => {
     });
   });
 
-  test('it omits queries not supplied', () => {
+  test('No queries are added that the user has not supplied', () => {
     optimization.getOptimization({
       waypoints: [
         {
@@ -87,6 +87,26 @@ describe('getOptimization', () => {
         bearings: '45,20;46,21'
       }
     });
+  });
+
+  test('errors if too few waypoints are provided', () => {
+    tu.expectError(
+      () => {
+        optimization.getOptimization({
+          waypoints: [
+            {
+              coordinates: [2.2, 1.1]
+            }
+          ],
+          profile: 'walking'
+        });
+      },
+      error => {
+        expect(error.message).toMatch(
+          'waypoints must include between 2 and 12 OptimizationWaypoints'
+        );
+      }
+    );
   });
 
   test('it works if an optional waypoints.bearing is missing at some places', () => {
@@ -159,7 +179,7 @@ describe('getOptimization', () => {
     });
   });
 
-  test('waypoints.radius can be any of string or number', () => {
+  test('waypoints.radius can be "unlimited" or a number', () => {
     optimization.getOptimization({
       waypoints: [
         {
