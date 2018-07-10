@@ -1,3 +1,5 @@
 node_modules
 coverage
 umd
+.DS_Store
+.nyc_output
