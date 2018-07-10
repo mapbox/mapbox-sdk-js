@@ -126,9 +126,10 @@ Optimization.getOptimization = function(config) {
   });
 
   if (config.distributions) {
-    config.distributions.forEach(function(distribution) {
-      path.distributions.push(distribution.pickup + ',' + distribution.dropoff);
+    var distributionsList = config.distributions.map(function(dist) {
+      return [dist.pickup, dist.dropoff];
     });
+    path.distributions.push(distributionsList.join(';'));
   }
 
   var query = stringifyBooleans({
@@ -139,7 +140,9 @@ Optimization.getOptimization = function(config) {
     steps: config.steps,
     source: config.source,
     destination: config.destination,
-    distributions: path.distributions.join(';'),
+    distributions: path.distributions.length
+      ? path.distributions[0]
+      : config.distributions,
     approaches: path.approach,
     bearings: path.bearing,
     radiuses: path.radius
