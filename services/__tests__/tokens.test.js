@@ -122,13 +122,12 @@ describe('updateToken', () => {
     tokens.updateToken({
       tokenId: 'foo',
       scopes: ['styles:list'],
-      ownerId: 'chickentooth',
       note: 'horseleg',
       resources: ['one', 'two']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
-      params: { tokenId: 'foo', ownerId: 'chickentooth' },
+      params: { tokenId: 'foo' },
       method: 'PATCH',
       body: {
         scopes: ['styles:list'],

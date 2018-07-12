@@ -19,7 +19,7 @@ function file(value) {
 }
 
 function assertShape(validatorObj, apiName) {
-  return v.assert(v.shape(validatorObj), apiName);
+  return v.assert(v.strictShape(validatorObj), apiName);
 }
 
 module.exports = xtend(v, {

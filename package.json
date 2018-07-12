@@ -78,7 +78,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@mapbox/fusspot": "^0.1.0",
+    "@mapbox/fusspot": "^0.2.1",
     "@mapbox/parse-mapbox-token": "^0.2.0",
     "@mapbox/polyline": "^1.0.0",
     "eventemitter3": "^3.1.0",
