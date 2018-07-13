@@ -14,9 +14,9 @@ function urlEncodeBody(body) {
     .join('&');
 }
 
-describe('getMatching', () => {
+describe('getMatch', () => {
   test('works', () => {
-    mapMatching.getMatching({
+    mapMatching.getMatch({
       points: [
         {
           coordinates: [2.2, 1.1]
@@ -36,7 +36,7 @@ describe('getMatching', () => {
   });
 
   test('it understands isWaypoint', () => {
-    mapMatching.getMatching({
+    mapMatching.getMatch({
       points: [
         {
           coordinates: [2.2, 1.1]
@@ -71,7 +71,7 @@ describe('getMatching', () => {
   });
 
   test('it omits waypoints if all isWaypoints are true', () => {
-    mapMatching.getMatching({
+    mapMatching.getMatch({
       points: [
         {
           coordinates: [2.2, 1.1],
@@ -106,7 +106,7 @@ describe('getMatching', () => {
   });
 
   test('it always keeps first and last waypoint', () => {
-    mapMatching.getMatching({
+    mapMatching.getMatch({
       points: [
         {
           coordinates: [2.2, 1.1],
@@ -142,7 +142,7 @@ describe('getMatching', () => {
   });
 
   test('it understands other coordinate properties', () => {
-    mapMatching.getMatching({
+    mapMatching.getMatch({
       points: [
         {
           coordinates: [2.2, 1.1]
