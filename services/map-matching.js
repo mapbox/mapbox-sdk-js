@@ -29,7 +29,7 @@ var MapMatching = {};
  * @param {boolean} [config.tidy=false] - Whether or not to transparently remove clusters and re-sample traces for improved map matching results.
  * @return {MapiRequest}
  */
-MapMatching.getMatching = function(config) {
+MapMatching.getMatch = function(config) {
   v.assertShape({
     points: v.required(
       v.arrayOf(

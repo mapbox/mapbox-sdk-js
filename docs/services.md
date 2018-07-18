@@ -41,7 +41,7 @@
 - [Directions](#directions)
   - [getDirections](#getdirections)
 - [MapMatching](#mapmatching)
-  - [getMatching](#getmatching)
+  - [getMatch](#getmatch)
 - [Matrix](#matrix)
   - [getMatrix](#getmatrix)
 - [Optimization](#optimization)
@@ -608,7 +608,7 @@ Map Matching API service.
 Learn more about this service and its responses in
 [the HTTP service documentation][152].
 
-### getMatching
+### getMatch
 
 Snap recorded location traces to roads and paths.
 
@@ -1033,7 +1033,7 @@ Type: [Array][120]&lt;[number][114]>
 
 [67]: #mapmatching
 
-[68]: #getmatching
+[68]: #getmatch
 
 [69]: #parameters-28
 
