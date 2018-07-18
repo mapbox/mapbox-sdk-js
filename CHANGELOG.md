@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.3.0
 
 - **Change:** Rename `MapMatching#getMatching` to `MapMatching#getMatch`.
 - **Change:** Throw validation error if request configuration object includes invalid properties. This is a breaking change because it could cause your code to throw a new validation error informing you of a mistake in your code. But there is no change to the library's functionality: you'll just need to clean up invalid properties.
