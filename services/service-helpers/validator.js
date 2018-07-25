@@ -22,7 +22,23 @@ function assertShape(validatorObj, apiName) {
   return v.assert(v.strictShape(validatorObj), apiName);
 }
 
+function date(value) {
+  var msg = 'date';
+  if (typeof value === 'boolean') {
+    return msg;
+  }
+  try {
+    var date = new Date(value);
+    if (date.getTime && isNaN(date.getTime())) {
+      return msg;
+    }
+  } catch (e) {
+    return msg;
+  }
+}
+
 module.exports = xtend(v, {
   file: file,
+  date: date,
   assertShape: assertShape
 });
