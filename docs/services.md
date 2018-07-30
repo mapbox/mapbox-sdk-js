@@ -242,18 +242,20 @@ SDK returned.
   - `config.styleId` **[string][111]** The map's style ID.
   - `config.width` **[number][114]** Width of the image in pixels, between 1 and 1280.
   - `config.height` **[number][114]** Height of the image in pixels, between 1 and 1280.
-  - `config.coordinates` **([Coordinates][123] \| `"auto"`)** `[longitude, latitude]`
-      for the center of image; or `'auto'` to fit the map within the bounds of
-      the overlay features.
-  - `config.zoom` **[number][114]** Between 0 and 20.
-  - `config.bearing` **[number][114]?** Between 0 and 360.
-  - `config.pitch` **[number][114]?** Between 0 and 60.
+  - `config.position` **(`"auto"` \| [Object][110])** If `"auto"`, the viewport will fit the
+      bounds of the overlay(s). Otherwise, the maps' position is described by an object
+      with the following properties:
+      `coordinates` (required): `[longitude, latitude]` for the center of image.
+      `zoom` (required): Between 0 and 20.
+      `bearing` (optional): Between 0 and 360.
+      `pitch` (optional): Between 0 and 60.
   - `config.overlays` **[Array][120]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
-      the top. Overlays are objects that match one of the following types.-   [`SimpleMarkerOverlay`][97]
-    - [`CustomMarkerOverlay`][99]
-    - [`PathOverlay`][101]
-    - [`GeoJsonOverlay`][103]
+      the top. Overlays are objects that match one of the following types:
+      [`SimpleMarkerOverlay`][97],
+      [`CustomMarkerOverlay`][99],
+      [`PathOverlay`][101],
+      [`GeoJsonOverlay`][103]
   - `config.highRes` **[boolean][118]**  (optional, default `false`)
   - `config.insertOverlayBeforeLayer` **[string][111]?** The ID of the style layer
       that overlays should be inserted *before*.
@@ -269,13 +271,13 @@ Returns **MapiRequest**
 Uploads API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][124].
+[the HTTP service documentation][123].
 
 ### listUploads
 
 List the statuses of all recent uploads.
 
-See the [corresponding HTTP service documentation][125].
+See the [corresponding HTTP service documentation][124].
 
 #### Parameters
 
@@ -288,7 +290,7 @@ Returns **MapiRequest**
 
 Create S3 credentials.
 
-See the [corresponding HTTP service documentation][126].
+See the [corresponding HTTP service documentation][125].
 
 Returns **MapiRequest** 
 
@@ -296,7 +298,7 @@ Returns **MapiRequest**
 
 Create an upload.
 
-See the [corresponding HTTP service documentation][127].
+See the [corresponding HTTP service documentation][126].
 
 #### Parameters
 
@@ -314,7 +316,7 @@ Returns **MapiRequest**
 
 Get an upload's status.
 
-See the [corresponding HTTP service documentation][128].
+See the [corresponding HTTP service documentation][127].
 
 #### Parameters
 
@@ -327,7 +329,7 @@ Returns **MapiRequest**
 
 Delete an upload.
 
-See the [corresponding HTTP service documentation][129].
+See the [corresponding HTTP service documentation][128].
 
 #### Parameters
 
@@ -341,13 +343,13 @@ Returns **MapiRequest**
 Datasets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][130].
+[the HTTP service documentation][129].
 
 ### listDatasets
 
 List datasets in your account.
 
-See the [corresponding HTTP service documentation][131].
+See the [corresponding HTTP service documentation][130].
 
 Returns **MapiRequest** 
 
@@ -355,7 +357,7 @@ Returns **MapiRequest**
 
 Create a new, empty dataset.
 
-See the [corresponding HTTP service documentation][132].
+See the [corresponding HTTP service documentation][131].
 
 #### Parameters
 
@@ -369,7 +371,7 @@ Returns **MapiRequest**
 
 Get metadata about a dataset.
 
-See the [corresponding HTTP service documentation][133].
+See the [corresponding HTTP service documentation][132].
 
 #### Parameters
 
@@ -382,7 +384,7 @@ Returns **MapiRequest**
 
 Update user-defined properties of a dataset's metadata.
 
-See the [corresponding HTTP service documentation][134].
+See the [corresponding HTTP service documentation][133].
 
 #### Parameters
 
@@ -397,7 +399,7 @@ Returns **MapiRequest**
 
 Delete a dataset, including all features it contains.
 
-See the [corresponding HTTP service documentation][135].
+See the [corresponding HTTP service documentation][134].
 
 #### Parameters
 
@@ -413,7 +415,7 @@ List features in a dataset.
 This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
 the `limit` and `start` options.
 
-See the [corresponding HTTP service documentation][136].
+See the [corresponding HTTP service documentation][135].
 
 #### Parameters
 
@@ -429,7 +431,7 @@ Returns **MapiRequest**
 
 Add a feature to a dataset or update an existing one.
 
-See the [corresponding HTTP service documentation][137].
+See the [corresponding HTTP service documentation][136].
 
 #### Parameters
 
@@ -445,7 +447,7 @@ Returns **MapiRequest**
 
 Get a feature in a dataset.
 
-See the [corresponding HTTP service documentation][138].
+See the [corresponding HTTP service documentation][137].
 
 #### Parameters
 
@@ -459,7 +461,7 @@ Returns **MapiRequest**
 
 Delete a feature in a dataset.
 
-See the [corresponding HTTP service documentation][139].
+See the [corresponding HTTP service documentation][138].
 
 #### Parameters
 
@@ -474,7 +476,7 @@ Returns **MapiRequest**
 Tilequery API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][140].
+[the HTTP service documentation][139].
 
 ### listFeatures
 
@@ -485,7 +487,7 @@ List features within a radius of a point on a map (or several maps).
 - `config` **[Object][110]** 
   - `config.mapIds` **[Array][120]&lt;[string][111]>** The maps being queried.
       If you need to composite multiple layers, provide multiple map IDs.
-  - `config.coordinates` **[Coordinates][123]** The longitude and latitude to be queried.
+  - `config.coordinates` **[Coordinates][140]** The longitude and latitude to be queried.
   - `config.radius` **[number][114]** The approximate distance in meters to query for features. (optional, default `0`)
   - `config.limit` **[number][114]** The number of features to return, between 1 and 50. (optional, default `5`)
   - `config.dedupe` **[boolean][118]** Whether or not to deduplicate results. (optional, default `true`)
@@ -532,7 +534,7 @@ See the [public documentation][143].
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.countries` **[Array][120]&lt;[string][111]>?** Limits results to the specified countries.
       Each item in the array should be an [ISO 3166 alpha 2 country code][144].
-  - `config.proximity` **[Coordinates][123]?** Bias local results based on a provided location.
+  - `config.proximity` **[Coordinates][140]?** Bias local results based on a provided location.
   - `config.types` **[Array][120]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.autocomplete` **[boolean][118]** Return autocomplete results or not. (optional, default `true`)
   - `config.bbox` **[BoundingBox][145]?** Limit results to a bounding box.
@@ -552,7 +554,7 @@ See the [public documentation][148].
 #### Parameters
 
 - `config` **[Object][110]** 
-  - `config.query` **[Coordinates][123]** Coordinates at which features will be searched.
+  - `config.query` **[Coordinates][140]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.countries` **[Array][120]&lt;[string][111]>?** Limits results to the specified countries.
       Each item in the array should be an [ISO 3166 alpha 2 country code][144].
@@ -781,7 +783,7 @@ Type: [Object][110]
 
 #### Properties
 
-- `coordinates` **[Coordinates][123]** 
+- `coordinates` **[Coordinates][140]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
 - `bearing` **\[[number][114], [number][114]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
@@ -795,7 +797,7 @@ Type: [Object][110]
 
 #### Properties
 
-- `coordinates` **[Coordinates][123]** 
+- `coordinates` **[Coordinates][140]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
 - `radius` **[number][114]?** A number in meters indicating the assumed precision of the used tracking device.
 - `isWaypoint` **[boolean][118]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
@@ -808,7 +810,7 @@ Type: [Object][110]
 
 #### Properties
 
-- `coordinates` **[Coordinates][123]** `[longitude, latitude]`
+- `coordinates` **[Coordinates][140]** `[longitude, latitude]`
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
 ### OptimizationWaypoint
@@ -817,7 +819,7 @@ Type: [Object][110]
 
 #### Properties
 
-- `coordinates` **[Coordinates][123]** 
+- `coordinates` **[Coordinates][140]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
 - `bearing` **\[[number][114], [number][114]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
@@ -1143,41 +1145,41 @@ Type: [Array][120]&lt;[number][114]>
 
 [122]: https://www.mapbox.com/api-documentation/#static
 
-[123]: #coordinates
+[123]: https://www.mapbox.com/api-documentation/#uploads
 
-[124]: https://www.mapbox.com/api-documentation/#uploads
+[124]: https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses
 
-[125]: https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses
+[125]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
 
-[126]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
+[126]: https://www.mapbox.com/api-documentation/#create-an-upload
 
-[127]: https://www.mapbox.com/api-documentation/#create-an-upload
+[127]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
 
-[128]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
+[128]: https://www.mapbox.com/api-documentation/#remove-an-upload
 
-[129]: https://www.mapbox.com/api-documentation/#remove-an-upload
+[129]: https://www.mapbox.com/api-documentation/#datasets
 
-[130]: https://www.mapbox.com/api-documentation/#datasets
+[130]: https://www.mapbox.com/api-documentation/#list-datasets
 
-[131]: https://www.mapbox.com/api-documentation/#list-datasets
+[131]: https://www.mapbox.com/api-documentation/#create-dataset
 
-[132]: https://www.mapbox.com/api-documentation/#create-dataset
+[132]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
 
-[133]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+[133]: https://www.mapbox.com/api-documentation/#update-a-dataset
 
-[134]: https://www.mapbox.com/api-documentation/#update-a-dataset
+[134]: https://www.mapbox.com/api-documentation/#delete-a-dataset
 
-[135]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+[135]: https://www.mapbox.com/api-documentation/#list-features
 
-[136]: https://www.mapbox.com/api-documentation/#list-features
+[136]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
 
-[137]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+[137]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
 
-[138]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+[138]: https://www.mapbox.com/api-documentation/#delete-a-feature
 
-[139]: https://www.mapbox.com/api-documentation/#delete-a-feature
+[139]: https://www.mapbox.com/api-documentation/#tilequery
 
-[140]: https://www.mapbox.com/api-documentation/#tilequery
+[140]: #coordinates
 
 [141]: https://www.mapbox.com/api-documentation/#tilesets
 
