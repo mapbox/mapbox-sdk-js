@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- **Fix:** Fix bug in `Static#getStaticImage` that resulted in reversed coordinates when creating a polyline overlay.
+
 ## 0.3.0
 
 - **Change:** Rename `MapMatching#getMatching` to `MapMatching#getMatch`.
