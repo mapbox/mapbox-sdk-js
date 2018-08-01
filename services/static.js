@@ -25,19 +25,22 @@ var Static = {};
  * @param {string} config.styleId - The map's style ID.
  * @param {number} config.width - Width of the image in pixels, between 1 and 1280.
  * @param {number} config.height - Height of the image in pixels, between 1 and 1280.
- * @param {Coordinates|'auto'} config.coordinates - `[longitude, latitude]`
- *   for the center of image; or `'auto'` to fit the map within the bounds of
- *   the overlay features.
- * @param {number} config.zoom - Between 0 and 20.
- * @param {number} [config.bearing] - Between 0 and 360.
- * @param {number} [config.pitch] - Between 0 and 60.
+ * @param {'auto'|Object} config.position - If `"auto"`, the viewport will fit the
+ *   bounds of the overlay(s). Otherwise, the maps' position is described by an object
+ *   with the following properties:
+ *   `coordinates` (required): `[longitude, latitude]` for the center of image.
+ *   `zoom` (required): Between 0 and 20.
+ *   `bearing` (optional): Between 0 and 360.
+ *   `pitch` (optional): Between 0 and 60.
+ *
  * @param {Array<Overlay>} [config.overlays] - Overlays should be in z-index
  *   order: the first in the array will be on the bottom; the last will be on
- *   the top. Overlays are objects that match one of the following types.
- *   - [`SimpleMarkerOverlay`](#simplemarkeroverlay)
- *   - [`CustomMarkerOverlay`](#custommarkeroverlay)
- *   - [`PathOverlay`](#pathoverlay)
- *   - [`GeoJsonOverlay`](#geojsonoverlay)
+ *   the top. Overlays are objects that match one of the following types:
+ *   [`SimpleMarkerOverlay`](#simplemarkeroverlay),
+ *   [`CustomMarkerOverlay`](#custommarkeroverlay),
+ *   [`PathOverlay`](#pathoverlay),
+ *   [`GeoJsonOverlay`](#geojsonoverlay)
+ *
  * @param {boolean} [config.highRes=false]
  * @param {string} [config.insertOverlayBeforeLayer] - The ID of the style layer
  *   that overlays should be inserted *before*.
@@ -53,10 +56,17 @@ Static.getStaticImage = function(config) {
     styleId: v.required(v.string),
     width: v.required(v.range([1, 1280])),
     height: v.required(v.range([1, 1280])),
-    coordinates: v.required(v.oneOfType(v.coordinates, v.oneOf('auto'))),
-    zoom: v.required(v.range([0, 20])),
-    bearing: v.range([0, 360]),
-    pitch: v.range([0, 60]),
+    position: v.required(
+      v.oneOfType(
+        v.oneOf('auto'),
+        v.strictShape({
+          coordinates: v.required(v.coordinates),
+          zoom: v.required(v.range([0, 20])),
+          bearing: v.range([0, 360]),
+          pitch: v.range([0, 60])
+        })
+      )
+    ),
     overlays: v.arrayOf(v.plainObject),
     highRes: v.boolean,
     insertOverlayBeforeLayer: v.string,
@@ -76,24 +86,14 @@ Static.getStaticImage = function(config) {
     })
     .join(',');
 
-  var encodedPosition =
-    config.coordinates === 'auto' ? ['auto'] : config.coordinates;
-  encodedPosition = encodedPosition
-    .concat([config.zoom, config.bearing, config.pitch])
-    .filter(function(item) {
-      return item !== undefined;
-    })
-    .join(',');
-
+  var encodedPosition = encodePosition(config.position);
   var encodedDimensions = config.width + 'x' + config.height;
   if (config.highRes) {
     encodedDimensions += '@2x';
   }
 
   var preEncodedUrlParts = [encodedOverlay, encodedPosition, encodedDimensions]
-    .filter(function(item) {
-      return !!item;
-    })
+    .filter(Boolean)
     .join('/');
 
   var query = {};
@@ -114,6 +114,15 @@ Static.getStaticImage = function(config) {
     query: query
   });
 };
+
+function encodePosition(position) {
+  if (position === 'auto') return 'auto';
+
+  return position.coordinates
+    .concat([position.zoom, position.bearing, position.pitch])
+    .filter(Boolean)
+    .join(',');
+}
 
 function encodeMarkerOverlay(o) {
   if (o.url) {

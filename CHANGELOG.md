@@ -3,6 +3,7 @@
 ## HEAD
 
 - **Fix:** Fix bug in `Static#getStaticImage` that resulted in reversed coordinates when creating a polyline overlay.
+- **Change & fix:** Config for `Static#getStaticImage` now includes a `position` property that can be either `"auto"` or an object with `coordinates`, `zoom`, etc., properties. This fixes buggy behavior with the `"auto"` keyboard by forcing it to be mutually exclusive with all other positioning options.
 
 ## 0.3.0
 

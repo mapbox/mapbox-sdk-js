@@ -25,8 +25,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 4
+      position: {
+        coordinates: [12, 13],
+        zoom: 4
+      }
     });
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
@@ -42,14 +44,32 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
-      bearing: 80,
-      pitch: 30
+      position: {
+        coordinates: [12, 13],
+        zoom: 3,
+        bearing: 80,
+        pitch: 30
+      }
     });
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
       path: '/styles/v1/:ownerId/:styleId/static/12,13,3,80,30/200x300',
+      query: {},
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' }
+    });
+  });
+
+  test('auto position', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: 'auto'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
       query: {},
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
@@ -61,8 +81,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       highRes: true
     });
     expect(tu.requestConfig(service)).toEqual({
@@ -79,8 +101,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       attribution: false,
       logo: false
     });
@@ -98,8 +122,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         // Simple markers.
         {
@@ -147,8 +173,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         {
           marker: {
@@ -173,8 +201,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         {
           geoJson: {
@@ -206,8 +236,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         {
           geoJson: {
@@ -249,8 +281,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         {
           path: {
@@ -281,8 +315,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      coordinates: [12, 13],
-      zoom: 3,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       overlays: [
         {
           path: {
