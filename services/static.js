@@ -176,7 +176,7 @@ function encodeCustomMarkerOverlay(o) {
  * A stylable line.
  * @typedef {Object} PathOverlay
  * @property {Object} path
- * @property {Array<[number, number]>} path.coordinates - An array of coordinates
+ * @property {Array<Coordinates>} path.coordinates - An array of coordinates
  *   describing the path.
  * @property {number} [path.strokeWidth]
  * @property {string} [path.strokeColor]

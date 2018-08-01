@@ -861,7 +861,7 @@ Type: [Object][110]
 #### Properties
 
 - `path` **[Object][110]** 
-  - `path.coordinates` **[Array][120]&lt;\[[number][114], [number][114]]>** An array of coordinates
+  - `path.coordinates` **[Array][120]&lt;[Coordinates][123]>** An array of coordinates
       describing the path.
   - `path.strokeWidth` **[number][114]?** 
   - `path.strokeColor` **[string][111]?** 
