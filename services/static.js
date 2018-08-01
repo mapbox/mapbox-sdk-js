@@ -176,7 +176,7 @@ function encodeCustomMarkerOverlay(o) {
  * A stylable line.
  * @typedef {Object} PathOverlay
  * @property {Object} path
- * @property {Array<[number, number]>} path.coordinates - An array of coordinates
+ * @property {Array<Coordinates>} path.coordinates - An array of coordinates
  *   describing the path.
  * @property {number} [path.strokeWidth]
  * @property {string} [path.strokeColor]
@@ -221,7 +221,11 @@ function encodePathOverlay(o) {
   if (o.fillOpacity) {
     result += '-' + o.fillOpacity;
   }
-  var encodedPolyline = polyline.encode(o.coordinates);
+  // polyline expects each coordinate to be in reversed order: [lat, lng]
+  var reversedCoordinates = o.coordinates.map(function(c) {
+    return c.reverse();
+  });
+  var encodedPolyline = polyline.encode(reversedCoordinates);
   result += '(' + encodeURIComponent(encodedPolyline) + ')';
   return result;
 }

@@ -1,5 +1,12 @@
 'use strict';
 
+jest.mock('@mapbox/polyline', () => {
+  return {
+    encode: jest.fn(() => 'mock polyline')
+  };
+});
+
+const polyline = require('@mapbox/polyline');
 const staticService = require('../static');
 const tu = require('../../test/test-utils');
 
@@ -258,10 +265,14 @@ describe('getStaticImage', () => {
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
       path:
-        '/styles/v1/:ownerId/:styleId/static/path(wzrp%40uks%7C%40maiG%7B_wa%40)/12,13,3/200x300',
+        '/styles/v1/:ownerId/:styleId/static/path(mock%20polyline)/12,13,3/200x300',
       query: {},
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
+    expect(polyline.encode).toHaveBeenCalledWith([
+      [10.098670120603392, 8.1298828125],
+      [15.792253570362446, 9.4921875]
+    ]);
   });
 
   test('with fancy polyline overlay', () => {
@@ -293,9 +304,15 @@ describe('getStaticImage', () => {
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
       path:
-        '/styles/v1/:ownerId/:styleId/static/path-10+ff0000-0.4+000-0.75(wzrp%40uks%7C%40maiG%7B_wa%40ei%7DLr%60zH%7Cnr%40lplN)/12,13,3/200x300',
+        '/styles/v1/:ownerId/:styleId/static/path-10+ff0000-0.4+000-0.75(mock%20polyline)/12,13,3/200x300',
       query: {},
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
+    expect(polyline.encode).toHaveBeenCalledWith([
+      [10.098670120603392, 8.1298828125],
+      [15.792253570362446, 9.4921875],
+      [14.179186142354181, 11.77734375],
+      [11.6522364041154, 11.513671874999998]
+    ]);
   });
 });
