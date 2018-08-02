@@ -195,7 +195,7 @@ describe('getStaticImage', () => {
     });
   });
 
-  test('with GeoJSON line overlay', () => {
+  test('with GeoJSON line overlay that includes longitude <-180', () => {
     service.getStaticImage({
       ownerId: 'mapbox',
       styleId: 'streets-v10',
@@ -214,7 +214,7 @@ describe('getStaticImage', () => {
               type: 'LineString',
               coordinates: [
                 [11.09619140625, 13.132979019087472],
-                [13.11767578125, 14.392118083661728]
+                [-190.11767578125, 14.392118083661728]
               ]
             }
           }
@@ -224,7 +224,7 @@ describe('getStaticImage', () => {
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
       path:
-        '/styles/v1/:ownerId/:styleId/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%7D%2C%22geometry%22%3A%7B%22type%22%3A%22LineString%22%2C%22coordinates%22%3A%5B%5B11.09619140625%2C13.132979019087472%5D%2C%5B13.11767578125%2C14.392118083661728%5D%5D%7D%7D)/12,13,3/200x300',
+        '/styles/v1/:ownerId/:styleId/static/geojson(%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%7D%2C%22geometry%22%3A%7B%22type%22%3A%22LineString%22%2C%22coordinates%22%3A%5B%5B11.09619140625%2C13.132979019087472%5D%2C%5B-190.11767578125%2C14.392118083661728%5D%5D%7D%7D)/12,13,3/200x300',
       query: {},
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
