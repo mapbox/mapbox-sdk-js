@@ -2,8 +2,9 @@
 
 ## HEAD
 
-- **Fix:** Fix bug in `Static#getStaticImage` that resulted in reversed coordinates when creating a polyline overlay.
 - **Change & fix:** Config for `Static#getStaticImage` now includes a `position` property that can be either `"auto"` or an object with `coordinates`, `zoom`, etc., properties. This fixes buggy behavior with the `"auto"` keyboard by forcing it to be mutually exclusive with all other positioning options.
+- **Fix:** Fix bug in `Static#getStaticImage` that resulted in reversed coordinates when creating a polyline overlay.
+- **Fix:** Loosen the type validation on coordinates, since longitudes greater than 180 or less than -180 are valid for some APIs.
 
 ## 0.3.0
 

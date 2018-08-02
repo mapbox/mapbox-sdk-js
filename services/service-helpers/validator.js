@@ -37,8 +37,13 @@ function date(value) {
   }
 }
 
+function coordinates(value) {
+  return v.tuple(v.number, v.number)(value);
+}
+
 module.exports = xtend(v, {
   file: file,
   date: date,
+  coordinates: coordinates,
   assertShape: assertShape
 });
