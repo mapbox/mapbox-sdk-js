@@ -31,6 +31,7 @@ The `emitter` property is an `EventEmitter` that emits the following events:
 - `'error'` - Listeners will be called with a `MapiError`.
 - `'downloadProgress'` - Listeners will be called with `ProgressEvents`.
 - `'uploadProgress'` - Listeners will be called with `ProgressEvents`.
+  Upload events are only available when the request includes a file.
 
 ### Properties
 
