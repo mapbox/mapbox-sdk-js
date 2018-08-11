@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- **Fix:** Fix a CORS-related bug that caused Firefox to send preflight `OPTIONS` requests that were rejected by the server. This bug surfaced in Firefox with the Tilequery API, but may possibly have affected some other endpoints and some other browsers.
+
 ## 0.4.0
 
 - **Breaking change & fix:** Config for `Static#getStaticImage` now includes a `position` property that can be either `"auto"` or an object with `coordinates`, `zoom`, etc., properties. This fixes buggy behavior with the `"auto"` keyboard by forcing it to be mutually exclusive with all other positioning options.
