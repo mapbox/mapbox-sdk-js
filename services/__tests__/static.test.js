@@ -351,4 +351,69 @@ describe('getStaticImage', () => {
       [11.6522364041154, 11.513671874999998]
     ]);
   });
+
+  test('catches bad polylines', () => {
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        overlays: [
+          {
+            path: {
+              coordinates: [
+                [8.1298828125, 10.098670120603392],
+                [9.4921875, 15.792253570362446]
+              ],
+              strokeOpacity: 0.4
+            }
+          }
+        ]
+      });
+    }).toThrow(/strokeOpacity requires strokeColor/);
+
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        overlays: [
+          {
+            path: {
+              coordinates: [
+                [8.1298828125, 10.098670120603392],
+                [9.4921875, 15.792253570362446]
+              ],
+              fillColor: '000'
+            }
+          }
+        ]
+      });
+    }).toThrow(/fillColor requires strokeColor/);
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        overlays: [
+          {
+            path: {
+              coordinates: [
+                [8.1298828125, 10.098670120603392],
+                [9.4921875, 15.792253570362446]
+              ],
+              strokeColor: 'ff0000',
+              fillOpacity: 0.75
+            }
+          }
+        ]
+      });
+    }).toThrow(/fillOpacity requires fillColor/);
+  });
 });

@@ -11,8 +11,7 @@ beforeEach(() => {
 describe('forwardGeocode', () => {
   test('with minimal config', () => {
     geocoding.forwardGeocode({
-      query: 'Tucson',
-      mode: 'mapbox.places'
+      query: 'Tucson'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -60,8 +59,7 @@ describe('forwardGeocode', () => {
 describe('reverseGeocode', () => {
   test('with minimal config', () => {
     geocoding.reverseGeocode({
-      query: [15, 14],
-      mode: 'mapbox.places'
+      query: [15, 14]
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',

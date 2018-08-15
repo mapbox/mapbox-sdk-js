@@ -55,7 +55,7 @@ The `emitter` property is an `EventEmitter` that emits the following events:
     a URL query string.
 - `params` **[Object][24]** A route parameters object, whose values will
     be interpolated the path.
-- `headers` **[Object][24]** The request's headers,
+- `headers` **[Object][24]** The request's headers.
 - `body` **([Object][24] \| [string][23] | null)** Data to send with the request.
     If the request has a body, it will also be sent with the header
     `'Content-Type: application/json'`.

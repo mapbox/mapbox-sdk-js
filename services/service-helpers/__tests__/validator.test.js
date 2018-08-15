@@ -51,3 +51,26 @@ describe('v.file in Node', () => {
     ).toBeUndefined();
   });
 });
+
+describe('v.date', () => {
+  var check = t(v.date);
+
+  test('rejects values that cannot be passed to the Date constructor to create a valid date', () => {
+    expect(check(true)).toEqual(['date']);
+    expect(check('egg sandwich')).toEqual(['date']);
+    expect(check({ one: 1, two: 2 })).toEqual(['date']);
+    expect(check(() => {})).toEqual(['date']);
+    // Make the Date constructor error.
+    jest.spyOn(global, 'Date').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(check(1534285808537)).toEqual(['date']);
+  });
+
+  test('accepts values that can be passed to the Date constructor to create a valid date', () => {
+    expect(check(new Date())).toBeUndefined();
+    expect(check('2018-03-03')).toBeUndefined();
+    expect(check('Tue Aug 14 2018 15:29:53 GMT-0700 (MST)')).toBeUndefined();
+    expect(check(1534285808537)).toBeUndefined();
+  });
+});

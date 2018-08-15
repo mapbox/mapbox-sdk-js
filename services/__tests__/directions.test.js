@@ -193,4 +193,32 @@ describe('getDirections', () => {
       }
     });
   });
+
+  test('errors if there are too few waypoints', () => {
+    expect(() => {
+      directions.getDirections({
+        waypoints: [
+          {
+            coordinates: [2.2, 1.1],
+            radius: 2000
+          }
+        ]
+      });
+    }).toThrowError(/between 2 and 25/);
+  });
+
+  test('errors if there are too many waypoints', () => {
+    expect(() => {
+      const waypoints = [];
+      for (let i = 0; i < 26; i++) {
+        waypoints.push({
+          coordinates: [2.2, 1.1],
+          radius: 2000
+        });
+      }
+      directions.getDirections({
+        waypoints
+      });
+    }).toThrowError(/between 2 and 25/);
+  });
 });
