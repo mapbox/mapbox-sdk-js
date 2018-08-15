@@ -129,9 +129,11 @@ req.send().then(response => {..}, error => {
 req.abort();
 
 // Paginate through a response.
-tilesetsService.listTilesets().eachPage((error, response, next) => {
+tilesetsService.listTilesets().eachPage((error, response, next) => {  
   // Do something with the page, then call next() to send the request
-  // for the next page.
+  // for the next page. If you want to check if there are any more pages to call
+  // use res.hasNextPage() first.
+  if (res.hasNextPage()) return next();
 });
 
 // Listen for uploadProgress events.
