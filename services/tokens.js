@@ -67,13 +67,12 @@ Tokens.createToken = function(config) {
  *
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-temporary-token).
  *
- * @param {Object} [config]
- * @param {string} [config.expires]
- * @param {Array<string>} [config.scopes]
+ * @param {Object} config
+ * @param {string} config.expires
+ * @param {Array<string>} config.scopes
  * @return {MapiRequest}
  */
 Tokens.createTemporaryToken = function(config) {
-  config = config || {};
   v.assertShape({
     expires: v.required(v.date),
     scopes: v.required(v.arrayOf(v.string))

@@ -162,4 +162,24 @@ describe('getMatrix', () => {
       }
     });
   });
+
+  test('errors if there are too few points', () => {
+    expect(() => {
+      matrix.getMatrix({
+        points: [{ coordinates: [2.2, 1.1] }]
+      });
+    }).toThrowError(/between 2 and 100/);
+  });
+
+  test('errors if there are too many points', () => {
+    expect(() => {
+      const points = [];
+      for (let i = 0; i < 101; i++) {
+        points.push({ coordinates: [2.2, 1.1] });
+      }
+      matrix.getMatrix({
+        points
+      });
+    }).toThrowError(/between 2 and 100/);
+  });
 });

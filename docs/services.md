@@ -721,9 +721,9 @@ See the [corresponding HTTP service documentation][161].
 
 #### Parameters
 
-- `config` **[Object][110]?** 
-  - `config.expires` **[string][111]?** 
-  - `config.scopes` **[Array][120]&lt;[string][111]>?** 
+- `config` **[Object][110]** 
+  - `config.expires` **[string][111]** 
+  - `config.scopes` **[Array][120]&lt;[string][111]>** 
 
 Returns **MapiRequest** 
 
