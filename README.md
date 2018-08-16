@@ -131,9 +131,12 @@ req.abort();
 // Paginate through a response.
 tilesetsService.listTilesets().eachPage((error, response, next) => {
   // Do something with the page, then call next() to send the request
-  // for the next page. If you want to check if there are any more pages to call
-  // use res.hasNextPage() first.
-  if (res.hasNextPage()) return next();
+  // for the next page.
+
+  // You can check whether there will be a next page using
+  // MapiResponse#hasNextPage, if you want to do something
+  // different on the last page.
+  if (!res.hasNextPage()) {..}
 });
 
 // Listen for uploadProgress events.
