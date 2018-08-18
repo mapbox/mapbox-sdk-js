@@ -192,6 +192,8 @@ that is appropriate to the configuration and environment
 
 - `accessToken` **[string][23]** The Mapbox access token assigned
     to this client.
+- `origin` **[string][23]?** The origin
+    to use for API requests. Defaults to [https://api.mapbox.com][31].
 
 [1]: #mapirequest
 
@@ -252,3 +254,5 @@ that is appropriate to the configuration and environment
 [29]: #mapirequest
 
 [30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[31]: https://api.mapbox.com
