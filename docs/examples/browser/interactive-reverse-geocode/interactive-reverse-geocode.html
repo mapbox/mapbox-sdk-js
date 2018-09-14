@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <title>Display a map</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+    #geocodeResults {
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      z-index: 999;
+      padding: 1em;
+      background-color: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id='map'></div>
+  <div id='geocodeResults'></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3dpY2siLCJhIjoiY2l1dTUzcmgxMDJ0djJ0b2VhY2sxNXBiMyJ9.25Qs4HNEkHubd4_Awbd8Og';
+    var map = new mapboxgl.Map({
+      container: 'map', 
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [-74.50, 40],
+      zoom: 9 
+    });
+    var baseClient;
+    var reverseGeocodeConfig = {
+      query: [], // coordinates [lon, lat]
+      mode: 'mapbox.places'
+
+    }
+
+    map.on('load', function() {
+      baseClient = initGeocodeService();
+    });
+
+    map.on('click', function(e) {
+      reverseGeocodeConfig.query = [e.lngLat.lng, e.lngLat.lat];
+      requestReverseGeocode().then(function(res) { displayReverseGeocodeResults(res) });
+    });
+
+    function initGeocodeService() {
+      return mapboxSdk({accessToken: mapboxgl.accessToken});
+    }
+    function requestReverseGeocode() {
+      return baseClient.geocoding.reverseGeocode(reverseGeocodeConfig)
+        .send()
+        .then(function(res) { 
+          return res.body.features 
+        });
+    }
+    function displayReverseGeocodeResults(resultItems) {
+      var resultsContainer = document.getElementById('geocodeResults');
+      resultsContainer.innerHTML = '';
+      var ulEl = document.createElement('ul');
+      resultItems.forEach(function(item) {
+        var itemLi = document.createElement('li');
+        itemLi.textContent = item.text;
+        ulEl.appendChild(itemLi);
+      });
+      resultsContainer.appendChild(ulEl);
+    }
+    
+  </script>
+
+</body>
+
+</html>
