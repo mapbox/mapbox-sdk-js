@@ -28,7 +28,7 @@ var Static = {};
  * @param {'auto'|Object} config.position - If `"auto"`, the viewport will fit the
  *   bounds of the overlay(s). Otherwise, the maps' position is described by an object
  *   with the following properties:
- *   `coordinates` (required): `[longitude, latitude]` for the center of image.
+ *   `coordinates` (required): [`coordinates`](#coordinates) for the center of image.
  *   `zoom` (required): Between 0 and 20.
  *   `bearing` (optional): Between 0 and 360.
  *   `pitch` (optional): Between 0 and 60.
