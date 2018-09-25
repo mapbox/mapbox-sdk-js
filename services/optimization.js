@@ -24,7 +24,7 @@ var Optimization = {};
  * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'any'|'last'} [config.destination="any"] - Returned route ends at `any` or `last` coordinate.
- * @param {Array<Distribution>} [config.distributions] - An ordered array of  [`Distribution`](#distribution), each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
+ * @param {Array<Distribution>} [config.distributions] - An ordered array of [`Distribution`](#distribution) objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometries.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
  *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
