@@ -21,10 +21,11 @@ describe('getCountours', () => {
             method: 'GET',
             params: {
                 coordinates: '-118.22258,33.99038',
-                contours_minutes: '5,10,15',
                 profile: 'driving'
             },
-            query: {}
+            query: {
+                contours_minutes: '5,10,15'
+            }
         });
     });
 
@@ -41,10 +42,10 @@ describe('getCountours', () => {
             method: 'GET',
             params: {
                 coordinates: '-118.22258,33.99038',
-                contours_minutes: '5,10,15',
                 profile: 'walking'
             },
             query: {
+                contours_minutes: '5,10,15',
                 polygons: 'true'
             }
         });
@@ -66,10 +67,10 @@ describe('getCountours', () => {
             method: 'GET',
             params: {
                 coordinates: '-118.22258,33.99038',
-                contours_minutes: '5,10,15,20',
                 profile: 'walking'
             },
             query: {
+                contours_minutes: '5,10,15,20',
                 polygons: 'true',
                 colors: '6706ce,04e813,4286f4',
                 denoise: 'true',
@@ -90,10 +91,10 @@ describe('getCountours', () => {
             method: 'GET',
             params: {
                 coordinates: '-118.22258,33.99038',
-                contours_minutes: '5,10,15',
                 profile: 'driving'
             },
             query: {
+                contours_minutes: '5,10,15',
                 colors: '6706ce,04e813,4286f4'
             }
         });

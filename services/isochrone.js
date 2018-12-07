@@ -61,6 +61,7 @@ Isochrone.getContours = function(config){
     }
 
     var query = stringifyBooleans({
+        contours_minutes: config.minutes.join(','),
         colors: config.colors ? config.colors.join(',') : null,
         polygons: config.polygons,
         denoise: config.denoise,
@@ -72,8 +73,7 @@ Isochrone.getContours = function(config){
         path: '/isochrone/v1/mapbox/:profile/:coordinates',
         params: {
             profile: config.profile,
-            coordinates: config.coordinates.join(','),
-            contours_minutes: config.minutes.join(',')
+            coordinates: config.coordinates.join(',')
           },
           query: objectClean(query)
       });
