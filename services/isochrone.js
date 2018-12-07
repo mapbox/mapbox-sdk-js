@@ -5,13 +5,16 @@ var objectClean = require('./service-helpers/object-clean');
 var stringifyBooleans = require('./service-helpers/stringify-booleans');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
+/**
+ * Isochrone API service.
+ *
+ * Learn more about this service and its responses in
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#isochrone).
+ */
 var Isochrone = {};
 
 /**
  * Given a location and a routing profile, retrieve up to four isochrone contours
- * 
- * See the [public documentation](https://www.mapbox.com/api-documentation/#isochrone)
- * 
  * @param {Object} config
  * @param {'driving'|'walking'|'cycling'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
  * @param {Coordinates} config.coordinates - A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
