@@ -10,7 +10,7 @@ describe('includes all services', () => {
     .readdirSync(path.join(__dirname, '../services'))
     .filter(filename => path.extname(filename) === '.js')
     .map(filename => camelcase(path.basename(filename, '.js')));
-
+console.log(services);
   // Mock token lifted from parse-mapbox-token tests.
   const client = mapboxSdk({
     accessToken:
