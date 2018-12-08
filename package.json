@@ -112,5 +112,6 @@
   },
   "engines": {
     "node": ">=6"
-  }
+  },
+  "types": "./types/index.d.ts"
 }
