@@ -44,7 +44,7 @@ Isochrone.getContours = function(config){
         throw new Error('minutes must contain between 1 and 4 countour values');
     }
 
-    if(!config.minutes.every(minute => minute <= 60)){
+    if(!config.minutes.every(function(minute){return minute <= 60})){
         throw new Error('minutes must less than 60');
     }
 
@@ -52,6 +52,7 @@ Isochrone.getContours = function(config){
         throw new Error('generalize tolerance must be a positive number');
     }
 
+    // For Politeness, Strip "#" from Colors. 
     if(config.colors){
         config.colors = config.colors.map(function(color){
             if(color.startsWith("#"))
