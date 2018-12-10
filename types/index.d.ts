@@ -856,10 +856,12 @@
         styleId: string;
         width: number;
         height: number;
-        coordinates: mapboxgl.LngLatLike | "auto";
-        zoom: number;
-        bearing?: number;
-        pitch?: number;
+        position: {
+            coordinates: mapboxgl.LngLatLike | "auto";
+            zoom: number;
+            bearing?: number;
+            pitch?: number;
+        } | "auto";
         overlays?: CustomMarkerOverlay[] | PathOverlay[] | GeoJsonOverlay[];
         highRes?: boolean;
         insertOverlayBeforeLayer?: string;
