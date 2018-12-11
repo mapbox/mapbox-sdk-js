@@ -72,7 +72,7 @@ describe('getCountours', () => {
             query: {
                 contours_minutes: '5,10,15,20',
                 polygons: 'true',
-                colors: '6706ce,04e813,4286f4',
+                contours_colors: '6706ce,04e813,4286f4',
                 denoise: 'true',
                 generalize: 0
             }
@@ -95,7 +95,7 @@ describe('getCountours', () => {
             },
             query: {
                 contours_minutes: '5,10,15',
-                colors: '6706ce,04e813,4286f4'
+                contours_colors: '6706ce,04e813,4286f4'
             }
         });
       });

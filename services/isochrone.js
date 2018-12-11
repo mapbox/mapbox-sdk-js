@@ -63,7 +63,7 @@ Isochrone.getContours = function(config){
 
     var query = stringifyBooleans({
         contours_minutes: config.minutes.join(','),
-        colors: config.colors ? config.colors.join(',') : null,
+        contours_colors: config.colors ? config.colors.join(',') : null,
         polygons: config.polygons,
         denoise: config.denoise,
         generalize: config.generalize
