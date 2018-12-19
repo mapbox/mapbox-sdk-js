@@ -133,6 +133,9 @@ MapMatching.getMatch = function(config) {
       .map(function(val, i) {
         return val === true ? i : '';
       })
+      .filter(function(x) {
+        return x === 0 || Boolean(x);
+      })
       .join(';');
   }
 
