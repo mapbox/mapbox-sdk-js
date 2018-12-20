@@ -1058,6 +1058,30 @@ to understand all of the available options.
 
 Returns **MapiRequest**
 
+#### getDirections example
+```javascript
+directionsClient
+  .getDirections({
+    waypoints: [
+      {
+        coordinates: [13.4301, 52.5109],
+        approach: 'unrestricted'
+      },
+      {
+        coordinates: [13.4265, 52.508]
+      },
+      {
+        coordinates: [13.4194, 52.5072],
+        bearing: [100, 60]
+      }
+    ]
+  })
+  .send()
+  .then(response => {
+    const directions = response.body;
+  });
+```
+
 ## MapMatching
 
 Map Matching API service.
