@@ -869,6 +869,21 @@ List a user's tilesets.
 
 Returns **MapiRequest**
 
+#### listTilesets example
+```javascript
+tilesetsClient
+  .listTilesets()
+  .then(response => {
+    const tilesets = response.body;
+  });
+
+tilesetsClient
+  .listTilesets()
+  .eachPage((error, response, next) => {
+    // Handle error or response and call next.
+  });
+```
+
 ## Geocoding
 
 Geocoding API service.
