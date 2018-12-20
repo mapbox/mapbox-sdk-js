@@ -355,6 +355,22 @@ See the [corresponding HTTP service documentation][132].
 
 Returns **MapiRequest**
 
+#### listDatasets example
+```javascript
+datasetsClient
+  .listDatasets()
+  .send()
+  .then(response => {
+    const datasets = response.body;
+  });
+
+datasetsClient
+  .listDatasets()
+  .eachPage((error, response, next) => {
+    // Handle error or response and call next.
+  });
+```
+
 ### createDataset
 
 Create a new, empty dataset.
@@ -369,6 +385,19 @@ See the [corresponding HTTP service documentation][133].
 
 Returns **MapiRequest**
 
+#### createDataset example
+```javascript
+datasetsClient
+  .createDataset({
+    name: 'example',
+    description: 'An example dataset'
+  })
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  });
+```
+
 ### getMetadata
 
 Get metadata about a dataset.
@@ -381,6 +410,18 @@ See the [corresponding HTTP service documentation][134].
   - `config.datasetId` **[string][113]**
 
 Returns **MapiRequest**
+
+#### getMetadata example
+```javascript
+datasetsClient
+  .getMetadata({
+    datasetId: 'dataset-id'
+  })
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  })
+```
 
 ### updateMetadata
 
@@ -397,6 +438,19 @@ See the [corresponding HTTP service documentation][135].
 
 Returns **MapiRequest**
 
+#### updateMetadata example
+```javascript
+datasetsClient
+  .updateMetadata({
+    datasetId: 'dataset-id',
+    name: 'foo'
+  })
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  });
+```
+
 ### deleteDataset
 
 Delete a dataset, including all features it contains.
@@ -409,6 +463,18 @@ See the [corresponding HTTP service documentation][136].
   - `config.datasetId` **[string][113]**
 
 Returns **MapiRequest**
+
+#### deleteDataset example
+```javascript
+datasetsClient
+  .deleteDataset({
+    datasetId: 'dataset-id'
+  })
+  .send()
+  .then(response => {
+    // Dataset is successfully deleted.
+  });
+```
 
 ### listFeatures
 
@@ -429,6 +495,18 @@ See the [corresponding HTTP service documentation][137].
 
 Returns **MapiRequest**
 
+#### listFeatures example
+```javascript
+datasetsClient
+  .listFeatures({
+    datasetId: 'dataset-id'
+  })
+  .send()
+  .then(response => {
+    const features = response.body;
+  });
+```
+
 ### putFeature
 
 Add a feature to a dataset or update an existing one.
@@ -445,6 +523,27 @@ See the [corresponding HTTP service documentation][138].
 
 Returns **MapiRequest**
 
+#### putFeature example
+```javascript
+datasetsClient
+  .putFeature({
+    datasetId: 'dataset-id',
+    featureId: 'null-island',
+    feature: {
+      "type": "Feature",
+      "properties": { "name": "Null Island" },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0, 0]
+      }
+    }
+  })
+  .send()
+  .then(response => {
+    const feature = response.body;
+  });
+```
+
 ### getFeature
 
 Get a feature in a dataset.
@@ -459,6 +558,19 @@ See the [corresponding HTTP service documentation][139].
 
 Returns **MapiRequest**
 
+#### getFeature example
+```javascript
+datasetsClient
+  .getFeature({
+    datasetId: 'dataset-id',
+    featureId: 'feature-id'
+  })
+  .send()
+  .then(response => {
+    const feature = response.body;
+  });
+```
+
 ### deleteFeature
 
 Delete a feature in a dataset.
@@ -472,6 +584,19 @@ See the [corresponding HTTP service documentation][140].
   - `config.featureId` **[string][113]**
 
 Returns **MapiRequest**
+
+#### deleteFeature example
+```javascript
+datasetsClient
+  .deleteFeature({
+    datasetId: 'dataset-id',
+    featureId: 'feature-id'
+  })
+  .send()
+  .then(response => {
+    // Feature is successfully deleted.
+  });
+```
 
 ## Tilequery
 
