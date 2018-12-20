@@ -206,6 +206,20 @@ See [the corresponding HTTP service documentation][121].
 
 Returns **MapiRequest**
 
+#### getFontGlyphRange example
+```javascript
+stylesClient
+  .getFontGlyphRange({
+    fonts: 'Arial Unicode',
+    start: 0,
+    end: 255
+  })
+  .send()
+  .then(response => {
+    const glyph = response.body;
+  });
+```
+
 ### getEmbeddableHtml
 
 Get embeddable HTML displaying a map.
@@ -267,6 +281,88 @@ SDK returned.
       on the map image. (optional, default `true`)
 
 Returns **MapiRequest**
+
+#### getStaticImage example
+```javascript
+staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,
+    height: 300,
+    position: {
+      coordinates: [12, 13],
+      zoom: 4
+    }
+  })
+  .send()
+  .then(response => {
+    const image = response.body;
+  });
+
+staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,
+    height: 300,
+    position: {
+      coordinates: [12, 13],
+      zoom: 3
+    },
+    overlays: [
+      // Simple markers.
+      {
+        marker: {
+          coordinates: [12.2, 12.8]
+        }
+      },
+      {
+        marker: {
+          size: 'large',
+          coordinates: [14, 13.2],
+          label: 'm',
+          color: '#000'
+        }
+      },
+      {
+        marker: {
+          coordinates: [15, 15.2],
+          label: 'airport',
+          color: '#ff0000'
+        }
+      },
+      // Custom marker
+      {
+        marker: {
+          coordinates: [10, 11],
+          url:
+            'https://upload.wikimedia.org/wikipedia/commons/6/6f/0xff_timetracker.png'
+        }
+      }
+    ]
+  })
+  .send()
+  .then(response => {
+    const image = response.body;
+  });
+
+// To get the URL instead of the image, create a request
+// and get its URL without sending it.
+const request = staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,  
+    height: 300,
+    position: {
+      coordinates: [12, 13],
+      zoom: 4
+    }
+  });
+const staticImageUrl = request.url();
+// Now you can open staticImageUrl in a browser.
+```
 
 ## Uploads
 
