@@ -1170,6 +1170,33 @@ Get a duration and/or distance matrix showing travel times and distances between
 
 Returns **MapiRequest**
 
+#### getMatrix example
+```javascript
+matrixClient
+  .getMatrix({
+    points: [
+      {
+        coordinates: [2.2, 1.1]
+      },
+      {
+        coordinates: [2.2, 1.1],
+        approach: 'curb'
+      },
+      {
+        coordinates: [3.2, 1.1]
+      },
+      {
+        coordinates: [4.2, 1.1]
+      }
+    ],
+    profile: 'walking'
+  })
+  .send()
+  .then(response => {
+      const matrix = response.body;
+  });
+```
+
 ## Optimization
 
 Optimization API service.
