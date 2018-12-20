@@ -1000,6 +1000,52 @@ See the [public documentation][145].
 
 Returns **MapiRequest**
 
+#### forwardGeocode example
+```javascript
+geocodingClient
+  .forwardGeocode({
+    query: 'Paris, France',
+    limit: 2
+  })
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+
+// geocoding with proximity
+geocodingClient
+  .forwardGeocode({
+    query: 'Paris, France',
+    proximity: [-95.4431142, 33.6875431]
+  })
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+
+// geocoding with countries
+geocodingClient
+  .forwardGeocode({
+    query: 'Paris, France',
+    countries: ['fr']
+  })
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+
+// geocoding with bounding box
+geocodingClient
+  .forwardGeocode({
+    query: 'Paris, France',
+    bbox: [2.14, 48.72, 2.55, 48.96]
+  })
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+```
+
 ### reverseGeocode
 
 Search for places near coordinates.
@@ -1022,6 +1068,20 @@ See the [public documentation][150].
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
 
 Returns **MapiRequest**
+
+#### reverseGeocode example
+```javascript
+geocodingClient
+  .reverseGeocode({
+    query: [-95.4431142, 33.6875431],
+    limit: 2
+  })
+  .send()
+  .then(response => {
+      // match is a GeoJSON document with geocoding matches
+    const match = response.body;
+  });
+```
 
 ## Directions
 
