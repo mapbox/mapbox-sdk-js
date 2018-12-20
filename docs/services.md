@@ -836,6 +836,21 @@ List features within a radius of a point on a map (or several maps).
 
 Returns **MapiRequest**
 
+#### listFeatures example
+```javascript
+// Retrieve features within a 10 meter radius of the specified location
+tilequeryClient
+  .listFeatures({
+    mapIds: ['mapbox.mapbox-streets-v8'],
+    coordinates: [-122.42901, 37.80633],
+    radius: 10
+  })
+  .send()
+  .then(response => {
+    const features = response.body;
+  });
+```
+
 ## Tilesets
 
 Tilesets API service.
