@@ -84,11 +84,11 @@ See the [corresponding HTTP service documentation][111].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### createStyle
 
@@ -98,11 +98,11 @@ See the [corresponding HTTP service documentation][114].
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.style` **[Object][112]** Stylesheet JSON object.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### updateStyle
 
@@ -112,14 +112,14 @@ See the [corresponding HTTP service documentation][115].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
   - `config.style` **[Object][112]** Stylesheet JSON object.
   - `config.lastKnownModification` **([string][113] \| [number][116] \| [Date][117])?** Datetime of last
       known update. Passed as 'If-Unmodified-Since' HTTP header.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### deleteStyle
 
@@ -127,11 +127,11 @@ Delete a style.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### listStyles
 
@@ -139,11 +139,11 @@ List styles in your account.
 
 #### Parameters
 
-- `config` **[Object][112]?** 
+- `config` **[Object][112]?**
   - `config.start` **[string][113]?** The style ID to start at, for paginated results.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### putStyleIcon
 
@@ -151,13 +151,13 @@ Add an icon to a style, or update an existing one.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.iconId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
+  - `config.iconId` **[string][113]**
   - `config.file` **[UploadableFile][118]** An SVG file.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### deleteStyleIcon
 
@@ -165,12 +165,12 @@ Remove an icon from a style.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.iconId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
+  - `config.iconId` **[string][113]**
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getStyleSprite
 
@@ -180,14 +180,14 @@ See [the corresponding HTTP service documentation][119].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.styleId` **[string][113]**
   - `config.format` **(`"json"` \| `"png"`)**  (optional, default `"json"`)
   - `config.highRes` **[boolean][120]?** If true, returns spritesheet with 2x
       resolution.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getFontGlyphRange
 
@@ -197,14 +197,14 @@ See [the corresponding HTTP service documentation][121].
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.fonts` **([string][113] \| [Array][122]&lt;[string][113]>)** An array of font names.
   - `config.start` **[number][116]** Character code of the starting glyph.
   - `config.end` **[number][116]** Character code of the last glyph,
       typically equivalent to`config.start + 255`.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getEmbeddableHtml
 
@@ -214,13 +214,13 @@ See [the corresponding HTTP service documentation][123].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-- `styleId` **[string][113]** 
+- `config` **[Object][112]**
+- `styleId` **[string][113]**
 - `scrollZoom` **[boolean][120]** If `false`, zooming the map by scrolling will
     be disabled. (optional, default `true`)
 - `title` **[boolean][120]** If `true`, the map's title and owner is displayed
     in the upper right corner of the map. (optional, default `false`)
-- `ownerId` **ownerId?** 
+- `ownerId` **ownerId?**
 
 ## Static
 
@@ -239,7 +239,7 @@ SDK returned.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.ownerId` **[string][113]** The owner of the map style.
   - `config.styleId` **[string][113]** The map's style ID.
   - `config.width` **[number][116]** Width of the image in pixels, between 1 and 1280.
@@ -266,7 +266,7 @@ SDK returned.
   - `config.logo` **[boolean][120]** Whether there is a Mapbox logo
       on the map image. (optional, default `true`)
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Uploads
 
@@ -283,10 +283,10 @@ See the [corresponding HTTP service documentation][126].
 
 #### Parameters
 
-- `config` **[Object][112]?** 
+- `config` **[Object][112]?**
   - `config.reverse` **[boolean][120]?** List uploads in chronological order, rather than reverse chronological order.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### createUploadCredentials
 
@@ -294,7 +294,7 @@ Create S3 credentials.
 
 See the [corresponding HTTP service documentation][127].
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### createUpload
 
@@ -304,7 +304,7 @@ See the [corresponding HTTP service documentation][128].
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.mapId` **[string][113]** The map ID to create or replace in the format `username.nameoftileset`.
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
   - `config.url` **[string][113]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][28]
@@ -312,7 +312,7 @@ See the [corresponding HTTP service documentation][128].
       This should be in the format `mapbox://datasets/{username}/{datasetId}`.
   - `config.tilesetName` **[string][113]?** Name for the tileset. Limited to 64 characters.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getUpload
 
@@ -322,10 +322,10 @@ See the [corresponding HTTP service documentation][129].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.uploadId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.uploadId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### deleteUpload
 
@@ -335,10 +335,10 @@ See the [corresponding HTTP service documentation][130].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.uploadId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.uploadId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Datasets
 
@@ -353,7 +353,7 @@ List datasets in your account.
 
 See the [corresponding HTTP service documentation][132].
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### createDataset
 
@@ -363,11 +363,11 @@ See the [corresponding HTTP service documentation][133].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.name` **[string][113]?** 
-  - `config.description` **[string][113]?** 
+- `config` **[Object][112]**
+  - `config.name` **[string][113]?**
+  - `config.description` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getMetadata
 
@@ -377,10 +377,10 @@ See the [corresponding HTTP service documentation][134].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### updateMetadata
 
@@ -390,12 +390,12 @@ See the [corresponding HTTP service documentation][135].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.name` **[string][113]?** 
-  - `config.description` **[string][113]?** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
+  - `config.name` **[string][113]?**
+  - `config.description` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### deleteDataset
 
@@ -405,10 +405,10 @@ See the [corresponding HTTP service documentation][136].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### listFeatures
 
@@ -421,13 +421,13 @@ See the [corresponding HTTP service documentation][137].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
   - `config.limit` **[number][116]?** Only list this number of features.
   - `config.start` **[string][113]?** The ID of the feature from which the listing should
       start.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### putFeature
 
@@ -437,13 +437,13 @@ See the [corresponding HTTP service documentation][138].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
+  - `config.featureId` **[string][113]**
   - `config.feature` **[Object][112]** Valid GeoJSON that is not a `FeatureCollection`.
       If the feature has a top-level `id` property, it must match the `featureId` you specify.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### getFeature
 
@@ -453,11 +453,11 @@ See the [corresponding HTTP service documentation][139].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
+  - `config.featureId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### deleteFeature
 
@@ -467,11 +467,11 @@ See the [corresponding HTTP service documentation][140].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.datasetId` **[string][113]**
+  - `config.featureId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Tilequery
 
@@ -486,7 +486,7 @@ List features within a radius of a point on a map (or several maps).
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.mapIds` **[Array][122]&lt;[string][113]>** The maps being queried.
       If you need to composite multiple layers, provide multiple map IDs.
   - `config.coordinates` **[Coordinates][142]** The longitude and latitude to be queried.
@@ -496,7 +496,7 @@ List features within a radius of a point on a map (or several maps).
   - `config.geometry` **(`"polygon"` \| `"linestring"` \| `"point"`)?** Queries for a specific geometry type.
   - `config.layers` **[Array][122]&lt;[string][113]>?** IDs of vector layers to query.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Tilesets
 
@@ -511,10 +511,10 @@ List a user's tilesets.
 
 #### Parameters
 
-- `config` **[Object][112]?** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][112]?**
+  - `config.ownerId` **[string][113]?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Geocoding
 
@@ -531,7 +531,7 @@ See the [public documentation][145].
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.query` **[string][113]** A place name.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.countries` **[Array][122]&lt;[string][113]>?** Limits results to the specified countries.
@@ -545,7 +545,7 @@ See the [public documentation][145].
      Options are [IETF language tags][148] comprised of a mandatory
      [ISO 639-1 language code][149] and optionally one or more IETF subtags for country or script.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ### reverseGeocode
 
@@ -555,7 +555,7 @@ See the [public documentation][150].
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.query` **[Coordinates][142]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.countries` **[Array][122]&lt;[string][113]>?** Limits results to the specified countries.
@@ -568,7 +568,7 @@ See the [public documentation][150].
      [ISO 639-1 language code][149] and optionally one or more IETF subtags for country or script.
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Directions
 
@@ -586,7 +586,7 @@ to understand all of the available options.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
   - `config.waypoints` **[Array][122]&lt;[DirectionsWaypoint][152]>** An ordered array of [`DirectionsWaypoint`][89] objects, between 2 and 25 (inclusive).
   - `config.alternatives` **[boolean][120]** Whether to try to return alternative routes. (optional, default `false`)
@@ -603,7 +603,7 @@ to understand all of the available options.
   - `config.voiceInstructions` **[boolean][120]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## MapMatching
 
@@ -618,7 +618,7 @@ Snap recorded location traces to roads and paths.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.points` **[Array][122]&lt;[MapMatchingPoint][155]>** An ordered array of [`MapMatchingPoint`][91]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A directions profile ID. (optional, default `driving`)
   - `config.annotations` **[Array][122]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
@@ -629,7 +629,7 @@ Snap recorded location traces to roads and paths.
   - `config.steps` **[boolean][120]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.tidy` **[boolean][120]** Whether or not to transparently remove clusters and re-sample traces for improved map matching results. (optional, default `false`)
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Matrix
 
@@ -644,14 +644,14 @@ Get a duration and/or distance matrix showing travel times and distances between
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.points` **[Array][122]&lt;[MatrixPoint][157]>** An ordered array of [`MatrixPoint`][93]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
   - `config.sources` **(`"all"` \| [Array][122]&lt;[number][116]>)?** Use coordinates with given index as sources.
   - `config.destinations` **(`"all"` \| [Array][122]&lt;[number][116]>)?** Use coordinates with given index as destinations.
   - `config.annotations` **[Array][122]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Optimization
 
@@ -669,7 +669,7 @@ to understand all of the available options.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][112]**
   - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
   - `config.waypoints` **[Array][122]&lt;[OptimizationWaypoint][159]>** An ordered array of [`OptimizationWaypoint`][95] objects, between 2 and 12 (inclusive).
   - `config.annotations` **[Array][122]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
@@ -683,7 +683,7 @@ to understand all of the available options.
   - `config.source` **(`"any"` \| `"first"`)** To begin the route, start either from the first coordinate or let the Optimization API choose. (optional, default `"any"`)
   - `config.steps` **[boolean][120]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
 
 ## Tokens
 
@@ -698,7 +698,17 @@ List your access tokens.
 
 See the [corresponding HTTP service documentation][162].
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### listTokens example
+```javascript
+tokensClient
+  .listTokens()
+  .send()
+  .then(response => {
+    const tokens = response.body;
+  });
+```
 
 ### createToken
 
@@ -708,12 +718,25 @@ See the [corresponding HTTP service documentation][163].
 
 #### Parameters
 
-- `config` **[Object][112]?** 
-  - `config.note` **[string][113]?** 
-  - `config.scopes` **[Array][122]&lt;[string][113]>?** 
-  - `config.resources` **[Array][122]&lt;[string][113]>?** 
+- `config` **[Object][112]?**
+  - `config.note` **[string][113]?**
+  - `config.scopes` **[Array][122]&lt;[string][113]>?**
+  - `config.resources` **[Array][122]&lt;[string][113]>?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### createToken example
+```javascript
+tokensClient
+  .createToken({
+    note: 'datasets-token',
+    scopes: ['datasets:write', 'datasets:read']
+  })
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 ### createTemporaryToken
 
@@ -723,11 +746,23 @@ See the [corresponding HTTP service documentation][164].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.expires` **[string][113]** 
-  - `config.scopes` **[Array][122]&lt;[string][113]>** 
+- `config` **[Object][112]**
+  - `config.expires` **[string][113]**
+  - `config.scopes` **[Array][122]&lt;[string][113]>**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### createTemporaryToken example
+```javascript
+tokensClient
+  .createTemporaryToken({
+    scopes: ['datasets:write', 'datasets:read']
+  })
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 ### updateToken
 
@@ -737,13 +772,27 @@ See the [corresponding HTTP service documentation][165].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.tokenId` **[string][113]** 
-  - `config.note` **[string][113]?** 
-  - `config.scopes` **[Array][122]&lt;[string][113]>?** 
-  - `config.resources` **[Array][122]&lt;[string][113]>?** 
+- `config` **[Object][112]**
+  - `config.tokenId` **[string][113]**
+  - `config.note` **[string][113]?**
+  - `config.scopes` **[Array][122]&lt;[string][113]>?**
+  - `config.resources` **[Array][122]&lt;[string][113]>?**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### updateToken example
+```javascript
+tokensClient
+  .updateToken({
+    tokenId: 'cijucimbe000brbkt48d0dhcx',
+    note: 'datasets-token',
+    scopes: ['datasets:write', 'datasets:read']
+  })
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 ### getToken
 
@@ -751,7 +800,18 @@ Get data about the client's access token.
 
 See the [corresponding HTTP service documentation][166].
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### getToken example
+```javascript
+// Gets data about whatever token you've created the client with.
+tokensClient
+  .getToken()
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 ### deleteToken
 
@@ -761,10 +821,22 @@ See the [corresponding HTTP service documentation][167].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.tokenId` **[string][113]** 
+- `config` **[Object][112]**
+  - `config.tokenId` **[string][113]**
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### deleteToken example
+```javascript
+tokensClient
+  .deleteToken({
+    tokenId: 'cijucimbe000brbkt48d0dhcx'
+  })
+  .send()
+  .then(response => {
+    // Token successfully deleted.
+  });
+```
 
 ### listScopes
 
@@ -773,7 +845,17 @@ object about the scope, not just the string scope.
 
 See the [corresponding HTTP service documentation][168].
 
-Returns **MapiRequest** 
+Returns **MapiRequest**
+
+#### listScopes example
+```javascript
+tokensClient
+  .listScopes()
+  .send()
+  .then(response => {
+    const scopes = response.body;
+  });
+```
 
 ## Data structures
 
@@ -785,7 +867,7 @@ Type: [Object][112]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][142]**
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
 - `bearing` **\[[number][116], [number][116]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
@@ -799,7 +881,7 @@ Type: [Object][112]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][142]**
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
 - `radius` **[number][116]?** A number in meters indicating the assumed precision of the used tracking device.
 - `isWaypoint` **[boolean][120]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
@@ -821,7 +903,7 @@ Type: [Object][112]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][142]**
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
 - `bearing` **\[[number][116], [number][116]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
@@ -836,9 +918,9 @@ Type: [Object][112]
 
 #### Properties
 
-- `marker` **[Object][112]** 
+- `marker` **[Object][112]**
   - `marker.coordinates` **\[[number][116], [number][116]]** `[longitude, latitude]`
-  - `marker.size` **(`"large"` \| `"small"`)?** 
+  - `marker.size` **(`"large"` \| `"small"`)?**
   - `marker.label` **[string][113]?** Marker symbol. Options are an alphanumeric label `a`
       through `z`, `0` through `99`, or a valid [Maki][169]
       icon. If a letter is requested, it will be rendered in uppercase only.
@@ -852,9 +934,9 @@ Type: [Object][112]
 
 #### Properties
 
-- `marker` **[Object][112]** 
+- `marker` **[Object][112]**
   - `marker.coordinates` **\[[number][116], [number][116]]** `[longitude, latitude]`
-  - `marker.url` **[string][113]** 
+  - `marker.url` **[string][113]**
 
 ### PathOverlay
 
@@ -864,11 +946,11 @@ Type: [Object][112]
 
 #### Properties
 
-- `path` **[Object][112]** 
+- `path` **[Object][112]**
   - `path.coordinates` **[Array][122]&lt;[Coordinates][142]>** An array of coordinates
       describing the path.
-  - `path.strokeWidth` **[number][116]?** 
-  - `path.strokeColor` **[string][113]?** 
+  - `path.strokeWidth` **[number][116]?**
+  - `path.strokeColor` **[string][113]?**
   - `path.strokeOpacity` **[number][116]?** Must be paired with strokeColor.
   - `path.fillColor` **[string][113]?** Must be paired with strokeColor.
   - `path.fillOpacity` **[number][116]?** Must be paired with fillColor.
