@@ -1108,6 +1108,46 @@ Snap recorded location traces to roads and paths.
 
 Returns **MapiRequest**
 
+#### getMatch example
+```javascript
+mapMatchingClient
+  .getMatch({
+    points: [
+      {
+        coordinates: [-117.17283, 32.712041],
+        approach: 'curb'
+      },
+      {
+        coordinates: [-117.17291, 32.712256],
+        isWaypoint: false
+      },
+      {
+        coordinates: [-117.17292, 32.712444]
+      },
+      {
+        coordinates: [-117.172922, 32.71257],
+        waypointName: 'point-a',
+        approach: 'unrestricted'
+      },
+      {
+        coordinates: [-117.172985, 32.7126],
+        timestamp: '2018-06-08T10:48:19.307Z'
+      },
+      {
+        coordinates: [-117.173143, 32.712597]
+      },
+      {
+        coordinates: [-117.173345, 32.712546]
+      }
+    ],
+    tidy: false,
+  })
+  .send()
+  .then(response => {
+    const matching = response.body;
+  })
+```
+
 ## Matrix
 
 Map Matching API service.
