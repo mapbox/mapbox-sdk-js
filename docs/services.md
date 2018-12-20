@@ -90,6 +90,18 @@ See the [corresponding HTTP service documentation][111].
 
 Returns **MapiRequest**
 
+#### getStyle example
+```javascript
+stylesClient
+  .getStyle({
+    styleId: 'style-id'
+  })
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
+
 ### createStyle
 
 Create a style.
@@ -103,6 +115,26 @@ See the [corresponding HTTP service documentation][114].
   - `config.ownerId` **[string][113]?**
 
 Returns **MapiRequest**
+
+#### createStyle example
+```javascript
+// Define the style
+stylesClient
+  .createStyle({
+    style: {
+      version: 8,
+      name: "My Awesome Style",
+      metadata: {},
+      sources: {},
+      layers: [],
+      glyphs: "mapbox://fonts/{owner}/{fontstack}/{range}.pbf"
+    }
+  })
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
 
 ### updateStyle
 
@@ -121,6 +153,26 @@ See the [corresponding HTTP service documentation][115].
 
 Returns **MapiRequest**
 
+#### updateStyle example
+```javascript
+stylesClient
+  .updateStyle({
+    styleId: 'style-id',
+    style: {
+      version: 8,
+      name: 'My Awesome Style',
+      metadata: {},
+      sources: {},
+      layers: [],
+      glyphs: 'mapbox://fonts/{owner}/{fontstack}/{range}.pbf'
+    }
+  })
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
+
 ### deleteStyle
 
 Delete a style.
@@ -133,6 +185,18 @@ Delete a style.
 
 Returns **MapiRequest**
 
+#### deleteStyle example
+```javascript
+stylesClient
+  .deleteStyle({
+    styleId: 'style-id'
+  })
+  .send()
+  .then(response => {
+    // delete successful
+  });
+```
+
 ### listStyles
 
 List styles in your account.
@@ -144,6 +208,16 @@ List styles in your account.
   - `config.ownerId` **[string][113]?**
 
 Returns **MapiRequest**
+
+#### listStyles example
+```javascript
+stylesClient
+  .listStyles()
+  .send()
+  .then(response => {
+    const styles = response.body;
+  });
+```
 
 ### putStyleIcon
 
@@ -159,6 +233,22 @@ Add an icon to a style, or update an existing one.
 
 Returns **MapiRequest**
 
+#### putStyleIcon example
+```javascript
+stylesClient
+  .putStyleIcon({
+    styleId: 'foo',
+    iconId: 'bar',
+    // The string filename value works in Node.
+    // In the browser, provide a Blob.
+    file: 'path/to/file.svg'
+  })
+  .send()
+  .then(response => {
+    const newSprite = response.body;
+  });
+```
+
 ### deleteStyleIcon
 
 Remove an icon from a style.
@@ -171,6 +261,19 @@ Remove an icon from a style.
   - `config.ownerId` **[string][113]?**
 
 Returns **MapiRequest**
+
+#### deleteStyleIcon example
+```javascript
+stylesClient
+  .deleteStyleIcon({
+    styleId: 'foo',
+    iconId: 'bar'
+  })
+  .send()
+  .then(response => {
+    // delete successful
+  });
+```
 
 ### getStyleSprite
 
@@ -188,6 +291,20 @@ See [the corresponding HTTP service documentation][119].
   - `config.ownerId` **[string][113]?**
 
 Returns **MapiRequest**
+
+#### getStyleSprite example
+```javascript
+stylesClient
+  .getStyleSprite({
+    format: 'json',
+    styleId: 'foo',
+    highRes: true
+  })
+  .send()
+  .then(response => {
+    const sprite = response.body;
+  });
+```
 
 ### getFontGlyphRange
 
