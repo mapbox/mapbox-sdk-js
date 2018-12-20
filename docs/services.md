@@ -501,6 +501,16 @@ See the [corresponding HTTP service documentation][126].
 
 Returns **MapiRequest**
 
+#### listUploads example
+```javascript
+uploadsClient
+  .listUploads()
+  .send()
+  .then(response => {
+    const uploads = response.body;
+  });
+```
+
 ### createUploadCredentials
 
 Create S3 credentials.
@@ -508,6 +518,34 @@ Create S3 credentials.
 See the [corresponding HTTP service documentation][127].
 
 Returns **MapiRequest**
+
+#### createUploadCredentials example
+```javascript
+const AWS = require('aws-sdk');
+
+const getCredentials = () => {
+  return uploadsClient
+    .createUploadCredentials()
+    .send()
+    .then(response => response.body);
+}
+
+const putFileOnS3 = (credentials) => {
+  const s3 = new AWS.S3({
+    accessKeyId: credentials.accessKeyId,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    region: 'us-east-1'
+  });
+  return s3.putObject({
+    Bucket: credentials.bucket,
+    Key: credentials.key,
+    Body: fs.createReadStream('/path/to/file.mbtiles')
+  }).promise();
+};
+
+getCredentials().then(putFileOnS3);
+```
 
 ### createUpload
 
@@ -527,6 +565,29 @@ See the [corresponding HTTP service documentation][128].
 
 Returns **MapiRequest**
 
+#### createUpload example
+```javascript
+// Response from a call to createUploadCredentials
+const credentials = {
+  accessKeyId: '{accessKeyId}',
+  bucket: '{bucket}',
+  key: '{key}',
+  secretAccessKey: '{secretAccessKey}',
+  sessionToken: '{sessionToken}',
+  url: '{s3 url}'
+};
+
+uploadsClient
+  .createUpload({
+    mapId: `${myUsername}.${myTileset}`,
+    url: credentials.url
+  })
+  .send()
+  .then(response => {
+    const upload = response.body;
+  });
+```
+
 ### getUpload
 
 Get an upload's status.
@@ -540,6 +601,18 @@ See the [corresponding HTTP service documentation][129].
 
 Returns **MapiRequest**
 
+#### getUpload example
+```javascript
+uploadsClient
+  .getUpload({
+    uploadId: '{upload_id}'
+  })
+  .send()
+  .then(response => {
+    const status = response.body;
+  });
+```
+
 ### deleteUpload
 
 Delete an upload.
@@ -552,6 +625,18 @@ See the [corresponding HTTP service documentation][130].
   - `config.uploadId` **[string][113]**
 
 Returns **MapiRequest**
+
+#### deleteUpload example
+```javascript
+uploadsClient
+  .deleteUpload({
+    uploadId: '{upload_id}'
+  })
+  .send()
+  .then(response => {
+    // Upload successfully deleted.
+  });
+```
 
 ## Datasets
 
