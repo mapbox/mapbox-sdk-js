@@ -1190,8 +1190,7 @@ mapMatchingClient
         approach: 'unrestricted'
       },
       {
-        coordinates: [-117.172985, 32.7126],
-        timestamp: '2018-06-08T10:48:19.307Z'
+        coordinates: [-117.172985, 32.7126]
       },
       {
         coordinates: [-117.173143, 32.712597]
