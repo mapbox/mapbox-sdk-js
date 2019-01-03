@@ -377,7 +377,7 @@ SDK returned.
   - `config.position` **(`"auto"` \| [Object][150])** If `"auto"`, the viewport will fit the
       bounds of the overlay(s). Otherwise, the maps' position is described by an object
       with the following properties:
-      `coordinates` (required): [`coordinates`][144] for the center of image.
+      `coordinates` (required): [`coordinates`][106] for the center of image.
       `zoom` (required): Between 0 and 20.
       `bearing` (optional): Between 0 and 360.
       `pitch` (optional): Between 0 and 60.
@@ -1320,10 +1320,11 @@ See the [corresponding HTTP service documentation][201].
 
 #### Parameters
 
-- `config` **[Object][150]?** 
-  - `config.note` **[string][151]?** 
-  - `config.scopes` **[Array][160]&lt;[string][151]>?** 
-  - `config.resources` **[Array][160]&lt;[string][151]>?** 
+- `config` **[Object][112]?** 
+  - `config.note` **[string][113]?** 
+  - `config.scopes` **[Array][122]&lt;[string][113]>?** 
+  - `config.resources` **[Array][122]&lt;[string][113]>?** 
+  - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
 #### Examples
 
@@ -1374,11 +1375,12 @@ See the [corresponding HTTP service documentation][203].
 
 #### Parameters
 
-- `config` **[Object][150]** 
-  - `config.tokenId` **[string][151]** 
-  - `config.note` **[string][151]?** 
-  - `config.scopes` **[Array][160]&lt;[string][151]>?** 
-  - `config.resources` **[Array][160]&lt;[string][151]>?** 
+- `config` **[Object][112]** 
+  - `config.tokenId` **[string][113]** 
+  - `config.note` **[string][113]?** 
+  - `config.scopes` **[Array][122]&lt;[string][113]>?** 
+  - `config.resources` **[Array][122]&lt;[string][113]>?** 
+  - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
 #### Examples
 

@@ -42,6 +42,7 @@ Tokens.listTokens = function() {
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
+ * @param {Array<string>} [config.referrers]
  * @return {MapiRequest}
  *
  * @example
@@ -59,7 +60,8 @@ Tokens.createToken = function(config) {
   v.assertShape({
     note: v.string,
     scopes: v.arrayOf(v.string),
-    resources: v.arrayOf(v.string)
+    resources: v.arrayOf(v.string),
+    referrers: v.arrayOf(v.string)
   })(config);
 
   var body = {};
@@ -69,6 +71,9 @@ Tokens.createToken = function(config) {
   }
   if (config.resources) {
     body.resources = config.resources;
+  }
+  if (config.referrers) {
+    body.referrers = config.referrers;
   }
 
   return this.client.createRequest({
@@ -125,6 +130,7 @@ Tokens.createTemporaryToken = function(config) {
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
+ * @param {Array<string>} [config.referrers]
  * @return {MapiRequest}
  *
  * @example
@@ -143,7 +149,8 @@ Tokens.updateToken = function(config) {
     tokenId: v.required(v.string),
     note: v.string,
     scopes: v.arrayOf(v.string),
-    resources: v.arrayOf(v.string)
+    resources: v.arrayOf(v.string),
+    referrers: v.arrayOf(v.string)
   })(config);
 
   var body = {};
@@ -155,6 +162,9 @@ Tokens.updateToken = function(config) {
   }
   if (config.resources) {
     body.resources = config.resources;
+  }
+  if (config.referrers) {
+    body.referrers = config.referrers;
   }
 
   return this.client.createRequest({
