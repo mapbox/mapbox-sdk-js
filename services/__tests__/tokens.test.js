@@ -30,6 +30,49 @@ describe('createToken', () => {
     });
   });
 
+  test('with note', () => {
+    tokens.createToken({ note: 'horseleg' });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      params: {},
+      method: 'POST',
+      body: {
+        note: 'horseleg',
+        scopes: []
+      }
+    });
+  });
+
+  test('with resources', () => {
+    tokens.createToken({
+      resources: ['one', 'two']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        resources: ['one', 'two'],
+        scopes: []
+      }
+    });
+  });
+
+  test('with referrers', () => {
+    tokens.createToken({
+      referrers: ['boba.com', 'coffee.ca']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        referrers: ['boba.com', 'coffee.ca'],
+        scopes: []
+      }
+    });
+  });
+
   test('with scopes', () => {
     tokens.createToken({ scopes: ['styles:read', 'styles:write'] });
     expect(tu.requestConfig(tokens)).toEqual({
@@ -104,6 +147,45 @@ describe('updateToken', () => {
       params: { tokenId: 'foo' },
       method: 'PATCH',
       body: {}
+    });
+  });
+
+  test('with note', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      note: 'horseleg'
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { note: 'horseleg' }
+    });
+  });
+
+  test('with resources', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      resources: ['one', 'two']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { resources: ['one', 'two'] }
+    });
+  });
+
+  test('with referrers', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      referrers: ['boba.com', 'milk-tea.ca']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { referrers: ['boba.com', 'milk-tea.ca'] }
     });
   });
 
