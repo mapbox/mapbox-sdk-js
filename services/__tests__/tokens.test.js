@@ -44,7 +44,8 @@ describe('createToken', () => {
     tokens.createToken({
       scopes: ['styles:list'],
       note: 'horseleg',
-      resources: ['one', 'two']
+      resources: ['one', 'two'],
+      referrers: ['boba.com', 'coffee.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
@@ -53,7 +54,8 @@ describe('createToken', () => {
       body: {
         scopes: ['styles:list'],
         note: 'horseleg',
-        resources: ['one', 'two']
+        resources: ['one', 'two'],
+        referrers: ['boba.com', 'coffee.ca']
       }
     });
   });
@@ -123,7 +125,8 @@ describe('updateToken', () => {
       tokenId: 'foo',
       scopes: ['styles:list'],
       note: 'horseleg',
-      resources: ['one', 'two']
+      resources: ['one', 'two'],
+      referrers: ['boba.com', 'milk-tea.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
@@ -132,7 +135,8 @@ describe('updateToken', () => {
       body: {
         scopes: ['styles:list'],
         note: 'horseleg',
-        resources: ['one', 'two']
+        resources: ['one', 'two'],
+        referrers: ['boba.com', 'milk-tea.ca']
       }
     });
   });
