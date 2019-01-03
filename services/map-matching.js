@@ -28,6 +28,42 @@ var MapMatching = {};
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.tidy=false] - Whether or not to transparently remove clusters and re-sample traces for improved map matching results.
  * @return {MapiRequest}
+ *
+ * @example
+ * mapMatchingClient.getMatch({
+ *   points: [
+ *     {
+ *       coordinates: [-117.17283, 32.712041],
+ *       approach: 'curb'
+ *     },
+ *     {
+ *       coordinates: [-117.17291, 32.712256],
+ *       isWaypoint: false
+ *     },
+ *     {
+ *       coordinates: [-117.17292, 32.712444]
+ *     },
+ *     {
+ *       coordinates: [-117.172922, 32.71257],
+ *       waypointName: 'point-a',
+ *       approach: 'unrestricted'
+ *     },
+ *     {
+ *       coordinates: [-117.172985, 32.7126]
+ *     },
+ *     {
+ *       coordinates: [-117.173143, 32.712597]
+ *     },
+ *     {
+ *       coordinates: [-117.173345, 32.712546]
+ *     }
+ *   ],
+ *   tidy: false,
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const matching = response.body;
+ *   })
  */
 MapMatching.getMatch = function(config) {
   v.assertShape({

@@ -17,6 +17,18 @@ var Tilesets = {};
  * @param {Object} [config]
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.listTilesets()
+ *   .then(response => {
+ *     const tilesets = response.body;
+ *   });
+ *
+ * @example
+ * tilesetsClient.listTilesets()
+ *   .eachPage((error, response, next) => {
+ *     // Handle error or response and call next.
+ *   });
  */
 Tilesets.listTilesets = function(config) {
   v.assertShape({

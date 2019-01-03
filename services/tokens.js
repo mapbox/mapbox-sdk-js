@@ -18,6 +18,13 @@ var Tokens = {};
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-tokens).
  *
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.listTokens()
+ *   .send()
+ *   .then(response => {
+ *     const tokens = response.body;
+ *   });
  */
 Tokens.listTokens = function() {
   return this.client.createRequest({
@@ -36,6 +43,16 @@ Tokens.listTokens = function() {
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.createToken({
+ *   note: 'datasets-token',
+ *   scopes: ['datasets:write', 'datasets:read']
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const token = response.body;
+ *   });
  */
 Tokens.createToken = function(config) {
   config = config || {};
@@ -71,6 +88,15 @@ Tokens.createToken = function(config) {
  * @param {string} config.expires
  * @param {Array<string>} config.scopes
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.createTemporaryToken({
+ *   scopes: ['datasets:write', 'datasets:read']
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const token = response.body;
+ *   });
  */
 Tokens.createTemporaryToken = function(config) {
   v.assertShape({
@@ -100,6 +126,17 @@ Tokens.createTemporaryToken = function(config) {
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.updateToken({
+ *   tokenId: 'cijucimbe000brbkt48d0dhcx',
+ *   note: 'datasets-token',
+ *   scopes: ['datasets:write', 'datasets:read']
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const token = response.body;
+ *   });
  */
 Tokens.updateToken = function(config) {
   v.assertShape({
@@ -134,6 +171,13 @@ Tokens.updateToken = function(config) {
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-token).
  *
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.getToken()
+ *   .send()
+ *   .then(response => {
+ *     const token = response.body;
+ *   });
  */
 Tokens.getToken = function() {
   return this.client.createRequest({
@@ -150,6 +194,15 @@ Tokens.getToken = function() {
  * @param {Object} config
  * @param {string} config.tokenId
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.deleteToken({
+ *   tokenId: 'cijucimbe000brbkt48d0dhcx'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // Token successfully deleted.
+ *   });
  */
 Tokens.deleteToken = function(config) {
   v.assertShape({
@@ -170,6 +223,13 @@ Tokens.deleteToken = function(config) {
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-scopes).
  *
  * @return {MapiRequest}
+ *
+ * @example
+ * tokensClient.listScopes()
+ *   .send()
+ *   .then(response => {
+ *     const scopes = response.body;
+ *   });
  */
 Tokens.listScopes = function() {
   return this.client.createRequest({

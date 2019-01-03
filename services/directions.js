@@ -36,6 +36,27 @@ var Directions = {};
  * @param {boolean} [config.voiceInstructions=false] - Whether or not to return SSML marked-up text for voice guidance along the route.
  * @param {'imperial'|'metric'} [config.voiceUnits="imperial"] - Which type of units to return in the text for voice instructions.
  * @return {MapiRequest}
+ *
+ * @example
+ * directionsClient.getDirections({
+ *   waypoints: [
+ *     {
+ *       coordinates: [13.4301, 52.5109],
+ *       approach: 'unrestricted'
+ *     },
+ *     {
+ *       coordinates: [13.4265, 52.508]
+ *     },
+ *     {
+ *       coordinates: [13.4194, 52.5072],
+ *       bearing: [100, 60]
+ *     }
+ *   ]
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const directions = response.body;
+ *   });
  */
 Directions.getDirections = function(config) {
   v.assertShape({
