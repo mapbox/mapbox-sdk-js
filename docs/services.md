@@ -247,7 +247,7 @@ SDK returned.
   - `config.position` **(`"auto"` \| [Object][112])** If `"auto"`, the viewport will fit the
       bounds of the overlay(s). Otherwise, the maps' position is described by an object
       with the following properties:
-      `coordinates` (required): `[longitude, latitude]` for the center of image.
+      `coordinates` (required): [`coordinates`][106] for the center of image.
       `zoom` (required): Between 0 and 20.
       `bearing` (optional): Between 0 and 360.
       `pitch` (optional): Between 0 and 60.
@@ -712,6 +712,7 @@ See the [corresponding HTTP service documentation][163].
   - `config.note` **[string][113]?** 
   - `config.scopes` **[Array][122]&lt;[string][113]>?** 
   - `config.resources` **[Array][122]&lt;[string][113]>?** 
+  - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
 Returns **MapiRequest** 
 
@@ -742,6 +743,7 @@ See the [corresponding HTTP service documentation][165].
   - `config.note` **[string][113]?** 
   - `config.scopes` **[Array][122]&lt;[string][113]>?** 
   - `config.resources` **[Array][122]&lt;[string][113]>?** 
+  - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
 Returns **MapiRequest** 
 
