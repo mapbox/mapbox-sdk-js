@@ -18,6 +18,19 @@ var Datasets = {};
  * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-datasets).
  *
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.listDatasets()
+ *   .send()
+ *   .then(response => {
+ *     const datasets = response.body;
+ *   });
+ *
+ * @example
+ * datasetsClient.listDatasets()
+ *   .eachPage((error, response, next) => {
+ *     // Handle error or response and call next.
+ *   });
  */
 Datasets.listDatasets = function() {
   return this.client.createRequest({
@@ -35,6 +48,16 @@ Datasets.listDatasets = function() {
  * @param {string} [config.name]
  * @param {string} [config.description]
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.createDataset({
+*   name: 'example',
+*   description: 'An example dataset'
+* })
+*   .send()
+*   .then(response => {
+*     const datasetMetadata = response.body;
+*   });
  */
 Datasets.createDataset = function(config) {
   v.assertShape({
@@ -57,6 +80,15 @@ Datasets.createDataset = function(config) {
  * @param {Object} config
  * @param {string} config.datasetId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.getMetadata({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const datasetMetadata = response.body;
+ *   })
  */
 Datasets.getMetadata = function(config) {
   v.assertShape({
@@ -81,6 +113,16 @@ Datasets.getMetadata = function(config) {
  * @param {string} [config.name]
  * @param {string} [config.description]
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.updateMetadata({
+ *   datasetId: 'dataset-id',
+ *   name: 'foo'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const datasetMetadata = response.body;
+ *   });
  */
 Datasets.updateMetadata = function(config) {
   v.assertShape({
@@ -105,6 +147,15 @@ Datasets.updateMetadata = function(config) {
  * @param {Object} config
  * @param {string} config.datasetId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.deleteDataset({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // Dataset is successfully deleted.
+ *   });
  */
 Datasets.deleteDataset = function(config) {
   v.assertShape({
@@ -132,6 +183,15 @@ Datasets.deleteDataset = function(config) {
  * @param {string} [config.start] - The ID of the feature from which the listing should
  *   start.
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.listFeatures({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const features = response.body;
+ *   });
  */
 Datasets.listFeatures = function(config) {
   v.assertShape({
@@ -159,6 +219,24 @@ Datasets.listFeatures = function(config) {
  * @param {Object} config.feature - Valid GeoJSON that is not a `FeatureCollection`.
  *   If the feature has a top-level `id` property, it must match the `featureId` you specify.
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.putFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'null-island',
+ *   feature: {
+ *     "type": "Feature",
+ *     "properties": { "name": "Null Island" },
+ *     "geometry": {
+ *       "type": "Point",
+ *       "coordinates": [0, 0]
+ *     }
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const feature = response.body;
+ *   });
  */
 Datasets.putFeature = function(config) {
   v.assertShape({
@@ -191,6 +269,16 @@ Datasets.putFeature = function(config) {
  * @param {string} config.datasetId
  * @param {string} config.featureId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.getFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'feature-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const feature = response.body;
+ *   });
  */
 Datasets.getFeature = function(config) {
   v.assertShape({
@@ -214,6 +302,16 @@ Datasets.getFeature = function(config) {
  * @param {string} config.datasetId
  * @param {string} config.featureId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.deleteFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'feature-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // Feature is successfully deleted.
+ *   });
  */
 Datasets.deleteFeature = function(config) {
   v.assertShape({

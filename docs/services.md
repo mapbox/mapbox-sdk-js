@@ -74,19 +74,31 @@
 Styles API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][110].
+[the HTTP service documentation][148].
 
 ### getStyle
 
 Get a style.
 
-See the [corresponding HTTP service documentation][111].
+See the [corresponding HTTP service documentation][149].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.getStyle({
+  styleId: 'style-id'
+})
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -94,13 +106,32 @@ Returns **MapiRequest**
 
 Create a style.
 
-See the [corresponding HTTP service documentation][114].
+See the [corresponding HTTP service documentation][152].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.style` **[Object][112]** Stylesheet JSON object.
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.style` **[Object][150]** Stylesheet JSON object.
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.createStyle({
+  style: {
+    version: 8,
+    name: "My Awesome Style",
+    metadata: {},
+    sources: {},
+    layers: [],
+    glyphs: "mapbox://fonts/{owner}/{fontstack}/{range}.pbf"
+  }
+})
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -108,16 +139,36 @@ Returns **MapiRequest**
 
 Update a style.
 
-See the [corresponding HTTP service documentation][115].
+See the [corresponding HTTP service documentation][153].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.style` **[Object][112]** Stylesheet JSON object.
-  - `config.lastKnownModification` **([string][113] \| [number][116] \| [Date][117])?** Datetime of last
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
+  - `config.style` **[Object][150]** Stylesheet JSON object.
+  - `config.lastKnownModification` **([string][151] \| [number][154] \| [Date][155])?** Datetime of last
       known update. Passed as 'If-Unmodified-Since' HTTP header.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.updateStyle({
+  styleId: 'style-id',
+  style: {
+    version: 8,
+    name: 'My Awesome Style',
+    metadata: {},
+    sources: {},
+    layers: [],
+    glyphs: 'mapbox://fonts/{owner}/{fontstack}/{range}.pbf'
+  }
+})
+  .send()
+  .then(response => {
+    const style = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -127,9 +178,21 @@ Delete a style.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.deleteStyle({
+  styleId: 'style-id'
+})
+  .send()
+  .then(response => {
+    // delete successful
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -139,9 +202,19 @@ List styles in your account.
 
 #### Parameters
 
-- `config` **[Object][112]?** 
-  - `config.start` **[string][113]?** The style ID to start at, for paginated results.
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]?** 
+  - `config.start` **[string][151]?** The style ID to start at, for paginated results.
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.listStyles()
+  .send()
+  .then(response => {
+    const styles = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -151,11 +224,27 @@ Add an icon to a style, or update an existing one.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.iconId` **[string][113]** 
-  - `config.file` **[UploadableFile][118]** An SVG file.
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
+  - `config.iconId` **[string][151]** 
+  - `config.file` **[UploadableFile][156]** An SVG file.
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.putStyleIcon({
+  styleId: 'foo',
+  iconId: 'bar',
+  // The string filename value works in Node.
+  // In the browser, provide a Blob.
+  file: 'path/to/file.svg'
+})
+  .send()
+  .then(response => {
+    const newSprite = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -165,10 +254,23 @@ Remove an icon from a style.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
-  - `config.iconId` **[string][113]** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
+  - `config.iconId` **[string][151]** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.deleteStyleIcon({
+  styleId: 'foo',
+  iconId: 'bar'
+})
+  .send()
+  .then(response => {
+    // delete successful
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -176,16 +278,30 @@ Returns **MapiRequest**
 
 Get a style sprite's image or JSON document.
 
-See [the corresponding HTTP service documentation][119].
+See [the corresponding HTTP service documentation][157].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.styleId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.styleId` **[string][151]** 
   - `config.format` **(`"json"` \| `"png"`)**  (optional, default `"json"`)
-  - `config.highRes` **[boolean][120]?** If true, returns spritesheet with 2x
+  - `config.highRes` **[boolean][158]?** If true, returns spritesheet with 2x
       resolution.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.getStyleSprite({
+  format: 'json',
+  styleId: 'foo',
+  highRes: true
+})
+  .send()
+  .then(response => {
+    const sprite = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -193,16 +309,30 @@ Returns **MapiRequest**
 
 Get a font glyph range.
 
-See [the corresponding HTTP service documentation][121].
+See [the corresponding HTTP service documentation][159].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.fonts` **([string][113] \| [Array][122]&lt;[string][113]>)** An array of font names.
-  - `config.start` **[number][116]** Character code of the starting glyph.
-  - `config.end` **[number][116]** Character code of the last glyph,
+- `config` **[Object][150]** 
+  - `config.fonts` **([string][151] \| [Array][160]&lt;[string][151]>)** An array of font names.
+  - `config.start` **[number][154]** Character code of the starting glyph.
+  - `config.end` **[number][154]** Character code of the last glyph,
       typically equivalent to`config.start + 255`.
-  - `config.ownerId` **[string][113]?** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+stylesClient.getFontGlyphRange({
+  fonts: 'Arial Unicode',
+  start: 0,
+  end: 255
+})
+  .send()
+  .then(response => {
+    const glyph = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -210,15 +340,15 @@ Returns **MapiRequest**
 
 Get embeddable HTML displaying a map.
 
-See [the corresponding HTTP service documentation][123].
+See [the corresponding HTTP service documentation][161].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-- `styleId` **[string][113]** 
-- `scrollZoom` **[boolean][120]** If `false`, zooming the map by scrolling will
+- `config` **[Object][150]** 
+- `styleId` **[string][151]** 
+- `scrollZoom` **[boolean][158]** If `false`, zooming the map by scrolling will
     be disabled. (optional, default `true`)
-- `title` **[boolean][120]** If `true`, the map's title and owner is displayed
+- `title` **[boolean][158]** If `true`, the map's title and owner is displayed
     in the upper right corner of the map. (optional, default `false`)
 - `ownerId` **ownerId?** 
 
@@ -227,7 +357,7 @@ See [the corresponding HTTP service documentation][123].
 Static API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][124].
+[the HTTP service documentation][162].
 
 ### getStaticImage
 
@@ -239,32 +369,116 @@ SDK returned.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.ownerId` **[string][113]** The owner of the map style.
-  - `config.styleId` **[string][113]** The map's style ID.
-  - `config.width` **[number][116]** Width of the image in pixels, between 1 and 1280.
-  - `config.height` **[number][116]** Height of the image in pixels, between 1 and 1280.
-  - `config.position` **(`"auto"` \| [Object][112])** If `"auto"`, the viewport will fit the
+- `config` **[Object][150]** 
+  - `config.ownerId` **[string][151]** The owner of the map style.
+  - `config.styleId` **[string][151]** The map's style ID.
+  - `config.width` **[number][154]** Width of the image in pixels, between 1 and 1280.
+  - `config.height` **[number][154]** Height of the image in pixels, between 1 and 1280.
+  - `config.position` **(`"auto"` \| [Object][150])** If `"auto"`, the viewport will fit the
       bounds of the overlay(s). Otherwise, the maps' position is described by an object
       with the following properties:
       `coordinates` (required): [`coordinates`][106] for the center of image.
       `zoom` (required): Between 0 and 20.
       `bearing` (optional): Between 0 and 360.
       `pitch` (optional): Between 0 and 60.
-  - `config.overlays` **[Array][122]&lt;Overlay>?** Overlays should be in z-index
+  - `config.overlays` **[Array][160]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
       the top. Overlays are objects that match one of the following types:
-      [`SimpleMarkerOverlay`][97],
-      [`CustomMarkerOverlay`][99],
-      [`PathOverlay`][101],
-      [`GeoJsonOverlay`][103]
-  - `config.highRes` **[boolean][120]**  (optional, default `false`)
-  - `config.insertOverlayBeforeLayer` **[string][113]?** The ID of the style layer
+      [`SimpleMarkerOverlay`][135],
+      [`CustomMarkerOverlay`][137],
+      [`PathOverlay`][139],
+      [`GeoJsonOverlay`][141]
+  - `config.highRes` **[boolean][158]**  (optional, default `false`)
+  - `config.insertOverlayBeforeLayer` **[string][151]?** The ID of the style layer
       that overlays should be inserted *before*.
-  - `config.attribution` **[boolean][120]** Whether there is attribution
+  - `config.attribution` **[boolean][158]** Whether there is attribution
       on the map image. (optional, default `true`)
-  - `config.logo` **[boolean][120]** Whether there is a Mapbox logo
+  - `config.logo` **[boolean][158]** Whether there is a Mapbox logo
       on the map image. (optional, default `true`)
+
+#### Examples
+
+```javascript
+staticClient.getStaticImage({
+  ownerId: 'mapbox',
+  styleId: 'streets-v11',
+  width: 200,
+  height: 300,
+  position: {
+    coordinates: [12, 13],
+    zoom: 4
+  }
+})
+  .send()
+  .then(response => {
+    const image = response.body;
+  });
+```
+
+```javascript
+staticClient.getStaticImage({
+  ownerId: 'mapbox',
+  styleId: 'streets-v11',
+  width: 200,
+  height: 300,
+  position: {
+    coordinates: [12, 13],
+    zoom: 3
+  },
+  overlays: [
+    // Simple markers.
+    {
+      marker: {
+        coordinates: [12.2, 12.8]
+      }
+    },
+    {
+      marker: {
+        size: 'large',
+        coordinates: [14, 13.2],
+        label: 'm',
+        color: '#000'
+      }
+    },
+    {
+      marker: {
+        coordinates: [15, 15.2],
+        label: 'airport',
+        color: '#ff0000'
+      }
+    },
+    // Custom marker
+    {
+      marker: {
+        coordinates: [10, 11],
+        url:  'https://upload.wikimedia.org/wikipedia/commons/6/6f/0xff_timetracker.png'
+      }
+    }
+  ]
+})
+  .send()
+  .then(response => {
+    const image = response.body;
+  });
+```
+
+```javascript
+// To get the URL instead of the image, create a request
+// and get its URL without sending it.
+const request = staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,
+    height: 300,
+    position: {
+      coordinates: [12, 13],
+      zoom: 4
+    }
+  });
+const staticImageUrl = request.url();
+// Now you can open staticImageUrl in a browser.
+```
 
 Returns **MapiRequest** 
 
@@ -273,18 +487,28 @@ Returns **MapiRequest**
 Uploads API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][125].
+[the HTTP service documentation][163].
 
 ### listUploads
 
 List the statuses of all recent uploads.
 
-See the [corresponding HTTP service documentation][126].
+See the [corresponding HTTP service documentation][164].
 
 #### Parameters
 
-- `config` **[Object][112]?** 
-  - `config.reverse` **[boolean][120]?** List uploads in chronological order, rather than reverse chronological order.
+- `config` **[Object][150]?** 
+  - `config.reverse` **[boolean][158]?** List uploads in chronological order, rather than reverse chronological order.
+
+#### Examples
+
+```javascript
+uploadsClient.listUploads()
+  .send()
+  .then(response => {
+    const uploads = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -292,7 +516,34 @@ Returns **MapiRequest**
 
 Create S3 credentials.
 
-See the [corresponding HTTP service documentation][127].
+See the [corresponding HTTP service documentation][165].
+
+#### Examples
+
+```javascript
+const AWS = require('aws-sdk');
+const getCredentials = () => {
+  return uploadsClient
+    .createUploadCredentials()
+    .send()
+    .then(response => response.body);
+}
+const putFileOnS3 = (credentials) => {
+  const s3 = new AWS.S3({
+    accessKeyId: credentials.accessKeyId,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    region: 'us-east-1'
+  });
+  return s3.putObject({
+    Bucket: credentials.bucket,
+    Key: credentials.key,
+    Body: fs.createReadStream('/path/to/file.mbtiles')
+  }).promise();
+};
+
+getCredentials().then(putFileOnS3);
+```
 
 Returns **MapiRequest** 
 
@@ -300,17 +551,39 @@ Returns **MapiRequest**
 
 Create an upload.
 
-See the [corresponding HTTP service documentation][128].
+See the [corresponding HTTP service documentation][166].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.mapId` **[string][113]** The map ID to create or replace in the format `username.nameoftileset`.
+- `config` **[Object][150]** 
+  - `config.mapId` **[string][151]** The map ID to create or replace in the format `username.nameoftileset`.
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
-  - `config.url` **[string][113]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][28]
+  - `config.url` **[string][151]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
     - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
       This should be in the format `mapbox://datasets/{username}/{datasetId}`.
-  - `config.tilesetName` **[string][113]?** Name for the tileset. Limited to 64 characters.
+  - `config.tilesetName` **[string][151]?** Name for the tileset. Limited to 64 characters.
+
+#### Examples
+
+```javascript
+// Response from a call to createUploadCredentials
+const credentials = {
+  accessKeyId: '{accessKeyId}',
+  bucket: '{bucket}',
+  key: '{key}',
+  secretAccessKey: '{secretAccessKey}',
+  sessionToken: '{sessionToken}',
+  url: '{s3 url}'
+};
+uploadsClient.createUpload({
+  mapId: `${myUsername}.${myTileset}`,
+  url: credentials.url
+})
+  .send()
+  .then(response => {
+    const upload = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -318,12 +591,24 @@ Returns **MapiRequest**
 
 Get an upload's status.
 
-See the [corresponding HTTP service documentation][129].
+See the [corresponding HTTP service documentation][167].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.uploadId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.uploadId` **[string][151]** 
+
+#### Examples
+
+```javascript
+uploadsClient.getUpload({
+  uploadId: '{upload_id}'
+})
+  .send()
+  .then(response => {
+    const status = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -331,12 +616,24 @@ Returns **MapiRequest**
 
 Delete an upload.
 
-See the [corresponding HTTP service documentation][130].
+See the [corresponding HTTP service documentation][168].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.uploadId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.uploadId` **[string][151]** 
+
+#### Examples
+
+```javascript
+uploadsClient.deleteUpload({
+  uploadId: '{upload_id}'
+})
+.send()
+.then(response => {
+  // Upload successfully deleted.
+});
+```
 
 Returns **MapiRequest** 
 
@@ -345,13 +642,30 @@ Returns **MapiRequest**
 Datasets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][131].
+[the HTTP service documentation][169].
 
 ### listDatasets
 
 List datasets in your account.
 
-See the [corresponding HTTP service documentation][132].
+See the [corresponding HTTP service documentation][170].
+
+#### Examples
+
+```javascript
+datasetsClient.listDatasets()
+  .send()
+  .then(response => {
+    const datasets = response.body;
+  });
+```
+
+```javascript
+datasetsClient.listDatasets()
+  .eachPage((error, response, next) => {
+    // Handle error or response and call next.
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -359,13 +673,26 @@ Returns **MapiRequest**
 
 Create a new, empty dataset.
 
-See the [corresponding HTTP service documentation][133].
+See the [corresponding HTTP service documentation][171].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.name` **[string][113]?** 
-  - `config.description` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.name` **[string][151]?** 
+  - `config.description` **[string][151]?** 
+
+#### Examples
+
+```javascript
+datasetsClient.createDataset({
+  name: 'example',
+  description: 'An example dataset'
+})
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -373,12 +700,24 @@ Returns **MapiRequest**
 
 Get metadata about a dataset.
 
-See the [corresponding HTTP service documentation][134].
+See the [corresponding HTTP service documentation][172].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+
+#### Examples
+
+```javascript
+datasetsClient.getMetadata({
+  datasetId: 'dataset-id'
+})
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  })
+```
 
 Returns **MapiRequest** 
 
@@ -386,14 +725,27 @@ Returns **MapiRequest**
 
 Update user-defined properties of a dataset's metadata.
 
-See the [corresponding HTTP service documentation][135].
+See the [corresponding HTTP service documentation][173].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.name` **[string][113]?** 
-  - `config.description` **[string][113]?** 
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+  - `config.name` **[string][151]?** 
+  - `config.description` **[string][151]?** 
+
+#### Examples
+
+```javascript
+datasetsClient.updateMetadata({
+  datasetId: 'dataset-id',
+  name: 'foo'
+})
+  .send()
+  .then(response => {
+    const datasetMetadata = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -401,12 +753,24 @@ Returns **MapiRequest**
 
 Delete a dataset, including all features it contains.
 
-See the [corresponding HTTP service documentation][136].
+See the [corresponding HTTP service documentation][174].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+
+#### Examples
+
+```javascript
+datasetsClient.deleteDataset({
+  datasetId: 'dataset-id'
+})
+  .send()
+  .then(response => {
+    // Dataset is successfully deleted.
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -417,15 +781,27 @@ List features in a dataset.
 This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
 the `limit` and `start` options.
 
-See the [corresponding HTTP service documentation][137].
+See the [corresponding HTTP service documentation][175].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.limit` **[number][116]?** Only list this number of features.
-  - `config.start` **[string][113]?** The ID of the feature from which the listing should
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+  - `config.limit` **[number][154]?** Only list this number of features.
+  - `config.start` **[string][151]?** The ID of the feature from which the listing should
       start.
+
+#### Examples
+
+```javascript
+datasetsClient.listFeatures({
+  datasetId: 'dataset-id'
+})
+  .send()
+  .then(response => {
+    const features = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -433,15 +809,36 @@ Returns **MapiRequest**
 
 Add a feature to a dataset or update an existing one.
 
-See the [corresponding HTTP service documentation][138].
+See the [corresponding HTTP service documentation][176].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
-  - `config.feature` **[Object][112]** Valid GeoJSON that is not a `FeatureCollection`.
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+  - `config.featureId` **[string][151]** 
+  - `config.feature` **[Object][150]** Valid GeoJSON that is not a `FeatureCollection`.
       If the feature has a top-level `id` property, it must match the `featureId` you specify.
+
+#### Examples
+
+```javascript
+datasetsClient.putFeature({
+  datasetId: 'dataset-id',
+  featureId: 'null-island',
+  feature: {
+    "type": "Feature",
+    "properties": { "name": "Null Island" },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [0, 0]
+    }
+  }
+})
+  .send()
+  .then(response => {
+    const feature = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -449,13 +846,26 @@ Returns **MapiRequest**
 
 Get a feature in a dataset.
 
-See the [corresponding HTTP service documentation][139].
+See the [corresponding HTTP service documentation][177].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+  - `config.featureId` **[string][151]** 
+
+#### Examples
+
+```javascript
+datasetsClient.getFeature({
+  datasetId: 'dataset-id',
+  featureId: 'feature-id'
+})
+  .send()
+  .then(response => {
+    const feature = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -463,13 +873,26 @@ Returns **MapiRequest**
 
 Delete a feature in a dataset.
 
-See the [corresponding HTTP service documentation][140].
+See the [corresponding HTTP service documentation][178].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.datasetId` **[string][113]** 
-  - `config.featureId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.datasetId` **[string][151]** 
+  - `config.featureId` **[string][151]** 
+
+#### Examples
+
+```javascript
+datasetsClient.deleteFeature({
+  datasetId: 'dataset-id',
+  featureId: 'feature-id'
+})
+  .send()
+  .then(response => {
+    // Feature is successfully deleted.
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -478,7 +901,7 @@ Returns **MapiRequest**
 Tilequery API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][141].
+[the HTTP service documentation][179].
 
 ### listFeatures
 
@@ -486,15 +909,29 @@ List features within a radius of a point on a map (or several maps).
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.mapIds` **[Array][122]&lt;[string][113]>** The maps being queried.
+- `config` **[Object][150]** 
+  - `config.mapIds` **[Array][160]&lt;[string][151]>** The maps being queried.
       If you need to composite multiple layers, provide multiple map IDs.
-  - `config.coordinates` **[Coordinates][142]** The longitude and latitude to be queried.
-  - `config.radius` **[number][116]** The approximate distance in meters to query for features. (optional, default `0`)
-  - `config.limit` **[number][116]** The number of features to return, between 1 and 50. (optional, default `5`)
-  - `config.dedupe` **[boolean][120]** Whether or not to deduplicate results. (optional, default `true`)
+  - `config.coordinates` **[Coordinates][180]** The longitude and latitude to be queried.
+  - `config.radius` **[number][154]** The approximate distance in meters to query for features. (optional, default `0`)
+  - `config.limit` **[number][154]** The number of features to return, between 1 and 50. (optional, default `5`)
+  - `config.dedupe` **[boolean][158]** Whether or not to deduplicate results. (optional, default `true`)
   - `config.geometry` **(`"polygon"` \| `"linestring"` \| `"point"`)?** Queries for a specific geometry type.
-  - `config.layers` **[Array][122]&lt;[string][113]>?** IDs of vector layers to query.
+  - `config.layers` **[Array][160]&lt;[string][151]>?** IDs of vector layers to query.
+
+#### Examples
+
+```javascript
+tilequeryClient.listFeatures({
+  mapIds: ['mapbox.mapbox-streets-v8'],
+  coordinates: [-122.42901, 37.80633],
+  radius: 10
+})
+  .send()
+  .then(response => {
+    const features = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -503,7 +940,7 @@ Returns **MapiRequest**
 Tilesets API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][143].
+[the HTTP service documentation][181].
 
 ### listTilesets
 
@@ -511,8 +948,24 @@ List a user's tilesets.
 
 #### Parameters
 
-- `config` **[Object][112]?** 
-  - `config.ownerId` **[string][113]?** 
+- `config` **[Object][150]?** 
+  - `config.ownerId` **[string][151]?** 
+
+#### Examples
+
+```javascript
+tilesetsClient.listTilesets()
+  .then(response => {
+    const tilesets = response.body;
+  });
+```
+
+```javascript
+tilesetsClient.listTilesets()
+  .eachPage((error, response, next) => {
+    // Handle error or response and call next.
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -521,29 +974,74 @@ Returns **MapiRequest**
 Geocoding API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][144].
+[the HTTP service documentation][182].
 
 ### forwardGeocode
 
 Search for a place.
 
-See the [public documentation][145].
+See the [public documentation][183].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.query` **[string][113]** A place name.
+- `config` **[Object][150]** 
+  - `config.query` **[string][151]** A place name.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
-  - `config.countries` **[Array][122]&lt;[string][113]>?** Limits results to the specified countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][146].
-  - `config.proximity` **[Coordinates][142]?** Bias local results based on a provided location.
-  - `config.types` **[Array][122]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
-  - `config.autocomplete` **[boolean][120]** Return autocomplete results or not. (optional, default `true`)
-  - `config.bbox` **[BoundingBox][147]?** Limit results to a bounding box.
-  - `config.limit` **[number][116]** Limit the number of results returned. (optional, default `5`)
-  - `config.language` **[Array][122]&lt;[string][113]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
-     Options are [IETF language tags][148] comprised of a mandatory
-     [ISO 639-1 language code][149] and optionally one or more IETF subtags for country or script.
+  - `config.countries` **[Array][160]&lt;[string][151]>?** Limits results to the specified countries.
+      Each item in the array should be an [ISO 3166 alpha 2 country code][184].
+  - `config.proximity` **[Coordinates][180]?** Bias local results based on a provided location.
+  - `config.types` **[Array][160]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
+  - `config.autocomplete` **[boolean][158]** Return autocomplete results or not. (optional, default `true`)
+  - `config.bbox` **[BoundingBox][185]?** Limit results to a bounding box.
+  - `config.limit` **[number][154]** Limit the number of results returned. (optional, default `5`)
+  - `config.language` **[Array][160]&lt;[string][151]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
+     Options are [IETF language tags][186] comprised of a mandatory
+     [ISO 639-1 language code][187] and optionally one or more IETF subtags for country or script.
+
+#### Examples
+
+```javascript
+geocodingClient.forwardGeocode({
+  query: 'Paris, France',
+  limit: 2
+})
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+```
+
+```javascript
+// geocoding with proximity
+geocodingClient.forwardGeocode({
+  query: 'Paris, France',
+  proximity: [-95.4431142, 33.6875431]
+})
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+
+// geocoding with countries
+geocodingClient.forwardGeocode({
+  query: 'Paris, France',
+  countries: ['fr']
+})
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+
+// geocoding with bounding box
+geocodingClient.forwardGeocode({
+  query: 'Paris, France',
+  bbox: [2.14, 48.72, 2.55, 48.96]
+})
+  .send()
+  .then(response => {
+    const match = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -551,22 +1049,36 @@ Returns **MapiRequest**
 
 Search for places near coordinates.
 
-See the [public documentation][150].
+See the [public documentation][188].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.query` **[Coordinates][142]** Coordinates at which features will be searched.
+- `config` **[Object][150]** 
+  - `config.query` **[Coordinates][180]** Coordinates at which features will be searched.
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
-  - `config.countries` **[Array][122]&lt;[string][113]>?** Limits results to the specified countries.
-      Each item in the array should be an [ISO 3166 alpha 2 country code][146].
-  - `config.types` **[Array][122]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
-  - `config.bbox` **[BoundingBox][147]?** Limit results to a bounding box.
-  - `config.limit` **[number][116]** Limit the number of results returned. If using this option, you must provide a single item for `types`. (optional, default `1`)
-  - `config.language` **[Array][122]&lt;[string][113]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
-     Options are [IETF language tags][148] comprised of a mandatory
-     [ISO 639-1 language code][149] and optionally one or more IETF subtags for country or script.
+  - `config.countries` **[Array][160]&lt;[string][151]>?** Limits results to the specified countries.
+      Each item in the array should be an [ISO 3166 alpha 2 country code][184].
+  - `config.types` **[Array][160]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
+  - `config.bbox` **[BoundingBox][185]?** Limit results to a bounding box.
+  - `config.limit` **[number][154]** Limit the number of results returned. If using this option, you must provide a single item for `types`. (optional, default `1`)
+  - `config.language` **[Array][160]&lt;[string][151]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
+     Options are [IETF language tags][186] comprised of a mandatory
+     [ISO 639-1 language code][187] and optionally one or more IETF subtags for country or script.
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
+
+#### Examples
+
+```javascript
+geocodingClient.reverseGeocode({
+  query: [-95.4431142, 33.6875431],
+  limit: 2
+})
+  .send()
+  .then(response => {
+    // GeoJSON document with geocoding matches
+    const match = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -575,33 +1087,57 @@ Returns **MapiRequest**
 Directions API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][151].
+[the HTTP service documentation][189].
 
 ### getDirections
 
 Get directions.
 
-Please read [the full HTTP service documentation][151]
+Please read [the full HTTP service documentation][189]
 to understand all of the available options.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][150]** 
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][122]&lt;[DirectionsWaypoint][152]>** An ordered array of [`DirectionsWaypoint`][89] objects, between 2 and 25 (inclusive).
-  - `config.alternatives` **[boolean][120]** Whether to try to return alternative routes. (optional, default `false`)
-  - `config.annotations` **[Array][122]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Specify additional metadata that should be returned.
-  - `config.bannerInstructions` **[boolean][120]** Should be used in conjunction with `steps`. (optional, default `false`)
-  - `config.continueStraight` **[boolean][120]?** Sets the allowed direction of travel when departing intermediate waypoints.
-  - `config.exclude` **[string][113]?** Exclude certain road types from routing. See HTTP service documentation for options.
+  - `config.waypoints` **[Array][160]&lt;[DirectionsWaypoint][190]>** An ordered array of [`DirectionsWaypoint`][127] objects, between 2 and 25 (inclusive).
+  - `config.alternatives` **[boolean][158]** Whether to try to return alternative routes. (optional, default `false`)
+  - `config.annotations` **[Array][160]&lt;(`"duration"` \| `"distance"` \| `"speed"` \| `"congestion"`)>?** Specify additional metadata that should be returned.
+  - `config.bannerInstructions` **[boolean][158]** Should be used in conjunction with `steps`. (optional, default `false`)
+  - `config.continueStraight` **[boolean][158]?** Sets the allowed direction of travel when departing intermediate waypoints.
+  - `config.exclude` **[string][151]?** Exclude certain road types from routing. See HTTP service documentation for options.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][113]** Language of returned turn-by-turn text instructions.
-      See options listed in [the HTTP service documentation][153]. (optional, default `"en"`)
+  - `config.language` **[string][151]** Language of returned turn-by-turn text instructions.
+      See options listed in [the HTTP service documentation][191]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.roundaboutExits` **[boolean][120]** Emit insbtructions at roundabout exits. (optional, default `false`)
-  - `config.steps` **[boolean][120]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
-  - `config.voiceInstructions` **[boolean][120]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
+  - `config.roundaboutExits` **[boolean][158]** Emit insbtructions at roundabout exits. (optional, default `false`)
+  - `config.steps` **[boolean][158]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
+  - `config.voiceInstructions` **[boolean][158]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)
+
+#### Examples
+
+```javascript
+directionsClient.getDirections({
+  waypoints: [
+    {
+      coordinates: [13.4301, 52.5109],
+      approach: 'unrestricted'
+    },
+    {
+      coordinates: [13.4265, 52.508]
+    },
+    {
+      coordinates: [13.4194, 52.5072],
+      bearing: [100, 60]
+    }
+  ]
+})
+  .send()
+  .then(response => {
+    const directions = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -610,7 +1146,7 @@ Returns **MapiRequest**
 Map Matching API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][154].
+[the HTTP service documentation][192].
 
 ### getMatch
 
@@ -618,16 +1154,55 @@ Snap recorded location traces to roads and paths.
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.points` **[Array][122]&lt;[MapMatchingPoint][155]>** An ordered array of [`MapMatchingPoint`][91]s, between 2 and 100 (inclusive).
+- `config` **[Object][150]** 
+  - `config.points` **[Array][160]&lt;[MapMatchingPoint][193]>** An ordered array of [`MapMatchingPoint`][129]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A directions profile ID. (optional, default `driving`)
-  - `config.annotations` **[Array][122]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
+  - `config.annotations` **[Array][160]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometry. (optional, default `"polyline"`)
-  - `config.language` **[string][113]** Language of returned turn-by-turn text instructions.
-      See [supported languages][153]. (optional, default `"en"`)
+  - `config.language` **[string][151]** Language of returned turn-by-turn text instructions.
+      See [supported languages][191]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.steps` **[boolean][120]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
-  - `config.tidy` **[boolean][120]** Whether or not to transparently remove clusters and re-sample traces for improved map matching results. (optional, default `false`)
+  - `config.steps` **[boolean][158]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
+  - `config.tidy` **[boolean][158]** Whether or not to transparently remove clusters and re-sample traces for improved map matching results. (optional, default `false`)
+
+#### Examples
+
+```javascript
+mapMatchingClient.getMatch({
+  points: [
+    {
+      coordinates: [-117.17283, 32.712041],
+      approach: 'curb'
+    },
+    {
+      coordinates: [-117.17291, 32.712256],
+      isWaypoint: false
+    },
+    {
+      coordinates: [-117.17292, 32.712444]
+    },
+    {
+      coordinates: [-117.172922, 32.71257],
+      waypointName: 'point-a',
+      approach: 'unrestricted'
+    },
+    {
+      coordinates: [-117.172985, 32.7126]
+    },
+    {
+      coordinates: [-117.173143, 32.712597]
+    },
+    {
+      coordinates: [-117.173345, 32.712546]
+    }
+  ],
+  tidy: false,
+})
+  .send()
+  .then(response => {
+    const matching = response.body;
+  })
+```
 
 Returns **MapiRequest** 
 
@@ -636,7 +1211,7 @@ Returns **MapiRequest**
 Map Matching API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][156].
+[the HTTP service documentation][194].
 
 ### getMatrix
 
@@ -644,12 +1219,39 @@ Get a duration and/or distance matrix showing travel times and distances between
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.points` **[Array][122]&lt;[MatrixPoint][157]>** An ordered array of [`MatrixPoint`][93]s, between 2 and 100 (inclusive).
+- `config` **[Object][150]** 
+  - `config.points` **[Array][160]&lt;[MatrixPoint][195]>** An ordered array of [`MatrixPoint`][131]s, between 2 and 100 (inclusive).
   - `config.profile` **(`"driving-traffic"` \| `"driving"` \| `"walking"` \| `"cycling"`)** A Mapbox Directions routing profile ID. (optional, default `driving`)
-  - `config.sources` **(`"all"` \| [Array][122]&lt;[number][116]>)?** Use coordinates with given index as sources.
-  - `config.destinations` **(`"all"` \| [Array][122]&lt;[number][116]>)?** Use coordinates with given index as destinations.
-  - `config.annotations` **[Array][122]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
+  - `config.sources` **(`"all"` \| [Array][160]&lt;[number][154]>)?** Use coordinates with given index as sources.
+  - `config.destinations` **(`"all"` \| [Array][160]&lt;[number][154]>)?** Use coordinates with given index as destinations.
+  - `config.annotations` **[Array][160]&lt;(`"distance"` \| `"duration"`)>?** Used to specify resulting matrices.
+
+#### Examples
+
+```javascript
+matrixClient.getMatrix({
+  points: [
+    {
+      coordinates: [2.2, 1.1]
+    },
+    {
+      coordinates: [2.2, 1.1],
+      approach: 'curb'
+    },
+    {
+      coordinates: [3.2, 1.1]
+    },
+    {
+      coordinates: [4.2, 1.1]
+    }
+  ],
+  profile: 'walking'
+})
+  .send()
+  .then(response => {
+      const matrix = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -658,30 +1260,30 @@ Returns **MapiRequest**
 Optimization API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][158].
+[the HTTP service documentation][196].
 
 ### getOptimization
 
 Get a duration-optimized route.
 
-Please read [the full HTTP service documentation][158]
+Please read [the full HTTP service documentation][196]
 to understand all of the available options.
 
 #### Parameters
 
-- `config` **[Object][112]** 
+- `config` **[Object][150]** 
   - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
-  - `config.waypoints` **[Array][122]&lt;[OptimizationWaypoint][159]>** An ordered array of [`OptimizationWaypoint`][95] objects, between 2 and 12 (inclusive).
-  - `config.annotations` **[Array][122]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
+  - `config.waypoints` **[Array][160]&lt;[OptimizationWaypoint][197]>** An ordered array of [`OptimizationWaypoint`][133] objects, between 2 and 12 (inclusive).
+  - `config.annotations` **[Array][160]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.destination` **(`"any"` \| `"last"`)** Returned route ends at `any` or `last` coordinate. (optional, default `"any"`)
-  - `config.distributions` **[Array][122]&lt;[Distribution][160]>?** An ordered array of [`Distribution`][108] objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
+  - `config.distributions` **[Array][160]&lt;[Distribution][198]>?** An ordered array of [`Distribution`][146] objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
   - `config.geometries` **(`"geojson"` \| `"polyline"` \| `"polyline6"`)** Format of the returned geometries. (optional, default `"polyline"`)
-  - `config.language` **[string][113]** Language of returned turn-by-turn text instructions.
-      See options listed in [the HTTP service documentation][153]. (optional, default `"en"`)
+  - `config.language` **[string][151]** Language of returned turn-by-turn text instructions.
+      See options listed in [the HTTP service documentation][191]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.roundtrip` **[boolean][120]** Specifies whether the trip should complete by returning to the first location. (optional, default `true`)
+  - `config.roundtrip` **[boolean][158]** Specifies whether the trip should complete by returning to the first location. (optional, default `true`)
   - `config.source` **(`"any"` \| `"first"`)** To begin the route, start either from the first coordinate or let the Optimization API choose. (optional, default `"any"`)
-  - `config.steps` **[boolean][120]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
+  - `config.steps` **[boolean][158]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
 
 Returns **MapiRequest** 
 
@@ -690,13 +1292,23 @@ Returns **MapiRequest**
 Tokens API service.
 
 Learn more about this service and its responses in
-[the HTTP service documentation][161].
+[the HTTP service documentation][199].
 
 ### listTokens
 
 List your access tokens.
 
-See the [corresponding HTTP service documentation][162].
+See the [corresponding HTTP service documentation][200].
+
+#### Examples
+
+```javascript
+tokensClient.listTokens()
+  .send()
+  .then(response => {
+    const tokens = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -704,7 +1316,7 @@ Returns **MapiRequest**
 
 Create a new access token.
 
-See the [corresponding HTTP service documentation][163].
+See the [corresponding HTTP service documentation][201].
 
 #### Parameters
 
@@ -714,19 +1326,44 @@ See the [corresponding HTTP service documentation][163].
   - `config.resources` **[Array][122]&lt;[string][113]>?** 
   - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
+#### Examples
+
+```javascript
+tokensClient.createToken({
+  note: 'datasets-token',
+  scopes: ['datasets:write', 'datasets:read']
+})
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
+
 Returns **MapiRequest** 
 
 ### createTemporaryToken
 
 Create a new temporary access token.
 
-See the [corresponding HTTP service documentation][164].
+See the [corresponding HTTP service documentation][202].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.expires` **[string][113]** 
-  - `config.scopes` **[Array][122]&lt;[string][113]>** 
+- `config` **[Object][150]** 
+  - `config.expires` **[string][151]** 
+  - `config.scopes` **[Array][160]&lt;[string][151]>** 
+
+#### Examples
+
+```javascript
+tokensClient.createTemporaryToken({
+  scopes: ['datasets:write', 'datasets:read']
+})
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -734,7 +1371,7 @@ Returns **MapiRequest**
 
 Update an access token.
 
-See the [corresponding HTTP service documentation][165].
+See the [corresponding HTTP service documentation][203].
 
 #### Parameters
 
@@ -745,13 +1382,37 @@ See the [corresponding HTTP service documentation][165].
   - `config.resources` **[Array][122]&lt;[string][113]>?** 
   - `config.referrers` **[Array][122]&lt;[string][113]>?** 
 
+#### Examples
+
+```javascript
+tokensClient.updateToken({
+  tokenId: 'cijucimbe000brbkt48d0dhcx',
+  note: 'datasets-token',
+  scopes: ['datasets:write', 'datasets:read']
+})
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
+
 Returns **MapiRequest** 
 
 ### getToken
 
 Get data about the client's access token.
 
-See the [corresponding HTTP service documentation][166].
+See the [corresponding HTTP service documentation][204].
+
+#### Examples
+
+```javascript
+tokensClient.getToken()
+  .send()
+  .then(response => {
+    const token = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -759,12 +1420,24 @@ Returns **MapiRequest**
 
 Delete an access token.
 
-See the [corresponding HTTP service documentation][167].
+See the [corresponding HTTP service documentation][205].
 
 #### Parameters
 
-- `config` **[Object][112]** 
-  - `config.tokenId` **[string][113]** 
+- `config` **[Object][150]** 
+  - `config.tokenId` **[string][151]** 
+
+#### Examples
+
+```javascript
+tokensClient.deleteToken({
+  tokenId: 'cijucimbe000brbkt48d0dhcx'
+})
+  .send()
+  .then(response => {
+    // Token successfully deleted.
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -773,7 +1446,17 @@ Returns **MapiRequest**
 List your available scopes. Each item is a metadata
 object about the scope, not just the string scope.
 
-See the [corresponding HTTP service documentation][168].
+See the [corresponding HTTP service documentation][206].
+
+#### Examples
+
+```javascript
+tokensClient.listScopes()
+  .send()
+  .then(response => {
+    const scopes = response.body;
+  });
+```
 
 Returns **MapiRequest** 
 
@@ -783,107 +1466,107 @@ Data structures used in service method configuration.
 
 ### DirectionsWaypoint
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][180]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
-- `bearing` **\[[number][116], [number][116]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+- `bearing` **\[[number][154], [number][154]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
     and the second is the range of degrees the angle can deviate by.
-- `radius` **([number][116] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
-- `waypointName` **[string][113]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
+- `radius` **([number][154] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+- `waypointName` **[string][151]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
 
 ### MapMatchingPoint
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][180]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach a waypoint.
-- `radius` **[number][116]?** A number in meters indicating the assumed precision of the used tracking device.
-- `isWaypoint` **[boolean][120]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
-- `waypointName` **[string][113]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
-- `timestamp` **(tring | [number][116] \| [Date][117])?** Datetime corresponding to the coordinate.
+- `radius` **[number][154]?** A number in meters indicating the assumed precision of the used tracking device.
+- `isWaypoint` **[boolean][158]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
+- `waypointName` **[string][151]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
+- `timestamp` **(tring | [number][154] \| [Date][155])?** Datetime corresponding to the coordinate.
 
 ### MatrixPoint
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** `[longitude, latitude]`
+- `coordinates` **[Coordinates][180]** `[longitude, latitude]`
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the point.
 
 ### OptimizationWaypoint
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `coordinates` **[Coordinates][142]** 
+- `coordinates` **[Coordinates][180]** 
 - `approach` **(`"unrestricted"` \| `"curb"`)?** Used to indicate how requested routes consider from which side of the road to approach the waypoint.
-- `bearing` **\[[number][116], [number][116]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
+- `bearing` **\[[number][154], [number][154]]?** Used to filter the road segment the waypoint will be placed on by direction and dictates the angle of approach.
     This option should always be used in conjunction with a `radius`. The first value is an angle clockwise from true north between 0 and 360,
     and the second is the range of degrees the angle can deviate by.
-- `radius` **([number][116] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
+- `radius` **([number][154] \| `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
 
 ### SimpleMarkerOverlay
 
 A simple marker overlay.
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `marker` **[Object][112]** 
-  - `marker.coordinates` **\[[number][116], [number][116]]** `[longitude, latitude]`
+- `marker` **[Object][150]** 
+  - `marker.coordinates` **\[[number][154], [number][154]]** `[longitude, latitude]`
   - `marker.size` **(`"large"` \| `"small"`)?** 
-  - `marker.label` **[string][113]?** Marker symbol. Options are an alphanumeric label `a`
-      through `z`, `0` through `99`, or a valid [Maki][169]
+  - `marker.label` **[string][151]?** Marker symbol. Options are an alphanumeric label `a`
+      through `z`, `0` through `99`, or a valid [Maki][207]
       icon. If a letter is requested, it will be rendered in uppercase only.
-  - `marker.color` **[string][113]?** A 3- or 6-digit hexadecimal color code.
+  - `marker.color` **[string][151]?** A 3- or 6-digit hexadecimal color code.
 
 ### CustomMarkerOverlay
 
 A marker overlay with a custom image.
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `marker` **[Object][112]** 
-  - `marker.coordinates` **\[[number][116], [number][116]]** `[longitude, latitude]`
-  - `marker.url` **[string][113]** 
+- `marker` **[Object][150]** 
+  - `marker.coordinates` **\[[number][154], [number][154]]** `[longitude, latitude]`
+  - `marker.url` **[string][151]** 
 
 ### PathOverlay
 
 A stylable line.
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `path` **[Object][112]** 
-  - `path.coordinates` **[Array][122]&lt;[Coordinates][142]>** An array of coordinates
+- `path` **[Object][150]** 
+  - `path.coordinates` **[Array][160]&lt;[Coordinates][180]>** An array of coordinates
       describing the path.
-  - `path.strokeWidth` **[number][116]?** 
-  - `path.strokeColor` **[string][113]?** 
-  - `path.strokeOpacity` **[number][116]?** Must be paired with strokeColor.
-  - `path.fillColor` **[string][113]?** Must be paired with strokeColor.
-  - `path.fillOpacity` **[number][116]?** Must be paired with fillColor.
+  - `path.strokeWidth` **[number][154]?** 
+  - `path.strokeColor` **[string][151]?** 
+  - `path.strokeOpacity` **[number][154]?** Must be paired with strokeColor.
+  - `path.fillColor` **[string][151]?** Must be paired with strokeColor.
+  - `path.fillOpacity` **[number][154]?** Must be paired with fillColor.
 
 ### GeoJsonOverlay
 
 GeoJSON to overlay the map.
 
-Type: [Object][112]
+Type: [Object][150]
 
 #### Properties
 
-- `geoJson` **[Object][112]** Valid GeoJSON.
+- `geoJson` **[Object][150]** Valid GeoJSON.
 
 ### UploadableFile
 
@@ -891,28 +1574,28 @@ In Node, files must be `ReadableStream`s or paths pointing for the file in the f
 
 In the browser, files must be `Blob`s or `ArrayBuffer`s.
 
-Type: ([Blob][170] \| [ArrayBuffer][171] \| [string][113] | ReadableStream)
+Type: ([Blob][208] \| [ArrayBuffer][209] \| [string][151] | ReadableStream)
 
 ### Coordinates
 
 `[longitude, latitude]`
 
-Type: [Array][122]&lt;[number][116]>
+Type: [Array][160]&lt;[number][154]>
 
 ### BoundingBox
 
 `[minLongitude, minLatitude, maxLongitude, maxLatitude]`
 
-Type: [Array][122]&lt;[number][116]>
+Type: [Array][160]&lt;[number][154]>
 
 ## Distribution
 
-Type: [Object][112]
+Type: [Object][150]
 
 ### Properties
 
-- `pickup` **[number][116]** Array index of the item containing coordinates for the pick-up location in the OptimizationWaypoint array.
-- `dropoff` **[number][116]** Array index of the item containing coordinates for the drop-off location in the OptimizationWaypoint array.
+- `pickup` **[number][154]** Array index of the item containing coordinates for the pick-up location in the OptimizationWaypoint array.
+- `dropoff` **[number][154]** Array index of the item containing coordinates for the drop-off location in the OptimizationWaypoint array.
 
 [1]: #styles
 
@@ -920,338 +1603,414 @@ Type: [Object][112]
 
 [3]: #parameters
 
-[4]: #createstyle
+[4]: #examples
 
-[5]: #parameters-1
+[5]: #createstyle
 
-[6]: #updatestyle
+[6]: #parameters-1
 
-[7]: #parameters-2
+[7]: #examples-1
 
-[8]: #deletestyle
+[8]: #updatestyle
 
-[9]: #parameters-3
+[9]: #parameters-2
 
-[10]: #liststyles
+[10]: #examples-2
 
-[11]: #parameters-4
+[11]: #deletestyle
 
-[12]: #putstyleicon
+[12]: #parameters-3
 
-[13]: #parameters-5
+[13]: #examples-3
 
-[14]: #deletestyleicon
+[14]: #liststyles
 
-[15]: #parameters-6
+[15]: #parameters-4
 
-[16]: #getstylesprite
+[16]: #examples-4
 
-[17]: #parameters-7
+[17]: #putstyleicon
 
-[18]: #getfontglyphrange
+[18]: #parameters-5
 
-[19]: #parameters-8
+[19]: #examples-5
 
-[20]: #getembeddablehtml
+[20]: #deletestyleicon
 
-[21]: #parameters-9
+[21]: #parameters-6
 
-[22]: #static
+[22]: #examples-6
 
-[23]: #getstaticimage
+[23]: #getstylesprite
 
-[24]: #parameters-10
+[24]: #parameters-7
 
-[25]: #uploads
+[25]: #examples-7
 
-[26]: #listuploads
+[26]: #getfontglyphrange
 
-[27]: #parameters-11
+[27]: #parameters-8
 
-[28]: #createuploadcredentials
+[28]: #examples-8
 
-[29]: #createupload
+[29]: #getembeddablehtml
 
-[30]: #parameters-12
+[30]: #parameters-9
 
-[31]: #getupload
+[31]: #static
 
-[32]: #parameters-13
+[32]: #getstaticimage
 
-[33]: #deleteupload
+[33]: #parameters-10
 
-[34]: #parameters-14
+[34]: #examples-9
 
-[35]: #datasets
+[35]: #uploads
 
-[36]: #listdatasets
+[36]: #listuploads
 
-[37]: #createdataset
+[37]: #parameters-11
 
-[38]: #parameters-15
+[38]: #examples-10
 
-[39]: #getmetadata
+[39]: #createuploadcredentials
 
-[40]: #parameters-16
+[40]: #examples-11
 
-[41]: #updatemetadata
+[41]: #createupload
 
-[42]: #parameters-17
+[42]: #parameters-12
 
-[43]: #deletedataset
+[43]: #examples-12
 
-[44]: #parameters-18
+[44]: #getupload
 
-[45]: #listfeatures
+[45]: #parameters-13
 
-[46]: #parameters-19
+[46]: #examples-13
 
-[47]: #putfeature
+[47]: #deleteupload
 
-[48]: #parameters-20
+[48]: #parameters-14
 
-[49]: #getfeature
+[49]: #examples-14
 
-[50]: #parameters-21
+[50]: #datasets
 
-[51]: #deletefeature
+[51]: #listdatasets
 
-[52]: #parameters-22
+[52]: #examples-15
 
-[53]: #tilequery
+[53]: #createdataset
 
-[54]: #listfeatures-1
+[54]: #parameters-15
 
-[55]: #parameters-23
+[55]: #examples-16
 
-[56]: #tilesets
+[56]: #getmetadata
 
-[57]: #listtilesets
+[57]: #parameters-16
 
-[58]: #parameters-24
+[58]: #examples-17
 
-[59]: #geocoding
+[59]: #updatemetadata
 
-[60]: #forwardgeocode
+[60]: #parameters-17
 
-[61]: #parameters-25
+[61]: #examples-18
 
-[62]: #reversegeocode
+[62]: #deletedataset
 
-[63]: #parameters-26
+[63]: #parameters-18
 
-[64]: #directions
+[64]: #examples-19
 
-[65]: #getdirections
+[65]: #listfeatures
 
-[66]: #parameters-27
+[66]: #parameters-19
 
-[67]: #mapmatching
+[67]: #examples-20
 
-[68]: #getmatch
+[68]: #putfeature
 
-[69]: #parameters-28
+[69]: #parameters-20
 
-[70]: #matrix
+[70]: #examples-21
 
-[71]: #getmatrix
+[71]: #getfeature
 
-[72]: #parameters-29
+[72]: #parameters-21
 
-[73]: #optimization
+[73]: #examples-22
 
-[74]: #getoptimization
+[74]: #deletefeature
 
-[75]: #parameters-30
+[75]: #parameters-22
 
-[76]: #tokens
+[76]: #examples-23
 
-[77]: #listtokens
+[77]: #tilequery
 
-[78]: #createtoken
+[78]: #listfeatures-1
 
-[79]: #parameters-31
+[79]: #parameters-23
 
-[80]: #createtemporarytoken
+[80]: #examples-24
 
-[81]: #parameters-32
+[81]: #tilesets
 
-[82]: #updatetoken
+[82]: #listtilesets
 
-[83]: #parameters-33
+[83]: #parameters-24
 
-[84]: #gettoken
+[84]: #examples-25
 
-[85]: #deletetoken
+[85]: #geocoding
 
-[86]: #parameters-34
+[86]: #forwardgeocode
 
-[87]: #listscopes
+[87]: #parameters-25
 
-[88]: #data-structures
+[88]: #examples-26
 
-[89]: #directionswaypoint
+[89]: #reversegeocode
 
-[90]: #properties
+[90]: #parameters-26
 
-[91]: #mapmatchingpoint
+[91]: #examples-27
 
-[92]: #properties-1
+[92]: #directions
 
-[93]: #matrixpoint
+[93]: #getdirections
 
-[94]: #properties-2
+[94]: #parameters-27
 
-[95]: #optimizationwaypoint
+[95]: #examples-28
 
-[96]: #properties-3
+[96]: #mapmatching
 
-[97]: #simplemarkeroverlay
+[97]: #getmatch
 
-[98]: #properties-4
+[98]: #parameters-28
 
-[99]: #custommarkeroverlay
+[99]: #examples-29
 
-[100]: #properties-5
+[100]: #matrix
 
-[101]: #pathoverlay
+[101]: #getmatrix
 
-[102]: #properties-6
+[102]: #parameters-29
 
-[103]: #geojsonoverlay
+[103]: #examples-30
 
-[104]: #properties-7
+[104]: #optimization
 
-[105]: #uploadablefile
+[105]: #getoptimization
 
-[106]: #coordinates
+[106]: #parameters-30
 
-[107]: #boundingbox
+[107]: #tokens
 
-[108]: #distribution
+[108]: #listtokens
 
-[109]: #properties-8
+[109]: #examples-31
 
-[110]: https://www.mapbox.com/api-documentation/#styles
+[110]: #createtoken
 
-[111]: https://www.mapbox.com/api-documentation/#retrieve-a-style
+[111]: #parameters-31
 
-[112]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[112]: #examples-32
 
-[113]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[113]: #createtemporarytoken
 
-[114]: https://www.mapbox.com/api-documentation/#create-a-style
+[114]: #parameters-32
 
-[115]: https://www.mapbox.com/api-documentation/#update-a-style
+[115]: #examples-33
 
-[116]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[116]: #updatetoken
 
-[117]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
+[117]: #parameters-33
 
-[118]: #uploadablefile
+[118]: #examples-34
 
-[119]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json
+[119]: #gettoken
 
-[120]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[120]: #examples-35
 
-[121]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges
+[121]: #deletetoken
 
-[122]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[122]: #parameters-34
 
-[123]: https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style
+[123]: #examples-36
 
-[124]: https://www.mapbox.com/api-documentation/#static
+[124]: #listscopes
 
-[125]: https://www.mapbox.com/api-documentation/#uploads
+[125]: #examples-37
 
-[126]: https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses
+[126]: #data-structures
 
-[127]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
+[127]: #directionswaypoint
 
-[128]: https://www.mapbox.com/api-documentation/#create-an-upload
+[128]: #properties
 
-[129]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
+[129]: #mapmatchingpoint
 
-[130]: https://www.mapbox.com/api-documentation/#remove-an-upload
+[130]: #properties-1
 
-[131]: https://www.mapbox.com/api-documentation/#datasets
+[131]: #matrixpoint
 
-[132]: https://www.mapbox.com/api-documentation/#list-datasets
+[132]: #properties-2
 
-[133]: https://www.mapbox.com/api-documentation/#create-dataset
+[133]: #optimizationwaypoint
 
-[134]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+[134]: #properties-3
 
-[135]: https://www.mapbox.com/api-documentation/#update-a-dataset
+[135]: #simplemarkeroverlay
 
-[136]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+[136]: #properties-4
 
-[137]: https://www.mapbox.com/api-documentation/#list-features
+[137]: #custommarkeroverlay
 
-[138]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+[138]: #properties-5
 
-[139]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+[139]: #pathoverlay
 
-[140]: https://www.mapbox.com/api-documentation/#delete-a-feature
+[140]: #properties-6
 
-[141]: https://www.mapbox.com/api-documentation/#tilequery
+[141]: #geojsonoverlay
 
-[142]: #coordinates
+[142]: #properties-7
 
-[143]: https://www.mapbox.com/api-documentation/#tilesets
+[143]: #uploadablefile
 
-[144]: https://www.mapbox.com/api-documentation/#geocoding
+[144]: #coordinates
 
-[145]: https://www.mapbox.com/api-documentation/#search-for-places
+[145]: #boundingbox
 
-[146]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+[146]: #distribution
 
-[147]: #boundingbox
+[147]: #properties-8
 
-[148]: https://en.wikipedia.org/wiki/IETF_language_tag
+[148]: https://www.mapbox.com/api-documentation/#styles
 
-[149]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+[149]: https://www.mapbox.com/api-documentation/#retrieve-a-style
 
-[150]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
+[150]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[151]: https://www.mapbox.com/api-documentation/#directions
+[151]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[152]: #directionswaypoint
+[152]: https://www.mapbox.com/api-documentation/#create-a-style
 
-[153]: https://www.mapbox.com/api-documentation/#instructions-languages
+[153]: https://www.mapbox.com/api-documentation/#update-a-style
 
-[154]: https://www.mapbox.com/api-documentation/#map-matching
+[154]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[155]: #mapmatchingpoint
+[155]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-[156]: https://www.mapbox.com/api-documentation/#matrix
+[156]: #uploadablefile
 
-[157]: #matrixpoint
+[157]: https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json
 
-[158]: https://www.mapbox.com/api-documentation/#optimization
+[158]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[159]: #optimizationwaypoint
+[159]: https://www.mapbox.com/api-documentation/#retrieve-font-glyph-ranges
 
-[160]: #distribution
+[160]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[161]: https://www.mapbox.com/api-documentation/#tokens
+[161]: https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style
 
-[162]: https://www.mapbox.com/api-documentation/#list-tokens
+[162]: https://www.mapbox.com/api-documentation/#static
 
-[163]: https://www.mapbox.com/api-documentation/#create-token
+[163]: https://www.mapbox.com/api-documentation/#uploads
 
-[164]: https://www.mapbox.com/api-documentation/#create-temporary-token
+[164]: https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses
 
-[165]: https://www.mapbox.com/api-documentation/#update-a-token
+[165]: https://www.mapbox.com/api-documentation/#retrieve-s3-credentials
 
-[166]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+[166]: https://www.mapbox.com/api-documentation/#create-an-upload
 
-[167]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+[167]: https://www.mapbox.com/api-documentation/#retrieve-upload-status
 
-[168]: https://www.mapbox.com/api-documentation/#list-scopes
+[168]: https://www.mapbox.com/api-documentation/#remove-an-upload
 
-[169]: https://www.mapbox.com/maki/
+[169]: https://www.mapbox.com/api-documentation/#datasets
 
-[170]: https://developer.mozilla.org/docs/Web/API/Blob
+[170]: https://www.mapbox.com/api-documentation/#list-datasets
 
-[171]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[171]: https://www.mapbox.com/api-documentation/#create-dataset
+
+[172]: https://www.mapbox.com/api-documentation/#retrieve-a-dataset
+
+[173]: https://www.mapbox.com/api-documentation/#update-a-dataset
+
+[174]: https://www.mapbox.com/api-documentation/#delete-a-dataset
+
+[175]: https://www.mapbox.com/api-documentation/#list-features
+
+[176]: https://www.mapbox.com/api-documentation/#insert-or-update-a-feature
+
+[177]: https://www.mapbox.com/api-documentation/#retrieve-a-feature
+
+[178]: https://www.mapbox.com/api-documentation/#delete-a-feature
+
+[179]: https://www.mapbox.com/api-documentation/#tilequery
+
+[180]: #coordinates
+
+[181]: https://www.mapbox.com/api-documentation/#tilesets
+
+[182]: https://www.mapbox.com/api-documentation/#geocoding
+
+[183]: https://www.mapbox.com/api-documentation/#search-for-places
+
+[184]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+[185]: #boundingbox
+
+[186]: https://en.wikipedia.org/wiki/IETF_language_tag
+
+[187]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
+[188]: https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location
+
+[189]: https://www.mapbox.com/api-documentation/#directions
+
+[190]: #directionswaypoint
+
+[191]: https://www.mapbox.com/api-documentation/#instructions-languages
+
+[192]: https://www.mapbox.com/api-documentation/#map-matching
+
+[193]: #mapmatchingpoint
+
+[194]: https://www.mapbox.com/api-documentation/#matrix
+
+[195]: #matrixpoint
+
+[196]: https://www.mapbox.com/api-documentation/#optimization
+
+[197]: #optimizationwaypoint
+
+[198]: #distribution
+
+[199]: https://www.mapbox.com/api-documentation/#tokens
+
+[200]: https://www.mapbox.com/api-documentation/#list-tokens
+
+[201]: https://www.mapbox.com/api-documentation/#create-token
+
+[202]: https://www.mapbox.com/api-documentation/#create-temporary-token
+
+[203]: https://www.mapbox.com/api-documentation/#update-a-token
+
+[204]: https://www.mapbox.com/api-documentation/#retrieve-a-token
+
+[205]: https://www.mapbox.com/api-documentation/?language=cURL#delete-a-token
+
+[206]: https://www.mapbox.com/api-documentation/#list-scopes
+
+[207]: https://www.mapbox.com/maki/
+
+[208]: https://developer.mozilla.org/docs/Web/API/Blob
+
+[209]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer

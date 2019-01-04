@@ -49,6 +49,85 @@ var Static = {};
  * @param {boolean} [config.logo=true] - Whether there is a Mapbox logo
  *   on the map image.
  * @return {MapiRequest}
+ *
+ * @example
+ * staticClient.getStaticImage({
+ *   ownerId: 'mapbox',
+ *   styleId: 'streets-v11',
+ *   width: 200,
+ *   height: 300,
+ *   position: {
+ *     coordinates: [12, 13],
+ *     zoom: 4
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const image = response.body;
+ *   });
+ *
+ * @example
+ * staticClient.getStaticImage({
+ *   ownerId: 'mapbox',
+ *   styleId: 'streets-v11',
+ *   width: 200,
+ *   height: 300,
+ *   position: {
+ *     coordinates: [12, 13],
+ *     zoom: 3
+ *   },
+ *   overlays: [
+ *     // Simple markers.
+ *     {
+ *       marker: {
+ *         coordinates: [12.2, 12.8]
+ *       }
+ *     },
+ *     {
+ *       marker: {
+ *         size: 'large',
+ *         coordinates: [14, 13.2],
+ *         label: 'm',
+ *         color: '#000'
+ *       }
+ *     },
+ *     {
+ *       marker: {
+ *         coordinates: [15, 15.2],
+ *         label: 'airport',
+ *         color: '#ff0000'
+ *       }
+ *     },
+ *     // Custom marker
+ *     {
+ *       marker: {
+ *         coordinates: [10, 11],
+ *         url:  'https://upload.wikimedia.org/wikipedia/commons/6/6f/0xff_timetracker.png'
+ *       }
+ *     }
+ *   ]
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const image = response.body;
+ *   });
+ *
+ * @example
+ * // To get the URL instead of the image, create a request
+ * // and get its URL without sending it.
+ * const request = staticClient
+ *   .getStaticImage({
+ *     ownerId: 'mapbox',
+ *     styleId: 'streets-v11',
+ *     width: 200,
+ *     height: 300,
+ *     position: {
+ *       coordinates: [12, 13],
+ *       zoom: 4
+ *     }
+ *   });
+ * const staticImageUrl = request.url();
+ * // Now you can open staticImageUrl in a browser.
  */
 Static.getStaticImage = function(config) {
   v.assertShape({
