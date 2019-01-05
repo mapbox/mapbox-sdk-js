@@ -9,7 +9,7 @@ var pick = require('./service-helpers/pick');
  * Static API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#static).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#stati).
  */
 var Static = {};
 
