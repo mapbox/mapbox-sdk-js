@@ -1919,7 +1919,7 @@ Type: [Object][150]
 
 [161]: https://www.mapbox.com/api-documentation/maps/#request-embeddable-html
 
-[162]: https://www.mapbox.com/api-documentation/maps/#stati
+[162]: https://www.mapbox.com/api-documentation/maps/#static
 
 [163]: https://www.mapbox.com/api-documentation/maps/#uploads
 
