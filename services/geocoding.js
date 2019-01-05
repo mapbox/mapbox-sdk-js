@@ -10,7 +10,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Geocoding API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#geocoding).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/search/#geocoding).
  */
 var Geocoding = {};
 
@@ -30,7 +30,7 @@ var featureTypes = [
 /**
  * Search for a place.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#search-for-places).
+ * See the [public documentation](https://www.mapbox.com/api-documentation/search/#forward-geocoding).
  *
  * @param {Object} config
  * @param {string} config.query - A place name.
@@ -128,7 +128,7 @@ Geocoding.forwardGeocode = function(config) {
 /**
  * Search for places near coordinates.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location).
+ * See the [public documentation](https://www.mapbox.com/api-documentation/search/#reverse-geocoding).
  *
  * @param {Object} config
  * @param {Coordinates} config.query - Coordinates at which features will be searched.

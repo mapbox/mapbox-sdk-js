@@ -9,14 +9,14 @@ var stringifyBooleans = require('./service-helpers/stringify-booleans');
  * Directions API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#directions).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#directions).
  */
 var Directions = {};
 
 /**
  * Get directions.
  *
- * Please read [the full HTTP service documentation](https://www.mapbox.com/api-documentation/#directions)
+ * Please read [the full HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#directions)
  * to understand all of the available options.
  *
  * @param {Object} config
@@ -29,7 +29,7 @@ var Directions = {};
  * @param {string} [config.exclude] - Exclude certain road types from routing. See HTTP service documentation for options.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
- *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
+ *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
  * @param {boolean} [config.roundaboutExits=false] - Emit insbtructions at roundabout exits.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.

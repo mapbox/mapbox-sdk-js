@@ -10,7 +10,7 @@ var stringifyBooleans = require('./service-helpers/stringify-booleans');
  * Map Matching API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#map-matching).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#map-matching).
  */
 var MapMatching = {};
 
@@ -23,7 +23,7 @@ var MapMatching = {};
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
- *   See [supported languages](https://www.mapbox.com/api-documentation/#instructions-languages).
+ *   See [supported languages](https://www.mapbox.com/api-documentation/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.tidy=false] - Whether or not to transparently remove clusters and re-sample traces for improved map matching results.
