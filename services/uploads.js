@@ -7,14 +7,14 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Uploads API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#uploads).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#uploads).
  */
 var Uploads = {};
 
 /**
  * List the statuses of all recent uploads.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-recent-upload-statuses).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-recent-upload-statuses).
  *
  * @param {Object} [config]
  * @param {boolean} [config.reverse] - List uploads in chronological order, rather than reverse chronological order.
@@ -42,7 +42,7 @@ Uploads.listUploads = function(config) {
 /**
  * Create S3 credentials.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-s3-credentials).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-s3-credentials).
  *
  * @return {MapiRequest}
  *
@@ -80,7 +80,7 @@ Uploads.createUploadCredentials = function() {
 /**
  * Create an upload.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-an-upload).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#create-an-upload).
  *
  * @param {Object} config
  * @param {string} config.mapId - The map ID to create or replace in the format `username.nameoftileset`.
@@ -132,7 +132,7 @@ Uploads.createUpload = function(config) {
 /**
  * Get an upload's status.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-upload-status).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-upload-status).
  *
  * @param {Object} config
  * @param {string} config.uploadId
@@ -162,7 +162,7 @@ Uploads.getUpload = function(config) {
 /**
  * Delete an upload.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#remove-an-upload).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#remove-an-upload-status).
  *
  * @param {Object} config
  * @param {string} config.uploadId

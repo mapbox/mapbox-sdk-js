@@ -8,7 +8,7 @@ var objectClean = require('./service-helpers/object-clean');
  * Map Matching API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#matrix).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#matrix).
  */
 var Matrix = {};
 
