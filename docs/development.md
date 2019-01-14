@@ -27,7 +27,7 @@ The properties of a service prototype object are the service methods. Each servi
 - `path` (string): the path of the endpoint, with `:express-style` colon-prefixed parameters for path parts that should be replaced by values in the `params` object.
 - `params` (object): an object whose keys correspond to the `:express-style` colon-prefixed parameters in the `path` string, and whose values are the values that should be substituted into the path. For example, with `path: '/foo/:bar/:baz'` you'll need a params object with `bar` and `baz` properties, like `{ bar: 'a', baz: 'b' }`. **You do *not* need to specify an `ownerId` param: that is automatically provided by the `MapiClient`.**
 - `query` (object): an object that will be transformed into a query string and attached to the `path` (e.g. `{ foo: 'a', baz: 'b' }` becomes `?foo=a&baz=b`).
-- `headers` (object): an object of headers that should be added to the request. Keys should be lowercase.
+- `headers` (object): an object of headers that should be added to the request. Keys should be lowercase. `'content-type': 'application/json'` is automatically included if the request includes a `body`.
 - `body` (object, default `null`): a body that should be included with the `POST` or `PUT` request. It will be stringified as JSON.
 - `file` (Blob|ArrayBuffer|string|ReadStream): a file that should be included with the `POST` or `PUT` request.
 
