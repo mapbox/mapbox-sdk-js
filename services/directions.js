@@ -99,7 +99,7 @@ Directions.getDirections = function(config) {
   };
 
   var waypointCount = config.waypoints.length;
-  if (waypointCount < 2 || waypointCount > 25) {
+  if (waypointCount < 2 || waypointCount > 250) {
     throw new Error(
       'waypoints must include between 2 and 25 DirectionsWaypoints'
     );
