@@ -65,7 +65,7 @@ Matrix.getMatrix = function(config) {
   })(config);
 
   var pointCount = config.points.length;
-  if (pointCount < 2 || pointCount > 100) {
+  if (pointCount < 2 || pointCount > 250) {
     throw new Error('points must include between 2 and 100 MatrixPoints');
   }
 
@@ -112,130 +112,32 @@ Matrix.getMatrix = function(config) {
         : 'duration'
   };
 
-  return this.client.createRequest({
-    method: 'GET',
-    path: '/directions-matrix/v1/mapbox/:profile/:coordinates',
-    params: {
-      profile: config.profile,
-      coordinates: path.coordinates.join(';')
-    },
-    query: objectClean(query)
-  });
-};
-
-/**
- * Retrieve a duration and/or distance matrix showing travel times and distances between coordinates.                                                                    module.exports = createServiceFactory(Matrix);
- *
- * @param {Object} config
- * @param {Array<MatrixPoint>} config.points - An ordered array of [`MatrixPoint`](#matrixpoint)s, between 26 and 250 (inclusive).
- * @param {'driving'} [config.profile=driving] - A Mapbox Directions routing profile ID.
- * @param {'all'|Array<number>} [config.sources] - Use coordinates with given index as sources.
- * @param {'all'|Array<number>} [config.destinations] - Use coordinates with given index as destinations.
- * @param {Array<'distance'|'duration'>} [config.annotations] - Used to specify resulting matrices.
- * @return {MapiRequest}
- *
- * @example
- * matrixClient.postMatrix({
- *   points: [
- *     {
- *       coordinates: [2.2, 1.1]
- *     },
- *     {
- *       coordinates: [2.2, 1.1],
- *       approach: 'curb'
- *     },
- *     {
- *       coordinates: [3.2, 1.1]
- *     },
- *     {
- *       coordinates: [4.2, 1.1]
- *     }
- *   ],
- *   profile: 'driving'
- * })
- *   .send()
- *   .then(response => {
- *       const matrix = response.body;
- *   });
- */
-Matrix.postMatrix = function(config) {
-  v.assertShape({
-    points: v.required(
-      v.arrayOf(
-        v.shape({
-          coordinates: v.required(v.coordinates),
-          approach: v.oneOf('unrestricted', 'curb')
-        })
-      )
-    ),
-    profile: v.oneOf('driving'),
-    annotations: v.arrayOf(v.oneOf('duration', 'distance')),
-    sources: v.oneOfType(v.equal('all'), v.arrayOf(v.number)),
-    destinations: v.oneOfType(v.equal('all'), v.arrayOf(v.number))
-  })(config);
-
-  var pointCount = config.points.length;
-  if (pointCount < 25 || pointCount > 250) {
-    throw new Error('points must include between 26 and 250 MatrixPoints');
-  }
-
-  config.profile = config.profile || 'driving';
-  if (config.profile !== 'driving') {
-    throw new Error('postMatrix only supports the `driving` profile.');
-  }
-
-  var path = {
-    coordinates: [],
-    approach: []
-  };
-  /**
-   * @typedef {Object} MatrixPoint
-   * @property {Coordinates} coordinates - `[longitude, latitude]`
-   * @property {'unrestricted'|'curb'} [approach="unrestricted"] - Used to indicate how requested routes consider from which side of the road to approach the point.
-   */
-  config.points.forEach(function(obj) {
-    path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
-
-    if (obj.hasOwnProperty('approach') && obj.approach != null) {
-      path.approach.push(obj.approach);
-    } else {
-      path.approach.push(''); // default value
-    }
-  });
-
-  if (
-    path.approach.every(function(value) {
-      return value === '';
-    })
-  ) {
-    delete path.approach;
+  if (config.points.length < 26) {
+    return this.client.createRequest({
+      method: 'GET',
+      path: '/directions-matrix/v1/mapbox/:profile/:coordinates',
+      params: {
+        profile: config.profile,
+        coordinates: path.coordinates.join(';')
+      },
+      query: objectClean(query)
+    });
   } else {
-    path.approach = path.approach.join(';');
+    query.coordinates = path.coordinates.join(';');
+    var body = objectClean(query);
+
+    return this.client.createRequest({
+      method: 'POST',
+      path: '/directions-matrix/v1/mapbox/:profile',
+      params: {
+        profile: config.profile
+      },
+      body: urlUtils.appendQueryObject('', body).substring(1), // need to remove the char `?`
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    });
   }
-
-  var body = objectClean({
-    sources: Array.isArray(config.sources) ? config.sources.join(';') : 'all',
-    destinations: Array.isArray(config.destinations)
-      ? config.destinations.join(';')
-      : 'all',
-    approaches: path.approach,
-    annotations: Array.isArray(config.annotations)
-      ? config.annotations.join(',')
-      : 'duration',
-    coordinates: path.coordinates.join(';')
-  });
-
-  return this.client.createRequest({
-    method: 'POST',
-    path: '/directions-matrix/v1/mapbox/:profile',
-    params: {
-      profile: config.profile
-    },
-    body: urlUtils.appendQueryObject('', body).substring(1), // need to remove the char `?`
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded'
-    }
-  });
 };
 
 module.exports = createServiceFactory(Matrix);
