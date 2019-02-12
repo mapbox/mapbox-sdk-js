@@ -1119,6 +1119,7 @@ to understand all of the available options.
 
 ```javascript
 directionsClient.getDirections({
+  profile: 'driving-traffic',
   waypoints: [
     {
       coordinates: [13.4301, 52.5109],
