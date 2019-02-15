@@ -160,10 +160,10 @@ Tokens.updateToken = function(config) {
   if (config.note !== undefined) {
     body.note = config.note;
   }
-  if (config.resources) {
+  if (config.resources || config.resources === null) {
     body.resources = config.resources;
   }
-  if (config.referrers) {
+  if (config.referrers || config.referrers === null) {
     body.referrers = config.referrers;
   }
 
