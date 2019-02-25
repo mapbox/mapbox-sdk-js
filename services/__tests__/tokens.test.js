@@ -176,6 +176,19 @@ describe('updateToken', () => {
     });
   });
 
+  test('resources can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      resources: null
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { resources: null }
+    });
+  });
+
   test('with referrers', () => {
     tokens.updateToken({
       tokenId: 'foo',
@@ -188,6 +201,20 @@ describe('updateToken', () => {
       body: { referrers: ['boba.com', 'milk-tea.ca'] }
     });
   });
+
+  test('referrers can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      referrers: null
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { referrers: null }
+    });
+  });
+
 
   test('with scopes', () => {
     tokens.updateToken({
