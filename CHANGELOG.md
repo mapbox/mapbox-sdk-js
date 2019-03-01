@@ -4,7 +4,7 @@
 
 - **Fix:** `Tokens#updateToken` can now set `null` value to `referrers` property to delete the property.
 - **Fix:** `Tokens#updateToken` can now set `null` value to `resources` property to delete the property.
-- **Breaking change**: change all references to `referrer`[s] to `allowedUrl`[s].
+- **Breaking change**: change all references to `referrer`{s} to `allowedUrl`{s}.
 
 ## 0.5.0
 
