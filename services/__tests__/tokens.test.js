@@ -58,16 +58,16 @@ describe('createToken', () => {
     });
   });
 
-  test('with referrers', () => {
+  test('with allowedUrls', () => {
     tokens.createToken({
-      referrers: ['boba.com', 'coffee.ca']
+      allowedUrls: ['boba.com', 'coffee.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
       method: 'POST',
       params: {},
       body: {
-        referrers: ['boba.com', 'coffee.ca'],
+        allowedUrls: ['boba.com', 'coffee.ca'],
         scopes: []
       }
     });
@@ -88,7 +88,7 @@ describe('createToken', () => {
       scopes: ['styles:list'],
       note: 'horseleg',
       resources: ['one', 'two'],
-      referrers: ['boba.com', 'coffee.ca']
+      allowedUrls: ['boba.com', 'coffee.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
@@ -98,7 +98,7 @@ describe('createToken', () => {
         scopes: ['styles:list'],
         note: 'horseleg',
         resources: ['one', 'two'],
-        referrers: ['boba.com', 'coffee.ca']
+        allowedUrls: ['boba.com', 'coffee.ca']
       }
     });
   });
@@ -189,29 +189,29 @@ describe('updateToken', () => {
     });
   });
 
-  test('with referrers', () => {
+  test('with allowedUrls', () => {
     tokens.updateToken({
       tokenId: 'foo',
-      referrers: ['boba.com', 'milk-tea.ca']
+      allowedUrls: ['boba.com', 'milk-tea.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
       params: { tokenId: 'foo' },
       method: 'PATCH',
-      body: { referrers: ['boba.com', 'milk-tea.ca'] }
+      body: { allowedUrls: ['boba.com', 'milk-tea.ca'] }
     });
   });
 
-  test('referrers can be null', () => {
+  test('allowedUrls can be null', () => {
     tokens.updateToken({
       tokenId: 'foo',
-      referrers: null
+      allowedUrls: null
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
       params: { tokenId: 'foo' },
       method: 'PATCH',
-      body: { referrers: null }
+      body: { allowedUrls: null }
     });
   });
 
@@ -235,7 +235,7 @@ describe('updateToken', () => {
       scopes: ['styles:list'],
       note: 'horseleg',
       resources: ['one', 'two'],
-      referrers: ['boba.com', 'milk-tea.ca']
+      allowedUrls: ['boba.com', 'milk-tea.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
@@ -245,7 +245,7 @@ describe('updateToken', () => {
         scopes: ['styles:list'],
         note: 'horseleg',
         resources: ['one', 'two'],
-        referrers: ['boba.com', 'milk-tea.ca']
+        allowedUrls: ['boba.com', 'milk-tea.ca']
       }
     });
   });

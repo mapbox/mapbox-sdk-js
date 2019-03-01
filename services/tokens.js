@@ -42,7 +42,7 @@ Tokens.listTokens = function() {
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
- * @param {Array<string>} [config.referrers]
+ * @param {Array<string>} [config.allowedUrls]
  * @return {MapiRequest}
  *
  * @example
@@ -61,7 +61,7 @@ Tokens.createToken = function(config) {
     note: v.string,
     scopes: v.arrayOf(v.string),
     resources: v.arrayOf(v.string),
-    referrers: v.arrayOf(v.string)
+    allowedUrls: v.arrayOf(v.string)
   })(config);
 
   var body = {};
@@ -72,8 +72,8 @@ Tokens.createToken = function(config) {
   if (config.resources) {
     body.resources = config.resources;
   }
-  if (config.referrers) {
-    body.referrers = config.referrers;
+  if (config.allowedUrls) {
+    body.allowedUrls = config.allowedUrls;
   }
 
   return this.client.createRequest({
@@ -130,7 +130,7 @@ Tokens.createTemporaryToken = function(config) {
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
- * @param {Array<string>} [config.referrers]
+ * @param {Array<string>} [config.allowedUrls]
  * @return {MapiRequest}
  *
  * @example
@@ -150,7 +150,7 @@ Tokens.updateToken = function(config) {
     note: v.string,
     scopes: v.arrayOf(v.string),
     resources: v.arrayOf(v.string),
-    referrers: v.arrayOf(v.string)
+    allowedUrls: v.arrayOf(v.string)
   })(config);
 
   var body = {};
@@ -163,8 +163,8 @@ Tokens.updateToken = function(config) {
   if (config.resources || config.resources === null) {
     body.resources = config.resources;
   }
-  if (config.referrers || config.referrers === null) {
-    body.referrers = config.referrers;
+  if (config.allowedUrls || config.allowedUrls === null) {
+    body.allowedUrls = config.allowedUrls;
   }
 
   return this.client.createRequest({

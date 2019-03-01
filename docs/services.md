@@ -1325,7 +1325,7 @@ See the [corresponding HTTP service documentation][201].
   - `config.note` **[string][151]?** 
   - `config.scopes` **[Array][160]&lt;[string][151]>?** 
   - `config.resources` **[Array][160]&lt;[string][151]>?** 
-  - `config.referrers` **[Array][160]&lt;[string][151]>?** 
+  - `config.allowedUrls` **[Array][160]&lt;[string][151]>?** 
 
 #### Examples
 
@@ -1381,7 +1381,7 @@ See the [corresponding HTTP service documentation][203].
   - `config.note` **[string][151]?** 
   - `config.scopes` **[Array][160]&lt;[string][151]>?** 
   - `config.resources` **[Array][160]&lt;[string][151]>?** 
-  - `config.referrers` **[Array][160]&lt;[string][151]>?** 
+  - `config.allowedUrls` **[Array][160]&lt;[string][151]>?** 
 
 #### Examples
 
