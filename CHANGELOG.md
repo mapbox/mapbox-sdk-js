@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.6.0
 
 - **Fix:** `Tokens#updateToken` can now set `null` value to `referrers` property to delete the property.
 - **Fix:** `Tokens#updateToken` can now set `null` value to `resources` property to delete the property.
