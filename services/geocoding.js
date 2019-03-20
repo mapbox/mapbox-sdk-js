@@ -10,7 +10,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Geocoding API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#geocoding).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/search/#geocoding).
  */
 var Geocoding = {};
 
@@ -30,7 +30,7 @@ var featureTypes = [
 /**
  * Search for a place.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#search-for-places).
+ * See the [public documentation](https://www.mapbox.com/api-documentation/search/#forward-geocoding).
  *
  * @param {Object} config
  * @param {string} config.query - A place name.
@@ -46,6 +46,47 @@ var featureTypes = [
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @return {MapiRequest}
+ *
+ * @example
+ * geocodingClient.forwardGeocode({
+ *   query: 'Paris, France',
+ *   limit: 2
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const match = response.body;
+ *   });
+ *
+ * @example
+ * // geocoding with proximity
+ * geocodingClient.forwardGeocode({
+ *   query: 'Paris, France',
+ *   proximity: [-95.4431142, 33.6875431]
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const match = response.body;
+ *   });
+ *
+ * // geocoding with countries
+ * geocodingClient.forwardGeocode({
+ *   query: 'Paris, France',
+ *   countries: ['fr']
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const match = response.body;
+ *   });
+ *
+ * // geocoding with bounding box
+ * geocodingClient.forwardGeocode({
+ *   query: 'Paris, France',
+ *   bbox: [2.14, 48.72, 2.55, 48.96]
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const match = response.body;
+ *   });
  */
 Geocoding.forwardGeocode = function(config) {
   v.assertShape({
@@ -87,7 +128,7 @@ Geocoding.forwardGeocode = function(config) {
 /**
  * Search for places near coordinates.
  *
- * See the [public documentation](https://www.mapbox.com/api-documentation/#retrieve-places-near-a-location).
+ * See the [public documentation](https://www.mapbox.com/api-documentation/search/#reverse-geocoding).
  *
  * @param {Object} config
  * @param {Coordinates} config.query - Coordinates at which features will be searched.
@@ -102,6 +143,17 @@ Geocoding.forwardGeocode = function(config) {
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @param {'distance'|'score'} [config.reverseMode='distance'] - Set the factors that are used to sort nearby results.
  * @return {MapiRequest}
+ *
+ * @example
+ * geocodingClient.reverseGeocode({
+ *   query: [-95.4431142, 33.6875431],
+ *   limit: 2
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // GeoJSON document with geocoding matches
+ *     const match = response.body;
+ *   });
  */
 Geocoding.reverseGeocode = function(config) {
   v.assertShape({

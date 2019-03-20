@@ -8,7 +8,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Tilequery API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#tilequery).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#tilequery).
  */
 var Tilequery = {};
 
@@ -25,6 +25,17 @@ var Tilequery = {};
  * @param {'polygon'|'linestring'|'point'} [config.geometry] - Queries for a specific geometry type.
  * @param {Array<string>} [config.layers] - IDs of vector layers to query.
  * @return {MapiRequest}
+ *
+ * @example
+ * tilequeryClient.listFeatures({
+ *   mapIds: ['mapbox.mapbox-streets-v8'],
+ *   coordinates: [-122.42901, 37.80633],
+ *   radius: 10
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const features = response.body;
+ *   });
  */
 Tilequery.listFeatures = function(config) {
   v.assertShape({

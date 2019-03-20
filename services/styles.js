@@ -9,19 +9,28 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Styles API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#styles).
+ * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#styles).
  */
 var Styles = {};
 
 /**
  * Get a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.getStyle({
+ *   styleId: 'style-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const style = response.body;
+ *   });
  */
 Styles.getStyle = function(config) {
   v.assertShape({
@@ -39,12 +48,28 @@ Styles.getStyle = function(config) {
 /**
  * Create a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#create-a-style).
  *
  * @param {Object} config
  * @param {Object} config.style - Stylesheet JSON object.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.createStyle({
+ *   style: {
+ *     version: 8,
+ *     name: "My Awesome Style",
+ *     metadata: {},
+ *     sources: {},
+ *     layers: [],
+ *     glyphs: "mapbox://fonts/{owner}/{fontstack}/{range}.pbf"
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const style = response.body;
+ *   });
  */
 Styles.createStyle = function(config) {
   v.assertShape({
@@ -63,7 +88,7 @@ Styles.createStyle = function(config) {
 /**
  * Update a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#update-a-style).
+ * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#update-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -72,6 +97,23 @@ Styles.createStyle = function(config) {
  *   known update. Passed as 'If-Unmodified-Since' HTTP header.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.updateStyle({
+ *   styleId: 'style-id',
+ *   style: {
+ *     version: 8,
+ *     name: 'My Awesome Style',
+ *     metadata: {},
+ *     sources: {},
+ *     layers: [],
+ *     glyphs: 'mapbox://fonts/{owner}/{fontstack}/{range}.pbf'
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const style = response.body;
+ *   });
  */
 Styles.updateStyle = function(config) {
   v.assertShape({
@@ -103,6 +145,15 @@ Styles.updateStyle = function(config) {
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.deleteStyle({
+ *   styleId: 'style-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // delete successful
+ *   });
  */
 Styles.deleteStyle = function(config) {
   v.assertShape({
@@ -124,6 +175,13 @@ Styles.deleteStyle = function(config) {
  * @param {string} [config.start] - The style ID to start at, for paginated results.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.listStyles()
+ *   .send()
+ *   .then(response => {
+ *     const styles = response.body;
+ *   });
  */
 Styles.listStyles = function(config) {
   config = config || {};
@@ -153,6 +211,19 @@ Styles.listStyles = function(config) {
  * @param {UploadableFile} config.file - An SVG file.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.putStyleIcon({
+ *   styleId: 'foo',
+ *   iconId: 'bar',
+ *   // The string filename value works in Node.
+ *   // In the browser, provide a Blob.
+ *   file: 'path/to/file.svg'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const newSprite = response.body;
+ *   });
  */
 Styles.putStyleIcon = function(config) {
   v.assertShape({
@@ -178,6 +249,16 @@ Styles.putStyleIcon = function(config) {
  * @param {string} config.iconId
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.deleteStyleIcon({
+ *   styleId: 'foo',
+ *   iconId: 'bar'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // delete successful
+ *   });
  */
 Styles.deleteStyleIcon = function(config) {
   v.assertShape({
@@ -196,7 +277,7 @@ Styles.deleteStyleIcon = function(config) {
 /**
  * Get a style sprite's image or JSON document.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-a-sprite-image-or-json).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-sprite-image-or-json).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -205,6 +286,17 @@ Styles.deleteStyleIcon = function(config) {
  *   resolution.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.getStyleSprite({
+ *   format: 'json',
+ *   styleId: 'foo',
+ *   highRes: true
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const sprite = response.body;
+ *   });
  */
 Styles.getStyleSprite = function(config) {
   v.assertShape({
@@ -229,7 +321,7 @@ Styles.getStyleSprite = function(config) {
 /**
  * Get a font glyph range.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-font-glyph-ranges).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-font-glyph-ranges).
  *
  * @param {Object} config
  * @param {string|Array<string>} config.fonts - An array of font names.
@@ -238,6 +330,17 @@ Styles.getStyleSprite = function(config) {
  *   typically equivalent to`config.start + 255`.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * stylesClient.getFontGlyphRange({
+ *   fonts: 'Arial Unicode',
+ *   start: 0,
+ *   end: 255
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const glyph = response.body;
+ *   });
  */
 Styles.getFontGlyphRange = function(config) {
   v.assertShape({
@@ -262,7 +365,7 @@ Styles.getFontGlyphRange = function(config) {
 /**
  * Get embeddable HTML displaying a map.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/?language=JavaScript#embed-a-style).
+ * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#request-embeddable-html).
  *
  * @param {Object} config
  * @param {string} styleId
