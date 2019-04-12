@@ -1110,7 +1110,7 @@ to understand all of the available options.
   - `config.language` **[string][151]** Language of returned turn-by-turn text instructions.
       See options listed in [the HTTP service documentation][191]. (optional, default `"en"`)
   - `config.overview` **(`"simplified"` \| `"full"` \| `"false"`)** Type of returned overview geometry. (optional, default `"simplified"`)
-  - `config.roundaboutExits` **[boolean][158]** Emit insbtructions at roundabout exits. (optional, default `false`)
+  - `config.roundaboutExits` **[boolean][158]** Emit instructions at roundabout exits. (optional, default `false`)
   - `config.steps` **[boolean][158]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.voiceInstructions` **[boolean][158]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)

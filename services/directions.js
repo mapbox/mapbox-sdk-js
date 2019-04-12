@@ -31,7 +31,7 @@ var Directions = {};
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
  *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
- * @param {boolean} [config.roundaboutExits=false] - Emit insbtructions at roundabout exits.
+ * @param {boolean} [config.roundaboutExits=false] - Emit instructions at roundabout exits.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.voiceInstructions=false] - Whether or not to return SSML marked-up text for voice guidance along the route.
  * @param {'imperial'|'metric'} [config.voiceUnits="imperial"] - Which type of units to return in the text for voice instructions.
