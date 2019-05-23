@@ -354,7 +354,7 @@ See [the corresponding HTTP service documentation][161].
 
 ## Static
 
-Static API service.
+Static Images API service.
 
 Learn more about this service and its responses in
 [the HTTP service documentation][162].
@@ -1892,17 +1892,17 @@ Type: [Object][150]
 
 [147]: #properties-8
 
-[148]: https://www.mapbox.com/api-documentation/maps/#styles
+[148]: https://docs.mapbox.com/api/maps/#styles
 
-[149]: https://www.mapbox.com/api-documentation/maps/#retrieve-a-style
+[149]: https://docs.mapbox.com/api/maps/#retrieve-a-style
 
 [150]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
 [151]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[152]: https://www.mapbox.com/api-documentation/maps/#create-a-style
+[152]: https://docs.mapbox.com/api/maps/#create-a-style
 
-[153]: https://www.mapbox.com/api-documentation/maps/#update-a-style
+[153]: https://docs.mapbox.com/api/maps/#update-a-style
 
 [154]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
@@ -1910,59 +1910,59 @@ Type: [Object][150]
 
 [156]: #uploadablefile
 
-[157]: https://www.mapbox.com/api-documentation/maps/#retrieve-a-sprite-image-or-json
+[157]: https://docs.mapbox.com/api/maps/#retrieve-a-sprite-image-or-json
 
 [158]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[159]: https://www.mapbox.com/api-documentation/maps/#retrieve-font-glyph-ranges
+[159]: https://docs.mapbox.com/api/maps/#retrieve-font-glyph-ranges
 
 [160]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[161]: https://www.mapbox.com/api-documentation/maps/#request-embeddable-html
+[161]: https://docs.mapbox.com/api/maps/#request-embeddable-html
 
-[162]: https://www.mapbox.com/api-documentation/maps/#static
+[162]: https://docs.mapbox.com/api/maps/#static-images
 
-[163]: https://www.mapbox.com/api-documentation/maps/#uploads
+[163]: https://docs.mapbox.com/api/maps/#uploads
 
-[164]: https://www.mapbox.com/api-documentation/maps/#retrieve-recent-upload-statuses
+[164]: https://docs.mapbox.com/api/maps/#retrieve-recent-upload-statuses
 
-[165]: https://www.mapbox.com/api-documentation/maps/#retrieve-s3-credentials
+[165]: https://docs.mapbox.com/api/maps/#retrieve-s3-credentials
 
-[166]: https://www.mapbox.com/api-documentation/maps/#create-an-upload
+[166]: https://docs.mapbox.com/api/maps/#create-an-upload
 
-[167]: https://www.mapbox.com/api-documentation/maps/#retrieve-upload-status
+[167]: https://docs.mapbox.com/api/maps/#retrieve-upload-status
 
-[168]: https://www.mapbox.com/api-documentation/maps/#remove-an-upload-status
+[168]: https://docs.mapbox.com/api/maps/#remove-an-upload-status
 
-[169]: https://www.mapbox.com/api-documentation/maps/#datasets
+[169]: https://docs.mapbox.com/api/maps/#datasets
 
-[170]: https://www.mapbox.com/api-documentation/maps/#list-datasets
+[170]: https://docs.mapbox.com/api/maps/#list-datasets
 
-[171]: https://www.mapbox.com/api-documentation/maps/#create-a-dataset
+[171]: https://docs.mapbox.com/api/maps/#create-a-dataset
 
-[172]: https://www.mapbox.com/api-documentation/maps/#retrieve-a-dataset
+[172]: https://docs.mapbox.com/api/maps/#retrieve-a-dataset
 
-[173]: https://www.mapbox.com/api-documentation/maps/#update-a-dataset
+[173]: https://docs.mapbox.com/api/maps/#update-a-dataset
 
-[174]: https://www.mapbox.com/api-documentation/maps/#delete-a-dataset
+[174]: https://docs.mapbox.com/api/maps/#delete-a-dataset
 
-[175]: https://www.mapbox.com/api-documentation/maps/#list-features
+[175]: https://docs.mapbox.com/api/maps/#list-features
 
-[176]: https://www.mapbox.com/api-documentation/maps/#insert-or-update-a-feature
+[176]: https://docs.mapbox.com/api/maps/#insert-or-update-a-feature
 
-[177]: https://www.mapbox.com/api-documentation/maps/#retrieve-a-feature
+[177]: https://docs.mapbox.com/api/maps/#retrieve-a-feature
 
-[178]: https://www.mapbox.com/api-documentation/maps/#delete-a-feature
+[178]: https://docs.mapbox.com/api/maps/#delete-a-feature
 
-[179]: https://www.mapbox.com/api-documentation/maps/#tilequery
+[179]: https://docs.mapbox.com/api/maps/#tilequery
 
 [180]: #coordinates
 
-[181]: https://www.mapbox.com/api-documentation/maps/#tilesets
+[181]: https://docs.mapbox.com/api/maps/#tilesets
 
-[182]: https://www.mapbox.com/api-documentation/search/#geocoding
+[182]: https://docs.mapbox.com/api/search/#geocoding
 
-[183]: https://www.mapbox.com/api-documentation/search/#forward-geocoding
+[183]: https://docs.mapbox.com/api/search/#forward-geocoding
 
 [184]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
@@ -1972,43 +1972,43 @@ Type: [Object][150]
 
 [187]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
-[188]: https://www.mapbox.com/api-documentation/search/#reverse-geocoding
+[188]: https://docs.mapbox.com/api/search/#reverse-geocoding
 
-[189]: https://www.mapbox.com/api-documentation/navigation/#directions
+[189]: https://docs.mapbox.com/api/navigation/#directions
 
 [190]: #directionswaypoint
 
-[191]: https://www.mapbox.com/api-documentation/navigation/#instructions-languages
+[191]: https://docs.mapbox.com/api/navigation/#instructions-languages
 
-[192]: https://www.mapbox.com/api-documentation/navigation/#map-matching
+[192]: https://docs.mapbox.com/api/navigation/#map-matching
 
 [193]: #mapmatchingpoint
 
-[194]: https://www.mapbox.com/api-documentation/navigation/#matrix
+[194]: https://docs.mapbox.com/api/navigation/#matrix
 
 [195]: #matrixpoint
 
-[196]: https://www.mapbox.com/api-documentation/navigation/#optimization
+[196]: https://docs.mapbox.com/api/navigation/#optimization
 
 [197]: #optimizationwaypoint
 
 [198]: #distribution
 
-[199]: https://www.mapbox.com/api-documentation/accounts/#tokens
+[199]: https://docs.mapbox.com/api/accounts/#tokens
 
-[200]: https://www.mapbox.com/api-documentation/accounts/#list-tokens
+[200]: https://docs.mapbox.com/api/accounts/#list-tokens
 
-[201]: https://www.mapbox.com/api-documentation/accounts/#create-a-token
+[201]: https://docs.mapbox.com/api/accounts/#create-a-token
 
-[202]: https://www.mapbox.com/api-documentation/accounts/#create-a-temporary-token
+[202]: https://docs.mapbox.com/api/accounts/#create-a-temporary-token
 
-[203]: https://www.mapbox.com/api-documentation/accounts/#update-a-token
+[203]: https://docs.mapbox.com/api/accounts/#update-a-token
 
-[204]: https://www.mapbox.com/api-documentation/accounts/#retrieve-a-token
+[204]: https://docs.mapbox.com/api/accounts/#retrieve-a-token
 
-[205]: https://www.mapbox.com/api-documentation/accounts/#delete-a-token
+[205]: https://docs.mapbox.com/api/accounts/#delete-a-token
 
-[206]: https://www.mapbox.com/api-documentation/accounts/#list-scopes
+[206]: https://docs.mapbox.com/api/accounts/#list-scopes
 
 [207]: https://www.mapbox.com/maki/
 
