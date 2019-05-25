@@ -9,14 +9,14 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Styles API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#styles).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/maps/#styles).
  */
 var Styles = {};
 
 /**
  * Get a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-style).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -48,7 +48,7 @@ Styles.getStyle = function(config) {
 /**
  * Create a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#create-a-style).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#create-a-style).
  *
  * @param {Object} config
  * @param {Object} config.style - Stylesheet JSON object.
@@ -88,7 +88,7 @@ Styles.createStyle = function(config) {
 /**
  * Update a style.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#update-a-style).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#update-a-style).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -277,7 +277,7 @@ Styles.deleteStyleIcon = function(config) {
 /**
  * Get a style sprite's image or JSON document.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-sprite-image-or-json).
+ * See [the corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-sprite-image-or-json).
  *
  * @param {Object} config
  * @param {string} config.styleId
@@ -321,7 +321,7 @@ Styles.getStyleSprite = function(config) {
 /**
  * Get a font glyph range.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-font-glyph-ranges).
+ * See [the corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-font-glyph-ranges).
  *
  * @param {Object} config
  * @param {string|Array<string>} config.fonts - An array of font names.
@@ -365,7 +365,7 @@ Styles.getFontGlyphRange = function(config) {
 /**
  * Get embeddable HTML displaying a map.
  *
- * See [the corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#request-embeddable-html).
+ * See [the corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#request-embeddable-html).
  *
  * @param {Object} config
  * @param {string} styleId
