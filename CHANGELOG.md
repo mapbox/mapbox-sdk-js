@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+- **Fix:** filter empty waypoints from map matching requests. 
+- **Fix:** fix url token placement for service with clients. 
+
 ## 0.6.0
 
 - **Fix:** `Tokens#updateToken` can now set `null` value to `referrers` property to delete the property.
