@@ -6,10 +6,10 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 var pick = require('./service-helpers/pick');
 
 /**
- * Static API service.
+ * Static Images API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#static).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/maps/#static-images).
  */
 var Static = {};
 

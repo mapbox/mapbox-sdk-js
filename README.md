@@ -1,6 +1,6 @@
 # @mapbox/mapbox-sdk
 
-A JS SDK for working with [Mapbox APIs](https://www.mapbox.com/api-documentation/).
+A JS SDK for working with [Mapbox APIs](https://docs.mapbox.com/api/).
 
 Works in Node, the browser, and React Native.
 

@@ -8,14 +8,14 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Datasets API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#datasets).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/maps/#datasets).
  */
 var Datasets = {};
 
 /**
  * List datasets in your account.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#list-datasets).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#list-datasets).
  *
  * @return {MapiRequest}
  *
@@ -42,7 +42,7 @@ Datasets.listDatasets = function() {
 /**
  * Create a new, empty dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#create-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#create-a-dataset).
  *
  * @param {Object} config
  * @param {string} [config.name]
@@ -75,7 +75,7 @@ Datasets.createDataset = function(config) {
 /**
  * Get metadata about a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -106,7 +106,7 @@ Datasets.getMetadata = function(config) {
 /**
  * Update user-defined properties of a dataset's metadata.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#update-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#update-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -142,7 +142,7 @@ Datasets.updateMetadata = function(config) {
 /**
  * Delete a dataset, including all features it contains.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#delete-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#delete-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -175,7 +175,7 @@ Datasets.deleteDataset = function(config) {
  * This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
  * the `limit` and `start` options.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#list-features).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#list-features).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -211,7 +211,7 @@ Datasets.listFeatures = function(config) {
 /**
  * Add a feature to a dataset or update an existing one.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#insert-or-update-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#insert-or-update-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -263,7 +263,7 @@ Datasets.putFeature = function(config) {
 /**
  * Get a feature in a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#retrieve-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -296,7 +296,7 @@ Datasets.getFeature = function(config) {
 /**
  * Delete a feature in a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/maps/#delete-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#delete-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId

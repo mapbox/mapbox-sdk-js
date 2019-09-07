@@ -8,14 +8,14 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Tokens API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#tokens).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/accounts/#tokens).
  */
 var Tokens = {};
 
 /**
  * List your access tokens.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#list-tokens).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#list-tokens).
  *
  * @return {MapiRequest}
  *
@@ -36,7 +36,7 @@ Tokens.listTokens = function() {
 /**
  * Create a new access token.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#create-a-token).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#create-a-token).
  *
  * @param {Object} [config]
  * @param {string} [config.note]
@@ -87,7 +87,7 @@ Tokens.createToken = function(config) {
 /**
  * Create a new temporary access token.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#create-a-temporary-token).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#create-a-temporary-token).
  *
  * @param {Object} config
  * @param {string} config.expires
@@ -123,7 +123,7 @@ Tokens.createTemporaryToken = function(config) {
 /**
  * Update an access token.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#update-a-token).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#update-a-token).
  *
  * @param {Object} config
  * @param {string} config.tokenId
@@ -178,7 +178,7 @@ Tokens.updateToken = function(config) {
 /**
  * Get data about the client's access token.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#retrieve-a-token).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#retrieve-a-token).
  *
  * @return {MapiRequest}
  *
@@ -199,7 +199,7 @@ Tokens.getToken = function() {
 /**
  * Delete an access token.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#delete-a-token).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#delete-a-token).
  *
  * @param {Object} config
  * @param {string} config.tokenId
@@ -230,7 +230,7 @@ Tokens.deleteToken = function(config) {
  * List your available scopes. Each item is a metadata
  * object about the scope, not just the string scope.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/accounts/#list-scopes).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/accounts/#list-scopes).
  *
  * @return {MapiRequest}
  *
