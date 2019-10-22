@@ -44,6 +44,7 @@ Tilequery.listFeatures = function(config) {
     radius: v.number,
     limit: v.range([1, 50]),
     dedupe: v.boolean,
+    geometry: v.oneOf('polygon', 'linestring', 'point'),
     layers: v.arrayOf(v.string)
   })(config);
 
@@ -54,7 +55,7 @@ Tilequery.listFeatures = function(config) {
       mapIds: config.mapIds,
       coordinates: config.coordinates
     },
-    query: pick(config, ['radius', 'limit', 'dedupe', 'layers'])
+    query: pick(config, ['radius', 'limit', 'dedupe', 'layers', 'geometry'])
   });
 };
 
