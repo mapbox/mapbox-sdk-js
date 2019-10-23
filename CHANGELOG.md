@@ -1,8 +1,8 @@
 # Changelog
 
-## Master
+## 0.7.1
 
-- **Fix:** add missing `geometry` key to Tilequery service. 
+- **Fix:** add missing `geometry` key to Tilequery service.
 
 ## 0.7.0
 
