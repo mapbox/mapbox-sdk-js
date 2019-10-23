@@ -389,7 +389,7 @@ SDK returned.
       [`PathOverlay`][139],
       [`GeoJsonOverlay`][141]
   - `config.highRes` **[boolean][158]**  (optional, default `false`)
-  - `config.insertOverlayBeforeLayer` **[string][151]?** The ID of the style layer
+  - `config.before_layer` **[string][151]?** The ID of the style layer
       that overlays should be inserted *before*.
   - `config.attribution` **[boolean][158]** Whether there is attribution
       on the map image. (optional, default `true`)

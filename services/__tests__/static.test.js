@@ -184,7 +184,7 @@ describe('getStaticImage', () => {
           }
         }
       ],
-      insertOverlayBeforeLayer: 'national_park'
+      before_layer: 'national_park'
     });
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',

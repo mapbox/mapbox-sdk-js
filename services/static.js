@@ -42,7 +42,7 @@ var Static = {};
  *   [`GeoJsonOverlay`](#geojsonoverlay)
  *
  * @param {boolean} [config.highRes=false]
- * @param {string} [config.insertOverlayBeforeLayer] - The ID of the style layer
+ * @param {string} [config.before_layer] - The ID of the style layer
  *   that overlays should be inserted *before*.
  * @param {boolean} [config.attribution=true] - Whether there is attribution
  *   on the map image.
@@ -148,7 +148,7 @@ Static.getStaticImage = function(config) {
     ),
     overlays: v.arrayOf(v.plainObject),
     highRes: v.boolean,
-    insertOverlayBeforeLayer: v.string,
+    before_layer: v.string,
     attribution: v.boolean,
     logo: v.boolean
   })(config);
@@ -182,8 +182,8 @@ Static.getStaticImage = function(config) {
   if (config.logo !== undefined) {
     query.logo = String(config.logo);
   }
-  if (config.insertOverlayBeforeLayer !== undefined) {
-    query.before_layer = config.insertOverlayBeforeLayer;
+  if (config.before_layer !== undefined) {
+    query.before_layer = config.before_layer;
   }
 
   return this.client.createRequest({
