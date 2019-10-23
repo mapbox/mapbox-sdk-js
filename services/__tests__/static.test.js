@@ -416,4 +416,81 @@ describe('getStaticImage', () => {
       });
     }).toThrow(/fillOpacity requires fillColor/);
   });
+
+  test('setfilter', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: 'auto',
+      setfilter: ['>', 'height', 300],
+      layer_id: 'building'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      query: {
+        setfilter: ['>', 'height', 300],
+        layer_id: 'building'
+      },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' }
+    });
+  });
+
+  test('setfilter requires layer_id', () => {
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        setfilter: ['in', 'code', 'CA']
+      });
+    }).toThrow(/setfilter requires layer_id/);
+  });
+
+  test('addlayer', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: 'auto',
+      addlayer: {
+        id: 'tall-buildings',
+        type: 'fill',
+        source: 'composite',
+        'source-layer': 'building',
+        filter: [
+          'all',
+          ['>=', ['get', 'height'], 150],
+          ['match', ['get', 'underground'], ['false'], true, false]
+        ],
+        paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+      },
+      layer_id: 'tunnel-street-minor-low'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      query: {
+        addlayer: {
+          id: 'tall-buildings',
+          type: 'fill',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: [
+            'all',
+            ['>=', ['get', 'height'], 150],
+            ['match', ['get', 'underground'], ['false'], true, false]
+          ],
+          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+        },
+        layer_id: 'tunnel-street-minor-low'
+      },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' }
+    });
+  });
 });

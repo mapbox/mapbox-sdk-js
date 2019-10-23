@@ -391,6 +391,9 @@ SDK returned.
   - `config.highRes` **[boolean][158]**  (optional, default `false`)
   - `config.before_layer` **[string][151]?** The ID of the style layer
       that overlays should be inserted *before*.
+  - `config.addlayer` **[Object][150]?** Adds a Mapbox style layer to the map's style at render time. Can be combined with before_layer.
+  - `config.setfilter` **[Array][160]?** Applies a filter to an existing layer in a style using Mapbox's expression syntax. Must be used with layer_id.
+  - `config.layer_id` **[string][151]?** Denotes the layer in the style that the filter specified in setfilter is applied to.
   - `config.attribution` **[boolean][158]** Whether there is attribution
       on the map image. (optional, default `true`)
   - `config.logo` **[boolean][158]** Whether there is a Mapbox logo
@@ -475,6 +478,38 @@ const request = staticClient
       coordinates: [12, 13],
       zoom: 4
     }
+  });
+const staticImageUrl = request.url();
+// Now you can open staticImageUrl in a browser.
+```
+
+```javascript
+// Filter all buildings that have a height value that is less than 300 meters
+const request = staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,
+    height: 300,
+    position: 'auto',
+    setfilter: [">","height",300],
+    layer_id: 'building',
+  });
+const staticImageUrl = request.url();
+// Now you can open staticImageUrl in a browser.
+```
+
+```javascript
+// Paint all the state and province level boundaries associated with the US worldview with a dashed line and insert it below the road-label layer
+const request = staticClient
+  .getStaticImage({
+    ownerId: 'mapbox',
+    styleId: 'streets-v11',
+    width: 200,
+    height: 300,
+    position: 'auto',
+    addlayer: {"id":"better-boundary","type":"line","source":"composite","source-layer":"admin","filter":["all",["==",["get","admin_level"],1],["==",["get","maritime"],"false"],["match",["get","worldview"],["all","US"],true,false]],"layout":{"line-join":"bevel"},"paint":{"line-color":"%236898B3","line-width":1.5,"line-dasharray":[1.5,1]}},
+    layer_id: 'road-label',
   });
 const staticImageUrl = request.url();
 // Now you can open staticImageUrl in a browser.
