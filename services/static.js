@@ -239,21 +239,25 @@ Static.getStaticImage = function(config) {
   }
 
   if (config.setfilter !== undefined && config.layer_id === undefined) {
-    throw new Error('setfilter requires layer_id');
+    throw new Error('Must include layer_id in setfilter request');
   }
 
   if (config.setfilter !== undefined && config.position === 'auto') {
     throw new Error(
-      'setfilter requires position.coordinates and position.zoom'
+      'Auto extent cannot be used with style parameters and no overlay'
     );
   }
 
   if (config.addlayer !== undefined && config.position === 'auto') {
-    throw new Error('addlayer requires position.coordinates and position.zoom');
+    throw new Error(
+      'Auto extent cannot be used with style parameters and no overlay'
+    );
   }
 
   if (config.addlayer !== undefined && config.setfilter !== undefined) {
-    throw new Error('addlayer and setfilter cannot be used together');
+    throw new Error(
+      'addlayer and setfilter cannot be used in the same request'
+    );
   }
 
   return this.client.createRequest({

@@ -441,7 +441,7 @@ describe('getStaticImage', () => {
     });
   });
 
-  test('setfilter requires layer_id', () => {
+  test('Must include layer_id in setfilter request', () => {
     expect(() => {
       service.getStaticImage({
         ownerId: 'mapbox',
@@ -454,10 +454,10 @@ describe('getStaticImage', () => {
         },
         setfilter: ['in', 'code', 'CA']
       });
-    }).toThrow(/setfilter requires layer_id/);
+    }).toThrow(/Must include layer_id in setfilter request/);
   });
 
-  test('setfilter requires position.coordinates and position.zoom', () => {
+  test('Auto extent cannot be used with style parameters and no overlay', () => {
     expect(() => {
       service.getStaticImage({
         ownerId: 'mapbox',
@@ -468,7 +468,9 @@ describe('getStaticImage', () => {
         setfilter: ['in', 'code', 'CA'],
         layer_id: 'tunnel-street-minor-low'
       });
-    }).toThrow(/setfilter requires position.coordinates and position.zoom/);
+    }).toThrow(
+      /Auto extent cannot be used with style parameters and no overlay/
+    );
   });
 
   test('addlayer', () => {
@@ -517,7 +519,7 @@ describe('getStaticImage', () => {
     });
   });
 
-  test('addlayer requires position.coordinates and position.zoom', () => {
+  test('Auto extent cannot be used with style parameters and no overlay', () => {
     expect(() => {
       service.getStaticImage({
         ownerId: 'mapbox',
@@ -539,10 +541,12 @@ describe('getStaticImage', () => {
         },
         before_layer: 'tunnel-street-minor-low'
       });
-    }).toThrow(/addlayer requires position.coordinates and position.zoom/);
+    }).toThrow(
+      /Auto extent cannot be used with style parameters and no overlay/
+    );
   });
 
-  test('addlayer and setfilter cannot be used together', () => {
+  test('addlayer and setfilter cannot be used together unless also using an overlay', () => {
     expect(() => {
       service.getStaticImage({
         ownerId: 'mapbox',
@@ -569,6 +573,6 @@ describe('getStaticImage', () => {
         setfilter: ['in', 'code', 'CA'],
         layer_id: 'tunnel-street-minor-low'
       });
-    }).toThrow(/addlayer and setfilter cannot be used together/);
+    }).toThrow(/addlayer and setfilter cannot be used in the same request/);
   });
 });
