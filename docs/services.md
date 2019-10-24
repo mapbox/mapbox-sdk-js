@@ -491,7 +491,10 @@ const request = staticClient
     styleId: 'streets-v11',
     width: 200,
     height: 300,
-    position: 'auto',
+    position: {
+      coordinates: [12, 13],
+      zoom: 4
+    },
     setfilter: [">","height",300],
     layer_id: 'building',
   });
@@ -507,9 +510,12 @@ const request = staticClient
     styleId: 'streets-v11',
     width: 200,
     height: 300,
-    position: 'auto',
+    position: {
+      coordinates: [12, 13],
+      zoom: 4
+    },
     addlayer: {"id":"better-boundary","type":"line","source":"composite","source-layer":"admin","filter":["all",["==",["get","admin_level"],1],["==",["get","maritime"],"false"],["match",["get","worldview"],["all","US"],true,false]],"layout":{"line-join":"bevel"},"paint":{"line-color":"%236898B3","line-width":1.5,"line-dasharray":[1.5,1]}},
-    before_layer: 'road-label',
+   before_layer: 'road-label',
   });
 const staticImageUrl = request.url();
 // Now you can open staticImageUrl in a browser.

@@ -423,13 +423,16 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      position: 'auto',
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       setfilter: ['>', 'height', 300],
       layer_id: 'building'
     });
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
-      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      path: '/styles/v1/:ownerId/:styleId/static/12,13,3/200x300',
       query: {
         setfilter: ['>', 'height', 300],
         layer_id: 'building'
@@ -445,10 +448,27 @@ describe('getStaticImage', () => {
         styleId: 'streets-v10',
         width: 200,
         height: 300,
-        position: 'auto',
+        position: {
+          coordinates: [12, 13],
+          zoom: 3
+        },
         setfilter: ['in', 'code', 'CA']
       });
     }).toThrow(/setfilter requires layer_id/);
+  });
+
+  test('setfilter requires position.coordinates and position.zoom', () => {
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        setfilter: ['in', 'code', 'CA'],
+        layer_id: 'tunnel-street-minor-low'
+      });
+    }).toThrow(/setfilter requires position.coordinates and position.zoom/);
   });
 
   test('addlayer', () => {
@@ -457,7 +477,10 @@ describe('getStaticImage', () => {
       styleId: 'streets-v10',
       width: 200,
       height: 300,
-      position: 'auto',
+      position: {
+        coordinates: [12, 13],
+        zoom: 3
+      },
       addlayer: {
         id: 'tall-buildings',
         type: 'fill',
@@ -474,7 +497,7 @@ describe('getStaticImage', () => {
     });
     expect(tu.requestConfig(service)).toEqual({
       method: 'GET',
-      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      path: '/styles/v1/:ownerId/:styleId/static/12,13,3/200x300',
       query: {
         addlayer: {
           id: 'tall-buildings',
@@ -492,5 +515,30 @@ describe('getStaticImage', () => {
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
+  });
+
+  test('addlayer requires position.coordinates and position.zoom', () => {
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: 'auto',
+        addlayer: {
+          id: 'tall-buildings',
+          type: 'fill',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: [
+            'all',
+            ['>=', ['get', 'height'], 150],
+            ['match', ['get', 'underground'], ['false'], true, false]
+          ],
+          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+        },
+        before_layer: 'tunnel-street-minor-low'
+      });
+    }).toThrow(/addlayer requires position.coordinates and position.zoom/);
   });
 });

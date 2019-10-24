@@ -140,7 +140,10 @@ var Static = {};
  *     styleId: 'streets-v11',
  *     width: 200,
  *     height: 300,
- *     position: 'auto',
+ *     position: {
+ *       coordinates: [12, 13],
+ *       zoom: 4
+ *     },
  *     setfilter: [">","height",300],
  *     layer_id: 'building',
  *   });
@@ -155,7 +158,10 @@ var Static = {};
  *     styleId: 'streets-v11',
  *     width: 200,
  *     height: 300,
- *     position: 'auto',
+ *     position: {
+ *       coordinates: [12, 13],
+ *       zoom: 4
+ *     },
  *     addlayer: {"id":"better-boundary","type":"line","source":"composite","source-layer":"admin","filter":["all",["==",["get","admin_level"],1],["==",["get","maritime"],"false"],["match",["get","worldview"],["all","US"],true,false]],"layout":{"line-join":"bevel"},"paint":{"line-color":"%236898B3","line-width":1.5,"line-dasharray":[1.5,1]}},
  *    before_layer: 'road-label',
  *   });
@@ -234,6 +240,16 @@ Static.getStaticImage = function(config) {
 
   if (config.setfilter !== undefined && config.layer_id === undefined) {
     throw new Error('setfilter requires layer_id');
+  }
+
+  if (config.setfilter !== undefined && config.position === 'auto') {
+    throw new Error(
+      'setfilter requires position.coordinates and position.zoom'
+    );
+  }
+
+  if (config.addlayer !== undefined && config.position === 'auto') {
+    throw new Error('addlayer requires position.coordinates and position.zoom');
   }
 
   return this.client.createRequest({
