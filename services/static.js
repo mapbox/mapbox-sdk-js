@@ -157,7 +157,7 @@ var Static = {};
  *     height: 300,
  *     position: 'auto',
  *     addlayer: {"id":"better-boundary","type":"line","source":"composite","source-layer":"admin","filter":["all",["==",["get","admin_level"],1],["==",["get","maritime"],"false"],["match",["get","worldview"],["all","US"],true,false]],"layout":{"line-join":"bevel"},"paint":{"line-color":"%236898B3","line-width":1.5,"line-dasharray":[1.5,1]}},
- *     layer_id: 'road-label',
+ *    before_layer: 'road-label',
  *   });
  * const staticImageUrl = request.url();
  * // Now you can open staticImageUrl in a browser.
