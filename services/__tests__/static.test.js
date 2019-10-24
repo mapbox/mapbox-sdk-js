@@ -488,7 +488,7 @@ describe('getStaticImage', () => {
           ],
           paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
         },
-        layer_id: 'tunnel-street-minor-low'
+        before_layer: 'tunnel-street-minor-low'
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
     });
