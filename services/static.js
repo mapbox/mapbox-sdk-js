@@ -252,6 +252,10 @@ Static.getStaticImage = function(config) {
     throw new Error('addlayer requires position.coordinates and position.zoom');
   }
 
+  if (config.addlayer !== undefined && config.setfilter !== undefined) {
+    throw new Error('addlayer and setfilter cannot be used together');
+  }
+
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId/static/' + preEncodedUrlParts,

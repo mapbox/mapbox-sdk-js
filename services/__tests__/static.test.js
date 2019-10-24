@@ -541,4 +541,34 @@ describe('getStaticImage', () => {
       });
     }).toThrow(/addlayer requires position.coordinates and position.zoom/);
   });
+
+  test('addlayer and setfilter cannot be used together', () => {
+    expect(() => {
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: {
+          coordinates: [12, 13],
+          zoom: 3
+        },
+        addlayer: {
+          id: 'tall-buildings',
+          type: 'fill',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: [
+            'all',
+            ['>=', ['get', 'height'], 150],
+            ['match', ['get', 'underground'], ['false'], true, false]
+          ],
+          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+        },
+        before_layer: 'tunnel-street-minor-low',
+        setfilter: ['in', 'code', 'CA'],
+        layer_id: 'tunnel-street-minor-low'
+      });
+    }).toThrow(/addlayer and setfilter cannot be used together/);
+  });
 });
