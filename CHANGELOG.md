@@ -1,9 +1,13 @@
 # Changelog
 
+## 0.7.1
+
+- **Fix:** add missing `geometry` key to Tilequery service.
+
 ## 0.7.0
 
-- **Fix:** filter empty waypoints from map matching requests. 
-- **Fix:** fix url token placement for service with clients. 
+- **Fix:** filter empty waypoints from map matching requests.
+- **Fix:** fix url token placement for service with clients.
 
 ## 0.6.0
 
