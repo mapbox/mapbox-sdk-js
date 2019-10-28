@@ -473,6 +473,34 @@ describe('getStaticImage', () => {
     );
   });
 
+  test('Auto extent can be used with setfilter when overlays are defined', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: 'auto',
+      overlays: [
+        {
+          marker: {
+            coordinates: [12.2, 12.8]
+          }
+        }
+      ],
+      setfilter: ['in', 'code', 'CA'],
+      layer_id: 'tunnel-street-minor-low'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/pin-s(12.2,12.8)/auto/200x300',
+      query: {
+        setfilter: ['in', 'code', 'CA'],
+        layer_id: 'tunnel-street-minor-low'
+      },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' }
+    });
+  });
+
   test('addlayer', () => {
     service.getStaticImage({
       ownerId: 'mapbox',
@@ -544,6 +572,56 @@ describe('getStaticImage', () => {
     }).toThrow(
       /Auto extent cannot be used with style parameters and no overlay/
     );
+  });
+
+  test('Auto extent can be used with addlayer when overlays are defined', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: 'auto',
+      overlays: [
+        {
+          marker: {
+            coordinates: [12.2, 12.8]
+          }
+        }
+      ],
+      addlayer: {
+        id: 'tall-buildings',
+        type: 'fill',
+        source: 'composite',
+        'source-layer': 'building',
+        filter: [
+          'all',
+          ['>=', ['get', 'height'], 150],
+          ['match', ['get', 'underground'], ['false'], true, false]
+        ],
+        paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+      },
+      before_layer: 'tunnel-street-minor-low'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/pin-s(12.2,12.8)/auto/200x300',
+      query: {
+        addlayer: {
+          id: 'tall-buildings',
+          type: 'fill',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: [
+            'all',
+            ['>=', ['get', 'height'], 150],
+            ['match', ['get', 'underground'], ['false'], true, false]
+          ],
+          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
+        },
+        before_layer: 'tunnel-street-minor-low'
+      },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' }
+    });
   });
 
   test('addlayer and setfilter cannot be used in the same request', () => {

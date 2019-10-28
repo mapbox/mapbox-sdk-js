@@ -242,13 +242,11 @@ Static.getStaticImage = function(config) {
     throw new Error('Must include layer_id in setfilter request');
   }
 
-  if (config.setfilter !== undefined && config.position === 'auto') {
-    throw new Error(
-      'Auto extent cannot be used with style parameters and no overlay'
-    );
-  }
-
-  if (config.addlayer !== undefined && config.position === 'auto') {
+  if (
+    (config.setfilter !== undefined || config.addlayer !== undefined) &&
+    config.position === 'auto' &&
+    config.overlays === undefined
+  ) {
     throw new Error(
       'Auto extent cannot be used with style parameters and no overlay'
     );
