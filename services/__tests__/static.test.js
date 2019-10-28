@@ -546,7 +546,7 @@ describe('getStaticImage', () => {
     );
   });
 
-  test('addlayer and setfilter cannot be used together unless also using an overlay', () => {
+  test('addlayer and setfilter cannot be used in the same request', () => {
     expect(() => {
       service.getStaticImage({
         ownerId: 'mapbox',
