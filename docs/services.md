@@ -2048,4 +2048,4 @@ Type: [Object][153]
 
 [212]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 
-[213]: https://www.mapbox.com/api-documentation/#isochrone
+[213]: https://docs.mapbox.com/api/navigation/#isochrone

@@ -9,7 +9,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Isochrone API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#isochrone).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#isochrone).
  */
 var Isochrone = {};
 
