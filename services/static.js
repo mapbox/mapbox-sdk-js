@@ -232,7 +232,7 @@ Static.getStaticImage = function(config) {
     query.addlayer = config.addlayer;
   }
   if (config.setfilter !== undefined) {
-    query.setfilter = JSON.stringify(config.setfilter);
+    query.setfilter = config.setfilter;
   }
   if (config.layer_id !== undefined) {
     query.layer_id = config.layer_id;
