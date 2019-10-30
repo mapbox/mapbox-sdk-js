@@ -434,7 +434,7 @@ describe('getStaticImage', () => {
       method: 'GET',
       path: '/styles/v1/:ownerId/:styleId/static/12,13,3/200x300',
       query: {
-        setfilter: ['>', 'height', 300],
+        setfilter: '[">","height",300]',
         layer_id: 'building'
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
@@ -494,7 +494,7 @@ describe('getStaticImage', () => {
       method: 'GET',
       path: '/styles/v1/:ownerId/:styleId/static/pin-s(12.2,12.8)/auto/200x300',
       query: {
-        setfilter: ['in', 'code', 'CA'],
+        setfilter: '["in","code","CA"]',
         layer_id: 'tunnel-street-minor-low'
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
