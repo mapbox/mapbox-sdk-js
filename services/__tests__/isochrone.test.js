@@ -58,7 +58,7 @@ describe('getCountours', () => {
       profile: 'walking',
       polygons: true,
       colors: ['6706ce', '04e813', '4286f4'],
-      denoise: true,
+      denoise: 0,
       generalize: 0
     });
 
@@ -73,7 +73,7 @@ describe('getCountours', () => {
         contours_minutes: '5,10,15,20',
         polygons: 'true',
         contours_colors: '6706ce,04e813,4286f4',
-        denoise: 'true',
+        denoise: 0,
         generalize: 0
       }
     });

@@ -32,7 +32,7 @@ Isochrone.getContours = function(config) {
     minutes: v.arrayOf(v.number),
     colors: v.arrayOf(v.string),
     polygons: v.boolean,
-    denoise: v.boolean,
+    denoise: v.number,
     generalize: v.number
   })(config);
 
