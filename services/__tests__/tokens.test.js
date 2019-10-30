@@ -215,6 +215,7 @@ describe('updateToken', () => {
     });
   });
 
+
   test('with scopes', () => {
     tokens.updateToken({
       tokenId: 'foo',
