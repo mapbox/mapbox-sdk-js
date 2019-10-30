@@ -31,7 +31,7 @@ function mapboxSdk(options) {
   client.tokens = mbxTokens(client);
   client.uploads = mbxUploads(client);
   client.isochrone = mbxIsochrone(client);
-  
+
   return client;
 }
 

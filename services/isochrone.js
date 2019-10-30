@@ -25,59 +25,62 @@ var Isochrone = {};
  * @param {number} [config.generalize] - 	A positive floating point value in meters used as the tolerance for Douglas-Peucker generalization . There is no upper bound. If no value is specified in the request, the Isochrone API will choose the most optimized generalization to use for the request. Note that the generalization of contours can lead to self-intersections, as well as intersections of adjacent contours.
  * @return {MapiRequest}
  */
-Isochrone.getContours = function(config){
-    v.assertShape({
-        profile: v.oneOf('driving', 'walking', 'cycling'),
-        coordinates: v.coordinates,
-        minutes: v.arrayOf(v.number),
-        colors: v.arrayOf(v.string),
-        polygons: v.boolean,
-        denoise: v.boolean,
-        generalize: v.number
-    })(config);
+Isochrone.getContours = function(config) {
+  v.assertShape({
+    profile: v.oneOf('driving', 'walking', 'cycling'),
+    coordinates: v.coordinates,
+    minutes: v.arrayOf(v.number),
+    colors: v.arrayOf(v.string),
+    polygons: v.boolean,
+    denoise: v.boolean,
+    generalize: v.number
+  })(config);
 
-    config.profile = config.profile || 'driving';
+  config.profile = config.profile || 'driving';
 
-    var minutesCount = config.minutes.length;
+  var minutesCount = config.minutes.length;
 
-    if(minutesCount < 1 || minutesCount > 4){
-        throw new Error('minutes must contain between 1 and 4 countour values');
-    }
+  if (minutesCount < 1 || minutesCount > 4) {
+    throw new Error('minutes must contain between 1 and 4 countour values');
+  }
 
-    if(!config.minutes.every(function(minute){return minute <= 60})){
-        throw new Error('minutes must less than 60');
-    }
+  if (
+    !config.minutes.every(function(minute) {
+      return minute <= 60;
+    })
+  ) {
+    throw new Error('minutes must less than 60');
+  }
 
-    if(config.generalize && config.generalize < 0){
-        throw new Error('generalize tolerance must be a positive number');
-    }
+  if (config.generalize && config.generalize < 0) {
+    throw new Error('generalize tolerance must be a positive number');
+  }
 
-    // For Politeness, Strip "#" from Colors. 
-    if(config.colors){
-        config.colors = config.colors.map(function(color){
-            if(color.startsWith("#"))
-                return color.substring(1, 7);
-            return color;
-        })
-    }
-
-    var query = stringifyBooleans({
-        contours_minutes: config.minutes.join(','),
-        contours_colors: config.colors ? config.colors.join(',') : null,
-        polygons: config.polygons,
-        denoise: config.denoise,
-        generalize: config.generalize
+  // For Politeness, Strip "#" from Colors.
+  if (config.colors) {
+    config.colors = config.colors.map(function(color) {
+      if (color.startsWith('#')) return color.substring(1, 7);
+      return color;
     });
+  }
 
-    return this.client.createRequest({
-        method: 'GET',
-        path: '/isochrone/v1/mapbox/:profile/:coordinates',
-        params: {
-            profile: config.profile,
-            coordinates: config.coordinates.join(',')
-          },
-          query: objectClean(query)
-      });
-}
+  var query = stringifyBooleans({
+    contours_minutes: config.minutes.join(','),
+    contours_colors: config.colors ? config.colors.join(',') : null,
+    polygons: config.polygons,
+    denoise: config.denoise,
+    generalize: config.generalize
+  });
+
+  return this.client.createRequest({
+    method: 'GET',
+    path: '/isochrone/v1/mapbox/:profile/:coordinates',
+    params: {
+      profile: config.profile,
+      coordinates: config.coordinates.join(',')
+    },
+    query: objectClean(query)
+  });
+};
 
 module.exports = createServiceFactory(Isochrone);
