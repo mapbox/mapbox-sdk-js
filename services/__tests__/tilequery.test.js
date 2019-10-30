@@ -48,7 +48,8 @@ describe('listFeatures', () => {
       radius: 39,
       limit: 3,
       dedupe: false,
-      layers: ['egg', 'sandwich']
+      layers: ['egg', 'sandwich'],
+      geometry: 'point'
     });
     expect(tu.requestConfig(tilequery)).toEqual({
       path: '/v4/:mapIds/tilequery/:coordinates.json',
@@ -61,7 +62,8 @@ describe('listFeatures', () => {
         radius: 39,
         limit: 3,
         dedupe: false,
-        layers: ['egg', 'sandwich']
+        layers: ['egg', 'sandwich'],
+        geometry: 'point'
       }
     });
   });

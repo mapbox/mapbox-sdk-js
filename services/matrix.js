@@ -8,7 +8,7 @@ var objectClean = require('./service-helpers/object-clean');
  * Map Matching API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#matrix).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#matrix).
  */
 var Matrix = {};
 
@@ -22,6 +22,30 @@ var Matrix = {};
  * @param {'all'|Array<number>} [config.destinations] - Use coordinates with given index as destinations.
  * @param {Array<'distance'|'duration'>} [config.annotations] - Used to specify resulting matrices.
  * @return {MapiRequest}
+ *
+ * @example
+ * matrixClient.getMatrix({
+ *   points: [
+ *     {
+ *       coordinates: [2.2, 1.1]
+ *     },
+ *     {
+ *       coordinates: [2.2, 1.1],
+ *       approach: 'curb'
+ *     },
+ *     {
+ *       coordinates: [3.2, 1.1]
+ *     },
+ *     {
+ *       coordinates: [4.2, 1.1]
+ *     }
+ *   ],
+ *   profile: 'walking'
+ * })
+ *   .send()
+ *   .then(response => {
+ *       const matrix = response.body;
+ *   });
  */
 Matrix.getMatrix = function(config) {
   v.assertShape({

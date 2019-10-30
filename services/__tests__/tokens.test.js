@@ -30,6 +30,49 @@ describe('createToken', () => {
     });
   });
 
+  test('with note', () => {
+    tokens.createToken({ note: 'horseleg' });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      params: {},
+      method: 'POST',
+      body: {
+        note: 'horseleg',
+        scopes: []
+      }
+    });
+  });
+
+  test('with resources', () => {
+    tokens.createToken({
+      resources: ['one', 'two']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        resources: ['one', 'two'],
+        scopes: []
+      }
+    });
+  });
+
+  test('with allowedUrls', () => {
+    tokens.createToken({
+      allowedUrls: ['boba.com', 'coffee.ca']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        allowedUrls: ['boba.com', 'coffee.ca'],
+        scopes: []
+      }
+    });
+  });
+
   test('with scopes', () => {
     tokens.createToken({ scopes: ['styles:read', 'styles:write'] });
     expect(tu.requestConfig(tokens)).toEqual({
@@ -44,7 +87,8 @@ describe('createToken', () => {
     tokens.createToken({
       scopes: ['styles:list'],
       note: 'horseleg',
-      resources: ['one', 'two']
+      resources: ['one', 'two'],
+      allowedUrls: ['boba.com', 'coffee.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
@@ -53,7 +97,8 @@ describe('createToken', () => {
       body: {
         scopes: ['styles:list'],
         note: 'horseleg',
-        resources: ['one', 'two']
+        resources: ['one', 'two'],
+        allowedUrls: ['boba.com', 'coffee.ca']
       }
     });
   });
@@ -105,6 +150,71 @@ describe('updateToken', () => {
     });
   });
 
+  test('with note', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      note: 'horseleg'
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { note: 'horseleg' }
+    });
+  });
+
+  test('with resources', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      resources: ['one', 'two']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { resources: ['one', 'two'] }
+    });
+  });
+
+  test('resources can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      resources: null
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { resources: null }
+    });
+  });
+
+  test('with allowedUrls', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedUrls: ['boba.com', 'milk-tea.ca']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { allowedUrls: ['boba.com', 'milk-tea.ca'] }
+    });
+  });
+
+  test('allowedUrls can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedUrls: null
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { allowedUrls: null }
+    });
+  });
+
   test('with scopes', () => {
     tokens.updateToken({
       tokenId: 'foo',
@@ -123,7 +233,8 @@ describe('updateToken', () => {
       tokenId: 'foo',
       scopes: ['styles:list'],
       note: 'horseleg',
-      resources: ['one', 'two']
+      resources: ['one', 'two'],
+      allowedUrls: ['boba.com', 'milk-tea.ca']
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
@@ -132,7 +243,8 @@ describe('updateToken', () => {
       body: {
         scopes: ['styles:list'],
         note: 'horseleg',
-        resources: ['one', 'two']
+        resources: ['one', 'two'],
+        allowedUrls: ['boba.com', 'milk-tea.ca']
       }
     });
   });

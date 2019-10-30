@@ -10,7 +10,7 @@ var stringifyBooleans = require('./service-helpers/stringify-booleans');
  * Map Matching API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#map-matching).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#map-matching).
  */
 var MapMatching = {};
 
@@ -23,11 +23,47 @@ var MapMatching = {};
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
- *   See [supported languages](https://www.mapbox.com/api-documentation/#instructions-languages).
+ *   See [supported languages](https://docs.mapbox.com/api/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.tidy=false] - Whether or not to transparently remove clusters and re-sample traces for improved map matching results.
  * @return {MapiRequest}
+ *
+ * @example
+ * mapMatchingClient.getMatch({
+ *   points: [
+ *     {
+ *       coordinates: [-117.17283, 32.712041],
+ *       approach: 'curb'
+ *     },
+ *     {
+ *       coordinates: [-117.17291, 32.712256],
+ *       isWaypoint: false
+ *     },
+ *     {
+ *       coordinates: [-117.17292, 32.712444]
+ *     },
+ *     {
+ *       coordinates: [-117.172922, 32.71257],
+ *       waypointName: 'point-a',
+ *       approach: 'unrestricted'
+ *     },
+ *     {
+ *       coordinates: [-117.172985, 32.7126]
+ *     },
+ *     {
+ *       coordinates: [-117.173143, 32.712597]
+ *     },
+ *     {
+ *       coordinates: [-117.173345, 32.712546]
+ *     }
+ *   ],
+ *   tidy: false,
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const matching = response.body;
+ *   })
  */
 MapMatching.getMatch = function(config) {
   v.assertShape({
@@ -132,6 +168,9 @@ MapMatching.getMatch = function(config) {
     path.isWaypoint = path.isWaypoint
       .map(function(val, i) {
         return val === true ? i : '';
+      })
+      .filter(function(x) {
+        return x === 0 || Boolean(x);
       })
       .join(';');
   }

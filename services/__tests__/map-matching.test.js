@@ -62,7 +62,7 @@ describe('getMatch', () => {
       body: urlEncodeBody([
         ['geometries', 'polyline6'],
         ['tidy', 'true'],
-        ['waypoints', '0;;2;3'],
+        ['waypoints', '0;2;3'],
         ['coordinates', '2.2,1.1;2.2,1.1;3.2,1.1;4.2,1.1']
       ]),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -133,7 +133,7 @@ describe('getMatch', () => {
       method: 'POST',
       body: urlEncodeBody([
         ['steps', 'false'],
-        ['waypoints', '0;;;3'],
+        ['waypoints', '0;3'],
         ['coordinates', '2.2,1.1;2.2,1.1;3.2,1.1;4.2,1.1']
       ]),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -179,7 +179,7 @@ describe('getMatch', () => {
         ['steps', 'true'],
         ['approaches', ';curb;;unrestricted'],
         ['radiuses', ';;50;'],
-        ['waypoints', '0;1;;3'],
+        ['waypoints', '0;1;3'],
         ['timestamps', ';;1528157886576;1528157886888'],
         ['waypoint_names', ';;special;'],
         ['coordinates', '2.2,1.1;2.2,1.1;2.2,1.1;2.2,1.1']

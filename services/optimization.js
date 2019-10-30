@@ -9,14 +9,14 @@ var stringifyBooleans = require('./service-helpers/stringify-booleans');
  * Optimization API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#optimization).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#optimization).
  */
 var Optimization = {};
 
 /**
  * Get a duration-optimized route.
  *
- * Please read [the full HTTP service documentation](https://www.mapbox.com/api-documentation/#optimization)
+ * Please read [the full HTTP service documentation](https://docs.mapbox.com/api/navigation/#optimization)
  * to understand all of the available options.
  *
  * @param {Object} config
@@ -27,7 +27,7 @@ var Optimization = {};
  * @param {Array<Distribution>} [config.distributions] - An ordered array of [`Distribution`](#distribution) objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometries.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
- *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
+ *   See options listed in [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
  * @param {boolean} [config.roundtrip=true] - Specifies whether the trip should complete by returning to the first location.
  * @param {'any'|'first'} [config.source="any"] - To begin the route, start either from the first coordinate or let the Optimization API choose.

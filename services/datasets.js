@@ -8,16 +8,29 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Datasets API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#datasets).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/maps/#datasets).
  */
 var Datasets = {};
 
 /**
  * List datasets in your account.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-datasets).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#list-datasets).
  *
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.listDatasets()
+ *   .send()
+ *   .then(response => {
+ *     const datasets = response.body;
+ *   });
+ *
+ * @example
+ * datasetsClient.listDatasets()
+ *   .eachPage((error, response, next) => {
+ *     // Handle error or response and call next.
+ *   });
  */
 Datasets.listDatasets = function() {
   return this.client.createRequest({
@@ -29,12 +42,22 @@ Datasets.listDatasets = function() {
 /**
  * Create a new, empty dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#create-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#create-a-dataset).
  *
  * @param {Object} config
  * @param {string} [config.name]
  * @param {string} [config.description]
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.createDataset({
+ *   name: 'example',
+ *   description: 'An example dataset'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const datasetMetadata = response.body;
+ *   });
  */
 Datasets.createDataset = function(config) {
   v.assertShape({
@@ -52,11 +75,20 @@ Datasets.createDataset = function(config) {
 /**
  * Get metadata about a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.getMetadata({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const datasetMetadata = response.body;
+ *   })
  */
 Datasets.getMetadata = function(config) {
   v.assertShape({
@@ -74,13 +106,23 @@ Datasets.getMetadata = function(config) {
 /**
  * Update user-defined properties of a dataset's metadata.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#update-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#update-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @param {string} [config.name]
  * @param {string} [config.description]
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.updateMetadata({
+ *   datasetId: 'dataset-id',
+ *   name: 'foo'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const datasetMetadata = response.body;
+ *   });
  */
 Datasets.updateMetadata = function(config) {
   v.assertShape({
@@ -100,11 +142,20 @@ Datasets.updateMetadata = function(config) {
 /**
  * Delete a dataset, including all features it contains.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#delete-a-dataset).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#delete-a-dataset).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.deleteDataset({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // Dataset is successfully deleted.
+ *   });
  */
 Datasets.deleteDataset = function(config) {
   v.assertShape({
@@ -124,7 +175,7 @@ Datasets.deleteDataset = function(config) {
  * This endpoint supports pagination. Use `MapiRequest#eachPage` or manually specify
  * the `limit` and `start` options.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#list-features).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#list-features).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -132,6 +183,15 @@ Datasets.deleteDataset = function(config) {
  * @param {string} [config.start] - The ID of the feature from which the listing should
  *   start.
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.listFeatures({
+ *   datasetId: 'dataset-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const features = response.body;
+ *   });
  */
 Datasets.listFeatures = function(config) {
   v.assertShape({
@@ -151,7 +211,7 @@ Datasets.listFeatures = function(config) {
 /**
  * Add a feature to a dataset or update an existing one.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#insert-or-update-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#insert-or-update-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
@@ -159,6 +219,24 @@ Datasets.listFeatures = function(config) {
  * @param {Object} config.feature - Valid GeoJSON that is not a `FeatureCollection`.
  *   If the feature has a top-level `id` property, it must match the `featureId` you specify.
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.putFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'null-island',
+ *   feature: {
+ *     "type": "Feature",
+ *     "properties": { "name": "Null Island" },
+ *     "geometry": {
+ *       "type": "Point",
+ *       "coordinates": [0, 0]
+ *     }
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const feature = response.body;
+ *   });
  */
 Datasets.putFeature = function(config) {
   v.assertShape({
@@ -185,12 +263,22 @@ Datasets.putFeature = function(config) {
 /**
  * Get a feature in a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#retrieve-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#retrieve-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @param {string} config.featureId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.getFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'feature-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const feature = response.body;
+ *   });
  */
 Datasets.getFeature = function(config) {
   v.assertShape({
@@ -208,12 +296,22 @@ Datasets.getFeature = function(config) {
 /**
  * Delete a feature in a dataset.
  *
- * See the [corresponding HTTP service documentation](https://www.mapbox.com/api-documentation/#delete-a-feature).
+ * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#delete-a-feature).
  *
  * @param {Object} config
  * @param {string} config.datasetId
  * @param {string} config.featureId
  * @return {MapiRequest}
+ *
+ * @example
+ * datasetsClient.deleteFeature({
+ *   datasetId: 'dataset-id',
+ *   featureId: 'feature-id'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     // Feature is successfully deleted.
+ *   });
  */
 Datasets.deleteFeature = function(config) {
   v.assertShape({

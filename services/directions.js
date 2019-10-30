@@ -9,14 +9,14 @@ var stringifyBooleans = require('./service-helpers/stringify-booleans');
  * Directions API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#directions).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#directions).
  */
 var Directions = {};
 
 /**
  * Get directions.
  *
- * Please read [the full HTTP service documentation](https://www.mapbox.com/api-documentation/#directions)
+ * Please read [the full HTTP service documentation](https://docs.mapbox.com/api/navigation/#directions)
  * to understand all of the available options.
  *
  * @param {Object} config
@@ -29,13 +29,35 @@ var Directions = {};
  * @param {string} [config.exclude] - Exclude certain road types from routing. See HTTP service documentation for options.
  * @param {'geojson'|'polyline'|'polyline6'} [config.geometries="polyline"] - Format of the returned geometry.
  * @param {string} [config.language="en"] - Language of returned turn-by-turn text instructions.
- *   See options listed in [the HTTP service documentation](https://www.mapbox.com/api-documentation/#instructions-languages).
+ *   See options listed in [the HTTP service documentation](https://docs.mapbox.com/api/navigation/#instructions-languages).
  * @param {'simplified'|'full'|'false'} [config.overview="simplified"] - Type of returned overview geometry.
- * @param {boolean} [config.roundaboutExits=false] - Emit insbtructions at roundabout exits.
+ * @param {boolean} [config.roundaboutExits=false] - Emit instructions at roundabout exits.
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.voiceInstructions=false] - Whether or not to return SSML marked-up text for voice guidance along the route.
  * @param {'imperial'|'metric'} [config.voiceUnits="imperial"] - Which type of units to return in the text for voice instructions.
  * @return {MapiRequest}
+ *
+ * @example
+ * directionsClient.getDirections({
+ *   profile: 'driving-traffic',
+ *   waypoints: [
+ *     {
+ *       coordinates: [13.4301, 52.5109],
+ *       approach: 'unrestricted'
+ *     },
+ *     {
+ *       coordinates: [13.4265, 52.508]
+ *     },
+ *     {
+ *       coordinates: [13.4194, 52.5072],
+ *       bearing: [100, 60]
+ *     }
+ *   ]
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const directions = response.body;
+ *   });
  */
 Directions.getDirections = function(config) {
   v.assertShape({

@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.7.1
+
+- **Fix:** add missing `geometry` key to Tilequery service.
+
+## 0.7.0
+
+- **Fix:** filter empty waypoints from map matching requests.
+- **Fix:** fix url token placement for service with clients.
+
+## 0.6.0
+
+- **Fix:** `Tokens#updateToken` can now set `null` value to `referrers` property to delete the property.
+- **Fix:** `Tokens#updateToken` can now set `null` value to `resources` property to delete the property.
+- **Breaking change**: change all references to `referrer`{s} to `allowedUrl`{s}.
+
+## 0.5.0
+
+- **Add:** Config for `Tokens#createToken` and `Tokens#updateToken` can now include the `referrers` property.
+
 ## 0.4.1
 
 - **Fix:** Fix a CORS-related bug that caused Firefox to send preflight `OPTIONS` requests that were rejected by the server. This bug surfaced in Firefox with the Tilequery API, but may possibly have affected some other endpoints and some other browsers.

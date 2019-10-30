@@ -7,7 +7,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
  * Tilesets API service.
  *
  * Learn more about this service and its responses in
- * [the HTTP service documentation](https://www.mapbox.com/api-documentation/#tilesets).
+ * [the HTTP service documentation](https://docs.mapbox.com/api/maps/#tilesets).
  */
 var Tilesets = {};
 
@@ -17,6 +17,18 @@ var Tilesets = {};
  * @param {Object} [config]
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.listTilesets()
+ *   .then(response => {
+ *     const tilesets = response.body;
+ *   });
+ *
+ * @example
+ * tilesetsClient.listTilesets()
+ *   .eachPage((error, response, next) => {
+ *     // Handle error or response and call next.
+ *   });
  */
 Tilesets.listTilesets = function(config) {
   v.assertShape({
