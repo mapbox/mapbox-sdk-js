@@ -529,18 +529,8 @@ describe('getStaticImage', () => {
       method: 'GET',
       path: '/styles/v1/:ownerId/:styleId/static/12,13,3/200x300',
       query: {
-        addlayer: {
-          id: 'tall-buildings',
-          type: 'fill',
-          source: 'composite',
-          'source-layer': 'building',
-          filter: [
-            'all',
-            ['>=', ['get', 'height'], 150],
-            ['match', ['get', 'underground'], ['false'], true, false]
-          ],
-          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
-        },
+        addlayer:
+          '{"id":"tall-buildings","type":"fill","source":"composite","source-layer":"building","filter":["all",[">=",["get","height"],150],["match",["get","underground"],["false"],true,false]],"paint":{"fill-color":"%235E8DFF","fill-opacity":0.5}}',
         before_layer: 'tunnel-street-minor-low'
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }
@@ -606,18 +596,8 @@ describe('getStaticImage', () => {
       method: 'GET',
       path: '/styles/v1/:ownerId/:styleId/static/pin-s(12.2,12.8)/auto/200x300',
       query: {
-        addlayer: {
-          id: 'tall-buildings',
-          type: 'fill',
-          source: 'composite',
-          'source-layer': 'building',
-          filter: [
-            'all',
-            ['>=', ['get', 'height'], 150],
-            ['match', ['get', 'underground'], ['false'], true, false]
-          ],
-          paint: { 'fill-color': '%235E8DFF', 'fill-opacity': 0.5 }
-        },
+        addlayer:
+          '{"id":"tall-buildings","type":"fill","source":"composite","source-layer":"building","filter":["all",[">=",["get","height"],150],["match",["get","underground"],["false"],true,false]],"paint":{"fill-color":"%235E8DFF","fill-opacity":0.5}}',
         before_layer: 'tunnel-street-minor-low'
       },
       params: { ownerId: 'mapbox', styleId: 'streets-v10' }

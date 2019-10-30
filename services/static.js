@@ -229,10 +229,10 @@ Static.getStaticImage = function(config) {
     query.before_layer = config.before_layer;
   }
   if (config.addlayer !== undefined) {
-    query.addlayer = config.addlayer;
+    query.addlayer = JSON.stringify(config.addlayer); // stringify to retain object shape
   }
   if (config.setfilter !== undefined) {
-    query.setfilter = JSON.stringify(config.setfilter);
+    query.setfilter = JSON.stringify(config.setfilter); // stringify to retain array shape
   }
   if (config.layer_id !== undefined) {
     query.layer_id = config.layer_id;
