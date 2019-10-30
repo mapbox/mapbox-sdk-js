@@ -57,7 +57,7 @@ describe('getContours', () => {
       minutes: [5, 10, 15, 20],
       profile: 'walking',
       polygons: true,
-      colors: ['6706ce', '04e813', '4286f4'],
+      colors: ['6706ce', '04e813', '4286f4', '555555'],
       denoise: 0,
       generalize: 0
     });
@@ -72,7 +72,7 @@ describe('getContours', () => {
       query: {
         contours_minutes: '5,10,15,20',
         polygons: 'true',
-        contours_colors: '6706ce,04e813,4286f4',
+        contours_colors: '6706ce,04e813,4286f4,555555',
         denoise: 0,
         generalize: 0
       }
@@ -126,5 +126,16 @@ describe('getContours', () => {
         generalize: -1
       })
     ).toThrow('generalize tolerance must be a positive number');
+  });
+
+  test('colors should have the same number of entries as minutes', () => {
+    expect(() =>
+      isochrone.getContours({
+        coordinates: [-118.22258, 33.99038],
+        minutes: [5, 10, 15, 20],
+        profile: 'walking',
+        colors: ['6706ce', '04e813']
+      })
+    ).toThrow('colors should have the same number of entries as minutes');
   });
 });

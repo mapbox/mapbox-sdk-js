@@ -46,6 +46,14 @@ Isochrone.getContours = function(config) {
   }
 
   if (
+    config.colors !== undefined &&
+    config.minutes !== undefined &&
+    config.colors.length !== config.minutes.length
+  ) {
+    throw new Error('colors should have the same number of entries as minutes');
+  }
+
+  if (
     !config.minutes.every(function(minute) {
       return minute <= 60;
     })
