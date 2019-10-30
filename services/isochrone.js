@@ -41,7 +41,7 @@ Isochrone.getContours = function(config) {
   var minutesCount = config.minutes.length;
 
   if (minutesCount < 1 || minutesCount > 4) {
-    throw new Error('minutes must contain between 1 and 4 countour values');
+    throw new Error('minutes must contain between 1 and 4 contour values');
   }
 
   if (
@@ -49,7 +49,7 @@ Isochrone.getContours = function(config) {
       return minute <= 60;
     })
   ) {
-    throw new Error('minutes must less than 60');
+    throw new Error('minutes must be less than 60');
   }
 
   if (config.generalize && config.generalize < 0) {

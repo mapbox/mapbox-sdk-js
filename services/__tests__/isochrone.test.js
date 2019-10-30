@@ -9,7 +9,7 @@ beforeEach(() => {
   isochrone = isochroneService(tu.mockClient());
 });
 
-describe('getCountours', () => {
+describe('getContours', () => {
   test('works', () => {
     isochrone.getContours({
       coordinates: [-118.22258, 33.99038],
@@ -106,7 +106,7 @@ describe('getCountours', () => {
         coordinates: [-118.22258, 33.99038],
         minutes: [5, 10, 15, 20, 30]
       })
-    ).toThrow('minutes must contain between 1 and 4 countour values');
+    ).toThrow('minutes must contain between 1 and 4 contour values');
   });
 
   test('errors if minute value is greater than 60', () => {
@@ -115,10 +115,10 @@ describe('getCountours', () => {
         coordinates: [-118.22258, 33.99038],
         minutes: [40, 50, 60, 70]
       })
-    ).toThrow('minutes must less than 60');
+    ).toThrow('minutes must be less than 60');
   });
 
-  test('errors if generlize is less than 0', () => {
+  test('errors if generalize is less than 0', () => {
     expect(() =>
       isochrone.getContours({
         coordinates: [-118.22258, 33.99038],
