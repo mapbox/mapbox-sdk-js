@@ -57,10 +57,10 @@ Isochrone.getContours = function(config) {
     throw new Error('generalize tolerance must be a positive number');
   }
 
-  // For Politeness, Strip "#" from Colors.
+  // Strip "#" from colors.
   if (config.colors) {
     config.colors = config.colors.map(function(color) {
-      if (color.startsWith('#')) return color.substring(1, 7);
+      if (color[0] === '#') return color.substring(1);
       return color;
     });
   }
