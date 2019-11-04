@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0
+
+- **Add**: add new style parameters to the Static Images API service: `addlayer`, `setfilter`, and `layer_id`.
+- **Breaking change**: `insertOverlayBeforeLayer` is now `before_layer` in the Static Images API service. This change uses the API's name for the field and to support that the field can be used with the new style parameter `addlayer`.
+
 ## 0.7.1
 
 - **Fix:** add missing `geometry` key to Tilequery service.

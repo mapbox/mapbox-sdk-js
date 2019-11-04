@@ -42,8 +42,11 @@ var Static = {};
  *   [`GeoJsonOverlay`](#geojsonoverlay)
  *
  * @param {boolean} [config.highRes=false]
- * @param {string} [config.insertOverlayBeforeLayer] - The ID of the style layer
+ * @param {string} [config.before_layer] - The ID of the style layer
  *   that overlays should be inserted *before*.
+ * @param {Object} [config.addlayer] - Adds a Mapbox style layer to the map's style at render time. Can be combined with before_layer.
+ * @param {Array} [config.setfilter] - Applies a filter to an existing layer in a style using Mapbox's expression syntax. Must be used with layer_id.
+ * @param {string} [config.layer_id] - Denotes the layer in the style that the filter specified in setfilter is applied to.
  * @param {boolean} [config.attribution=true] - Whether there is attribution
  *   on the map image.
  * @param {boolean} [config.logo=true] - Whether there is a Mapbox logo
@@ -128,6 +131,43 @@ var Static = {};
  *   });
  * const staticImageUrl = request.url();
  * // Now you can open staticImageUrl in a browser.
+ *
+ * @example
+ * // Filter all buildings that have a height value that is less than 300 meters
+ * const request = staticClient
+ *   .getStaticImage({
+ *     ownerId: 'mapbox',
+ *     styleId: 'streets-v11',
+ *     width: 200,
+ *     height: 300,
+ *     position: {
+ *       coordinates: [12, 13],
+ *       zoom: 4
+ *     },
+ *     setfilter: [">","height",300],
+ *     layer_id: 'building',
+ *   });
+ * const staticImageUrl = request.url();
+ * // Now you can open staticImageUrl in a browser.
+ *
+ * @example
+ * // Paint all the state and province level boundaries associated with the US worldview with a dashed line and insert it below the road-label layer
+ * const request = staticClient
+ *   .getStaticImage({
+ *     ownerId: 'mapbox',
+ *     styleId: 'streets-v11',
+ *     width: 200,
+ *     height: 300,
+ *     position: {
+ *       coordinates: [12, 13],
+ *       zoom: 4
+ *     },
+ *     addlayer: {"id":"better-boundary","type":"line","source":"composite","source-layer":"admin","filter":["all",["==",["get","admin_level"],1],["==",["get","maritime"],"false"],["match",["get","worldview"],["all","US"],true,false]],"layout":{"line-join":"bevel"},"paint":{"line-color":"%236898B3","line-width":1.5,"line-dasharray":[1.5,1]}},
+ *    before_layer: 'road-label',
+ *   });
+ * const staticImageUrl = request.url();
+ * // Now you can open staticImageUrl in a browser.
+
  */
 Static.getStaticImage = function(config) {
   v.assertShape({
@@ -148,7 +188,10 @@ Static.getStaticImage = function(config) {
     ),
     overlays: v.arrayOf(v.plainObject),
     highRes: v.boolean,
-    insertOverlayBeforeLayer: v.string,
+    before_layer: v.string,
+    addlayer: v.plainObject,
+    setfilter: v.plainArray,
+    layer_id: v.string,
     attribution: v.boolean,
     logo: v.boolean
   })(config);
@@ -182,8 +225,37 @@ Static.getStaticImage = function(config) {
   if (config.logo !== undefined) {
     query.logo = String(config.logo);
   }
-  if (config.insertOverlayBeforeLayer !== undefined) {
-    query.before_layer = config.insertOverlayBeforeLayer;
+  if (config.before_layer !== undefined) {
+    query.before_layer = config.before_layer;
+  }
+  if (config.addlayer !== undefined) {
+    query.addlayer = JSON.stringify(config.addlayer); // stringify to retain object shape
+  }
+  if (config.setfilter !== undefined) {
+    query.setfilter = JSON.stringify(config.setfilter); // stringify to retain array shape
+  }
+  if (config.layer_id !== undefined) {
+    query.layer_id = config.layer_id;
+  }
+
+  if (config.setfilter !== undefined && config.layer_id === undefined) {
+    throw new Error('Must include layer_id in setfilter request');
+  }
+
+  if (
+    (config.setfilter !== undefined || config.addlayer !== undefined) &&
+    config.position === 'auto' &&
+    config.overlays === undefined
+  ) {
+    throw new Error(
+      'Auto extent cannot be used with style parameters and no overlay'
+    );
+  }
+
+  if (config.addlayer !== undefined && config.setfilter !== undefined) {
+    throw new Error(
+      'addlayer and setfilter cannot be used in the same request'
+    );
   }
 
   return this.client.createRequest({
