@@ -1,5 +1,9 @@
 # Changelog
 
+## Master
+
+- **Add:** add Isochrone API service.
+
 ## 0.8.0
 
 - **Add**: add new style parameters to the Static Images API service: `addlayer`, `setfilter`, and `layer_id`.
