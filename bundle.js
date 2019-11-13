@@ -13,6 +13,7 @@ var mbxTilequery = require('./services/tilequery');
 var mbxTilesets = require('./services/tilesets');
 var mbxTokens = require('./services/tokens');
 var mbxUploads = require('./services/uploads');
+var mbxIsochrone = require('./services/isochrone');
 
 function mapboxSdk(options) {
   var client = browserClient(options);
@@ -29,6 +30,7 @@ function mapboxSdk(options) {
   client.tilesets = mbxTilesets(client);
   client.tokens = mbxTokens(client);
   client.uploads = mbxUploads(client);
+  client.isochrone = mbxIsochrone(client);
 
   return client;
 }
