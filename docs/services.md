@@ -998,6 +998,7 @@ List a user's tilesets.
 
 ```javascript
 tilesetsClient.listTilesets()
+  .send()
   .then(response => {
     const tilesets = response.body;
   });
