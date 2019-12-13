@@ -993,6 +993,11 @@ List a user's tilesets.
 
 - `config` **[Object][153]?** 
   - `config.ownerId` **[string][154]?** 
+- `query` **[Object][153]?** 
+  - `query.range` **[number][157]?** 
+  - `query.sortBy` **[string][154]?** 
+  - `query.start` **[string][154]?** 
+  - `query.visibility` **[string][154]?** 
 
 #### Examples
 

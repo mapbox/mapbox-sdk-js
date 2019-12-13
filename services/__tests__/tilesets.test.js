@@ -27,3 +27,14 @@ describe('listTilesets', () => {
     });
   });
 });
+
+describe('tileJSONMetadata', () => {
+  test('works', () => {
+    tilesets.tileJSONMetadata(undefined, { tilesetId: 'hello-world' });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/v4/:tilesetId.json',
+      method: 'GET',
+      params: { tilesetId: 'hello-world' }
+    });
+  });
+});
