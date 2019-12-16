@@ -1113,8 +1113,7 @@ See the [public documentation][191].
 
 ```javascript
 geocodingClient.reverseGeocode({
-  query: [-95.4431142, 33.6875431],
-  limit: 1
+  query: [-95.4431142, 33.6875431]
 })
   .send()
   .then(response => {
