@@ -147,7 +147,7 @@ Geocoding.forwardGeocode = function(config) {
  * @example
  * geocodingClient.reverseGeocode({
  *   query: [-95.4431142, 33.6875431],
- *   limit: 2
+ *   limit: 1
  * })
  *   .send()
  *   .then(response => {
