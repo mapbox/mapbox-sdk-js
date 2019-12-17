@@ -20,6 +20,7 @@ var Tilesets = {};
  *
  * @example
  * tilesetsClient.listTilesets()
+ *   .send()
  *   .then(response => {
  *     const tilesets = response.body;
  *   });
