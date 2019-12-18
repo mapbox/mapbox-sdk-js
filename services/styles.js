@@ -329,9 +329,9 @@ Styles.getStyleSprite = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path:
-      '/styles/v1/:ownerId/:styleId/' +
+      '/styles/v1/:ownerId/:styleId' +
       (config.draft ? '/draft' : '') +
-      ':fileName',
+      '/:fileName',
     params: xtend(pick(config, ['ownerId', 'styleId']), {
       fileName: fileName
     })
