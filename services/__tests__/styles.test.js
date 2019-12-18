@@ -28,6 +28,15 @@ describe('getStyle', () => {
       query: { metadata: true }
     });
   });
+
+  test('draft works', () => {
+    styles.getStyle({ styleId: 'foo', draft: true });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId/draft',
+      method: 'GET',
+      params: { styleId: 'foo' }
+    });
+  });
 });
 
 describe('createStyle', () => {
@@ -222,6 +231,21 @@ describe('getStyleSprite', () => {
       }
     });
   });
+
+  test('fetches draft JSON by default', () => {
+    styles.getStyleSprite({
+      styleId: 'foo',
+      draft: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId/draft/:fileName',
+      method: 'GET',
+      params: {
+        styleId: 'foo',
+        fileName: 'sprite.json'
+      }
+    });
+  });
 });
 
 describe('getFontGlyphRange', () => {
@@ -268,6 +292,21 @@ describe('getEmbeddableHtml', () => {
       method: 'GET',
       params: {
         fileName: 'foo.html'
+      },
+      query: {}
+    });
+  });
+
+  test('draft works', () => {
+    styles.getEmbeddableHtml({
+      styleId: 'foo',
+      draft: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:fileName',
+      method: 'GET',
+      params: {
+        fileName: 'foo/draft.html'
       },
       query: {}
     });

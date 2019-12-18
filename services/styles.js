@@ -22,6 +22,7 @@ var Styles = {};
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
  * @param {boolean} [config.metadata] - If true, `mapbox:` specific metadata will be preserved
+ * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style, otherwise will retrieve the published style.
  * @return {MapiRequest}
  *
  * @example
@@ -37,7 +38,8 @@ Styles.getStyle = function(config) {
   v.assertShape({
     styleId: v.required(v.string),
     ownerId: v.string,
-    metadata: v.boolean
+    metadata: v.boolean,
+    draft: v.boolean
   })(config);
 
   var query = {};
@@ -47,7 +49,7 @@ Styles.getStyle = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/styles/v1/:ownerId/:styleId',
+    path: '/styles/v1/:ownerId/:styleId' + (config.draft ? '/draft' : ''),
     params: pick(config, ['styleId', 'ownerId']),
     query: query
   });
@@ -256,6 +258,7 @@ Styles.putStyleIcon = function(config) {
  * @param {string} config.styleId
  * @param {string} config.iconId
  * @param {string} [config.ownerId]
+ * @param {boolean} [config.draft=false] If `true` will remove the icon from the draft style, otherwise will remove the icon from the published style.
  * @return {MapiRequest}
  *
  * @example
@@ -272,12 +275,16 @@ Styles.deleteStyleIcon = function(config) {
   v.assertShape({
     styleId: v.required(v.string),
     iconId: v.required(v.string),
-    ownerId: v.string
+    ownerId: v.string,
+    draft: v.boolean
   })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
-    path: '/styles/v1/:ownerId/:styleId/sprite/:iconId',
+    path:
+      '/styles/v1/:ownerId/:styleId' +
+      (config.draft ? '/draft' : '') +
+      '/sprite/:iconId',
     params: config
   });
 };
@@ -293,6 +300,7 @@ Styles.deleteStyleIcon = function(config) {
  * @param {boolean} [config.highRes] - If true, returns spritesheet with 2x
  *   resolution.
  * @param {string} [config.ownerId]
+ * @param {boolean} [config.draft=false] If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite.
  * @return {MapiRequest}
  *
  * @example
@@ -311,7 +319,8 @@ Styles.getStyleSprite = function(config) {
     styleId: v.required(v.string),
     format: v.oneOf('json', 'png'),
     highRes: v.boolean,
-    ownerId: v.string
+    ownerId: v.string,
+    draft: v.boolean
   })(config);
 
   var format = config.format || 'json';
@@ -319,7 +328,10 @@ Styles.getStyleSprite = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/styles/v1/:ownerId/:styleId/:fileName',
+    path:
+      '/styles/v1/:ownerId/:styleId/' +
+      (config.draft ? '/draft' : '') +
+      ':fileName',
     params: xtend(pick(config, ['ownerId', 'styleId']), {
       fileName: fileName
     })
@@ -376,22 +388,24 @@ Styles.getFontGlyphRange = function(config) {
  * See [the corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#request-embeddable-html).
  *
  * @param {Object} config
- * @param {string} styleId
- * @param {boolean} [scrollZoom=true] - If `false`, zooming the map by scrolling will
+ * @param {string} config.styleId
+ * @param {boolean} [config.scrollZoom=true] - If `false`, zooming the map by scrolling will
  *   be disabled.
- * @param {boolean} [title=false] - If `true`, the map's title and owner is displayed
+ * @param {boolean} [config.title=false] - If `true`, the map's title and owner is displayed
  *   in the upper right corner of the map.
- * @param {ownerId} [ownerId]
+ * @param {string} [config.ownerId]
+ * @param {boolean} [config.draft=false] If `true` will retrieve the draft style, otherwise will retrieve the published style.
  */
 Styles.getEmbeddableHtml = function(config) {
   v.assertShape({
     styleId: v.required(v.string),
     scrollZoom: v.boolean,
     title: v.boolean,
-    ownerId: v.string
+    ownerId: v.string,
+    draft: v.boolean
   })(config);
 
-  var fileName = config.styleId + '.html';
+  var fileName = config.styleId + (config.draft ? '/draft' : '') + '.html';
   var query = {};
   if (config.scrollZoom !== undefined) {
     query.zoomwheel = String(config.scrollZoom);
