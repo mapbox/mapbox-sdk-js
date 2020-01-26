@@ -262,7 +262,8 @@ Static.getStaticImage = function(config) {
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId/static/' + preEncodedUrlParts,
     params: pick(config, ['ownerId', 'styleId']),
-    query: query
+    query: query,
+    encoding: 'binary'
   });
 };
 

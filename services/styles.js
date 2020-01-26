@@ -313,6 +313,17 @@ Styles.deleteStyleIcon = function(config) {
  *   .then(response => {
  *     const sprite = response.body;
  *   });
+ *
+ * stylesClient.getStyleSprite({
+ *   format: 'png',
+ *   styleId: 'foo',
+ *   highRes: true
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const sprite = response.body;
+ *     fs.writeFileSync('sprite.png', sprite, 'binary');
+ *   });
  */
 Styles.getStyleSprite = function(config) {
   v.assertShape({
@@ -334,7 +345,8 @@ Styles.getStyleSprite = function(config) {
       '/:fileName',
     params: xtend(pick(config, ['ownerId', 'styleId']), {
       fileName: fileName
-    })
+    }),
+    encoding: format === 'png' ? 'binary' : null
   });
 };
 
