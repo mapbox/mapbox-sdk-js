@@ -242,6 +242,27 @@ function testSharedInterface(createClient) {
       });
     });
 
+    test('@2x is not encoded', () => {
+      const sendRequest = () => {
+        return client
+          .createRequest({
+            method: 'GET',
+            path: '/styles/v1/:ownerId/:styleId/:fileName',
+            params: {
+              ownerId: 'specialguy',
+              styleId: 'Wolf & Friend',
+              fileName: 'sprite@2x.png'
+            }
+          })
+          .send();
+      };
+      return server.captureRequest(sendRequest).then(req => {
+        expect(req.path).toBe(
+          `/styles/v1/specialguy/Wolf%20%26%20Friend/sprite@2x.png`
+        );
+      });
+    });
+
     test('multiple params', () => {
       const sendRequest = () => {
         return client
