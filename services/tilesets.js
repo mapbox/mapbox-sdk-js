@@ -17,10 +17,11 @@ var Tilesets = {};
  * @param {Object} [config]
  * @param {string} [config.ownerId]
  * @param {Object} [query]
- * @param {number} [query.range]
- * @param {string} [query.sortBy]
- * @param {string}  [query.start]
- * @param {string} [query.visibility]
+ * @param {string} [query.type] - Filter results by tileset type, either `raster` or `vector`.
+ * @param {number} [query.limit] - The maximum number of tilesets to return, from 1 to 500. The default is 100.
+ * @param {string} [query.sortBy] - Sort the listings by their `created` or `modified` timestamps.
+ * @param {string} [query.start] - The tileset after which to start the listing.
+ * @param {string} [query.visibility] - Filter results by visibility, either `public` or `private`
  * @return {MapiRequest}
  *
  * @example
@@ -57,6 +58,16 @@ Tilesets.listTilesets = function(config, query) {
   });
 };
 
+/**
+ * Retrieve metadata about a tileset.
+ *
+ * @param {Object} [config]
+ * @param {string} [config.ownerId]
+ * @param {Object} [query]
+ * @param {string} [query.tilesetId] - Unique identifier for the tileset in the format `username.id`.
+ *
+ * @return {MapiRequest}
+ */
 Tilesets.tileJSONMetadata = function(config, query) {
   v.assertShape({
     ownerId: v.string
