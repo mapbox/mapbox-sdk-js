@@ -337,17 +337,18 @@ Styles.getStyleSprite = function(config) {
   var format = config.format || 'json';
   var fileName = 'sprite' + (config.highRes ? '@2x' : '') + '.' + format;
 
-  return this.client.createRequest({
-    method: 'GET',
-    path:
-      '/styles/v1/:ownerId/:styleId' +
-      (config.draft ? '/draft' : '') +
-      '/:fileName',
-    params: xtend(pick(config, ['ownerId', 'styleId']), {
-      fileName: fileName
-    }),
-    encoding: format === 'png' ? 'binary' : null
-  });
+  return this.client.createRequest(
+    xtend(
+      {
+        method: 'GET',
+        path: '/styles/v1/:ownerId/:styleId' + (config.draft ? '/draft' : '') + '/:fileName',
+        params: xtend(pick(config, ['ownerId', 'styleId']), {
+          fileName: fileName
+        })
+      },
+      format === 'png' ? { encoding: 'binary' } : {}
+    )
+  );
 };
 
 /**
@@ -390,7 +391,8 @@ Styles.getFontGlyphRange = function(config) {
     params: xtend(pick(config, ['ownerId']), {
       fontList: [].concat(config.fonts),
       fileName: fileName
-    })
+    }),
+    encoding: 'binary'
   });
 };
 

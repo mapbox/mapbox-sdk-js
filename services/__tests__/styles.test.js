@@ -213,7 +213,8 @@ describe('getStyleSprite', () => {
       params: {
         styleId: 'foo',
         fileName: 'sprite.png'
-      }
+      },
+      encoding: 'binary'
     });
   });
 
@@ -229,7 +230,8 @@ describe('getStyleSprite', () => {
       params: {
         styleId: 'foo',
         fileName: 'sprite@2x.png'
-      }
+      },
+      encoding: 'binary'
     });
   });
 
@@ -262,7 +264,8 @@ describe('getFontGlyphRange', () => {
       params: {
         fontList: ['Ubuntu Bold'],
         fileName: '0-255.pbf'
-      }
+      },
+      encoding: 'binary'
     });
   });
 
@@ -278,7 +281,8 @@ describe('getFontGlyphRange', () => {
       params: {
         fontList: ['Ubuntu Bold', 'Ubuntu Light'],
         fileName: '0-255.pbf'
-      }
+      },
+      encoding: 'binary'
     });
   });
 });
