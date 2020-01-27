@@ -14,7 +14,8 @@ describe('listTilesets', () => {
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/:ownerId',
       method: 'GET',
-      params: undefined
+      params: {},
+      query: {}
     });
   });
 
@@ -23,14 +24,29 @@ describe('listTilesets', () => {
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/:ownerId',
       method: 'GET',
-      params: { ownerId: 'specialguy' }
+      params: { ownerId: 'specialguy' },
+      query: {}
+    });
+  });
+
+  test('works with query params', () => {
+    tilesets.listTilesets({
+      ownerId: 'specialguy',
+      limit: 250,
+      type: 'raster'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:ownerId',
+      method: 'GET',
+      params: { ownerId: 'specialguy' },
+      query: { limit: 250, type: 'raster' }
     });
   });
 });
 
 describe('tileJSONMetadata', () => {
   test('works', () => {
-    tilesets.tileJSONMetadata(undefined, { tilesetId: 'hello-world' });
+    tilesets.tileJSONMetadata({ tilesetId: 'hello-world' });
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/v4/:tilesetId.json',
       method: 'GET',

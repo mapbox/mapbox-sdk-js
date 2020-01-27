@@ -1,6 +1,7 @@
 'use strict';
 
 var v = require('./service-helpers/validator');
+var pick = require('./service-helpers/pick');
 var createServiceFactory = require('./service-helpers/create-service-factory');
 
 /**
@@ -16,12 +17,11 @@ var Tilesets = {};
  *
  * @param {Object} [config]
  * @param {string} [config.ownerId]
- * @param {Object} [query]
- * @param {string} [query.type] - Filter results by tileset type, either `raster` or `vector`.
- * @param {number} [query.limit] - The maximum number of tilesets to return, from 1 to 500. The default is 100.
- * @param {string} [query.sortBy] - Sort the listings by their `created` or `modified` timestamps.
- * @param {string} [query.start] - The tileset after which to start the listing.
- * @param {string} [query.visibility] - Filter results by visibility, either `public` or `private`
+ * @param {'raster'|'vector'} [config.type] - Filter results by tileset type, either `raster` or `vector`.
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500. The default is 100.
+ * @param {'created'|'modified'} [config.sortBy] - Sort the listings by their `created` or `modified` timestamps.
+ * @param {string} [config.start] - The tileset after which to start the listing.
+ * @param {'public'|'private'} [config.visibility] - Filter results by visibility, either `public` or `private`
  * @return {MapiRequest}
  *
  * @example
@@ -37,24 +37,27 @@ var Tilesets = {};
  *     // Handle error or response and call next.
  *   });
  */
-Tilesets.listTilesets = function(config, query) {
+Tilesets.listTilesets = function(config) {
   v.assertShape({
-    ownerId: v.string
-  })(config);
-
-  v.assertShape({
+    ownerId: v.required(v.string),
     limit: v.range([1, 500]),
     sortBy: v.oneOf('created', 'modified'),
     start: v.string,
     type: v.oneOf('raster', 'vector'),
     visibility: v.oneOf('public', 'private')
-  })(query);
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:ownerId',
-    params: config,
-    query: query
+    params: pick(config || {}, ['ownerId']),
+    query: pick(config || {}, [
+      'limit',
+      'sortBy',
+      'start',
+      'type',
+      'visibility'
+    ])
   });
 };
 
@@ -62,25 +65,19 @@ Tilesets.listTilesets = function(config, query) {
  * Retrieve metadata about a tileset.
  *
  * @param {Object} [config]
- * @param {string} [config.ownerId]
- * @param {Object} [query]
- * @param {string} [query.tilesetId] - Unique identifier for the tileset in the format `username.id`.
+ * @param {string} [config.tilesetId] - Unique identifier for the tileset in the format `username.id`.
  *
  * @return {MapiRequest}
  */
-Tilesets.tileJSONMetadata = function(config, query) {
-  v.assertShape({
-    ownerId: v.string
-  })(config);
-
+Tilesets.tileJSONMetadata = function(config) {
   v.assertShape({
     tilesetId: v.required(v.string)
-  })(query);
+  })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/v4/:tilesetId.json',
-    params: query
+    params: pick(config, ['tilesetId'])
   });
 };
 

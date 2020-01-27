@@ -994,12 +994,11 @@ List a user's tilesets.
 
 - `config` **[Object][155]?** 
   - `config.ownerId` **[string][156]?** 
-- `query` **[Object][155]?** 
-  - `query.type` **[string][156]?** Filter results by tileset type, either `raster` or `vector`.
-  - `query.limit` **[number][159]?** The maximum number of tilesets to return, from 1 to 500. The default is 100.
-  - `query.sortBy` **[string][156]?** Sort the listings by their `created` or `modified` timestamps.
-  - `query.start` **[string][156]?** The tileset after which to start the listing.
-  - `query.visibility` **[string][156]?** Filter results by visibility, either `public` or `private`
+  - `config.type` **(`"raster"` \| `"vector"`)?** Filter results by tileset type, either `raster` or `vector`.
+  - `config.limit` **[number][159]** The maximum number of tilesets to return, from 1 to 500. The default is 100. (optional, default `100`)
+  - `config.sortBy` **(`"created"` \| `"modified"`)?** Sort the listings by their `created` or `modified` timestamps.
+  - `config.start` **[string][156]?** The tileset after which to start the listing.
+  - `config.visibility` **(`"public"` \| `"private"`)?** Filter results by visibility, either `public` or `private`
 
 #### Examples
 
@@ -1027,9 +1026,7 @@ Retrieve metadata about a tileset.
 #### Parameters
 
 - `config` **[Object][155]?** 
-  - `config.ownerId` **[string][156]?** 
-- `query` **[Object][155]?** 
-  - `query.tilesetId` **[string][156]?** Unique identifier for the tileset in the format `username.id`.
+  - `config.tilesetId` **[string][156]?** Unique identifier for the tileset in the format `username.id`.
 
 Returns **MapiRequest** 
 
