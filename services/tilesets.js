@@ -39,7 +39,7 @@ var Tilesets = {};
  */
 Tilesets.listTilesets = function(config) {
   v.assertShape({
-    ownerId: v.required(v.string),
+    ownerId: v.string,
     limit: v.range([1, 500]),
     sortBy: v.oneOf('created', 'modified'),
     start: v.string,
