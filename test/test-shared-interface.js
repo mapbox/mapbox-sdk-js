@@ -247,11 +247,10 @@ function testSharedInterface(createClient) {
         return client
           .createRequest({
             method: 'GET',
-            path: '/styles/v1/:ownerId/:styleId/:fileName',
+            path: '/styles/v1/:ownerId/:styleId/sprite@2x.png',
             params: {
               ownerId: 'specialguy',
-              styleId: 'Wolf & Friend',
-              fileName: 'sprite@2x.png'
+              styleId: 'Wolf & Friend'
             }
           })
           .send();

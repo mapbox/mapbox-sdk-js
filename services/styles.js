@@ -336,16 +336,14 @@ Styles.getStyleSprite = function(config) {
   })(config);
 
   var format = config.format || 'json';
-  var fileName = 'sprite' + (config.highRes ? '@2x' : '') + '.' + format;
+  var fileName = '/sprite' + (config.highRes ? '@2x' : '') + '.' + format;
 
   return this.client.createRequest(
     xtend(
       {
         method: 'GET',
-        path: '/styles/v1/:ownerId/:styleId' + (config.draft ? '/draft' : '') + '/:fileName',
-        params: xtend(pick(config, ['ownerId', 'styleId']), {
-          fileName: fileName
-        })
+        path: '/styles/v1/:ownerId/:styleId' + (config.draft ? '/draft' : '') + fileName,
+        params: pick(config, ['ownerId', 'styleId'])
       },
       format === 'png' ? { encoding: 'binary' } : {}
     )
