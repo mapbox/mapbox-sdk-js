@@ -10,11 +10,11 @@ beforeEach(() => {
 
 describe('listTilesets', () => {
   test('works', () => {
-    tilesets.listTilesets({ ownerId: 'specialguy' });
+    tilesets.listTilesets();
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/:ownerId',
       method: 'GET',
-      params: { ownerId: 'specialguy' },
+      params: {},
       query: {}
     });
   });
