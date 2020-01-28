@@ -44,3 +44,37 @@ describe('tileJSONMetadata', () => {
     });
   });
 });
+
+describe('createTilesetSource', () => {
+  test('works', () => {
+    tilesets.createTilesetSource({
+      id: 'tileset_source_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'POST',
+      params: {
+        id: 'tileset_source_id',
+        file: 'path/to/file.geojson'
+      }
+    });
+  });
+
+  test('works with specified ownerId', () => {
+    tilesets.createTilesetSource({
+      ownerId: 'specialguy',
+      id: 'tileset_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'POST',
+      params: {
+        ownerId: 'specialguy',
+        id: 'tileset_id',
+        file: 'path/to/file.geojson'
+      }
+    });
+  });
+});
