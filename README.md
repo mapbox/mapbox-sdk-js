@@ -136,7 +136,7 @@ tilesetsService.listTilesets().eachPage((error, response, next) => {
   // You can check whether there will be a next page using
   // MapiResponse#hasNextPage, if you want to do something
   // different on the last page.
-  if (!res.hasNextPage()) {..}
+  if (!response.hasNextPage()) {..}
 });
 
 // Listen for uploadProgress events.
