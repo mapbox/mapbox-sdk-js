@@ -10,16 +10,6 @@ beforeEach(() => {
 
 describe('listTilesets', () => {
   test('works', () => {
-    tilesets.listTilesets();
-    expect(tu.requestConfig(tilesets)).toEqual({
-      path: '/tilesets/v1/:ownerId',
-      method: 'GET',
-      params: {},
-      query: {}
-    });
-  });
-
-  test('works with specified ownerId', () => {
     tilesets.listTilesets({ ownerId: 'specialguy' });
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/:ownerId',

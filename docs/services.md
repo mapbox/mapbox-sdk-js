@@ -995,7 +995,7 @@ List a user's tilesets.
 - `config` **[Object][155]?** 
   - `config.ownerId` **[string][156]?** 
   - `config.type` **(`"raster"` \| `"vector"`)?** Filter results by tileset type, either `raster` or `vector`.
-  - `config.limit` **[number][159]** The maximum number of tilesets to return, from 1 to 500. The default is 100. (optional, default `100`)
+  - `config.limit` **[number][159]** The maximum number of tilesets to return, from 1 to 500. (optional, default `100`)
   - `config.sortBy` **(`"created"` \| `"modified"`)?** Sort the listings by their `created` or `modified` timestamps.
   - `config.start` **[string][156]?** The tileset after which to start the listing.
   - `config.visibility` **(`"public"` \| `"private"`)?** Filter results by visibility, either `public` or `private`

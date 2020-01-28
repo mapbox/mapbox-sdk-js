@@ -18,7 +18,7 @@ var Tilesets = {};
  * @param {Object} [config]
  * @param {string} [config.ownerId]
  * @param {'raster'|'vector'} [config.type] - Filter results by tileset type, either `raster` or `vector`.
- * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500. The default is 100.
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500.
  * @param {'created'|'modified'} [config.sortBy] - Sort the listings by their `created` or `modified` timestamps.
  * @param {string} [config.start] - The tileset after which to start the listing.
  * @param {'public'|'private'} [config.visibility] - Filter results by visibility, either `public` or `private`
@@ -50,14 +50,10 @@ Tilesets.listTilesets = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:ownerId',
-    params: pick(config || {}, ['ownerId']),
-    query: pick(config || {}, [
-      'limit',
-      'sortBy',
-      'start',
-      'type',
-      'visibility'
-    ])
+    params: config ? pick(config, ['ownerId']) : {},
+    query: config
+      ? pick(config, ['limit', 'sortBy', 'start', 'type', 'visibility'])
+      : {}
   });
 };
 
