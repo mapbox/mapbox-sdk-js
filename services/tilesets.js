@@ -109,7 +109,8 @@ Tilesets.createTilesetSource = function(config) {
     method: 'POST',
     path: '/tilesets/v1/sources/:ownerId/:id',
     params: config,
-    file: config.file
+    file: config.file,
+    sendFileAs: 'form'
   });
 };
 
