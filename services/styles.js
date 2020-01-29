@@ -416,10 +416,8 @@ Styles.getEmbeddableHtml = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/styles/v1/:ownerId/:fileName',
-    params: xtend(pick(config, ['ownerId']), {
-      fileName: fileName
-    }),
+    path: '/styles/v1/:ownerId/' + fileName,
+    params: pick(config, ['ownerId']),
     query: query
   });
 };
