@@ -288,11 +288,9 @@ describe('getEmbeddableHtml', () => {
       styleId: 'foo'
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:fileName',
+      path: '/styles/v1/:ownerId/foo.html',
       method: 'GET',
-      params: {
-        fileName: 'foo.html'
-      },
+      params: {},
       query: {}
     });
   });
@@ -303,11 +301,9 @@ describe('getEmbeddableHtml', () => {
       draft: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:fileName',
+      path: '/styles/v1/:ownerId/foo/draft.html',
       method: 'GET',
-      params: {
-        fileName: 'foo/draft.html'
-      },
+      params: {},
       query: {}
     });
   });
@@ -319,11 +315,9 @@ describe('getEmbeddableHtml', () => {
       title: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:fileName',
+      path: '/styles/v1/:ownerId/foo.html',
       method: 'GET',
-      params: {
-        fileName: 'foo.html'
-      },
+      params: {},
       query: { zoomwheel: 'false', title: 'true' }
     });
   });
