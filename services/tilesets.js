@@ -73,7 +73,7 @@ Tilesets.listTilesets = function(config) {
  *     const deleted = response.statusCode === 204;
  *   });
  */
-Tilesets.deleteTilesetSource = function(config) {
+Tilesets.deleteTileset = function(config) {
   v.assertShape({
     tilesetId: v.required(v.string)
   })(config);

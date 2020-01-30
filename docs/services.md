@@ -86,21 +86,21 @@
     -   [listTilesets][82]
         -   [Parameters][83]
         -   [Examples][84]
-    -   [deleteTilesetSource][85]
+    -   [deleteTileset][85]
         -   [Parameters][86]
         -   [Examples][87]
-    -   [deleteTilesetSource][88]
+    -   [tileJSONMetadata][88]
         -   [Parameters][89]
-        -   [Examples][90]
-    -   [tileJSONMetadata][91]
-        -   [Parameters][92]
-    -   [createTilesetSource][93]
+    -   [createTilesetSource][90]
+        -   [Parameters][91]
+        -   [Examples][92]
+    -   [getTilesetSource][93]
         -   [Parameters][94]
         -   [Examples][95]
-    -   [getTilesetSource][96]
+    -   [listTilesetSources][96]
         -   [Parameters][97]
         -   [Examples][98]
-    -   [listTilesetSources][99]
+    -   [deleteTilesetSource][99]
         -   [Parameters][100]
         -   [Examples][101]
     -   [createTileset][102]
@@ -1161,7 +1161,7 @@ tilesetsClient.listTilesets()
 
 Returns **MapiRequest** 
 
-### deleteTilesetSource
+### deleteTileset
 
 Delete a tileset
 
@@ -1179,30 +1179,6 @@ tilesetsClient.deleteTileset({
   .send()
   .then(response => {
     const deleted = response.statusCode === 204;
-  });
-```
-
-Returns **MapiRequest** 
-
-### deleteTilesetSource
-
-Delete a tileset source
-
-#### Parameters
-
--   `config` **[Object][196]** 
-    -   `config.id` **[string][197]** ID of the tileset source to be deleted.
-    -   `config.ownerId` **[string][197]?** 
-
-#### Examples
-
-```javascript
-tilesetsClient.deleteTilesetSource({
-    id: 'tileset_source_id'
-  })
-  .send()
-  .then(response => {
-    const deleted = response.statusCode === 201;
   });
 ```
 
@@ -1287,6 +1263,30 @@ tilesetsClient.listTilesetSources()
   .send()
   .then(response => {
     const tilesetSources = response.body;
+  });
+```
+
+Returns **MapiRequest** 
+
+### deleteTilesetSource
+
+Delete a tileset source
+
+#### Parameters
+
+-   `config` **[Object][196]** 
+    -   `config.id` **[string][197]** ID of the tileset source to be deleted.
+    -   `config.ownerId` **[string][197]?** 
+
+#### Examples
+
+```javascript
+tilesetsClient.deleteTilesetSource({
+    id: 'tileset_source_id'
+  })
+  .send()
+  .then(response => {
+    const deleted = response.statusCode === 201;
   });
 ```
 
@@ -2351,35 +2351,35 @@ Type: [Object][196]
 
 [84]: #examples-25
 
-[85]: #deletetilesetsource
+[85]: #deletetileset
 
 [86]: #parameters-25
 
 [87]: #examples-26
 
-[88]: #deletetilesetsource-1
+[88]: #tilejsonmetadata
 
 [89]: #parameters-26
 
-[90]: #examples-27
+[90]: #createtilesetsource
 
-[91]: #tilejsonmetadata
+[91]: #parameters-27
 
-[92]: #parameters-27
+[92]: #examples-27
 
-[93]: #createtilesetsource
+[93]: #gettilesetsource
 
 [94]: #parameters-28
 
 [95]: #examples-28
 
-[96]: #gettilesetsource
+[96]: #listtilesetsources
 
 [97]: #parameters-29
 
 [98]: #examples-29
 
-[99]: #listtilesetsources
+[99]: #deletetilesetsource
 
 [100]: #parameters-30
 
