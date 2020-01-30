@@ -52,6 +52,7 @@ Styles.getStyle = function(config) {
  *
  * @param {Object} config
  * @param {Object} config.style - Stylesheet JSON object.
+ * @param {boolean} [config.metadata] - If true, stylesheet is created with the metadata object preserved
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  *
@@ -74,13 +75,14 @@ Styles.getStyle = function(config) {
 Styles.createStyle = function(config) {
   v.assertShape({
     style: v.plainObject,
-    ownerId: v.string
+    ownerId: v.string,
+    metadata: v.boolean
   })(config);
 
   return this.client.createRequest({
     method: 'POST',
     path: '/styles/v1/:ownerId',
-    params: pick(config, ['ownerId']),
+    params: pick(config, ['ownerId', 'metadata']),
     body: config.style
   });
 };
