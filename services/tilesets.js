@@ -58,6 +58,34 @@ Tilesets.listTilesets = function(config) {
 };
 
 /**
+ * Delete a tileset
+ *
+ * @param {Object} config
+ * @param {string} config.tilesetId ID of the tileset to be deleted in the form `username.tileset_id`.
+ * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.deleteTileset({
+ *     tilesetId: 'username.tileset_id'
+ *   })
+ *   .send()
+ *   .then(response => {
+ *     const deleted = response.statusCode === 204;
+ *   });
+ */
+Tilesets.deleteTilesetSource = function(config) {
+  v.assertShape({
+    tilesetId: v.required(v.string)
+  })(config);
+
+  return this.client.createRequest({
+    method: 'DELETE',
+    path: '/tilesets/v1/:tilesetId',
+    params: pick(config, ['tilesetId'])
+  });
+};
+
+/**
  * Retrieve metadata about a tileset.
  *
  * @param {Object} [config]
@@ -87,13 +115,13 @@ Tilesets.tileJSONMetadata = function(config) {
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.createTilesetSource()
- *   .send({
+ * tilesetsClient.createTilesetSource({
  *      id: 'tileset_source_id',
  *      // The string filename value works in Node.
  *      // In the browser, provide a Blob.
  *      file: 'path/to/file.geojson.ld'
  *   })
+ *   .send()
  *   .then(response => {
  *     const tilesetSource = response.body;
  *   });
@@ -101,14 +129,14 @@ Tilesets.tileJSONMetadata = function(config) {
 Tilesets.createTilesetSource = function(config) {
   v.assertShape({
     id: v.required(v.string),
-    file: v.file,
+    file: v.required(v.file),
     ownerId: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'POST',
     path: '/tilesets/v1/sources/:ownerId/:id',
-    params: config,
+    params: pick(config, ['ownerId', 'id']),
     file: config.file,
     sendFileAs: 'form'
   });
@@ -118,15 +146,15 @@ Tilesets.createTilesetSource = function(config) {
  * Retrieve a tileset source information
  *
  * @param {Object} config
- * @param {string} config.id ID of the tileset source to be created.
+ * @param {string} config.id ID of the tileset source.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.getTilesetSource()
- *   .send({
+ * tilesetsClient.getTilesetSource({
  *      id: 'tileset_source_id'
  *   })
+ *   .send()
  *   .then(response => {
  *     const tilesetSource = response.body;
  *   });
@@ -140,7 +168,7 @@ Tilesets.getTilesetSource = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/sources/:ownerId/:id',
-    params: config
+    params: pick(config, ['ownerId', 'id'])
   });
 };
 
@@ -166,12 +194,12 @@ Tilesets.listTilesetSources = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/sources/:ownerId',
-    params: config
+    params: config ? pick(config, ['ownerId']) : {}
   });
 };
 
 /**
- * Delete tileset source
+ * Delete a tileset source
  *
  * @param {Object} config
  * @param {string} config.id ID of the tileset source to be deleted.
@@ -179,23 +207,24 @@ Tilesets.listTilesetSources = function(config) {
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.deleteTilesetSource()
- *   .send({
+ * tilesetsClient.deleteTilesetSource({
  *     id: 'tileset_source_id'
  *   })
+ *   .send()
  *   .then(response => {
+ *     const deleted = response.statusCode === 201;
  *   });
  */
 Tilesets.deleteTilesetSource = function(config) {
   v.assertShape({
-    ownerId: v.string,
-    id: v.required(v.string)
+    id: v.required(v.string),
+    ownerId: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'DELETE',
     path: '/tilesets/v1/sources/:ownerId/:id',
-    params: config
+    params: pick(config, ['ownerId', 'id'])
   });
 };
 
@@ -204,19 +233,30 @@ Tilesets.deleteTilesetSource = function(config) {
  *
  * @param {Object} config
  * @param {string} config.tilesetId ID of the tileset to be created in the form `username.tileset_name`.
- * @param {Object} config.recipe JSON recipe
- * @param {string} config.name Name of the tileset
- * @param {boolean} [config.private=true]
- * @param {string} [config.description]
+ * @param {Object} config.recipe The [tileset recipe](https://docs.mapbox.com/help/troubleshooting/tileset-recipe-reference/) to use in JSON format.
+ * @param {string} config.name Name of the tileset.
+ * @param {boolean} [config.private=true] A private tileset must be used with an access token from your account.
+ * @param {string} [config.description] Description of the tileset.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.createTileset()
- *   .send({
- *     tilesetId: 'username.tileset_id'
+ * tilesetsClient.createTileset({
+ *     tilesetId: 'username.tileset_id',
+ *     recipe: {
+ *       version: 1,
+ *       layers: {
+ *         my_new_layer: {
+ *           source: "mapbox://tileset-source/{username}/{id}",
+ *           minzoom: 0,
+ *           maxzoom: 8
+ *         }
+ *       }
+ *     },
+ *     name: 'My Tileset'
  *   })
+ *   .send()
  *   .then(response => {
- *     const tilesets = response.body;
+ *     const message = response.body.message;
  *   });
  */
 Tilesets.createTileset = function(config) {
@@ -231,7 +271,7 @@ Tilesets.createTileset = function(config) {
   return this.client.createRequest({
     method: 'POST',
     path: '/tilesets/v1/:tilesetId',
-    params: config,
+    params: pick(config, ['tilesetId']),
     body: pick(config, ['recipe', 'name', 'private', 'description'])
   });
 };
@@ -244,12 +284,12 @@ Tilesets.createTileset = function(config) {
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.publishTileset()
- *   .send({
+ * tilesetsClient.publishTileset({
  *     tilesetId: 'username.tileset_id'
  *   })
+ *   .send()
  *   .then(response => {
- *     const tilesets = response.body;
+ *     const tilesetPublishJob = response.body;
  *   });
  */
 Tilesets.publishTileset = function(config) {
@@ -259,8 +299,8 @@ Tilesets.publishTileset = function(config) {
 
   return this.client.createRequest({
     method: 'POST',
-    path: '/tilesets/v1/:tileset/publish',
-    params: config
+    path: '/tilesets/v1/:tilesetId/publish',
+    params: pick(config, ['tilesetId'])
   });
 };
 
@@ -268,16 +308,16 @@ Tilesets.publishTileset = function(config) {
  * Retrieve the status of a tileset
  *
  * @param {Object} config
- * @param {string} config.tilesetId
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.tilesetStatus()
- *   .send({
+ * tilesetsClient.tilesetStatus({
  *     tilesetId: 'username.tileset_name'
  *   })
+ *   .send()
  *   .then(response => {
- *     const status = response.body;
+ *     const tilesetStatus = response.body;
  *   });
  */
 Tilesets.tilesetStatus = function(config) {
@@ -288,7 +328,7 @@ Tilesets.tilesetStatus = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:tilesetId/status',
-    params: config
+    params: pick(config, ['tilesetId'])
   });
 };
 
@@ -296,17 +336,18 @@ Tilesets.tilesetStatus = function(config) {
  * Retrieve information about a single tileset job
  *
  * @param {Object} config
- * @param {string} config.tilesetId
- * @param {string} config.jobId
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
+ * @param {string} config.jobId The publish job's ID.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.tilesetJob()
- *   .send({
- *     tileset: 'tileset_id'
+ * tilesetsClient.tilesetJob({
+ *     tilesetId: 'username.tileset_name'
+ *     jobId: 'job_id'
  *   })
+ *   .send()
  *   .then(response => {
- *     const job = response.body;
+ *     const tilesetJob = response.body;
  *   });
  */
 Tilesets.tilesetJob = function(config) {
@@ -317,8 +358,8 @@ Tilesets.tilesetJob = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/tilesets/v1/:tileset/jobs/:jobId',
-    params: config
+    path: '/tilesets/v1/:tilesetId/jobs/:jobId',
+    params: pick(config, ['tilesetId', 'jobId'])
   });
 };
 
@@ -326,15 +367,15 @@ Tilesets.tilesetJob = function(config) {
  * List information about all jobs for a tileset
  *
  * @param {Object} config
- * @param {string} config.tilesetId
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
  * @param {'processing'|'queued'|'success'|'failed'} [config.stage]
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.listTilesetJobs()
- *   .send({
- *     tileset: 'tileset_id'
+ * tilesetsClient.listTilesetJobs({
+ *     tileset: 'username.tileset_name'
  *   })
+ *   .send()
  *   .then(response => {
  *     const jobs = response.body;
  *   });
@@ -347,8 +388,8 @@ Tilesets.listTilesetJobs = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/tilesets/v1/:tileset/jobs',
-    params: config,
+    path: '/tilesets/v1/:tilesetId/jobs',
+    params: pick(config, ['tilesetId']),
     query: pick(config, ['stage'])
   });
 };
@@ -376,14 +417,23 @@ Tilesets.getTilesetsQueue = function() {
  * Validate a recipe
  *
  * @param {Object} config
- * @param {Object} config.recipe
+ * @param {Object} config.recipe The [tileset recipe](https://docs.mapbox.com/help/troubleshooting/tileset-recipe-reference/) to validate in JSON format.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.validateRecipe()
- *   .send({
- *     recipe: { ... }
+ * tilesetsClient.validateRecipe({
+ *     recipe: {
+ *       version: 1,
+ *       layers: {
+ *         my_new_layer: {
+ *           source: "mapbox://tileset-source/{username}/{id}",
+ *           minzoom: 0,
+ *           maxzoom: 8
+ *         }
+ *       }
+ *     }
  *   })
+ *   .send()
  *   .then(response => {
  *     const validation = response.body;
  *   });
@@ -396,8 +446,7 @@ Tilesets.validateRecipe = function(config) {
   return this.client.createRequest({
     method: 'PUT',
     path: '/tilesets/v1/validateRecipe',
-    params: config,
-    body: config.recpie
+    body: config.recipe
   });
 };
 
@@ -405,14 +454,14 @@ Tilesets.validateRecipe = function(config) {
  * Retrieve a recipe
  *
  * @param {Object} config
- * @param {Object} config.tilesetId
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.validateRecipe()
- *   .send({
+ * tilesetsClient.validateRecipe({
  *     tilesetId: 'username.tileset_name'
  *   })
+ *   .send()
  *   .then(response => {
  *     const recipe = response.body;
  *   });
@@ -425,7 +474,7 @@ Tilesets.getRecipe = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:tilesetId/recipe',
-    params: config
+    params: pick(config, ['tilesetId'])
   });
 };
 
@@ -433,18 +482,27 @@ Tilesets.getRecipe = function(config) {
  * Update a tileset recipe
  *
  * @param {Object} config
- * @param {Object} config.tilesetId
- * @param {Object} config.recipe
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
+ * @param {Object} config.recipe The [tileset recipe](https://docs.mapbox.com/help/troubleshooting/tileset-recipe-reference/) in JSON format.
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.updateRecipe()
- *   .send({
+ * tilesetsClient.updateRecipe({
  *     tilesetId: 'username.tileset_name',
- *     recipe:
+ *     recipe: {
+ *       version: 1,
+ *       layers: {
+ *         my_new_layer: {
+ *           source: "mapbox://tileset-source/{username}/{id}",
+ *           minzoom: 0,
+ *           maxzoom: 8
+ *         }
+ *       }
+ *     }
  *   })
+ *   .send()
  *   .then(response => {
- *     const recipe = response.body;
+ *     const updated = response.statusCode === 201;
  *   });
  */
 Tilesets.updateRecipe = function(config) {
@@ -456,7 +514,7 @@ Tilesets.updateRecipe = function(config) {
   return this.client.createRequest({
     method: 'PATCH',
     path: '/tilesets/v1/:tilesetId/recipe',
-    params: config,
+    params: pick(config, ['tilesetId']),
     body: config.recipe
   });
 };
