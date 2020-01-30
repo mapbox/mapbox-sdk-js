@@ -14,7 +14,18 @@ describe('getStyle', () => {
     expect(tu.requestConfig(styles)).toEqual({
       path: '/styles/v1/:ownerId/:styleId',
       method: 'GET',
-      params: { styleId: 'foo' }
+      params: { styleId: 'foo' },
+      query: {}
+    });
+  });
+
+  test('passes through metadata query param', () => {
+    styles.getStyle({ styleId: 'foo', metadata: true });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId',
+      method: 'GET',
+      params: { styleId: 'foo' },
+      query: { metadata: true }
     });
   });
 });

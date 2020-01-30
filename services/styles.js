@@ -21,6 +21,7 @@ var Styles = {};
  * @param {Object} config
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
+ * @param {boolean} [config.metadata] - If true, `mapbox:` specific metadata will be preserved
  * @return {MapiRequest}
  *
  * @example
@@ -35,13 +36,20 @@ var Styles = {};
 Styles.getStyle = function(config) {
   v.assertShape({
     styleId: v.required(v.string),
-    ownerId: v.string
+    ownerId: v.string,
+    metadata: v.boolean
   })(config);
+
+  var query = {};
+  if (config.metadata) {
+    query.metadata = config.metadata;
+  }
 
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId',
-    params: config
+    params: pick(config, ['styleId', 'ownerId']),
+    query: query
   });
 };
 
@@ -52,7 +60,6 @@ Styles.getStyle = function(config) {
  *
  * @param {Object} config
  * @param {Object} config.style - Stylesheet JSON object.
- * @param {boolean} [config.metadata] - If true, stylesheet is created with the metadata object preserved
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  *
@@ -75,14 +82,13 @@ Styles.getStyle = function(config) {
 Styles.createStyle = function(config) {
   v.assertShape({
     style: v.plainObject,
-    ownerId: v.string,
-    metadata: v.boolean
+    ownerId: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'POST',
     path: '/styles/v1/:ownerId',
-    params: pick(config, ['ownerId', 'metadata']),
+    params: pick(config, ['ownerId']),
     body: config.style
   });
 };
