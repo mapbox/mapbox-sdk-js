@@ -308,7 +308,9 @@ stylesClient.getStyleSprite({
   .then(response => {
     const sprite = response.body;
   });
+```
 
+```javascript
 stylesClient.getStyleSprite({
   format: 'png',
   styleId: 'foo',
