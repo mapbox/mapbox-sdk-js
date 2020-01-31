@@ -21,6 +21,7 @@ var Styles = {};
  * @param {Object} config
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
+ * @param {boolean} [config.metadata] - If true, `mapbox:` specific metadata will be preserved
  * @return {MapiRequest}
  *
  * @example
@@ -35,13 +36,20 @@ var Styles = {};
 Styles.getStyle = function(config) {
   v.assertShape({
     styleId: v.required(v.string),
-    ownerId: v.string
+    ownerId: v.string,
+    metadata: v.boolean
   })(config);
+
+  var query = {};
+  if (config.metadata) {
+    query.metadata = config.metadata;
+  }
 
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId',
-    params: config
+    params: pick(config, ['styleId', 'ownerId']),
+    query: query
   });
 };
 
