@@ -300,7 +300,7 @@ Styles.deleteStyleIcon = function(config) {
  * @param {boolean} [config.highRes] - If true, returns spritesheet with 2x
  *   resolution.
  * @param {string} [config.ownerId]
- * @param {boolean} [config.draft=false] If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite.
+ * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite.
  * @return {MapiRequest}
  *
  * @example
@@ -394,7 +394,7 @@ Styles.getFontGlyphRange = function(config) {
  * @param {boolean} [config.title=false] - If `true`, the map's title and owner is displayed
  *   in the upper right corner of the map.
  * @param {string} [config.ownerId]
- * @param {boolean} [config.draft=false] If `true` will retrieve the draft style, otherwise will retrieve the published style.
+ * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style, otherwise will retrieve the published style.
  */
 Styles.getEmbeddableHtml = function(config) {
   v.assertShape({
