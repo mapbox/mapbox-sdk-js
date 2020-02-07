@@ -237,11 +237,10 @@ describe('getStyleSprite', () => {
       draft: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/draft/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/draft/sprite.json',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite.json'
+        styleId: 'foo'
       }
     });
   });
