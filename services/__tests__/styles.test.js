@@ -34,7 +34,8 @@ describe('getStyle', () => {
     expect(tu.requestConfig(styles)).toEqual({
       path: '/styles/v1/:ownerId/:styleId/draft',
       method: 'GET',
-      params: { styleId: 'foo' }
+      params: { styleId: 'foo' },
+      query: {}
     });
   });
 });
