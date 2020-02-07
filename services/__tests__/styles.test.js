@@ -177,11 +177,10 @@ describe('getStyleSprite', () => {
       styleId: 'foo'
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/sprite.json',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite.json'
+        styleId: 'foo'
       }
     });
   });
@@ -193,11 +192,10 @@ describe('getStyleSprite', () => {
       highRes: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/sprite@2x.json',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite@2x.json'
+        styleId: 'foo'
       }
     });
   });
@@ -208,11 +206,10 @@ describe('getStyleSprite', () => {
       styleId: 'foo'
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/sprite.png',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite.png'
+        styleId: 'foo'
       },
       encoding: 'binary'
     });
@@ -225,11 +222,10 @@ describe('getStyleSprite', () => {
       highRes: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/sprite@2x.png',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite@2x.png'
+        styleId: 'foo'
       },
       encoding: 'binary'
     });
@@ -241,11 +237,10 @@ describe('getStyleSprite', () => {
       draft: true
     });
     expect(tu.requestConfig(styles)).toEqual({
-      path: '/styles/v1/:ownerId/:styleId/draft/:fileName',
+      path: '/styles/v1/:ownerId/:styleId/draft/sprite.json',
       method: 'GET',
       params: {
-        styleId: 'foo',
-        fileName: 'sprite.json'
+        styleId: 'foo'
       }
     });
   });
