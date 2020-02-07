@@ -91,6 +91,7 @@ See the [corresponding HTTP service documentation][154].
   - `config.styleId` **[string][156]** 
   - `config.ownerId` **[string][156]?** 
   - `config.metadata` **[boolean][157]?** If true, `mapbox:` specific metadata will be preserved
+  - `config.draft` **[boolean][157]** If `true` will retrieve the draft style, otherwise will retrieve the published style. (optional, default `false`)
 
 #### Examples
 
@@ -262,6 +263,7 @@ Remove an icon from a style.
   - `config.styleId` **[string][156]** 
   - `config.iconId` **[string][156]** 
   - `config.ownerId` **[string][156]?** 
+  - `config.draft` **[boolean][157]** If `true` will remove the icon from the draft style, otherwise will remove the icon from the published style. (optional, default `false`)
 
 #### Examples
 
@@ -292,6 +294,7 @@ See [the corresponding HTTP service documentation][163].
   - `config.highRes` **[boolean][157]?** If true, returns spritesheet with 2x
       resolution.
   - `config.ownerId` **[string][156]?** 
+  - `config.draft` **[boolean][157]** If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite. (optional, default `false`)
 
 #### Examples
 
@@ -349,12 +352,13 @@ See [the corresponding HTTP service documentation][166].
 #### Parameters
 
 - `config` **[Object][155]** 
-- `styleId` **[string][156]** 
-- `scrollZoom` **[boolean][157]** If `false`, zooming the map by scrolling will
-    be disabled. (optional, default `true`)
-- `title` **[boolean][157]** If `true`, the map's title and owner is displayed
-    in the upper right corner of the map. (optional, default `false`)
-- `ownerId` **ownerId?** 
+  - `config.styleId` **[string][156]** 
+  - `config.scrollZoom` **[boolean][157]** If `false`, zooming the map by scrolling will
+      be disabled. (optional, default `true`)
+  - `config.title` **[boolean][157]** If `true`, the map's title and owner is displayed
+      in the upper right corner of the map. (optional, default `false`)
+  - `config.ownerId` **[string][156]?** 
+  - `config.draft` **[boolean][157]** If `true` will retrieve the draft style, otherwise will retrieve the published style. (optional, default `false`)
 
 ## Static
 
