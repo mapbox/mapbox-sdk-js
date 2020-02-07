@@ -310,6 +310,19 @@ stylesClient.getStyleSprite({
   });
 ```
 
+```javascript
+stylesClient.getStyleSprite({
+  format: 'png',
+  styleId: 'foo',
+  highRes: true
+})
+  .send()
+  .then(response => {
+    const sprite = response.body;
+    fs.writeFileSync('sprite.png', sprite, 'binary');
+  });
+```
+
 Returns **MapiRequest** 
 
 ### getFontGlyphRange

@@ -62,6 +62,7 @@ The `emitter` property is an `EventEmitter` that emits the following events:
 - `file` **([Blob][25] \| [ArrayBuffer][26] \| [string][23] | ReadStream)** A file to
     send with the request. The browser client accepts Blobs and ArrayBuffers;
     the Node client accepts strings (filepaths) and ReadStreams.
+- `encoding` **[string][23]** The encoding of the response.
 
 ### url
 
