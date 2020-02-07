@@ -258,7 +258,7 @@ Styles.putStyleIcon = function(config) {
  * @param {string} config.styleId
  * @param {string} config.iconId
  * @param {string} [config.ownerId]
- * @param {boolean} [config.draft=false] If `true` will remove the icon from the draft style, otherwise will remove the icon from the published style.
+ * @param {boolean} [config.draft=false] - If `true` will remove the icon from the draft style, otherwise will remove the icon from the published style.
  * @return {MapiRequest}
  *
  * @example
