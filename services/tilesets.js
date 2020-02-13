@@ -458,7 +458,7 @@ Tilesets.validateRecipe = function(config) {
  * @return {MapiRequest}
  *
  * @example
- * tilesetsClient.validateRecipe({
+ * tilesetsClient.getRecipe({
  *     tilesetId: 'username.tileset_name'
  *   })
  *   .send()
