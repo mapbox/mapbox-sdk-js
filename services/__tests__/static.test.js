@@ -61,6 +61,50 @@ describe('getStaticImage', () => {
     });
   });
 
+  test('pitch, no bearing', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3,
+        bearing: 0,
+        pitch: 30
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/12,13,3,0,30/200x300',
+      query: {},
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('bearing, no pitch', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: {
+        coordinates: [12, 13],
+        zoom: 3,
+        bearing: 10,
+        pitch: 0
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/12,13,3,10/200x300',
+      query: {},
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
   test('auto position', () => {
     service.getStaticImage({
       ownerId: 'mapbox',

@@ -271,8 +271,14 @@ function encodePosition(position) {
   if (position === 'auto') return 'auto';
 
   return position.coordinates
-    .concat([position.zoom, position.bearing, position.pitch])
-    .filter(Boolean)
+    .concat([
+      position.zoom,
+      position.pitch && !position.bearing ? 0 : position.bearing, // if pitch is set, bearing must be 0
+      position.pitch === 0 ? undefined : position.pitch
+    ])
+    .filter(function(el) {
+      return el === 0 || el; // filter out undefined and allow 0 values
+    })
     .join(',');
 }
 
