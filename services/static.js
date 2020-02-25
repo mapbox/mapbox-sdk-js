@@ -273,7 +273,7 @@ function encodePosition(position) {
   return position.coordinates
     .concat([
       position.zoom,
-      position.pitch && !position.bearing ? 0 : position.bearing, // if pitch is set, bearing must be 0
+      position.pitch && !position.bearing ? 0 : position.bearing, // if pitch is set, but bearing is not, bearing must be 0
       position.pitch === 0 ? undefined : position.pitch
     ])
     .filter(function(el) {
