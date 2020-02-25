@@ -1,5 +1,9 @@
 # Changelog
 
+## Master
+
+- **Fix:** set `position.bearing` to `0` if `position.pitch` is defined and `position.bearing` is not in the Static API.
+
 ## 0.9.0
 
 - **Add:** add Isochrone API service.
