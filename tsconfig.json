@@ -1,7 +1,8 @@
 {
   "include": [
     "./index.js",
-    "./lib/**.js"
+    "./lib/**.js",
+    "lib/browser/browser-client.js"
   ],
   "exclude": ["./*.d.ts"],
   "compilerOptions": {
