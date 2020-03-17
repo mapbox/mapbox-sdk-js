@@ -14,7 +14,6 @@
   - [hasNextPage](#hasnextpage)
   - [nextPage](#nextpage)
 - [MapiError](#mapierror)
-  - [Parameters](#parameters-2)
   - [Properties](#properties-2)
 - [MapiClient](#mapiclient)
   - [Properties](#properties-3)
@@ -37,34 +36,34 @@ The `emitter` property is an `EventEmitter` that emits the following events:
 ### Properties
 
 - `emitter` **EventEmitter** An event emitter. See above.
-- `client` **[MapiClient][19]** This request's `MapiClient`.
-- `response` **([MapiResponse][20] | null)** If this request has been sent and received
+- `client` **[MapiClient][18]** This request's `MapiClient`.
+- `response` **([MapiResponse][19] | null)** If this request has been sent and received
     a response, the response is available on this property.
-- `error` **([MapiError][21] \| [Error][22] | null)** If this request has been sent and
+- `error` **([MapiError][20] \| [Error][21] | null)** If this request has been sent and
     received an error in response, the error is available on this property.
-- `aborted` **[boolean][23]** If the request has been aborted
+- `aborted` **[boolean][22]** If the request has been aborted
     (via [`abort`][6]), this property will be `true`.
-- `sent` **[boolean][23]** If the request has been sent, this property will
+- `sent` **[boolean][22]** If the request has been sent, this property will
     be `true`. You cannot send the same request twice, so if you need to create
     a new request that is the equivalent of an existing one, use
     [`clone`][9].
-- `path` **[string][24]** The request's path, including colon-prefixed route
+- `path` **[string][23]** The request's path, including colon-prefixed route
     parameters.
-- `origin` **[string][24]** The request's origin.
-- `method` **[string][24]** The request's HTTP method.
-- `query` **[Object][25]** A query object, which will be transformed into
+- `origin` **[string][23]** The request's origin.
+- `method` **[string][23]** The request's HTTP method.
+- `query` **[Object][24]** A query object, which will be transformed into
     a URL query string.
-- `params` **[Object][25]** A route parameters object, whose values will
+- `params` **[Object][24]** A route parameters object, whose values will
     be interpolated the path.
-- `headers` **[Object][25]** The request's headers.
-- `body` **([Object][25] \| [string][24] | null)** Data to send with the request.
+- `headers` **[Object][24]** The request's headers.
+- `body` **([Object][24] \| [string][23] | null)** Data to send with the request.
     If the request has a body, it will also be sent with the header
     `'Content-Type: application/json'`.
-- `file` **([Blob][26] \| [ArrayBuffer][27] \| [string][24] | ReadStream)** A file to
+- `file` **([Blob][25] \| [ArrayBuffer][26] \| [string][23] | ReadStream)** A file to
     send with the request. The browser client accepts Blobs and ArrayBuffers;
     the Node client accepts strings (filepaths) and ReadStreams.
-- `encoding` **[string][24]** The encoding of the response.
-- `sendFileAs` **[string][24]** The method to send the `file`. Options are
+- `encoding` **[string][23]** The encoding of the response.
+- `sendFileAs` **[string][23]** The method to send the `file`. Options are
     `data` (x-www-form-urlencoded) or `form` (multipart/form-data).
 - `_nextPageRequest` **any** 
 
@@ -74,10 +73,10 @@ Get the URL of the request.
 
 #### Parameters
 
-- `accessToken` **[string][24]?** By default, the access token of the request's
+- `accessToken` **[string][23]?** By default, the access token of the request's
     client is used.
 
-Returns **[string][24]** 
+Returns **[string][23]** 
 
 ### send
 
@@ -89,7 +88,7 @@ the next page by using the `MapiResponse`'s [`nextPage`][13]
 function, or iterate through all pages using [`eachPage`][7]
 instead of `send`.
 
-Returns **[Promise][28]&lt;[MapiResponse][20]>** 
+Returns **[Promise][27]&lt;[MapiResponse][19]>** 
 
 ### abort
 
@@ -124,7 +123,7 @@ The callback should have the following signature:
 
 #### Parameters
 
-- `callback` **[Function][29]** 
+- `callback` **[Function][28]** 
 
 ### clone
 
@@ -133,7 +132,7 @@ Clone this request.
 Each request can only be sent *once*. So if you'd like to send the
 same request again, clone it and send away.
 
-Returns **[MapiRequest][30]** A new `MapiRequest` configured just like this one.
+Returns **[MapiRequest][29]** A new `MapiRequest` configured just like this one.
 
 ## MapiResponse
 
@@ -141,25 +140,25 @@ A Mapbox API response.
 
 ### Properties
 
-- `body` **[Object][25]** The response body, parsed as JSON.
-- `rawBody` **[string][24]** The raw response body.
-- `statusCode` **[number][31]** The response's status code.
-- `headers` **[Object][25]** The parsed response headers.
-- `links` **[Object][25]** The parsed response links.
-- `request` **[MapiRequest][30]** The response's originating `MapiRequest`.
+- `body` **[Object][24]** The response body, parsed as JSON.
+- `rawBody` **[string][23]** The raw response body.
+- `statusCode` **[number][30]** The response's status code.
+- `headers` **[Object][24]** The parsed response headers.
+- `links` **[Object][24]** The parsed response links.
+- `request` **[MapiRequest][29]** The response's originating `MapiRequest`.
 
 ### hasNextPage
 
 Check if there is a next page that you can fetch.
 
-Returns **[boolean][23]** 
+Returns **[boolean][22]** 
 
 ### nextPage
 
 Create a request for the next page, if there is one.
 If there is no next page, returns `null`.
 
-Returns **([MapiRequest][30] | null)** 
+Returns **([MapiRequest][29] | null)** 
 
 ## MapiError
 
@@ -169,27 +168,18 @@ If there's an error during the API transaction,
 the Promise returned by `MapiRequest`'s [`send`][5]
 method should reject with a `MapiError`.
 
-### Parameters
-
-- `options` **[object][25]** 
-  - `options.request` **[MapiRequest][30]** 
-  - `options.statusCode` **[number][31]?** 
-  - `options.body` **[string][24]?** 
-  - `options.message` **[string][24]?** 
-  - `options.type` **[string][24]?** 
-
 ### Properties
 
-- `request` **[MapiRequest][30]** The errored request.
-- `type` **[string][24]** The type of error. Usually this is `'HttpError'`.
+- `request` **[MapiRequest][29]** The errored request.
+- `type` **[string][23]** The type of error. Usually this is `'HttpError'`.
     If the request was aborted, so the error was
     not sent from the server, the type will be
     `'RequestAbortedError'`.
-- `statusCode` **[number][31]?** The numeric status code of
+- `statusCode` **[number][30]?** The numeric status code of
     the HTTP response.
-- `body` **([Object][25] \| [string][24])?** If the server sent a response body,
+- `body` **([Object][24] \| [string][23])?** If the server sent a response body,
     this property exposes that response, parsed as JSON if possible.
-- `message` **[string][24]?** Whatever message could be derived from the
+- `message` **[string][23]?** Whatever message could be derived from the
     call site and HTTP response.
 
 ## MapiClient
@@ -204,10 +194,10 @@ that is appropriate to the configuration and environment
 
 ### Properties
 
-- `accessToken` **[string][24]** The Mapbox access token assigned
+- `accessToken` **[string][23]** The Mapbox access token assigned
     to this client.
-- `origin` **[string][24]?** The origin
-    to use for API requests. Defaults to [https://api.mapbox.com][32].
+- `origin` **[string][23]?** The origin
+    to use for API requests. Defaults to [https://api.mapbox.com][31].
 
 [1]: #mapirequest
 
@@ -237,38 +227,36 @@ that is appropriate to the configuration and environment
 
 [14]: #mapierror
 
-[15]: #parameters-2
+[15]: #properties-2
 
-[16]: #properties-2
+[16]: #mapiclient
 
-[17]: #mapiclient
+[17]: #properties-3
 
-[18]: #properties-3
+[18]: #mapiclient
 
-[19]: #mapiclient
+[19]: #mapiresponse
 
-[20]: #mapiresponse
+[20]: #mapierror
 
-[21]: #mapierror
+[21]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error
 
-[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error
+[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[25]: https://developer.mozilla.org/docs/Web/API/Blob
 
-[26]: https://developer.mozilla.org/docs/Web/API/Blob
+[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 
-[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
-[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[29]: #mapirequest
 
-[30]: #mapirequest
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-
-[32]: https://api.mapbox.com
+[31]: https://api.mapbox.com
