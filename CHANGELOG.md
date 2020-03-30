@@ -10,6 +10,7 @@
 - **Fix:** Fix responses containing binary data when using `Static#getStaticImage`, `Styles#getStyleSprite` and `Styles#getFontGlyphRange`.
 - **Fix:** Fix requests for highres sprites in `Styles#getStyleSprite`.
 - **Fix:** set `position.bearing` to `0` if `position.pitch` is defined and `position.bearing` is not in the Static API.
+- **Fix:** use `tilesets.getRecipe` in tilesets API example.
 
 ## 0.9.0
 
