@@ -1375,7 +1375,7 @@ Retrieve a recipe
 #### Examples
 
 ```javascript
-tilesetsClient.validateRecipe({
+tilesetsClient.getRecipe({
     tilesetId: 'username.tileset_name'
   })
   .send()
