@@ -45,7 +45,7 @@ var featureTypes = [
  * @param {Array<string>} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
- * @param {boolean} [config.routing] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
+ * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
  * @return {MapiRequest}
  *
  * @example
