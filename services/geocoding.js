@@ -145,7 +145,7 @@ Geocoding.forwardGeocode = function(config) {
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @param {'distance'|'score'} [config.reverseMode='distance'] - Set the factors that are used to sort nearby results.
- * @param {boolean} [config.routing] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
+ * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
  * @return {MapiRequest}
  *
  * @example
