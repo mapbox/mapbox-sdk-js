@@ -45,6 +45,7 @@ var featureTypes = [
  * @param {Array<string>} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
+ * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
  * @return {MapiRequest}
  *
  * @example
@@ -98,7 +99,8 @@ Geocoding.forwardGeocode = function(config) {
     autocomplete: v.boolean,
     bbox: v.arrayOf(v.number),
     limit: v.number,
-    language: v.arrayOf(v.string)
+    language: v.arrayOf(v.string),
+    routing: v.boolean
   })(config);
 
   config.mode = config.mode || 'mapbox.places';
@@ -112,7 +114,8 @@ Geocoding.forwardGeocode = function(config) {
         'autocomplete',
         'bbox',
         'limit',
-        'language'
+        'language',
+        'routing'
       ])
     )
   );
@@ -142,6 +145,7 @@ Geocoding.forwardGeocode = function(config) {
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @param {'distance'|'score'} [config.reverseMode='distance'] - Set the factors that are used to sort nearby results.
+ * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
  * @return {MapiRequest}
  *
  * @example
@@ -163,7 +167,8 @@ Geocoding.reverseGeocode = function(config) {
     bbox: v.arrayOf(v.number),
     limit: v.number,
     language: v.arrayOf(v.string),
-    reverseMode: v.oneOf('distance', 'score')
+    reverseMode: v.oneOf('distance', 'score'),
+    routing: v.boolean
   })(config);
 
   config.mode = config.mode || 'mapbox.places';
@@ -177,7 +182,8 @@ Geocoding.reverseGeocode = function(config) {
         'bbox',
         'limit',
         'language',
-        'reverseMode'
+        'reverseMode',
+        'routing'
       ])
     )
   );
