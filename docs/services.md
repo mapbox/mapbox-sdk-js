@@ -1448,7 +1448,7 @@ See the [public documentation][230].
   - `config.language` **[Array][206]&lt;[string][197]>?** Specify the language to use for response text and, for forward geocoding, query result weighting.
      Options are [IETF language tags][233] comprised of a mandatory
      [ISO 639-1 language code][234] and optionally one or more IETF subtags for country or script.
-  - `config.routing` **[boolean][198]?** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
+  - `config.routing` **[boolean][198]** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features. (optional, default `false`)
 
 #### Examples
 
@@ -1517,7 +1517,7 @@ See the [public documentation][235].
      Options are [IETF language tags][233] comprised of a mandatory
      [ISO 639-1 language code][234] and optionally one or more IETF subtags for country or script.
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
-  - `config.routing` **[boolean][198]?** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
+  - `config.routing` **[boolean][198]** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features. (optional, default `false`)
 
 #### Examples
 
