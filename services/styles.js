@@ -21,7 +21,7 @@ var Styles = {};
  * @param {Object} config
  * @param {string} config.styleId
  * @param {string} [config.ownerId]
- * @param {boolean} [config.metadata] - If true, `mapbox:` specific metadata will be preserved
+ * @param {boolean} [config.metadata=false] - If true, `mapbox:` specific metadata will be preserved
  * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style, otherwise will retrieve the published style.
  * @return {MapiRequest}
  *
@@ -342,7 +342,10 @@ Styles.getStyleSprite = function(config) {
     xtend(
       {
         method: 'GET',
-        path: '/styles/v1/:ownerId/:styleId' + (config.draft ? '/draft' : '') + fileName,
+        path:
+          '/styles/v1/:ownerId/:styleId' +
+          (config.draft ? '/draft' : '') +
+          fileName,
         params: pick(config, ['ownerId', 'styleId'])
       },
       format === 'png' ? { encoding: 'binary' } : {}
