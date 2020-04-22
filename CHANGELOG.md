@@ -1,5 +1,9 @@
 # Changelog
 
+## Master
+
+- **Fix:** Ensure that appendQueryObject correctly handles arrays containing falsy values (e.g. for proximity coordinates where lat or lng is 0).
+
 ## 0.10.0
 
 - **Add:** add new parameters to `Tilesets#listTilesets`: `type`, `limit`, `sortBy`, `start` and `visibility`.
