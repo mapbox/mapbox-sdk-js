@@ -23,6 +23,7 @@ var Styles = {};
  * @param {string} [config.ownerId]
  * @param {boolean} [config.metadata] - If true, `mapbox:` specific metadata will be preserved
  * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style, otherwise will retrieve the published style.
+ * @param {boolean} [config.fresh=false] - If `true` will bypass the style cache, with a lower rate limit than cached requests.
  * @return {MapiRequest}
  *
  * @example
@@ -39,12 +40,16 @@ Styles.getStyle = function(config) {
     styleId: v.required(v.string),
     ownerId: v.string,
     metadata: v.boolean,
-    draft: v.boolean
+    draft: v.boolean,
+    fresh: v.boolean
   })(config);
 
   var query = {};
   if (config.metadata) {
     query.metadata = config.metadata;
+  }
+  if (config.fresh) {
+    query.fresh = 'true';
   }
 
   return this.client.createRequest({
