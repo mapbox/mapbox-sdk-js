@@ -305,6 +305,53 @@ Tilesets.publishTileset = function(config) {
 };
 
 /**
+ * Update a tileset
+ *
+ * @param {Object} config
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
+ * @param {string} [config.name]
+ * @param {string} [config.description]
+ * @param {boolean} [config.private]
+ * @param {Array} [config.attribution]
+ * @param {string} [config.attribution[].text]
+ * @param {string} [config.attribution[].link]
+ * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.updateTileset({
+ *     tilesetId: 'username.tileset_name',
+ *     name: 'Tileset Name',
+ *     private: true,
+ *     attribution: [
+ *      {
+ *        text: 'Source Name',
+ *        link: 'https://example.com'
+ *      }
+ *     ]
+ *   })
+ *   .send()
+ *   .then(response => {
+ *     const updated = response.statusCode === 204;
+ *   });
+ */
+Tilesets.updateTileset = function(config) {
+  v.assertShape({
+    tilesetId: v.required(v.string),
+    name: v.string,
+    description: v.string,
+    boolean: v.boolean,
+    attribution: v.array
+  })(config);
+
+  return this.client.createRequest({
+    method: 'PATCH',
+    path: '/tilesets/v1/:tilesetId',
+    params: pick(config, ['tilesetId']),
+    body: pick(config, ['name', 'description', 'private', 'attribution'])
+  });
+};
+
+/**
  * Retrieve the status of a tileset
  *
  * @param {Object} config

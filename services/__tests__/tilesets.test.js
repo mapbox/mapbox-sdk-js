@@ -235,6 +235,54 @@ describe('publishTileset', () => {
   });
 });
 
+describe('updateTileset', () => {
+  test('works', () => {
+    tilesets.updateTileset({
+      tilesetId: 'tileset_id'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId',
+      method: 'PATCH',
+      params: {
+        tilesetId: 'tileset_id'
+      }
+    });
+  });
+
+  test('works with properties', () => {
+    tilesets.updateTileset({
+      tilesetId: 'tileset_id',
+      name: 'foo',
+      description: 'bar',
+      private: true,
+      attribution: [
+        {
+          text: 'Text',
+          link: 'http://example.com'
+        }
+      ]
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId',
+      method: 'PATCH',
+      params: {
+        tilesetId: 'tileset_id'
+      },
+      body: {
+        name: 'foo',
+        description: 'bar',
+        private: true,
+        attribution: [
+          {
+            text: 'Text',
+            link: 'http://example.com'
+          }
+        ]
+      }
+    });
+  });
+});
+
 describe('tilesetStatus', () => {
   test('works', () => {
     tilesets.tilesetStatus({
