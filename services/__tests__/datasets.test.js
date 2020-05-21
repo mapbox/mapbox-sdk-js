@@ -16,6 +16,19 @@ describe('listDatasets', () => {
       method: 'GET'
     });
   });
+
+  test('with properties', () => {
+    datasets.listDatasets({
+      sortby: 'created'
+    });
+    expect(tu.requestConfig(datasets)).toEqual({
+      path: '/datasets/v1/:ownerId',
+      method: 'GET',
+      query: {
+        sortby: 'created'
+      }
+    });
+  });
 });
 
 describe('createDataset', () => {
