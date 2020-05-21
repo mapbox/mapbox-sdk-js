@@ -339,7 +339,7 @@ Tilesets.updateTileset = function(config) {
     tilesetId: v.required(v.string),
     name: v.string,
     description: v.string,
-    boolean: v.boolean,
+    private: v.boolean,
     attribution: v.array
   })(config);
 
