@@ -1,7 +1,12 @@
 # Changelog
 
-## Master
+## 0.11.0
 
+- **Add:** add `fresh` parameter to `Style#getStyle` to bypass the cached version of the style.
+- **Add:** add `routing` parameter to `Geocoding#forwardGeocode` and `Geocoding#reverseGeocoding`.
+- **Add:** add `driving-traffic` profile to `Optimization#getOptimization`.
+- **Add:** add `sortby` parameter to `Datasets#listDatasets`.
+- **Add:** add `Tilesets#updateTileset`.
 - **Fix:** Ensure that appendQueryObject correctly handles arrays containing falsy values (e.g. for proximity coordinates where lat or lng is 0).
 
 ## 0.10.0
