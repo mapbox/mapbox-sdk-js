@@ -340,14 +340,21 @@ Tilesets.updateTileset = function(config) {
     name: v.string,
     description: v.string,
     private: v.boolean,
-    attribution: v.array
+    attribution: v.arrayOf(
+      v.objectOf({
+        text: v.required(v.string),
+        link: v.required(v.string)
+      })
+    )
   })(config);
 
   return this.client.createRequest({
     method: 'PATCH',
     path: '/tilesets/v1/:tilesetId',
     params: pick(config, ['tilesetId']),
-    body: pick(config, ['name', 'description', 'private', 'attribution'])
+    body: config
+      ? pick(config, ['name', 'description', 'private', 'attribution'])
+      : {}
   });
 };
 

@@ -245,7 +245,8 @@ describe('updateTileset', () => {
       method: 'PATCH',
       params: {
         tilesetId: 'tileset_id'
-      }
+      },
+      body: {}
     });
   });
 
