@@ -737,7 +737,7 @@ See the [corresponding HTTP service documentation][217].
 
 #### Parameters
 
-- `config` **[Object][197]** 
+- `config` **[Object][197]?** 
   - `config.sortby` **[string][198]** Sort by either `modified` or `created` (default) dates. (optional, default `created`)
 
 #### Examples

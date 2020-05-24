@@ -13,7 +13,8 @@ describe('listDatasets', () => {
     datasets.listDatasets();
     expect(tu.requestConfig(datasets)).toEqual({
       path: '/datasets/v1/:ownerId',
-      method: 'GET'
+      method: 'GET',
+      query: {}
     });
   });
 

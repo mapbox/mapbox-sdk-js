@@ -17,7 +17,7 @@ var Datasets = {};
  *
  * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#list-datasets).
  *
- * @param {Object} config
+ * @param {Object} [config]
  * @param {string} [config.sortby=created] - Sort by either `modified` or `created` (default) dates.
  * @return {MapiRequest}
  *
@@ -35,6 +35,8 @@ var Datasets = {};
  *   });
  */
 Datasets.listDatasets = function(config) {
+  config = config || {};
+
   v.assertShape({
     sortby: v.oneOf('created', 'modified')
   })(config);
