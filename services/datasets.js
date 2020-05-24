@@ -35,8 +35,6 @@ var Datasets = {};
  *   });
  */
 Datasets.listDatasets = function(config) {
-  config = config || {};
-
   v.assertShape({
     sortby: v.oneOf('created', 'modified')
   })(config);
@@ -44,7 +42,7 @@ Datasets.listDatasets = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/datasets/v1/:ownerId',
-    query: pick(config, ['sortby'])
+    query: config ? pick(config, ['sortby']) : {}
   });
 };
 
