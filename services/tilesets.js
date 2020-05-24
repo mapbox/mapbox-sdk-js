@@ -341,7 +341,7 @@ Tilesets.updateTileset = function(config) {
     description: v.string,
     private: v.boolean,
     attribution: v.arrayOf(
-      v.objectOf({
+      v.strictShape({
         text: v.required(v.string),
         link: v.required(v.string)
       })
