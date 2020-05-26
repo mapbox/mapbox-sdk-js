@@ -635,11 +635,9 @@ See the [corresponding HTTP service documentation][212].
 - `config` **[Object][196]** 
   - `config.tileset` **[string][197]** The tileset ID to create or replace, in the format `username.nameoftileset`.
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
-  - `config.url` **[string][197]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
-    - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
-      This should be in the format `mapbox://datasets/{username}/{datasetId}`.
-  - `config.name` **[string][197]** Optional. The name of the tileset. Limited to 64 characters.
-  - `config.private` **[boolean][198]** Optional. A boolean that describes whether the tileset must be used with an access token from your Mapbox account. Default is true.
+  - `config.url` **[string][197]** HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
+  - `config.name` **[string][197]?** The name of the tileset. Limited to 64 characters.
+  - `config.private` **[boolean][198]** A boolean that describes whether the tileset must be used with an access token from your Mapbox account. Default is true. (optional, default `true`)
 
 #### Examples
 

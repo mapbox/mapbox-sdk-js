@@ -2,6 +2,7 @@
 
 var v = require('./service-helpers/validator');
 var createServiceFactory = require('./service-helpers/create-service-factory');
+var pick = require('./service-helpers/pick');
 
 /**
  * Uploads API service.
@@ -83,13 +84,11 @@ Uploads.createUploadCredentials = function() {
  * See the [corresponding HTTP service documentation](https://docs.mapbox.com/api/maps/#create-an-upload).
  *
  * @param {Object} config
- * @param {string} config.mapId - The map ID to create or replace in the format `username.nameoftileset`.
+ * @param {string} config.tileset - The tileset ID to create or replace, in the format `username.nameoftileset`.
  *   Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
- * @param {string} config.url - Either of the following:
- *   - HTTPS URL of the S3 object provided by [`createUploadCredentials`](#createuploadcredentials)
- *   - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
- *     This should be in the format `mapbox://datasets/{username}/{datasetId}`.
- * @param {string} [config.tilesetName] - Name for the tileset. Limited to 64 characters.
+ * @param {string} config.url - HTTPS URL of the S3 object provided by [`createUploadCredentials`](#createuploadcredentials)
+ * @param {string} [config.name] - The name of the tileset. Limited to 64 characters.
+ * @param {boolean} [config.private=true] - A boolean that describes whether the tileset must be used with an access token from your Mapbox account. Default is true.
  * @return {MapiRequest}
  *
  * @example
@@ -103,8 +102,10 @@ Uploads.createUploadCredentials = function() {
  *   url: '{s3 url}'
  * };
  * uploadsClient.createUpload({
- *   mapId: `${myUsername}.${myTileset}`,
- *   url: credentials.url
+ *   titleset: `${myUsername}.${myTileset}`,
+ *   url: credentials.url,
+ *   name: 'my uploads name',
+ *   private: true
  * })
  *   .send()
  *   .then(response => {
@@ -113,19 +114,40 @@ Uploads.createUploadCredentials = function() {
  */
 Uploads.createUpload = function(config) {
   v.assertShape({
-    mapId: v.required(v.string),
     url: v.required(v.string),
+    tileset: v.string,
+    name: v.string,
+    private: v.boolean,
+    mapId: v.string,
     tilesetName: v.string
   })(config);
+
+  if (!config.tileset && !config.mapId) {
+    throw new Error('tileset or mapId must be defined');
+  }
+
+  if (!config.name && !config.tilesetName) {
+    throw new Error('name or tilesetName must be defined');
+  }
+
+  // Support old mapId option
+  if (config.mapId) {
+    config.tileset = config.mapId;
+  }
+
+  // Support old tilesetName option
+  if (config.tilesetName) {
+    config.name = config.tilesetName;
+  }
+
+  if (config.private !== false) {
+    config.private = true;
+  }
 
   return this.client.createRequest({
     method: 'POST',
     path: '/uploads/v1/:ownerId',
-    body: {
-      tileset: config.mapId,
-      url: config.url,
-      name: config.tilesetName
-    }
+    body: pick(config, ['tileset', 'url', 'name', 'private'])
   });
 };
 
