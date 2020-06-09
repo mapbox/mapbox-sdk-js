@@ -321,4 +321,31 @@ describe('getEmbeddableHtml', () => {
       query: { zoomwheel: 'false', title: 'true' }
     });
   });
+
+  test('with non-default fallback', () => {
+    styles.getEmbeddableHtml({
+      styleId: 'foo',
+      fallback: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/foo.html',
+      method: 'GET',
+      params: {},
+      query: { fallback: 'true' }
+    });
+  });
+
+  test('with non-default mapboxGL and geocoder versions', () => {
+    styles.getEmbeddableHtml({
+      styleId: 'foo',
+      mapboxGLVersion: '1.10.1',
+      mapboxGLGeocoderVersion: '1.0.0'
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/foo.html',
+      method: 'GET',
+      params: {},
+      query: { mapboxGLVersion: '1.10.1', mapboxGLGeocoderVersion: '1.0.0' }
+    });
+  });
 });
