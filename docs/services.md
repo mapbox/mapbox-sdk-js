@@ -1155,6 +1155,8 @@ List tileset sources
 
 - `config` **[Object][200]?** 
   - `config.ownerId` **[string][201]?** 
+  - `config.limit` **[number][205]** The maximum number of tilesets to return, from 1 to 500. (optional, default `100`)
+  - `config.start` **[string][201]?** The tileset after which to start the listing.
 
 #### Examples
 
@@ -1347,6 +1349,8 @@ List information about all jobs for a tileset
 - `config` **[Object][200]** 
   - `config.tilesetId` **[string][201]** ID of the tileset in the form `username.tileset_name`.
   - `config.stage` **(`"processing"` \| `"queued"` \| `"success"` \| `"failed"`)?** 
+  - `config.limit` **[number][205]** The maximum number of tilesets to return, from 1 to 500. (optional, default `100`)
+  - `config.start` **[string][201]?** The tileset after which to start the listing.
 
 #### Examples
 
@@ -1461,7 +1465,7 @@ tilesetsClient.updateRecipe({
   })
   .send()
   .then(response => {
-    const updated = response.statusCode === 201;
+    const updated = response.statusCode === 204;
   });
 ```
 

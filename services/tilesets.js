@@ -177,6 +177,8 @@ Tilesets.getTilesetSource = function(config) {
  *
  * @param {Object} [config]
  * @param {string} [config.ownerId]
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500.
+ * @param {string} [config.start] - The tileset after which to start the listing.
  * @return {MapiRequest}
  *
  * @example
@@ -188,13 +190,15 @@ Tilesets.getTilesetSource = function(config) {
  */
 Tilesets.listTilesetSources = function(config) {
   v.assertShape({
-    ownerId: v.string
+    ownerId: v.string,
+    limit: v.range([1, 500]),
+    start: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/sources/:ownerId',
-    params: config ? pick(config, ['ownerId']) : {}
+    params: config ? pick(config, ['ownerId', 'limit', 'start']) : {}
   });
 };
 
@@ -423,6 +427,8 @@ Tilesets.tilesetJob = function(config) {
  * @param {Object} config
  * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
  * @param {'processing'|'queued'|'success'|'failed'} [config.stage]
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500.
+ * @param {string} [config.start] - The tileset after which to start the listing.
  * @return {MapiRequest}
  *
  * @example
@@ -437,13 +443,15 @@ Tilesets.tilesetJob = function(config) {
 Tilesets.listTilesetJobs = function(config) {
   v.assertShape({
     tilesetId: v.required(v.string),
-    stage: v.oneOf('processing', 'queued', 'success', 'failed')
+    stage: v.oneOf('processing', 'queued', 'success', 'failed'),
+    limit: v.range([1, 500]),
+    start: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:tilesetId/jobs',
-    params: pick(config, ['tilesetId']),
+    params: pick(config, ['tilesetId', 'limit', 'start']),
     query: pick(config, ['stage'])
   });
 };
@@ -556,7 +564,7 @@ Tilesets.getRecipe = function(config) {
  *   })
  *   .send()
  *   .then(response => {
- *     const updated = response.statusCode === 201;
+ *     const updated = response.statusCode === 204;
  *   });
  */
 Tilesets.updateRecipe = function(config) {
