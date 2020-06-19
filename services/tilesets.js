@@ -198,7 +198,8 @@ Tilesets.listTilesetSources = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/sources/:ownerId',
-    params: config ? pick(config, ['ownerId', 'limit', 'start']) : {}
+    params: config ? pick(config, ['ownerId']) : {},
+    query: config ? pick(config, ['limit', 'start']) : {}
   });
 };
 
@@ -451,8 +452,8 @@ Tilesets.listTilesetJobs = function(config) {
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:tilesetId/jobs',
-    params: pick(config, ['tilesetId', 'limit', 'start']),
-    query: pick(config, ['stage'])
+    params: pick(config, ['tilesetId']),
+    query: pick(config, ['stage', 'limit', 'start'])
   });
 };
 
