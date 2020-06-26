@@ -128,7 +128,8 @@ describe('listTilesetSources', () => {
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/sources/:ownerId',
       method: 'GET',
-      params: {}
+      params: {},
+      query: {}
     });
   });
 
@@ -141,7 +142,21 @@ describe('listTilesetSources', () => {
       method: 'GET',
       params: {
         ownerId: 'specialguy'
-      }
+      },
+      query: {}
+    });
+  });
+
+  test('works with query params', () => {
+    tilesets.listTilesetSources({
+      ownerId: 'specialguy',
+      limit: 250
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId',
+      method: 'GET',
+      params: { ownerId: 'specialguy' },
+      query: { limit: 250 }
     });
   });
 });
@@ -344,6 +359,23 @@ describe('listTilesetJobs', () => {
       },
       query: {
         stage: 'success'
+      }
+    });
+  });
+
+  test('works with query params', () => {
+    tilesets.listTilesetJobs({
+      tilesetId: 'tileset_id',
+      limit: 250
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId/jobs',
+      method: 'GET',
+      params: {
+        tilesetId: 'tileset_id'
+      },
+      query: {
+        limit: 250
       }
     });
   });
