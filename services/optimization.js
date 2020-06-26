@@ -20,7 +20,7 @@ var Optimization = {};
  * to understand all of the available options.
  *
  * @param {Object} config
- * @param {'driving'|'walking'|'cycling'} [config.profile="driving"]
+ * @param {'driving'|'driving-traffic'|'walking'|'cycling'} [config.profile="driving"]
  * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'any'|'last'} [config.destination="any"] - Returned route ends at `any` or `last` coordinate.
@@ -36,7 +36,7 @@ var Optimization = {};
  */
 Optimization.getOptimization = function(config) {
   v.assertShape({
-    profile: v.oneOf('driving', 'walking', 'cycling'),
+    profile: v.oneOf('driving', 'driving-traffic', 'walking', 'cycling'),
     waypoints: v.required(
       v.arrayOf(
         v.shape({

@@ -1731,7 +1731,7 @@ to understand all of the available options.
 #### Parameters
 
 - `config` **[Object][197]** 
-  - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
+  - `config.profile` **(`"driving"` \| `"driving-traffic"` \| `"walking"` \| `"cycling"`)**  (optional, default `"driving"`)
   - `config.waypoints` **[Array][207]&lt;[OptimizationWaypoint][245]>** An ordered array of [`OptimizationWaypoint`][177] objects, between 2 and 12 (inclusive).
   - `config.annotations` **[Array][207]&lt;(`"duration"` \| `"distance"` \| `"speed"`)>?** Specify additional metadata that should be returned.
   - `config.destination` **(`"any"` \| `"last"`)** Returned route ends at `any` or `last` coordinate. (optional, default `"any"`)
