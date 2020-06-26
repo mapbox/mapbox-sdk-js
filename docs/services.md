@@ -104,7 +104,7 @@ See the [corresponding HTTP service documentation][195].
 - `config` **[Object][196]** 
   - `config.styleId` **[string][197]** 
   - `config.ownerId` **[string][197]?** 
-  - `config.metadata` **[boolean][198]?** If true, `mapbox:` specific metadata will be preserved
+  - `config.metadata` **[boolean][198]** If true, `mapbox:` specific metadata will be preserved (optional, default `false`)
   - `config.draft` **[boolean][198]** If `true` will retrieve the draft style, otherwise will retrieve the published style. (optional, default `false`)
 
 #### Examples
