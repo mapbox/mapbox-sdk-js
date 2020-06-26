@@ -177,6 +177,8 @@ Tilesets.getTilesetSource = function(config) {
  *
  * @param {Object} [config]
  * @param {string} [config.ownerId]
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500.
+ * @param {string} [config.start] - The tileset after which to start the listing.
  * @return {MapiRequest}
  *
  * @example
@@ -188,13 +190,16 @@ Tilesets.getTilesetSource = function(config) {
  */
 Tilesets.listTilesetSources = function(config) {
   v.assertShape({
-    ownerId: v.string
+    ownerId: v.string,
+    limit: v.range([1, 500]),
+    start: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/sources/:ownerId',
-    params: config ? pick(config, ['ownerId']) : {}
+    params: config ? pick(config, ['ownerId']) : {},
+    query: config ? pick(config, ['limit', 'start']) : {}
   });
 };
 
@@ -305,6 +310,60 @@ Tilesets.publishTileset = function(config) {
 };
 
 /**
+ * Update a tileset
+ *
+ * @param {Object} config
+ * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
+ * @param {string} [config.name]
+ * @param {string} [config.description]
+ * @param {boolean} [config.private]
+ * @param {Array} [config.attribution]
+ * @param {string} [config.attribution[].text]
+ * @param {string} [config.attribution[].link]
+ * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.updateTileset({
+ *     tilesetId: 'username.tileset_name',
+ *     name: 'Tileset Name',
+ *     private: true,
+ *     attribution: [
+ *      {
+ *        text: 'Source Name',
+ *        link: 'https://example.com'
+ *      }
+ *     ]
+ *   })
+ *   .send()
+ *   .then(response => {
+ *     const updated = response.statusCode === 204;
+ *   });
+ */
+Tilesets.updateTileset = function(config) {
+  v.assertShape({
+    tilesetId: v.required(v.string),
+    name: v.string,
+    description: v.string,
+    private: v.boolean,
+    attribution: v.arrayOf(
+      v.strictShape({
+        text: v.required(v.string),
+        link: v.required(v.string)
+      })
+    )
+  })(config);
+
+  return this.client.createRequest({
+    method: 'PATCH',
+    path: '/tilesets/v1/:tilesetId',
+    params: pick(config, ['tilesetId']),
+    body: config
+      ? pick(config, ['name', 'description', 'private', 'attribution'])
+      : {}
+  });
+};
+
+/**
  * Retrieve the status of a tileset
  *
  * @param {Object} config
@@ -369,6 +428,8 @@ Tilesets.tilesetJob = function(config) {
  * @param {Object} config
  * @param {string} config.tilesetId ID of the tileset in the form `username.tileset_name`.
  * @param {'processing'|'queued'|'success'|'failed'} [config.stage]
+ * @param {number} [config.limit=100] - The maximum number of tilesets to return, from 1 to 500.
+ * @param {string} [config.start] - The tileset after which to start the listing.
  * @return {MapiRequest}
  *
  * @example
@@ -383,14 +444,16 @@ Tilesets.tilesetJob = function(config) {
 Tilesets.listTilesetJobs = function(config) {
   v.assertShape({
     tilesetId: v.required(v.string),
-    stage: v.oneOf('processing', 'queued', 'success', 'failed')
+    stage: v.oneOf('processing', 'queued', 'success', 'failed'),
+    limit: v.range([1, 500]),
+    start: v.string
   })(config);
 
   return this.client.createRequest({
     method: 'GET',
     path: '/tilesets/v1/:tilesetId/jobs',
     params: pick(config, ['tilesetId']),
-    query: pick(config, ['stage'])
+    query: pick(config, ['stage', 'limit', 'start'])
   });
 };
 
@@ -502,7 +565,7 @@ Tilesets.getRecipe = function(config) {
  *   })
  *   .send()
  *   .then(response => {
- *     const updated = response.statusCode === 201;
+ *     const updated = response.statusCode === 204;
  *   });
  */
 Tilesets.updateRecipe = function(config) {

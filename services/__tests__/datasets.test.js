@@ -13,7 +13,21 @@ describe('listDatasets', () => {
     datasets.listDatasets();
     expect(tu.requestConfig(datasets)).toEqual({
       path: '/datasets/v1/:ownerId',
-      method: 'GET'
+      method: 'GET',
+      query: {}
+    });
+  });
+
+  test('with properties', () => {
+    datasets.listDatasets({
+      sortby: 'created'
+    });
+    expect(tu.requestConfig(datasets)).toEqual({
+      path: '/datasets/v1/:ownerId',
+      method: 'GET',
+      query: {
+        sortby: 'created'
+      }
     });
   });
 });

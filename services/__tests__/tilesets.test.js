@@ -128,7 +128,8 @@ describe('listTilesetSources', () => {
     expect(tu.requestConfig(tilesets)).toEqual({
       path: '/tilesets/v1/sources/:ownerId',
       method: 'GET',
-      params: {}
+      params: {},
+      query: {}
     });
   });
 
@@ -141,7 +142,21 @@ describe('listTilesetSources', () => {
       method: 'GET',
       params: {
         ownerId: 'specialguy'
-      }
+      },
+      query: {}
+    });
+  });
+
+  test('works with query params', () => {
+    tilesets.listTilesetSources({
+      ownerId: 'specialguy',
+      limit: 250
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId',
+      method: 'GET',
+      params: { ownerId: 'specialguy' },
+      query: { limit: 250 }
     });
   });
 });
@@ -235,6 +250,55 @@ describe('publishTileset', () => {
   });
 });
 
+describe('updateTileset', () => {
+  test('works', () => {
+    tilesets.updateTileset({
+      tilesetId: 'tileset_id'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId',
+      method: 'PATCH',
+      params: {
+        tilesetId: 'tileset_id'
+      },
+      body: {}
+    });
+  });
+
+  test('works with properties', () => {
+    tilesets.updateTileset({
+      tilesetId: 'tileset_id',
+      name: 'foo',
+      description: 'bar',
+      private: true,
+      attribution: [
+        {
+          text: 'Text',
+          link: 'http://example.com'
+        }
+      ]
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId',
+      method: 'PATCH',
+      params: {
+        tilesetId: 'tileset_id'
+      },
+      body: {
+        name: 'foo',
+        description: 'bar',
+        private: true,
+        attribution: [
+          {
+            text: 'Text',
+            link: 'http://example.com'
+          }
+        ]
+      }
+    });
+  });
+});
+
 describe('tilesetStatus', () => {
   test('works', () => {
     tilesets.tilesetStatus({
@@ -295,6 +359,23 @@ describe('listTilesetJobs', () => {
       },
       query: {
         stage: 'success'
+      }
+    });
+  });
+
+  test('works with query params', () => {
+    tilesets.listTilesetJobs({
+      tilesetId: 'tileset_id',
+      limit: 250
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/:tilesetId/jobs',
+      method: 'GET',
+      params: {
+        tilesetId: 'tileset_id'
+      },
+      query: {
+        limit: 250
       }
     });
   });
