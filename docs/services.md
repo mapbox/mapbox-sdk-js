@@ -101,20 +101,12 @@ See the [corresponding HTTP service documentation][196].
 
 #### Parameters
 
-<<<<<<< HEAD
-- `config` **[Object][196]** 
-  - `config.styleId` **[string][197]** 
-  - `config.ownerId` **[string][197]?** 
-  - `config.metadata` **[boolean][198]** If true, `mapbox:` specific metadata will be preserved (optional, default `false`)
-  - `config.draft` **[boolean][198]** If `true` will retrieve the draft style, otherwise will retrieve the published style. (optional, default `false`)
-=======
 - `config` **[Object][197]** 
   - `config.styleId` **[string][198]** 
   - `config.ownerId` **[string][198]?** 
-  - `config.metadata` **[boolean][199]?** If true, `mapbox:` specific metadata will be preserved
+  - `config.metadata` **[boolean][199]** If true, `mapbox:` specific metadata will be preserved (optional, default `false`)
   - `config.draft` **[boolean][199]** If `true` will retrieve the draft style, otherwise will retrieve the published style. (optional, default `false`)
   - `config.fresh` **[boolean][199]** If `true`, will bypass the cached version of the style. Fresh style requests have a lower rate limit than cached requests and may have a higher latency. `fresh=true` should never be used in production or high concurrency environments. (optional, default `false`)
->>>>>>> 8abf230... listDatasets sortby option
 
 #### Examples
 
