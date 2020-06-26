@@ -414,6 +414,9 @@ Styles.getFontGlyphRange = function(config) {
  *   be disabled.
  * @param {boolean} [config.title=false] - If `true`, the map's title and owner is displayed
  *   in the upper right corner of the map.
+ * @param {boolean} [config.fallback=false] - If `true`, serve a fallback raster map.
+ * @param {string} [config.mapboxGLVersion] - Specify a version of [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/) to use to render the map.
+ * @param {string} [config.mapboxGLGeocoderVersion] - Specify a version of the [Mapbox GL geocoder plugin](https://github.com/mapbox/mapbox-gl-geocoder) to use to render the map search box.
  * @param {string} [config.ownerId]
  * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style, otherwise will retrieve the published style.
  */
@@ -422,6 +425,9 @@ Styles.getEmbeddableHtml = function(config) {
     styleId: v.required(v.string),
     scrollZoom: v.boolean,
     title: v.boolean,
+    fallback: v.boolean,
+    mapboxGLVersion: v.string,
+    mapboxGLGeocoderVersion: v.string,
     ownerId: v.string,
     draft: v.boolean
   })(config);
@@ -433,6 +439,15 @@ Styles.getEmbeddableHtml = function(config) {
   }
   if (config.title !== undefined) {
     query.title = String(config.title);
+  }
+  if (config.fallback !== undefined) {
+    query.fallback = String(config.fallback);
+  }
+  if (config.mapboxGLVersion !== undefined) {
+    query.mapboxGLVersion = String(config.mapboxGLVersion);
+  }
+  if (config.mapboxGLGeocoderVersion !== undefined) {
+    query.mapboxGLGeocoderVersion = String(config.mapboxGLGeocoderVersion);
   }
 
   return this.client.createRequest({
