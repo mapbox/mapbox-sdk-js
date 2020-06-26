@@ -1,8 +1,17 @@
 # Changelog
 
-## Master
+## 0.11.0
 
-- **Fix:** Ensure that appendQueryObject correctly handles arrays containing falsy values (e.g. for proximity coordinates where lat or lng is 0).
+- **Add:** add `fresh` parameter to `Styles#getStyle` to bypass the cached version of the style.
+- **Add:** add `routing` parameter to `Geocoding#forwardGeocode` and `Geocoding#reverseGeocoding`.
+- **Add:** add `driving-traffic` profile to `Optimization#getOptimization`.
+- **Add:** add `sortby` parameter to `Datasets#listDatasets`.
+- **Add:** add `Tilesets#updateTileset`.
+- **Add:** add `fallback`, `mapboxGLVersion` and `mapboxGLGeocoderVersion` to `Styles#getEmbeddableHtml`.
+- **Add:** add pagination support to `Tilesets#listTilesetJobs` and `Tilesets#listTilesetSources`.
+- **Breaking change:** `Uploads#createUpload`'s `mapId` parameter is now `tileset`, and `tilesetName` is now `name` to be consistent across the API. `mapId` and `tilesetName` are deprecated, but will still work and may be removed in a future release.
+- **Add:** add `private` option to `Uploads#createUpload`.
+- **Fix:** fixed an issue where array parameters containing falsy values (e.g. for the `proximity` parameter in `forwardGeocode`, where longitude or latitude coordinates are 0) were not being applied correctly.
 
 ## 0.10.0
 
