@@ -637,12 +637,11 @@ See the [corresponding HTTP service documentation][218].
 #### Parameters
 
 - `config` **[Object][200]** 
-  - `config.mapId` **[string][201]** The map ID to create or replace in the format `username.nameoftileset`.
+  - `config.tileset` **[string][201]** The tileset ID to create or replace, in the format `username.nameoftileset`.
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
-  - `config.url` **[string][201]** Either of the following:-   HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
-    - The `mapbox://` URL of an existing dataset that you'd like to export to a tileset.
-      This should be in the format `mapbox://datasets/{username}/{datasetId}`.
-  - `config.tilesetName` **[string][201]?** Name for the tileset. Limited to 64 characters.
+  - `config.url` **[string][201]** HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
+  - `config.name` **[string][201]?** The name of the tileset. Limited to 64 characters.
+  - `config.private` **[boolean][202]** A boolean that describes whether the tileset must be used with an access token from your Mapbox account. Default is true. (optional, default `true`)
 
 #### Examples
 
@@ -657,8 +656,10 @@ const credentials = {
   url: '{s3 url}'
 };
 uploadsClient.createUpload({
-  mapId: `${myUsername}.${myTileset}`,
-  url: credentials.url
+  titleset: `${myUsername}.${myTileset}`,
+  url: credentials.url,
+  name: 'my uploads name',
+  private: true
 })
   .send()
   .then(response => {
