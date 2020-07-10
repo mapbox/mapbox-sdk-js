@@ -226,6 +226,7 @@ List styles in your account.
 - `config` **[Object][200]?** 
   - `config.start` **[string][201]?** The style ID to start at, for paginated results.
   - `config.ownerId` **[string][201]?** 
+  - `config.fresh` **[boolean][202]** If `true`, will bypass the cached resource. Fresh requests have a lower rate limit than cached requests and may have a higher latency. `fresh=true` should never be used in high concurrency environments. (optional, default `false`)
 
 #### Examples
 
@@ -311,6 +312,7 @@ See [the corresponding HTTP service documentation][208].
       resolution.
   - `config.ownerId` **[string][201]?** 
   - `config.draft` **[boolean][202]** If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite. (optional, default `false`)
+  - `config.fresh` **[boolean][202]** If `true`, will bypass the cached resource. Fresh requests have a lower rate limit than cached requests and may have a higher latency. `fresh=true` should never be used in high concurrency environments. (optional, default `false`)
 
 #### Examples
 

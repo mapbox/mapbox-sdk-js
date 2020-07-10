@@ -189,6 +189,7 @@ Styles.deleteStyle = function(config) {
  * @param {Object} [config]
  * @param {string} [config.start] - The style ID to start at, for paginated results.
  * @param {string} [config.ownerId]
+ * @param {boolean} [config.fresh=false] - If `true`, will bypass the cached resource. Fresh requests have a lower rate limit than cached requests and may have a higher latency. `fresh=true` should never be used in high concurrency environments.
  * @return {MapiRequest}
  *
  * @example
@@ -202,12 +203,16 @@ Styles.listStyles = function(config) {
   config = config || {};
   v.assertShape({
     start: v.string,
-    ownerId: v.string
+    ownerId: v.string,
+    fresh: v.boolean
   })(config);
 
   var query = {};
   if (config.start) {
     query.start = config.start;
+  }
+  if (config.fresh) {
+    query.fresh = 'true';
   }
   return this.client.createRequest({
     method: 'GET',
@@ -306,6 +311,7 @@ Styles.deleteStyleIcon = function(config) {
  *   resolution.
  * @param {string} [config.ownerId]
  * @param {boolean} [config.draft=false] - If `true` will retrieve the draft style sprite, otherwise will retrieve the published style sprite.
+ * @param {boolean} [config.fresh=false] - If `true`, will bypass the cached resource. Fresh requests have a lower rate limit than cached requests and may have a higher latency. `fresh=true` should never be used in high concurrency environments.
  * @return {MapiRequest}
  *
  * @example
@@ -337,11 +343,17 @@ Styles.getStyleSprite = function(config) {
     format: v.oneOf('json', 'png'),
     highRes: v.boolean,
     ownerId: v.string,
-    draft: v.boolean
+    draft: v.boolean,
+    fresh: v.boolean
   })(config);
 
   var format = config.format || 'json';
   var fileName = '/sprite' + (config.highRes ? '@2x' : '') + '.' + format;
+
+  var query = {};
+  if (config.fresh) {
+    query.fresh = 'true';
+  }
 
   return this.client.createRequest(
     xtend(
@@ -351,7 +363,8 @@ Styles.getStyleSprite = function(config) {
           '/styles/v1/:ownerId/:styleId' +
           (config.draft ? '/draft' : '') +
           fileName,
-        params: pick(config, ['ownerId', 'styleId'])
+        params: pick(config, ['ownerId', 'styleId']),
+        query: query
       },
       format === 'png' ? { encoding: 'binary' } : {}
     )
