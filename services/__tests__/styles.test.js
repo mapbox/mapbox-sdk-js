@@ -139,6 +139,16 @@ describe('listStyles', () => {
       query: { start: 'magnet' }
     });
   });
+
+  test('with options', () => {
+    styles.listStyles({ fresh: true });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId',
+      method: 'GET',
+      params: {},
+      query: { fresh: 'true' }
+    });
+  });
 });
 
 describe('putStyleIcon', () => {
@@ -181,7 +191,8 @@ describe('getStyleSprite', () => {
       method: 'GET',
       params: {
         styleId: 'foo'
-      }
+      },
+      query: {}
     });
   });
 
@@ -196,7 +207,8 @@ describe('getStyleSprite', () => {
       method: 'GET',
       params: {
         styleId: 'foo'
-      }
+      },
+      query: {}
     });
   });
 
@@ -211,6 +223,7 @@ describe('getStyleSprite', () => {
       params: {
         styleId: 'foo'
       },
+      query: {},
       encoding: 'binary'
     });
   });
@@ -227,6 +240,7 @@ describe('getStyleSprite', () => {
       params: {
         styleId: 'foo'
       },
+      query: {},
       encoding: 'binary'
     });
   });
@@ -241,6 +255,24 @@ describe('getStyleSprite', () => {
       method: 'GET',
       params: {
         styleId: 'foo'
+      },
+      query: {}
+    });
+  });
+
+  test('fetches fresh', () => {
+    styles.getStyleSprite({
+      styleId: 'foo',
+      fresh: true
+    });
+    expect(tu.requestConfig(styles)).toEqual({
+      path: '/styles/v1/:ownerId/:styleId/sprite.json',
+      method: 'GET',
+      params: {
+        styleId: 'foo'
+      },
+      query: {
+        fresh: 'true'
       }
     });
   });
