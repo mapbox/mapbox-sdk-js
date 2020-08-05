@@ -434,7 +434,7 @@ Tilesets.tilesetJob = function(config) {
  *
  * @example
  * tilesetsClient.listTilesetJobs({
- *     tileset: 'username.tileset_name'
+ *     tilesetId: 'username.tileset_name'
  *   })
  *   .send()
  *   .then(response => {
