@@ -1359,7 +1359,7 @@ List information about all jobs for a tileset
 
 ```javascript
 tilesetsClient.listTilesetJobs({
-    tileset: 'username.tileset_name'
+    tilesetId: 'username.tileset_name'
   })
   .send()
   .then(response => {
