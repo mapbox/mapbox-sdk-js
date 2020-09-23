@@ -1996,7 +1996,7 @@ Type: [Object][200]
 - `radius` **[number][205]?** A number in meters indicating the assumed precision of the used tracking device.
 - `isWaypoint` **[boolean][202]?** Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
 - `waypointName` **[string][201]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
-- `timestamp` **(tring | [number][205] \| [Date][206])?** Datetime corresponding to the coordinate.
+- `timestamp` **(string | [number][205] \| [Date][206])?** Datetime corresponding to the coordinate.
 
 ### MatrixPoint
 
