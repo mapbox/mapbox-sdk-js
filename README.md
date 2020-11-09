@@ -1,5 +1,7 @@
 # @mapbox/mapbox-sdk
 
+[![Build Status](https://travis-ci.com/mapbox/mapbox-sdk-js.svg?branch=main)](https://travis-ci.com/mapbox/mapbox-sdk-js)
+
 A JS SDK for working with [Mapbox APIs](https://docs.mapbox.com/api/).
 
 Works in Node, the browser, and React Native.
