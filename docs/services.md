@@ -643,7 +643,6 @@ See the [corresponding HTTP service documentation][218].
       Limited to 32 characters (only `-` and `_` special characters allowed; limit does not include username).
   - `config.url` **[string][201]** HTTPS URL of the S3 object provided by [`createUploadCredentials`][39]
   - `config.name` **[string][201]?** The name of the tileset. Limited to 64 characters.
-  - `config.private` **[boolean][202]** A boolean that describes whether the tileset must be used with an access token from your Mapbox account. Default is true. (optional, default `true`)
 
 #### Examples
 
@@ -661,7 +660,6 @@ uploadsClient.createUpload({
   titleset: `${myUsername}.${myTileset}`,
   url: credentials.url,
   name: 'my uploads name',
-  private: true
 })
   .send()
   .then(response => {
