@@ -102,7 +102,7 @@ Uploads.createUploadCredentials = function() {
  *   url: '{s3 url}'
  * };
  * uploadsClient.createUpload({
- *   titleset: `${myUsername}.${myTileset}`,
+ *   tileset: `${myUsername}.${myTileset}`,
  *   url: credentials.url,
  *   name: 'my uploads name',
  *   private: true
