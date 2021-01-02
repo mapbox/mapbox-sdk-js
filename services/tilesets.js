@@ -143,6 +143,43 @@ Tilesets.createTilesetSource = function(config) {
 };
 
 /**
+ * Replace a tileset source
+ *
+ * @param {Object} config
+ * @param {string} config.id ID of the tileset source to be created.
+ * @param {UploadableFile} config.file Line-delimeted GeoJSON file.
+ * @param {string} [config.ownerId]
+ * @return {MapiRequest}
+ *
+ * @example
+ * tilesetsClient.replaceTilesetSource({
+ *      id: 'tileset_source_id',
+ *      // The string filename value works in Node.
+ *      // In the browser, provide a Blob.
+ *      file: 'path/to/file.geojson.ld'
+ *   })
+ *   .send()
+ *   .then(response => {
+ *     const tilesetSource = response.body;
+ *   });
+ */
+Tilesets.replaceTilesetSource = function(config) {
+  v.assertShape({
+    id: v.required(v.string),
+    file: v.required(v.file),
+    ownerId: v.string
+  })(config);
+
+  return this.client.createRequest({
+    method: 'PUT',
+    path: '/tilesets/v1/sources/:ownerId/:id',
+    params: pick(config, ['ownerId', 'id']),
+    file: config.file,
+    sendFileAs: 'form'
+  });
+};
+
+/**
  * Retrieve a tileset source information
  *
  * @param {Object} config
