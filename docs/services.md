@@ -417,12 +417,16 @@ SDK returned.
   - `config.width` **[number][205]** Width of the image in pixels, between 1 and 1280.
   - `config.height` **[number][205]** Height of the image in pixels, between 1 and 1280.
   - `config.position` **(`"auto"` \| [Object][200])** If `"auto"`, the viewport will fit the
-      bounds of the overlay(s). Otherwise, the maps' position is described by an object
-      with the following properties:
-      `coordinates` (required): [`coordinates`][191] for the center of image.
-      `zoom` (required): Between 0 and 20.
+     bounds of the overlay(s). Another option for config.position is a bounding box object. 
+     `bbox` (optional): Is an array of coordinate pairs, with the first coordinate pair referring to the southwestern
+     corner of the box (the minimum longitude and latitude) and the second referring to the northeastern corner of the box (the maximum longitude and latitude).
+     Otherwise the maps' position is described by an object with the following properties:
+      `coordinates` (optional): [`coordinates`][191] for the center of image.
+      `zoom` (optional): Between 0 and 20.
       `bearing` (optional): Between 0 and 360.
       `pitch` (optional): Between 0 and 60.
+  - `config.padding` **[string][201]** A string value that denotes the minimum padding per side of the image. 
+      This can only be used with auto or bbox. The value resembles the CSS specification for padding and accepts 1-4 integers without units
   - `config.overlays` **[Array][210]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
       the top. Overlays are objects that match one of the following types:
@@ -453,6 +457,24 @@ staticClient.getStaticImage({
     coordinates: [12, 13],
     zoom: 4
   }
+})
+  .send()
+  .then(response => {
+    const image = response.body;
+  });
+```
+
+```javascript
+staticClient.getStaticImage({
+  ownerId: 'mapbox',
+  styleId: 'streets-v11',
+  width: 200,
+  height: 300,
+  position: {
+    // position as a bounding box
+    bbox: [-77.04,38.8,-77.02,38.91],
+  }, 
+ padding: '4'
 })
   .send()
   .then(response => {

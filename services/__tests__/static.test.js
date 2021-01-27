@@ -39,6 +39,102 @@ describe('getStaticImage', () => {
     });
   });
 
+  test('bbox', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: {},
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '3,4',
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: { padding: '3,4' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding with auto', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '3,4',
+      position: 'auto'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      query: { padding: '3,4' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('bbox with pitch and bearing', () => {
+    expect(() =>
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: {
+          bbox: [-77.04, 38.8, -77.02, 38.91],
+          bearing: 3,
+          pitch: 30,
+          zoom: 6
+        }
+      })
+    ).toThrowError(
+      'The bounding box parameter cannot be used with additional location parameters, bearing, or pitch'
+    );
+  });
+
+  test('padding with location parameter and zoom', () => {
+    expect(() =>
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        padding: '1,1,1,1',
+        width: 200,
+        height: 300,
+        position: {
+          coordinates: [12, 13],
+          zoom: 6
+        }
+      })
+    ).toThrowError(
+      'Padding cannot be used without the auto parameter or without a provided bounding box'
+    );
+  });
+
   test('bearing and pitch', () => {
     service.getStaticImage({
       ownerId: 'mapbox',
