@@ -129,7 +129,7 @@ describe('getStaticImage', () => {
         }
       })
     ).toThrowError(
-      'Padding can only be used with auto  or with a provided bounding box as the position.'
+      'Padding can only be used with auto or with a bounding box as the position.'
     );
   });
 

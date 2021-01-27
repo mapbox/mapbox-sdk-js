@@ -292,7 +292,7 @@ Static.getStaticImage = function(config) {
     (config.position !== 'auto' && config.position.bbox === undefined)
   ) {
     throw new Error(
-      'Padding cannot be used without the auto parameter or without a provided bounding box'
+      'Padding can only be used with auto or with a bounding box as the position.'
     );
   }
   if (
