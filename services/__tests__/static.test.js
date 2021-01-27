@@ -112,9 +112,7 @@ describe('getStaticImage', () => {
           zoom: 6
         }
       })
-    ).toThrowError(
-      'The bounding box parameter cannot be used with additional location parameters, bearing, or pitch'
-    );
+    ).toThrowError('position.coordinates is required.');
   });
 
   test('padding with location parameter and zoom', () => {
@@ -131,7 +129,7 @@ describe('getStaticImage', () => {
         }
       })
     ).toThrowError(
-      'Padding cannot be used without the auto parameter or without a provided bounding box'
+      'Padding can only be used with auto  or with a provided bounding box as the position.'
     );
   });
 

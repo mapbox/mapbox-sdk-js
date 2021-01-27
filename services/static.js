@@ -25,13 +25,13 @@ var Static = {};
  * @param {string} config.styleId - The map's style ID.
  * @param {number} config.width - Width of the image in pixels, between 1 and 1280.
  * @param {number} config.height - Height of the image in pixels, between 1 and 1280.
- * @param {'auto'|Object} config.position - If `"auto"`, the viewport will fit the
- *  bounds of the overlay(s). Another option for config.position is a bounding box object. 
- *  ` bbox` (optional): Is an array of coordinate pairs, with the first coordinate pair referring to the southwestern
+ * @param {'auto'|Object} config.position - If `"auto"`, the viewport will fit the bounds of the overlay(s).
+ *  If an object, it could be either a bbox or a coordinate and a zoom as the required parameters.  
+ *  ` bbox` (required): Is an array of coordinate pairs, with the first coordinate pair referring to the southwestern
  *  corner of the box (the minimum longitude and latitude) and the second referring to the northeastern corner of the box (the maximum longitude and latitude).
  *  Otherwise the maps' position is described by an object with the following properties:
- *   `coordinates` (optional): [`coordinates`](#coordinates) for the center of image.
- *   `zoom` (optional): Between 0 and 20.
+ *   `coordinates` (required): [`coordinates`](#coordinates) for the center of image.
+ *   `zoom` (required): Between 0 and 20.
  *   `bearing` (optional): Between 0 and 360.
  *   `pitch` (optional): Between 0 and 60.
  * 
@@ -202,12 +202,13 @@ Static.getStaticImage = function(config) {
       v.oneOfType(
         v.oneOf('auto'),
         v.strictShape({
-          coordinates: v.coordinates, // I removed the required for the coordinate and the zoom to make the bbox argument acceptable.
-          zoom: v.range([0, 20]),
+          coordinates: v.required(v.coordinates),
+          zoom: v.required(v.range([0, 20])),
           bearing: v.range([0, 360]),
           pitch: v.range([0, 60]),
           bbox: v.arrayOf(v.number)
-        })
+        }),
+        v.strictShape({ bbox: v.required(v.arrayOf(v.number)) })
       )
     ),
     padding: v.string,
