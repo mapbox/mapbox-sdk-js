@@ -317,7 +317,7 @@ Static.getStaticImage = function(config) {
 function encodePosition(position) {
   if (position === 'auto') return 'auto';
   if (position.bbox instanceof Array) {
-    return '[' + String(position.bbox) + ']';
+    return JSON.stringify(position.bbox);
   }
   return position.coordinates
     .concat([
