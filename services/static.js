@@ -56,40 +56,39 @@ var Static = {};
  * @param {boolean} [config.logo=true] - Whether there is a Mapbox logo
  *   on the map image.
  * @return {MapiRequest}
- *
  *  
  * @example
  * staticClient.getStaticImage({
-*   ownerId: 'mapbox',
-*   styleId: 'streets-v11',
-*   width: 200,
-*   height: 300,
-*   position: {
-*     coordinates: [12, 13],
-*     zoom: 4
-*   }
-* })
-*   .send()
-*   .then(response => {
-*     const image = response.body;
-*   });
-* 
-* @example
-* staticClient.getStaticImage({
-*   ownerId: 'mapbox',
-*   styleId: 'streets-v11',
-*   width: 200,
-*   height: 300,
-*   position: {
-*     // position as a bounding box
-*     bbox: [-77.04,38.8,-77.02,38.91],
-*   }, 
-*  padding: '4'
-* })
-*   .send()
-*   .then(response => {
-*     const image = response.body;
-*   });
+ *   ownerId: 'mapbox',
+ *   styleId: 'streets-v11',
+ *   width: 200,
+ *   height: 300,
+ *   position: {
+ *     coordinates: [12, 13],
+ *     zoom: 4
+ *   }
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const image = response.body;
+ *   });
+ * 
+ * @example
+ * staticClient.getStaticImage({
+ *   ownerId: 'mapbox',
+ *   styleId: 'streets-v11',
+ *   width: 200,
+ *   height: 300,
+ *   position: {
+ *     // position as a bounding box
+ *     bbox: [-77.04,38.8,-77.02,38.91],
+ *   }, 
+ *  padding: '4'
+ * })
+ *   .send()
+ *   .then(response => {
+ *     const image = response.body;
+ *   });
  *
  * @example
  * staticClient.getStaticImage({

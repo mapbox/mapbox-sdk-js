@@ -417,16 +417,16 @@ SDK returned.
   - `config.width` **[number][205]** Width of the image in pixels, between 1 and 1280.
   - `config.height` **[number][205]** Height of the image in pixels, between 1 and 1280.
   - `config.position` **(`"auto"` \| [Object][200])** If `"auto"`, the viewport will fit the bounds of the overlay(s).
-     If an object, it can contain either a bounding box or a coordinate and a zoom as the required parameters.  
-     `bbox` (required): An array of coordinate pairs, with the first coordinate pair referring to the southwestern
+     If an object, it could be either a bbox or a coordinate and a zoom as the required parameters.  
+     `bbox` (required): Is an array of coordinate pairs, with the first coordinate pair referring to the southwestern
      corner of the box (the minimum longitude and latitude) and the second referring to the northeastern corner of the box (the maximum longitude and latitude).
-     If you do not use `bbox`, the map's position is described by an object with the following properties:
+     Otherwise the maps' position is described by an object with the following properties:
       `coordinates` (required): [`coordinates`][191] for the center of image.
       `zoom` (required): Between 0 and 20.
       `bearing` (optional): Between 0 and 360.
       `pitch` (optional): Between 0 and 60.
   - `config.padding` **[string][201]** A string value that denotes the minimum padding per side of the image. 
-      This can only be used with `auto` or `bbox`. The value resembles the CSS specification for padding and accepts 1-4 integers without units
+      This can only be used with auto or bbox. The value resembles the CSS specification for padding and accepts 1-4 integers without units
   - `config.overlays` **[Array][210]&lt;Overlay>?** Overlays should be in z-index
       order: the first in the array will be on the bottom; the last will be on
       the top. Overlays are objects that match one of the following types:
