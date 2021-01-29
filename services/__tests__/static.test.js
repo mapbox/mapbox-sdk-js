@@ -136,7 +136,7 @@ describe('getStaticImage', () => {
     });
   });
 
-  test('padding 1,2,3,4 pm for top, right, bottom and the left side  ', () => {
+  test('padding 1,2,3,4 px for top, right, bottom and the left side  ', () => {
     service.getStaticImage({
       ownerId: 'mapbox',
       styleId: 'streets-v10',
