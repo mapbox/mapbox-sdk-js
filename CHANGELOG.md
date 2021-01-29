@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.0
+
+- **Add:** add `bounding box` parameter as a position option for `Static#getStaticImage.`
+- **Add:** add `padding`  optional parameter for `Static#getStaticImage`. 
+
 ## 0.11.0
 
 - **Add:** add `fresh` parameter to `Styles#getStyle` to bypass the cached version of the style.
