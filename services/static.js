@@ -34,7 +34,6 @@ var Static = {};
  *   `zoom` (required): Between 0 and 20.
  *   `bearing` (optional): Between 0 and 360.
  *   `pitch` (optional): Between 0 and 60.
- * 
  * @param {string} config.padding - A string value that denotes the minimum padding per side of the image. 
  *   This can only be used with auto or bbox. The value resembles the CSS specification for padding and accepts 1-4 integers without units
  *
@@ -205,8 +204,7 @@ Static.getStaticImage = function(config) {
           coordinates: v.required(v.coordinates),
           zoom: v.required(v.range([0, 20])),
           bearing: v.range([0, 360]),
-          pitch: v.range([0, 60]),
-          bbox: v.arrayOf(v.number)
+          pitch: v.range([0, 60])
         }),
         v.strictShape({ bbox: v.required(v.arrayOf(v.number)) })
       )
@@ -289,22 +287,18 @@ Static.getStaticImage = function(config) {
 
   if (
     config.padding !== undefined &&
-    (config.position !== 'auto' && config.position.bbox === undefined)
+    config.position !== 'auto' &&
+    config.position.bbox === undefined
   ) {
     throw new Error(
       'Padding can only be used with auto or with a bounding box as the position.'
     );
   }
-  if (
-    config.position.bbox !== undefined &&
-    (config.position.pitch !== undefined ||
-      config.position.bearing !== undefined ||
-      config.position.zoom !== undefined)
-  ) {
-    throw new Error(
-      'The bounding box parameter cannot be used with additional location parameters, bearing, or pitch'
-    );
+
+  if (config.position.bbox !== undefined && config.position.bbox.length !== 4) {
+    throw new Error('bbox must be four coordinates');
   }
+
   return this.client.createRequest({
     method: 'GET',
     path: '/styles/v1/:ownerId/:styleId/static/' + preEncodedUrlParts,
@@ -316,9 +310,8 @@ Static.getStaticImage = function(config) {
 
 function encodePosition(position) {
   if (position === 'auto') return 'auto';
-  if (position.bbox instanceof Array) {
-    return JSON.stringify(position.bbox);
-  }
+  if (position.bbox) return JSON.stringify(position.bbox);
+
   return position.coordinates
     .concat([
       position.zoom,
