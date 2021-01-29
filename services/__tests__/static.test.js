@@ -39,6 +39,177 @@ describe('getStaticImage', () => {
     });
   });
 
+  test('bbox', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: {},
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('bbox with inaccurate numbers of coordinates ', () => {
+    expect(() =>
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: {
+          bbox: [-77.04, 38.8, -77.02, 38.91, 66, 78]
+        }
+      })
+    ).toThrowError('bbox must be four coordinates');
+  });
+
+  test('padding 5px for all sides with bbox', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '5',
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: { padding: '5' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding 1px for top and 2px for the right side ', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '1,2',
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: { padding: '1,2' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding 1,2,3 px for the top, right the bottom', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '1,2,3',
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: { padding: '1,2,3' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding 1,2,3,4 px for top, right, bottom and the left side  ', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '1,2,3,4',
+      position: {
+        bbox: [-77.04, 38.8, -77.02, 38.91]
+      }
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path:
+        '/styles/v1/:ownerId/:styleId/static/[-77.04,38.8,-77.02,38.91]/200x300',
+      query: { padding: '1,2,3,4' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('padding with auto', () => {
+    service.getStaticImage({
+      ownerId: 'mapbox',
+      styleId: 'streets-v10',
+      width: 200,
+      height: 300,
+      padding: '4',
+      position: 'auto'
+    });
+    expect(tu.requestConfig(service)).toEqual({
+      method: 'GET',
+      path: '/styles/v1/:ownerId/:styleId/static/auto/200x300',
+      query: { padding: '4' },
+      params: { ownerId: 'mapbox', styleId: 'streets-v10' },
+      encoding: 'binary'
+    });
+  });
+
+  test('bbox with pitch and bearing', () => {
+    expect(() =>
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        width: 200,
+        height: 300,
+        position: {
+          bbox: [-77.04, 38.8, -77.02, 38.91],
+          bearing: 3,
+          pitch: 30,
+          zoom: 6
+        }
+      })
+    ).toThrowError('position.coordinates is required.');
+  });
+
+  test('padding with location parameter and zoom', () => {
+    expect(() =>
+      service.getStaticImage({
+        ownerId: 'mapbox',
+        styleId: 'streets-v10',
+        padding: '1,1,1,1',
+        width: 200,
+        height: 300,
+        position: {
+          coordinates: [12, 13],
+          zoom: 6
+        }
+      })
+    ).toThrowError(
+      'Padding can only be used with auto or bbox as the position.'
+    );
+  });
+
   test('bearing and pitch', () => {
     service.getStaticImage({
       ownerId: 'mapbox',
