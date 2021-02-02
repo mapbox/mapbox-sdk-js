@@ -111,7 +111,7 @@ MapMatching.getMatch = function(config) {
    * @property {number} [radius=5] - A number in meters indicating the assumed precision of the used tracking device.
    * @property {boolean} [isWaypoint=true] - Whether this coordinate is waypoint or not. The first and last coordinates will always be waypoints.
    * @property {string} [waypointName] - Custom name for the waypoint used for the arrival instruction in banners and voice instructions. Will be ignored unless `isWaypoint` is `true`.
-   * @property {tring | number | Date} [timestamp] - Datetime corresponding to the coordinate.
+   * @property {string | number | Date} [timestamp] - Datetime corresponding to the coordinate.
    */
   config.points.forEach(function(obj) {
     path.coordinates.push(obj.coordinates[0] + ',' + obj.coordinates[1]);
