@@ -431,7 +431,7 @@ function encodePathOverlay(o) {
   }
   // polyline expects each coordinate to be in reversed order: [lat, lng]
   var reversedCoordinates = o.coordinates.map(function(c) {
-    return c.reverse();
+    return [c[1], c[0]];
   });
   var encodedPolyline = polyline.encode(reversedCoordinates);
   result += '(' + encodeURIComponent(encodedPolyline) + ')';
