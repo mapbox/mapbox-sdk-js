@@ -35,8 +35,7 @@ describe('createUpload', () => {
     uploads.createUpload({
       tileset: 'username.nameoftileset',
       url: 'http://{bucket}.s3.amazonaws.com/{key}',
-      name: 'dusty_devote',
-      private: false
+      name: 'dusty_devote'
     });
 
     expect(tu.requestConfig(uploads)).toEqual({
@@ -45,8 +44,7 @@ describe('createUpload', () => {
       body: {
         tileset: 'username.nameoftileset',
         url: 'http://{bucket}.s3.amazonaws.com/{key}',
-        name: 'dusty_devote',
-        private: false
+        name: 'dusty_devote'
       }
     });
   });
@@ -63,8 +61,7 @@ describe('createUpload', () => {
       body: {
         tileset: 'username.nameoftileset',
         url: 'http://{bucket}.s3.amazonaws.com/{key}',
-        name: 'disty_devote',
-        private: true
+        name: 'disty_devote'
       }
     });
   });
@@ -82,8 +79,7 @@ describe('createUpload', () => {
       body: {
         tileset: 'tilted_towers',
         url: 'http://{bucket}.s3.amazonaws.com/{key}',
-        name: 'dusty_devote',
-        private: true
+        name: 'dusty_devote'
       }
     });
   });
