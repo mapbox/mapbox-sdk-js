@@ -9,6 +9,7 @@ var mbxMatrix = require('./services/matrix');
 var mbxOptimization = require('./services/optimization');
 var mbxStatic = require('./services/static');
 var mbxStyles = require('./services/styles');
+var mbxFonts = require('./services/fonts');
 var mbxTilequery = require('./services/tilequery');
 var mbxTilesets = require('./services/tilesets');
 var mbxTokens = require('./services/tokens');
@@ -26,6 +27,7 @@ function mapboxSdk(options) {
   client.optimization = mbxOptimization(client);
   client.static = mbxStatic(client);
   client.styles = mbxStyles(client);
+  client.fonts = mbxFonts(client);
   client.tilequery = mbxTilequery(client);
   client.tilesets = mbxTilesets(client);
   client.tokens = mbxTokens(client);
