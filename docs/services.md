@@ -2129,7 +2129,7 @@ Given a location and a routing profile, retrieve up to four isochrone contours
 #### Parameters
 
 - `config` **[Object][200]** 
-  - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"`)**     A Mapbox Directions routing profile ID. (optional, default `"driving"`)
+  - `config.profile` **(`"driving"` \| `"walking"` \| `"cycling"` \| `"driving-traffic"`)**     A Mapbox Directions routing profile ID. (optional, default `"driving"`)
   - `config.coordinates` **[Coordinates][232]** A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
   - `config.minutes` **[Array][210]&lt;[number][205]>** The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes.
   - `config.colors` **[Array][210]&lt;[string][201]>?** The colors to use for each isochrone contour, specified as hex values without a leading # (for example, ff0000 for red). If this parameter is used, there must be the same number of colors as there are entries in contours_minutes. If no colors are specified, the Isochrone API will assign a default rainbow color scheme to the output.
