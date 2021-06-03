@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.0
 
 - **Add:** add `driving-traffic` profile to Isochrone service.
 
