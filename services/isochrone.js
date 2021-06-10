@@ -16,7 +16,7 @@ var Isochrone = {};
 /**
  * Given a location and a routing profile, retrieve up to four isochrone contours
  * @param {Object} config
- * @param {'driving'|'walking'|'cycling'|'driving-traffic'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
+ * @param {'driving'|'walking'|'cycling'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
  * @param {Coordinates} config.coordinates - A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
  * @param {Array<number>} config.minutes - The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes.
  * @param {Array<string>} [config.colors] - The colors to use for each isochrone contour, specified as hex values without a leading # (for example, ff0000 for red). If this parameter is used, there must be the same number of colors as there are entries in contours_minutes. If no colors are specified, the Isochrone API will assign a default rainbow color scheme to the output.
@@ -28,7 +28,7 @@ var Isochrone = {};
  */
 Isochrone.getContours = function(config) {
   v.assertShape({
-    profile: v.oneOf('driving', 'walking', 'cycling', 'driving-traffic'),
+    profile: v.oneOf('driving', 'walking', 'cycling'),
     coordinates: v.coordinates,
     minutes: v.arrayOf(v.number),
     colors: v.arrayOf(v.string),

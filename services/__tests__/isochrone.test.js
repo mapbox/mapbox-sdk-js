@@ -28,26 +28,6 @@ describe('getContours', () => {
       }
     });
   });
-  
-  test('works, driving-traffic', () => {
-    isochrone.getContours({
-      coordinates: [-118.22258, 33.99038],
-      minutes: [5, 10, 15],
-      profile: 'driving-traffic'
-    });
-
-    expect(tu.requestConfig(isochrone)).toEqual({
-      path: '/isochrone/v1/mapbox/:profile/:coordinates',
-      method: 'GET',
-      params: {
-        coordinates: '-118.22258,33.99038',
-        profile: 'driving-traffic'
-      },
-      query: {
-        contours_minutes: '5,10,15'
-      }
-    });
-  });
 
   test('it omits queries not supplied', () => {
     isochrone.getContours({
