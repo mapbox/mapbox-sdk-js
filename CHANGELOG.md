@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased- **Revert:** add `driving-traffic` profile to Isochrone service.
+## Unreleased
+
+- **Revert:** add `driving-traffic` profile to Isochrone service.
 
 ## 0.12.1
 
