@@ -1,8 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- **Revert:** add `driving-traffic` profile to Isochrone service.
 ## 0.12.1
 
 - **PATCH:** [remove unsupported `private` option](https://github.com/mapbox/mapbox-sdk-js/pull/405) from `createUpload`.   
