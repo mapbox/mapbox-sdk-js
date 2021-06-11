@@ -191,16 +191,14 @@ Fonts.getFontMetadata = function(config) {
  *
  * @param {Object} config
  * @param {string} config.font
- * @param {Object} config.metadata - Font metadata JSON object.
+ * @param {String} config.visibility - `visibility` property of font metadata. The only valid values are `public` and `private`.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
  *
  * @example
  * fontsClient.updateFontMetadata({
  *   font: 'Custom Font Regular',
- *   metadata: {
- *     visibility: 'public'
- *   }
+ *   visibility: 'public'
  * })
  *   .send()
  *   .then(response => {
@@ -210,7 +208,7 @@ Fonts.getFontMetadata = function(config) {
 Fonts.updateFontMetadata = function(config) {
   v.assertShape({
     font: v.required(v.string),
-    metadata: v.required(v.plainObject),
+    visibility: v.required.oneOf(['public', 'private']),
     ownerId: v.string
   })(config);
 
@@ -218,7 +216,7 @@ Fonts.updateFontMetadata = function(config) {
     method: 'PATCH',
     path: '/fonts/v1/:ownerId/:font/metadata',
     params: pick(config, ['font', 'ownerId']),
-    body: config.metadata
+    body: { visibility: config.visibility }
   });
 };
 

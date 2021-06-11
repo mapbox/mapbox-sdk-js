@@ -2271,7 +2271,7 @@ See the [corresponding HTTP service documentation][288].
 
 - `config` **[Object][219]** 
   - `config.font` **[string][220]** 
-  - `config.metadata` **[Object][219]** Font metadata JSON object.
+  - `config.visibility` **[String][220]** `visibility` property of font metadata. The only valid values are `public` and `private`.
   - `config.ownerId` **[string][220]?** 
 
 #### Examples
@@ -2279,9 +2279,7 @@ See the [corresponding HTTP service documentation][288].
 ```javascript
 fontsClient.updateFontMetadata({
   font: 'Custom Font Regular',
-  metadata: {
-    visibility: 'public'
-  }
+  visibility: 'public'
 })
   .send()
   .then(response => {

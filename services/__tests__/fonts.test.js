@@ -95,7 +95,7 @@ describe('updateFontMetadata', () => {
   test('works', () => {
     fonts.updateFontMetadata({
       font: 'Custom Font Regular',
-      metadata: { visibility: 'public' }
+      visibility: 'public'
     });
     expect(tu.requestConfig(fonts)).toEqual({
       path: '/fonts/v1/:ownerId/:font/metadata',
