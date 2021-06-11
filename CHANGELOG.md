@@ -6,7 +6,7 @@
 
 ## 0.13.0
 
-**Add:** add `driving-traffic` profile to Isochrone service.<br class="Apple-interchange-newline">
+**Add:** add `driving-traffic` profile to Isochrone service.
 
 ## 0.12.1
 
