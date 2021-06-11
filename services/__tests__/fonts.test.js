@@ -55,14 +55,14 @@ describe('listFonts', () => {
   });
 });
 
-describe('putFont', () => {
+describe('createFont', () => {
   test('works', () => {
-    fonts.putFont({
+    fonts.createFont({
       file: 'path/to/file.ttf'
     });
     expect(tu.requestConfig(fonts)).toEqual({
       path: '/fonts/v1/:ownerId',
-      method: 'PUT',
+      method: 'POST',
       params: {},
       file: 'path/to/file.ttf'
     });

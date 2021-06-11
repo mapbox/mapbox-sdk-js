@@ -98,7 +98,7 @@ Fonts.listFonts = function(config) {
  * @return {MapiRequest}
  *
  * @example
- * fontsClient.putFont({
+ * fontsClient.createFont({
  *   file: 'path/to/file.ttf'
  * })
  *   .send()
@@ -106,14 +106,14 @@ Fonts.listFonts = function(config) {
  *     const newFont = response.body;
  *   });
  */
-Fonts.putFont = function(config) {
+Fonts.createFont = function(config) {
   v.assertShape({
     file: v.file,
     ownerId: v.string
   })(config);
 
   return this.client.createRequest({
-    method: 'PUT',
+    method: 'POST',
     path: '/fonts/v1/:ownerId',
     params: pick(config, ['ownerId']),
     file: config.file

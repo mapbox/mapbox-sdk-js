@@ -85,7 +85,7 @@
 - [Fonts](#fonts)
   - [getFontGlyphRange](#getfontglyphrange-1)
   - [listFonts](#listfonts)
-  - [putFont](#putfont)
+  - [createFont](#createfont)
   - [deleteFont](#deletefont)
   - [getFontMetadata](#getfontmetadata)
   - [updateFontMetadata](#updatefontmetadata)
@@ -2183,7 +2183,7 @@ fontsClient.listFonts()
 
 Returns **MapiRequest** 
 
-### putFont
+### createFont
 
 Add a font
 
@@ -2198,7 +2198,7 @@ See [the corresponding HTTP service documentation][285].
 #### Examples
 
 ```javascript
-fontsClient.putFont({
+fontsClient.createFont({
   file: 'path/to/file.ttf'
 })
   .send()
@@ -2722,7 +2722,7 @@ Type: [Object][219]
 
 [199]: #examples-54
 
-[200]: #putfont
+[200]: #createfont
 
 [201]: #parameters-53
 
