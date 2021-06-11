@@ -26,7 +26,7 @@ describe('getFontGlyphRange', () => {
     });
   });
 
-  test('with multiple font', () => {
+  test('with multiple fonts', () => {
     fonts.getFontGlyphRange({
       fonts: ['Ubuntu Bold', 'Ubuntu Light'],
       start: 0,
