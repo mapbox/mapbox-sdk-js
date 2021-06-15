@@ -65,6 +65,7 @@ The `emitter` property is an `EventEmitter` that emits the following events:
 - `encoding` **[string][23]** The encoding of the response.
 - `sendFileAs` **[string][23]** The method to send the `file`. Options are
     `data` (x-www-form-urlencoded) or `form` (multipart/form-data).
+- `_nextPageRequest` **any** 
 
 ### url
 

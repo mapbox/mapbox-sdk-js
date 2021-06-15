@@ -3,3 +3,4 @@ coverage
 umd
 .DS_Store
 .nyc_output
+*.tsbuildinfo
