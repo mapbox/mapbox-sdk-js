@@ -83,7 +83,7 @@
     "@mapbox/polyline": "^1.0.0",
     "eventemitter3": "^3.1.0",
     "form-data": "^3.0.0",
-    "got": "^8.3.2",
+    "got": "^10.7.0",
     "is-plain-obj": "^1.1.0",
     "xtend": "^4.0.1"
   },
