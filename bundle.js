@@ -3,6 +3,7 @@
 var browserClient = require('./lib/browser/browser-client');
 var mbxDatasets = require('./services/datasets');
 var mbxDirections = require('./services/directions');
+var mbxFonts = require('./services/fonts');
 var mbxGeocoding = require('./services/geocoding');
 var mbxMapMatching = require('./services/map-matching');
 var mbxMatrix = require('./services/matrix');
@@ -20,6 +21,7 @@ function mapboxSdk(options) {
 
   client.datasets = mbxDatasets(client);
   client.directions = mbxDirections(client);
+  client.fonts = mbxFonts(client);
   client.geocoding = mbxGeocoding(client);
   client.mapMatching = mbxMapMatching(client);
   client.matrix = mbxMatrix(client);
