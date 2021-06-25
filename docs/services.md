@@ -758,6 +758,7 @@ See the [corresponding HTTP service documentation][222].
 
 - `config` **[Object][200]?** 
   - `config.sortby` **[string][201]** Sort by either `modified` or `created` (default) dates. (optional, default `created`)
+  - `config.cachebuster` **[boolean][202]** If `true`, set a timestamp based cache-buster. (optional, default `false`)
 
 #### Examples
 
@@ -899,6 +900,7 @@ See the [corresponding HTTP service documentation][227].
   - `config.limit` **[number][205]?** Only list this number of features.
   - `config.start` **[string][201]?** The ID of the feature from which the listing should
       start.
+  - `config.cachebuster` **[boolean][202]** If `true`, set a timestamp based cache-buster. (optional, default `false`)
 
 #### Examples
 
