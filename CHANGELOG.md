@@ -4,6 +4,10 @@
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
 
+## 0.13.1
+
+**Fix:** Update `got` depdendency to 10.7.0
+
 ## 0.13.0
 
 **Add:** add `driving-traffic` profile to Isochrone service.
