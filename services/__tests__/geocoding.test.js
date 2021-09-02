@@ -35,7 +35,9 @@ describe('forwardGeocode', () => {
       bbox: [1, 2, 3, 4],
       limit: 3,
       language: ['de', 'bs'],
-      routing: true
+      routing: true,
+      fuzzyMatch: true,
+      worldview: 'us'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -52,7 +54,9 @@ describe('forwardGeocode', () => {
         bbox: [1, 2, 3, 4],
         limit: 3,
         language: ['de', 'bs'],
-        routing: 'true'
+        routing: 'true',
+        fuzzyMatch: 'true',
+        worldview: 'us'
       }
     });
   });
@@ -84,7 +88,8 @@ describe('reverseGeocode', () => {
       limit: 3,
       language: ['de', 'bs'],
       reverseMode: 'distance',
-      routing: true
+      routing: true,
+      worldview: 'us'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -100,7 +105,8 @@ describe('reverseGeocode', () => {
         limit: 3,
         language: ['de', 'bs'],
         reverseMode: 'distance',
-        routing: 'true'
+        routing: 'true',
+        worldview: 'us'
       }
     });
   });
