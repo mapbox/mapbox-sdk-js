@@ -4,6 +4,10 @@
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
 
+## 0.13.2
+
+**Add:** add `fuzzyMatch` and `worldview` parameters to the geocoding service
+
 ## 0.13.1
 
 **Fix:** Update `got` depdendency to 10.7.0

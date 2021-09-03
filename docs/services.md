@@ -1524,7 +1524,7 @@ See the [public documentation][236].
      [ISO 639-1 language code][240] and optionally one or more IETF subtags for country or script.
   - `config.routing` **[boolean][202]** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features. (optional, default `false`)
   - `config.fuzzyMatch` **[boolean][202]** Specify whether the Geocoding API should attempt approximate, as well as exact, matching. (optional, default `true`)
-  - `config.worldview` **(`"cn"` \| `"in"` \| `"jp"` \| `"us"`)?** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
+  - `config.worldview` **[String][201]** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups. (optional, default `"us"`)
 
 #### Examples
 
@@ -1594,7 +1594,7 @@ See the [public documentation][241].
      [ISO 639-1 language code][240] and optionally one or more IETF subtags for country or script.
   - `config.reverseMode` **(`"distance"` \| `"score"`)** Set the factors that are used to sort nearby results. (optional, default `'distance'`)
   - `config.routing` **[boolean][202]** Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features. (optional, default `false`)
-  - `config.worldview` **(`"cn"` \| `"in"` \| `"jp"` \| `"us"`)?** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
+  - `config.worldview` **[String][201]** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups. (optional, default `"us"`)
 
 #### Examples
 

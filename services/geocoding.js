@@ -47,7 +47,7 @@ var featureTypes = [
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
  * @param {boolean} [config.fuzzyMatch=true] - Specify whether the Geocoding API should attempt approximate, as well as exact, matching.
- * @param {'cn'|'in'|'jp'|'us'} [config.worldview] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
+ * @param {String} [config.worldview="us"] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
  * @return {MapiRequest}
  *
  * @example
@@ -152,7 +152,7 @@ Geocoding.forwardGeocode = function(config) {
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
  * @param {'distance'|'score'} [config.reverseMode='distance'] - Set the factors that are used to sort nearby results.
  * @param {boolean} [config.routing=false] - Specify whether to request additional metadata about the recommended navigation destination. Only applicable for address features.
- * @param {'cn'|'in'|'jp'|'us'} [config.worldview] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
+ * @param {String} [config.worldview="us"] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
  * @return {MapiRequest}
  *
  * @example
