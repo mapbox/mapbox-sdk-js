@@ -1,0 +1,21 @@
+[README.md](https://github.com/lostleolotus/mapbox-sdk-js/files/7430050/README.md)
+Test the SDK in the browser
+Open the console and use the global method tryServiceMethod. It should log responses and errors to the console. Here's its signature:
+
+tryServiceMethod(
+  service: string,
+  method: string,
+  config: ?Object,
+  accessToken: ?string,
+  callback: ?(response) => void,
+)
+You can paste an access token as the last argument or set it as the global variable MAPBOX_ACCESS_TOKEN.
+
+Only use public or very temporary access tokens! This is not a secure place to put a secret token.
+
+An example:
+
+MAPBOX_ACCESS_TOKEN = 'pk....';
+tryServiceMethod('styles', 'getStyle', {
+  styleId: 'cjgzfhs7k00072rnkgjlcuxsu'
+});
