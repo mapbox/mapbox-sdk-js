@@ -1,43 +1,53 @@
+language: node_js
+node_js:
+  - 12
+cache:
+  directories:
+    - node_modules
+script:
+  - npm run test
+  - npm run bundle
+© 2021 GitHub Michael Glenn
 travis_fold:start:worker_info
-[0K[33;1mWorker information[0m
+[0K[33;1mWorker information[0m
 hostname: 0907ec3c-8463-401e-8190-501b4fd49975@1.worker-com-65f4cb59fb-mkvf6.gce-production-2
 version: 6.2.22 https://github.com/travis-ci/worker/tree/858cb91994a513269f2fe9782c15fc113e966231
 instance: travis-job-343cac70-24b3-4a96-b8bc-a60b6f7578e9 travis-ci-sardonyx-xenial-1593004276-4d46c6b3 (via amqp)
 startup: 6.212407418s
 travis_fold:end:worker_info
-[0Ktravis_time:start:05b60e20
-[0Ktravis_time:end:05b60e20:start=1635380563566363671,finish=1635380563703876814,duration=137513143,event=no_world_writable_dirs
-[0Ktravis_time:start:0d77aa40
-[0Ktravis_time:end:0d77aa40:start=1635380563707170357,finish=1635380563714221731,duration=7051374,event=agent
-[0Ktravis_time:start:13884858
-[0Ktravis_time:end:13884858:start=1635380563717004520,finish=1635380563719119972,duration=2115452,event=check_unsupported
-[0Ktravis_time:start:008867d3
-[0Ktravis_fold:start:system_info
-[0K[33;1mBuild system information[0m
+[0Ktravis_time:start:05b60e20
+[0Ktravis_time:end:05b60e20:start=1635380563566363671,finish=1635380563703876814,duration=137513143,event=no_world_writable_dirs
+[0Ktravis_time:start:0d77aa40
+[0Ktravis_time:end:0d77aa40:start=1635380563707170357,finish=1635380563714221731,duration=7051374,event=agent
+[0Ktravis_time:start:13884858
+[0Ktravis_time:end:13884858:start=1635380563717004520,finish=1635380563719119972,duration=2115452,event=check_unsupported
+[0Ktravis_time:start:008867d3
+[0Ktravis_fold:start:system_info
+[0K[33;1mBuild system information[0m
 Build language: node_js
 Build dist: xenial
 Build id: 240724962
 Job id: 545508192
 Runtime kernel version: 4.15.0-1077-gcp
 travis-build version: 267382cc
-[34m[1mBuild image provisioning date and time[0m
+[34m[1mBuild image provisioning date and time[0m
 Wed Jun 24 13:36:52 UTC 2020
-[34m[1mOperating System Details[0m
+[34m[1mOperating System Details[0m
 Distributor ID:	Ubuntu
 Description:	Ubuntu 16.04.6 LTS
 Release:	16.04
 Codename:	xenial
-[34m[1mSystemd Version[0m
+[34m[1mSystemd Version[0m
 systemd 229
-[34m[1mCookbooks Version[0m
+[34m[1mCookbooks Version[0m
 3f92a99 https://github.com/travis-ci/travis-cookbooks/tree/3f92a99
-[34m[1mgit version[0m
+[34m[1mgit version[0m
 git version 2.27.0
-[34m[1mbash version[0m
+[34m[1mbash version[0m
 GNU bash, version 4.3.48(1)-release (x86_64-pc-linux-gnu)
-[34m[1mgcc version[0m
+[34m[1mgcc version[0m
 gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
-[34m[1mdocker version[0m
+[34m[1mdocker version[0m
 Client:
  Version:           18.06.0-ce
  API version:       1.38
