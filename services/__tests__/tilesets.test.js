@@ -92,6 +92,78 @@ describe('createTilesetSource', () => {
   });
 });
 
+describe('updateTilesetSource', () => {
+  test('works', () => {
+    tilesets.updateTilesetSource({
+      id: 'tileset_source_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'POST',
+      params: {
+        id: 'tileset_source_id'
+      },
+      file: 'path/to/file.geojson',
+      sendFileAs: 'form'
+    });
+  });
+
+  test('works with specified ownerId', () => {
+    tilesets.updateTilesetSource({
+      ownerId: 'specialguy',
+      id: 'tileset_source_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'POST',
+      params: {
+        ownerId: 'specialguy',
+        id: 'tileset_source_id'
+      },
+      file: 'path/to/file.geojson',
+      sendFileAs: 'form'
+    });
+  });
+});
+
+describe('replaceTilesetSource', () => {
+  test('works', () => {
+    tilesets.replaceTilesetSource({
+      id: 'tileset_source_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'PUT',
+      params: {
+        id: 'tileset_source_id'
+      },
+      file: 'path/to/file.geojson',
+      sendFileAs: 'form'
+    });
+  });
+
+  test('works with specified ownerId', () => {
+    tilesets.replaceTilesetSource({
+      ownerId: 'specialguy',
+      id: 'tileset_source_id',
+      file: 'path/to/file.geojson'
+    });
+    expect(tu.requestConfig(tilesets)).toEqual({
+      path: '/tilesets/v1/sources/:ownerId/:id',
+      method: 'PUT',
+      params: {
+        ownerId: 'specialguy',
+        id: 'tileset_source_id'
+      },
+      file: 'path/to/file.geojson',
+      sendFileAs: 'form'
+    });
+  });
+});
+
 describe('getTilesetSource', () => {
   test('works', () => {
     tilesets.getTilesetSource({
