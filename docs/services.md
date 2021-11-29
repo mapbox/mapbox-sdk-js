@@ -1306,7 +1306,7 @@ Replace a tileset source
 
 *   `config` **[Object][210]**&#x20;
 
-    *   `config.id` **[string][211]** ID of the tileset source to be created.
+    *   `config.id` **[string][211]** ID of the tileset source to be replaced.
     *   `config.file` **[UploadableFile][193]** Line-delimeted GeoJSON file.
     *   `config.ownerId` **[string][211]?**&#x20;
 

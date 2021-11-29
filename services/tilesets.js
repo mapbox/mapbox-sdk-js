@@ -146,7 +146,7 @@ Tilesets.createTilesetSource = function(config) {
  * Replace a tileset source
  *
  * @param {Object} config
- * @param {string} config.id ID of the tileset source to be created.
+ * @param {string} config.id ID of the tileset source to be replaced.
  * @param {UploadableFile} config.file Line-delimeted GeoJSON file.
  * @param {string} [config.ownerId]
  * @return {MapiRequest}
