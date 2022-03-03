@@ -4,6 +4,10 @@
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
 
+## 0.13.3
+
+**Add:** add `ip` as valid value for `proximity` parameter in the geocoding service
+
 ## 0.13.2
 
 **Add:** add `fuzzyMatch` and `worldview` parameters to the geocoding service
