@@ -1514,7 +1514,7 @@ See the [public documentation][236].
   - `config.mode` **(`"mapbox.places"` \| `"mapbox.places-permanent"`)** Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding. (optional, default `"mapbox.places"`)
   - `config.countries` **[Array][210]&lt;[string][201]>?** Limits results to the specified countries.
       Each item in the array should be an [ISO 3166 alpha 2 country code][237].
-  - `config.proximity` **[Coordinates][232]?** Bias local results based on a provided location.
+  - `config.proximity` **([Coordinates][232] \| `"ip"`)?** Bias local results based on a provided coordinate location or a user's IP address.
   - `config.types` **[Array][210]&lt;(`"country"` \| `"region"` \| `"postcode"` \| `"district"` \| `"place"` \| `"locality"` \| `"neighborhood"` \| `"address"` \| `"poi"` \| `"poi.landmark"`)>?** Filter results by feature types.
   - `config.autocomplete` **[boolean][202]** Return autocomplete results or not. (optional, default `true`)
   - `config.bbox` **[BoundingBox][238]?** Limit results to a bounding box.

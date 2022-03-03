@@ -37,7 +37,7 @@ var featureTypes = [
  * @param {'mapbox.places'|'mapbox.places-permanent'} [config.mode="mapbox.places"] - Either `mapbox.places` for ephemeral geocoding, or `mapbox.places-permanent` for storing results and batch geocoding.
  * @param {Array<string>} [config.countries] - Limits results to the specified countries.
  *   Each item in the array should be an [ISO 3166 alpha 2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
- * @param {Coordinates} [config.proximity] - Bias local results based on a provided location.
+ * @param {Coordinates|'ip'} [config.proximity] - Bias local results based on a provided coordinate location or a user's IP address.
  * @param {Array<'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'|'poi'|'poi.landmark'>} [config.types] - Filter results by feature types.
  * @param {boolean} [config.autocomplete=true] - Return autocomplete results or not.
  * @param {BoundingBox} [config.bbox] - Limit results to a bounding box.
@@ -96,7 +96,7 @@ Geocoding.forwardGeocode = function(config) {
     query: v.required(v.string),
     mode: v.oneOf('mapbox.places', 'mapbox.places-permanent'),
     countries: v.arrayOf(v.string),
-    proximity: v.coordinates,
+    proximity: v.oneOf(v.coordinates, 'ip'),
     types: v.arrayOf(v.oneOf(featureTypes)),
     autocomplete: v.boolean,
     bbox: v.arrayOf(v.number),
