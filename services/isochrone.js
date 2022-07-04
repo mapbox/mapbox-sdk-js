@@ -73,13 +73,14 @@ Isochrone.getContours = function(config) {
     throw new Error('minutes must be less than 60');
   }
 
+  var MAX_METERS = 100000;
   if (
     config.meters !== undefined &&
     !config.meters.every(function(meter) {
-      return meter <= 100000;
+      return meter <= MAX_METERS;
     })
   ) {
-    throw new Error('meters must be less than 100000');
+    throw new Error('meters must be less than ' + MAX_METERS);
   }
 
   if (config.generalize && config.generalize < 0) {
