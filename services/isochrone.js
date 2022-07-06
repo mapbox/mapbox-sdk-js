@@ -18,8 +18,9 @@ var Isochrone = {};
  * @param {Object} config
  * @param {'driving'|'walking'|'cycling'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
  * @param {Coordinates} config.coordinates - A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
- * @param {Array<number>} config.minutes - The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes.
- * @param {Array<string>} [config.colors] - The colors to use for each isochrone contour, specified as hex values without a leading # (for example, ff0000 for red). If this parameter is used, there must be the same number of colors as there are entries in contours_minutes. If no colors are specified, the Isochrone API will assign a default rainbow color scheme to the output.
+ * @param {Array<number>} [config.minutes] - The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes. Setting minutes and meters in the same time is an error.
+ * @param {Array<number>} [config.meters] - The distances in meters to use for each isochrone contour. You can specify up to four contours. Distances must be in increasing order. The maximum distance that can be specified is 100000 meters. Setting minutes and meters in the same time is an error.
+ * @param {Array<string>} [config.colors] - The colors to use for each isochrone contour, specified as hex values without a leading # (for example, ff0000 for red). If this parameter is used, there must be the same number of colors as there are entries in contours_minutes or contours_meters. If no colors are specified, the Isochrone API will assign a default rainbow color scheme to the output.
  * @param {boolean} [config.polygons] - Specify whether to return the contours as GeoJSON polygons (true) or linestrings (false, default). When polygons=true, any contour that forms a ring is returned as a polygon.
  * @param {number} [config.denoise] - A floating point value from 0.0 to 1.0 that can be used to remove smaller contours. The default is 1.0. A value of 1.0 will only return the largest contour for a given time value. A value of 0.5 drops any contours that are less than half the area of the largest contour in the set of contours for that same time value.
  * @param {number} [config.generalize] - A positive floating point value in meters used as the tolerance for Douglas-Peucker generalization. There is no upper bound. If no value is specified in the request, the Isochrone API will choose the most optimized generalization to use for the request. Note that the generalization of contours can lead to self-intersections, as well as intersections of adjacent contours.
@@ -31,6 +32,7 @@ Isochrone.getContours = function(config) {
     profile: v.oneOf('driving', 'walking', 'cycling'),
     coordinates: v.coordinates,
     minutes: v.arrayOf(v.number),
+    meters: v.arrayOf(v.number),
     colors: v.arrayOf(v.string),
     polygons: v.boolean,
     denoise: v.number,
@@ -39,26 +41,46 @@ Isochrone.getContours = function(config) {
 
   config.profile = config.profile || 'driving';
 
-  var minutesCount = config.minutes.length;
+  if (config.minutes !== undefined && config.meters !== undefined) {
+    throw new Error("minutes and meters can't be specified at the same time");
+  }
+  var contours = config.minutes ? config.minutes : config.meters;
+  var contours_name = config.minutes ? 'minutes' : 'meters';
+  var contoursCount = contours.length;
 
-  if (minutesCount < 1 || minutesCount > 4) {
-    throw new Error('minutes must contain between 1 and 4 contour values');
+  if (contoursCount < 1 || contoursCount > 4) {
+    throw new Error(
+      contours_name + ' must contain between 1 and 4 contour values'
+    );
   }
 
   if (
     config.colors !== undefined &&
-    config.minutes !== undefined &&
-    config.colors.length !== config.minutes.length
+    contours !== undefined &&
+    config.colors.length !== contoursCount
   ) {
-    throw new Error('colors should have the same number of entries as minutes');
+    throw new Error(
+      'colors should have the same number of entries as ' + contours_name
+    );
   }
 
   if (
+    config.minutes !== undefined &&
     !config.minutes.every(function(minute) {
       return minute <= 60;
     })
   ) {
     throw new Error('minutes must be less than 60');
+  }
+
+  var MAX_METERS = 100000;
+  if (
+    config.meters !== undefined &&
+    !config.meters.every(function(meter) {
+      return meter <= MAX_METERS;
+    })
+  ) {
+    throw new Error('meters must be less than ' + MAX_METERS);
   }
 
   if (config.generalize && config.generalize < 0) {
@@ -74,7 +96,8 @@ Isochrone.getContours = function(config) {
   }
 
   var query = stringifyBooleans({
-    contours_minutes: config.minutes.join(','),
+    contours_minutes: config.minutes ? config.minutes.join(',') : null,
+    contours_meters: config.meters ? config.meters.join(',') : null,
     contours_colors: config.colors ? config.colors.join(',') : null,
     polygons: config.polygons,
     denoise: config.denoise,
