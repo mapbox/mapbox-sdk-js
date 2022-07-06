@@ -4,6 +4,10 @@
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
 
+## 0.13.4
+
+**Add:** add `contours_meters` Isochrone API parameter
+
 ## 0.13.3
 
 **Add:** add `ip` as valid value for `proximity` parameter in the geocoding service
