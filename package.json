@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/mapbox-sdk",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "JS SDK for accessing Mapbox APIs",
   "main": "index.js",
   "files": [
