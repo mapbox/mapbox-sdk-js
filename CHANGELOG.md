@@ -3,9 +3,9 @@
 ## Unreleased
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
-- **Fix:** Update CI node version to 14 (current LTS)
-- **Fix:** Fix-up package-lock.json with new metadata (based on node 14)
-- **Fix:** Update `got` dependency to 11.8.5 (Fix for CVE-2022-33987)
+- **Fix:** Pin CI node version to LTS release (current LTS is 16.x).
+- **Fix:** Fix-up package-lock.json with new metadata (based on node 14).
+- **Fix:** Update `got` dependency to 11.8.5 (Fix for CVE-2022-33987).
 
 ## 0.13.4
 
