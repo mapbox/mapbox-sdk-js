@@ -19,6 +19,7 @@ var Datasets = {};
  *
  * @param {Object} [config]
  * @param {string} [config.sortby=created] - Sort by either `modified` or `created` (default) dates.
+ * @param {boolean} [config.cachebuster=false] - If `true`, set a timestamp based cache-buster.
  * @return {MapiRequest}
  *
  * @example
@@ -36,13 +37,19 @@ var Datasets = {};
  */
 Datasets.listDatasets = function(config) {
   v.assertShape({
-    sortby: v.oneOf('created', 'modified')
+    sortby: v.oneOf('created', 'modified'),
+    cachebuster: v.boolean
   })(config);
+
+  if (config.cachebuster) {
+    delete config.cachebuster;
+    config._ = Date.now();
+  }
 
   return this.client.createRequest({
     method: 'GET',
     path: '/datasets/v1/:ownerId',
-    query: config ? pick(config, ['sortby']) : {}
+    query: config ? pick(config, ['sortby', '_']) : {}
   });
 };
 
@@ -189,6 +196,7 @@ Datasets.deleteDataset = function(config) {
  * @param {number} [config.limit] - Only list this number of features.
  * @param {string} [config.start] - The ID of the feature from which the listing should
  *   start.
+ * @param {boolean} [config.cachebuster=false] - If `true`, set a timestamp based cache-buster.
  * @return {MapiRequest}
  *
  * @example
@@ -204,14 +212,20 @@ Datasets.listFeatures = function(config) {
   v.assertShape({
     datasetId: v.required(v.string),
     limit: v.number,
-    start: v.string
+    start: v.string,
+    cachebuster: v.boolean
   })(config);
+
+  if (config.cachebuster) {
+    delete config.cachebuster;
+    config._ = Date.now();
+  }
 
   return this.client.createRequest({
     method: 'GET',
     path: '/datasets/v1/:ownerId/:datasetId/features',
     params: pick(config, ['datasetId']),
-    query: pick(config, ['limit', 'start'])
+    query: pick(config, ['limit', 'start', '_'])
   });
 };
 
