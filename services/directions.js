@@ -35,6 +35,18 @@ var Directions = {};
  * @param {boolean} [config.steps=false] - Whether to return steps and turn-by-turn instructions.
  * @param {boolean} [config.voiceInstructions=false] - Whether or not to return SSML marked-up text for voice guidance along the route.
  * @param {'imperial'|'metric'} [config.voiceUnits="imperial"] - Which type of units to return in the text for voice instructions.
+ * @param {'electric_no_recharge'|'electric'} [config.engine="electric_no_recharge"] - Set to electric to enable electric vehicle routing.
+ * @param {number} [config.ev_initial_charge] - Optional parameter to specify initial charge of vehicle in Wh (watt-hours) at the beginning of the route.
+ * @param {number} [config.ev_max_charge] - Required parameter that defines the maximum possible charge of vehicle in Wh (watt-hours).
+ * @param {'ccs_combo_type1'|'ccs_combo_type1'|'tesla'} [config.ev_connector_types] - Required parameter that defines the compatible connector-types for the vehicle.
+ * @param {String} [config.energy_consumption_curve] - Required parameter that specifies in pairs the energy consumption in watt-hours per kilometer at a certain speed in kph.
+ * @param {String} [config.ev_charging_curve] - Required parameter that specifies the maximum battery charging rate (W) at a given charge level (Wh) in a list of pairs.
+ * @param {String} [config.ev_unconditioned_charging_curve] - Optional parameter that specifies the maximum battery charging rate (W) at a given charge level (Wh) in a list of pairs when the battery is in an unconditioned state (eg: cold).
+ * @param {number} [config.ev_pre_conditioning_time] - Optional parameter that defines the time in minutes it would take for the vehicle's battery to condition.
+ * @param {number} [config.ev_max_ac_charging_power] - Optional parameter to specify maximum AC charging power(W) that can be delivered by the onboard vehicle charger.
+ * @param {number} [config.ev_min_charge_at_destination] - Optional parameter to define the minimum battery charge required at the final route destination (Wh).
+ * @param {number} [config.ev_min_charge_at_charging_station] - Optional parameter to define the minimum charge when arriving at the charging station (Wh).
+ * @param {number} [config.auxiliary_consumption] - Optional parameter to define the measure of the continuous power draw of the auxiliary systems in watts (E.G heating or AC).
  * @return {MapiRequest}
  *
  * @example
@@ -86,7 +98,19 @@ Directions.getDirections = function(config) {
     roundaboutExits: v.boolean,
     steps: v.boolean,
     voiceInstructions: v.boolean,
-    voiceUnits: v.string
+    voiceUnits: v.string,
+    engine: v.string,
+    ev_initial_charge: v.number,
+    ev_max_charge: v.number,
+    ev_connector_types: v.string,
+    energy_consumption_curve: v.string,
+    ev_charging_curve: v.string,
+    ev_unconditioned_charging_curve: v.string,
+    ev_pre_conditioning_time: v.number,
+    ev_max_ac_charging_power: v.number,
+    ev_min_charge_at_destination: v.number,
+    ev_min_charge_at_charging_station: v.number,
+    auxiliary_consumption: v.number
   })(config);
 
   config.profile = config.profile || 'driving';
@@ -166,7 +190,14 @@ Directions.getDirections = function(config) {
     approaches: path.approach,
     bearings: path.bearing,
     radiuses: path.radius,
-    waypoint_names: path.waypointName
+    waypoint_names: path.waypointName,
+    engine: config.engine,
+    ev_initial_charge: config.ev_initial_charge,
+    ev_max_charge: config.ev_max_charge,
+    ev_connector_types: config.ev_connector_types,
+    energy_consumption_curve: config.energy_consumption_curve,
+    ev_charging_curve: config.ev_charging_curve,
+    ev_min_charge_at_charging_station: config.ev_min_charge_at_charging_station
   });
 
   return this.client.createRequest({
