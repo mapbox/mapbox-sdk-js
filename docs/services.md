@@ -1643,6 +1643,18 @@ to understand all of the available options.
   - `config.steps` **[boolean][202]** Whether to return steps and turn-by-turn instructions. (optional, default `false`)
   - `config.voiceInstructions` **[boolean][202]** Whether or not to return SSML marked-up text for voice guidance along the route. (optional, default `false`)
   - `config.voiceUnits` **(`"imperial"` \| `"metric"`)** Which type of units to return in the text for voice instructions. (optional, default `"imperial"`)
+  - `config.engine` **(`"electric_no_recharge"` \| `"electric"`)** Set to electric to enable electric vehicle routing. (optional, default `"electric_no_recharge"`)
+  - `config.ev_initial_charge` **[number][205]?** Optional parameter to specify initial charge of vehicle in Wh (watt-hours) at the beginning of the route.
+  - `config.ev_max_charge` **[number][205]?** Required parameter that defines the maximum possible charge of vehicle in Wh (watt-hours).
+  - `config.ev_connector_types` **(`"ccs_combo_type1"` \| `"ccs_combo_type1"` \| `"tesla"`)?** Required parameter that defines the compatible connector-types for the vehicle.
+  - `config.energy_consumption_curve` **[String][201]?** Required parameter that specifies in pairs the energy consumption in watt-hours per kilometer at a certain speed in kph.
+  - `config.ev_charging_curve` **[String][201]?** Required parameter that specifies the maximum battery charging rate (W) at a given charge level (Wh) in a list of pairs.
+  - `config.ev_unconditioned_charging_curve` **[String][201]?** Optional parameter that specifies the maximum battery charging rate (W) at a given charge level (Wh) in a list of pairs when the battery is in an unconditioned state (eg: cold).
+  - `config.ev_pre_conditioning_time` **[number][205]?** Optional parameter that defines the time in minutes it would take for the vehicle's battery to condition.
+  - `config.ev_max_ac_charging_power` **[number][205]?** Optional parameter to specify maximum AC charging power(W) that can be delivered by the onboard vehicle charger.
+  - `config.ev_min_charge_at_destination` **[number][205]?** Optional parameter to define the minimum battery charge required at the final route destination (Wh).
+  - `config.ev_min_charge_at_charging_station` **[number][205]?** Optional parameter to define the minimum charge when arriving at the charging station (Wh).
+  - `config.auxiliary_consumption` **[number][205]?** Optional parameter to define the measure of the continuous power draw of the auxiliary systems in watts (E.G heating or AC).
 
 #### Examples
 
