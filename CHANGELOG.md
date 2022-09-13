@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.5
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
 - **Fix:** Pin CI node version to LTS release (current LTS is 16.x).
