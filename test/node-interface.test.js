@@ -63,7 +63,7 @@ describe('test node progress events', () => {
     return request.send().then(() => {
       expect(progressUpload).toEqual([
         { percent: 0, total: undefined, transferred: 0 },
-        { percent: 100, total: undefined, transferred: 0 }
+        { percent: 100, total: 0, transferred: 0 }
       ]);
     });
   });

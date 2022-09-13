@@ -149,12 +149,16 @@ function testSharedInterface(createClient) {
     });
 
     const sendRequest = method => {
-      return client
-        .createRequest({
-          method,
-          path: '/foodstuffs/v1/:ownerId'
-        })
-        .send();
+      const requestParams = {
+        method,
+        path: '/foodstuffs/v1/:ownerId'
+      };
+
+      if (method === 'DELETE') {
+        requestParams.body = {};
+      }
+
+      return client.createRequest(requestParams).send();
     };
 
     test('GET', () => {
