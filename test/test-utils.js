@@ -27,6 +27,19 @@ function mockServer() {
   const reset = () => {
     handleRequest = () => {};
     handleResponse = (req, res) => {
+      if (req.headers['content-type'] === 'application/octet-stream') {
+        const json = JSON.stringify({
+          test: 'test'
+        });
+        const buf = Buffer.from(json);
+        res.writeHead(200, {
+          'Content-Type': 'application/octet-stream',
+          'Content-disposition': 'attachment; filename=data.json'
+        });
+        res.write(buf);
+        res.end();
+      }
+
       res.send();
     };
   };
@@ -56,6 +69,14 @@ function mockServer() {
       'Access-Control-Allow-Origin',
       'Link'
     ]);
+
+    // allow the three odd headers we are testing for in `test-shared-interface`
+    res.header('Access-Control-Allow-Headers', [
+      'if-unmodified-since',
+      'x-horse-name',
+      'x-dog-name'
+    ]);
+
     res.append('Access-Control-Allow-Origin', '*');
     handleRequest(req);
     handleResponse(req, res);

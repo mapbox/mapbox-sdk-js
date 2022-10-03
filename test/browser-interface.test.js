@@ -9,7 +9,7 @@ const tu = require('./test-utils');
 const testSharedInterface = require('./test-shared-interface');
 
 describe('shared interface tests', () => {
-  testSharedInterface(browserClient);
+  testSharedInterface(browserClient, true); // second argument sets isBrowserClient to true
 });
 
 test('errors early if access token not provided', () => {
