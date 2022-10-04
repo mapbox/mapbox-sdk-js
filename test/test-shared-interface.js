@@ -11,7 +11,7 @@ const tu = require('./test-utils');
 
 const { mockToken, expectRejection } = tu;
 
-function testSharedInterface(createClient) {
+function testSharedInterface(createClient, isBrowserClient = false) {
   let server;
   let createLocalClient;
   beforeAll(() => {
@@ -175,19 +175,24 @@ function testSharedInterface(createClient) {
 
     test('PUT', () => {
       return server.captureRequest(() => sendRequest('PUT')).then(req => {
-        expect(req.method).toBe('PUT');
+        const expectedMethod = isBrowserClient ? 'OPTIONS' : 'PUT';
+        expect(req.method).toBe(expectedMethod);
       });
     });
 
     test('PATCH', () => {
       return server.captureRequest(() => sendRequest('PATCH')).then(req => {
-        expect(req.method).toBe('PATCH');
+        const expectedMethod = isBrowserClient ? 'OPTIONS' : 'PATCH';
+
+        expect(req.method).toBe(expectedMethod);
       });
     });
 
     test('DELETE', () => {
       return server.captureRequest(() => sendRequest('DELETE')).then(req => {
-        expect(req.method).toBe('DELETE');
+        const expectedMethod = isBrowserClient ? 'OPTIONS' : 'DELETE';
+
+        expect(req.method).toBe(expectedMethod);
       });
     });
   });
@@ -417,7 +422,6 @@ function testSharedInterface(createClient) {
           .createRequest({
             method: 'POST',
             path: '/styles/v1/:ownerId',
-            body: { style: {} },
             headers: {
               'Content-Type': 'application/octet-stream',
               Accept: 'text/csv'
@@ -448,11 +452,18 @@ function testSharedInterface(createClient) {
           .send();
       };
       return server.captureRequest(sendRequest).then(req => {
-        expect(req.headers).toMatchObject({
-          'if-unmodified-since': 'Wed, 11 Apr 2018 17:09:50 GMT',
-          'x-horse-name': 'Steuben',
-          'x-dog-name': 'Paul, Cat'
-        });
+        if (isBrowserClient) {
+          expect(req.headers).toMatchObject({
+            'access-control-request-headers':
+              'if-unmodified-since, x-horse-name, x-dog-name'
+          });
+        } else {
+          expect(req.headers).toMatchObject({
+            'if-unmodified-since': 'Wed, 11 Apr 2018 17:09:50 GMT',
+            'x-dog-name': 'Paul, Cat',
+            'x-horse-name': 'Steuben'
+          });
+        }
       });
     });
   });
