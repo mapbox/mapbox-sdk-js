@@ -2,21 +2,23 @@
 
 ### Table of Contents
 
-- [MapiRequest](#mapirequest)
-  - [Properties](#properties)
-  - [url](#url)
-  - [send](#send)
-  - [abort](#abort)
-  - [eachPage](#eachpage)
-  - [clone](#clone)
-- [MapiResponse](#mapiresponse)
-  - [Properties](#properties-1)
-  - [hasNextPage](#hasnextpage)
-  - [nextPage](#nextpage)
-- [MapiError](#mapierror)
-  - [Properties](#properties-2)
-- [MapiClient](#mapiclient)
-  - [Properties](#properties-3)
+*   [MapiRequest][1]
+    *   [Properties][2]
+    *   [url][3]
+        *   [Parameters][4]
+    *   [send][5]
+    *   [abort][6]
+    *   [eachPage][7]
+        *   [Parameters][8]
+    *   [clone][9]
+*   [MapiResponse][10]
+    *   [Properties][11]
+    *   [hasNextPage][12]
+    *   [nextPage][13]
+*   [MapiError][14]
+    *   [Properties][15]
+*   [MapiClient][16]
+    *   [Properties][17]
 
 ## MapiRequest
 
@@ -27,44 +29,44 @@ Use the request's `send` method to send it off and get a `Promise`.
 
 The `emitter` property is an `EventEmitter` that emits the following events:
 
-- `'response'` - Listeners will be called with a `MapiResponse`.
-- `'error'` - Listeners will be called with a `MapiError`.
-- `'downloadProgress'` - Listeners will be called with `ProgressEvents`.
-- `'uploadProgress'` - Listeners will be called with `ProgressEvents`.
-  Upload events are only available when the request includes a file.
+*   `'response'` - Listeners will be called with a `MapiResponse`.
+*   `'error'` - Listeners will be called with a `MapiError`.
+*   `'downloadProgress'` - Listeners will be called with `ProgressEvents`.
+*   `'uploadProgress'` - Listeners will be called with `ProgressEvents`.
+    Upload events are only available when the request includes a file.
 
 ### Properties
 
-- `emitter` **EventEmitter** An event emitter. See above.
-- `client` **[MapiClient][16]** This request's `MapiClient`.
-- `response` **([MapiResponse][10] | null)** If this request has been sent and received
-  a response, the response is available on this property.
-- `error` **([MapiError][14] \| [Error][18] | null)** If this request has been sent and
-  received an error in response, the error is available on this property.
-- `aborted` **[boolean][19]** If the request has been aborted
-  (via [`abort`][6]), this property will be `true`.
-- `sent` **[boolean][19]** If the request has been sent, this property will
-  be `true`. You cannot send the same request twice, so if you need to create
-  a new request that is the equivalent of an existing one, use
-  [`clone`][9].
-- `path` **[string][20]** The request's path, including colon-prefixed route
-  parameters.
-- `origin` **[string][20]** The request's origin.
-- `method` **[string][20]** The request's HTTP method.
-- `query` **[Object][21]** A query object, which will be transformed into
-  a URL query string.
-- `params` **[Object][21]** A route parameters object, whose values will
-  be interpolated the path.
-- `headers` **[Object][21]** The request's headers.
-- `body` **([Object][21] \| [string][20] | null)** Data to send with the request.
-  If the request has a body, it will also be sent with the header
-  `'Content-Type: application/json'`.
-- `file` **([Blob][22] \| [ArrayBuffer][23] \| [string][20] | ReadStream)** A file to
-  send with the request. The browser client accepts Blobs and ArrayBuffers;
-  the Node client accepts strings (filepaths) and ReadStreams.
-- `encoding` **[string][20]** The encoding of the response.
-- `sendFileAs` **[string][20]** The method to send the `file`. Options are
-  `data` (x-www-form-urlencoded) or `form` (multipart/form-data).
+*   `emitter` **EventEmitter** An event emitter. See above.
+*   `client` **[MapiClient][16]** This request's `MapiClient`.
+*   `response` **([MapiResponse][10] | null)** If this request has been sent and received
+    a response, the response is available on this property.
+*   `error` **([MapiError][14] | [Error][18] | null)** If this request has been sent and
+    received an error in response, the error is available on this property.
+*   `aborted` **[boolean][19]** If the request has been aborted
+    (via [`abort`][6]), this property will be `true`.
+*   `sent` **[boolean][19]** If the request has been sent, this property will
+    be `true`. You cannot send the same request twice, so if you need to create
+    a new request that is the equivalent of an existing one, use
+    [`clone`][9].
+*   `path` **[string][20]** The request's path, including colon-prefixed route
+    parameters.
+*   `origin` **[string][20]** The request's origin.
+*   `method` **[string][20]** The request's HTTP method.
+*   `query` **[Object][21]** A query object, which will be transformed into
+    a URL query string.
+*   `params` **[Object][21]** A route parameters object, whose values will
+    be interpolated the path.
+*   `headers` **[Object][21]** The request's headers.
+*   `body` **([Object][21] | [string][20] | null)** Data to send with the request.
+    If the request has a body, it will also be sent with the header
+    `'Content-Type: application/json'`.
+*   `file` **([Blob][22] | [ArrayBuffer][23] | [string][20] | ReadStream)** A file to
+    send with the request. The browser client accepts Blobs and ArrayBuffers;
+    the Node client accepts strings (filepaths) and ReadStreams.
+*   `encoding` **[string][20]** The encoding of the response.
+*   `sendFileAs` **[string][20]** The method to send the `file`. Options are
+    `data` (x-www-form-urlencoded) or `form` (multipart/form-data).
 
 ### url
 
@@ -72,10 +74,10 @@ Get the URL of the request.
 
 #### Parameters
 
-- `accessToken` **[string][20]?** By default, the access token of the request's
-  client is used.
+*   `accessToken` **[string][20]?** By default, the access token of the request's
+    client is used.
 
-Returns **[string][20]** 
+Returns **[string][20]**&#x20;
 
 ### send
 
@@ -87,7 +89,7 @@ the next page by using the `MapiResponse`'s [`nextPage`][13]
 function, or iterate through all pages using [`eachPage`][7]
 instead of `send`.
 
-Returns **[Promise][24]&lt;[MapiResponse][10]>** 
+Returns **[Promise][24]<[MapiResponse][10]>**&#x20;
 
 ### abort
 
@@ -122,7 +124,7 @@ The callback should have the following signature:
 
 #### Parameters
 
-- `callback` **[Function][25]** 
+*   `callback` **[Function][25]**&#x20;
 
 ### clone
 
@@ -139,25 +141,25 @@ A Mapbox API response.
 
 ### Properties
 
-- `body` **[Object][21]** The response body, parsed as JSON.
-- `rawBody` **[string][20]** The raw response body.
-- `statusCode` **[number][26]** The response's status code.
-- `headers` **[Object][21]** The parsed response headers.
-- `links` **[Object][21]** The parsed response links.
-- `request` **[MapiRequest][1]** The response's originating `MapiRequest`.
+*   `body` **[Object][21]** The response body, parsed as JSON.
+*   `rawBody` **[string][20]** The raw response body.
+*   `statusCode` **[number][26]** The response's status code.
+*   `headers` **[Object][21]** The parsed response headers.
+*   `links` **[Object][21]** The parsed response links.
+*   `request` **[MapiRequest][1]** The response's originating `MapiRequest`.
 
 ### hasNextPage
 
 Check if there is a next page that you can fetch.
 
-Returns **[boolean][19]** 
+Returns **[boolean][19]**&#x20;
 
 ### nextPage
 
 Create a request for the next page, if there is one.
 If there is no next page, returns `null`.
 
-Returns **([MapiRequest][1] | null)** 
+Returns **([MapiRequest][1] | null)**&#x20;
 
 ## MapiError
 
@@ -169,17 +171,17 @@ method should reject with a `MapiError`.
 
 ### Properties
 
-- `request` **[MapiRequest][1]** The errored request.
-- `type` **[string][20]** The type of error. Usually this is `'HttpError'`.
-  If the request was aborted, so the error was
-  not sent from the server, the type will be
-  `'RequestAbortedError'`.
-- `statusCode` **[number][26]?** The numeric status code of
-  the HTTP response.
-- `body` **([Object][21] \| [string][20])?** If the server sent a response body,
-  this property exposes that response, parsed as JSON if possible.
-- `message` **[string][20]?** Whatever message could be derived from the
-  call site and HTTP response.
+*   `request` **[MapiRequest][1]** The errored request.
+*   `type` **[string][20]** The type of error. Usually this is `'HttpError'`.
+    If the request was aborted, so the error was
+    not sent from the server, the type will be
+    `'RequestAbortedError'`.
+*   `statusCode` **[number][26]?** The numeric status code of
+    the HTTP response.
+*   `body` **([Object][21] | [string][20])?** If the server sent a response body,
+    this property exposes that response, parsed as JSON if possible.
+*   `message` **[string][20]?** Whatever message could be derived from the
+    call site and HTTP response.
 
 ## MapiClient
 
@@ -193,10 +195,10 @@ that is appropriate to the configuration and environment
 
 ### Properties
 
-- `accessToken` **[string][20]** The Mapbox access token assigned
-  to this client.
-- `origin` **[string][20]?** The origin
-  to use for API requests. Defaults to [https://api.mapbox.com][27].
+*   `accessToken` **[string][20]** The Mapbox access token assigned
+    to this client.
+*   `origin` **[string][20]?** The origin
+    to use for API requests. Defaults to [https://api.mapbox.com][27].
 
 [1]: #mapirequest
 
