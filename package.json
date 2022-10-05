@@ -91,7 +91,7 @@
     "base64-url": "^2.2.0",
     "budo": "^11.3.2",
     "camelcase": "^5.0.0",
-    "documentation": "^8.0.0",
+    "documentation": "^14.0.0",
     "eslint": "^5.1.0",
     "eslint-plugin-node": "^6.0.1",
     "express": "^4.16.3",
