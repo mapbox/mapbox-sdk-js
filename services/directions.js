@@ -87,7 +87,16 @@ Directions.getDirections = function(config) {
     ),
     alternatives: v.boolean,
     annotations: v.arrayOf(
-      v.oneOf('duration', 'distance', 'speed', 'congestion')
+      v.oneOf(
+        'duration',
+        'distance',
+        'speed',
+        'congestion',
+        'congestion_numeric',
+        'max_speed',
+        'closure',
+        'state_of_charge'
+      )
     ),
     bannerInstructions: v.boolean,
     continueStraight: v.boolean,
