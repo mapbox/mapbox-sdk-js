@@ -1,8 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.13.6
 
 - **Add:** add additional valid values for the directions api `annotations` option
+- **Chore:** update `documentation`, `budo`, `meow`, and `remark-preset-davidtheclark` dependencies
+- **Chore:** update `jest` and associated dependencies
 
 ## 0.13.5
 
@@ -34,12 +36,12 @@
 
 ## 0.12.1
 
-- **PATCH:** [remove unsupported `private` option](https://github.com/mapbox/mapbox-sdk-js/pull/405) from `createUpload`.   
+- **PATCH:** [remove unsupported `private` option](https://github.com/mapbox/mapbox-sdk-js/pull/405) from `createUpload`.
 
 ## 0.12.0
 
 - **Add:** add `bounding box` parameter as a position option for `Static#getStaticImage.`
-- **Add:** add `padding`  optional parameter for `Static#getStaticImage`.
+- **Add:** add `padding` optional parameter for `Static#getStaticImage`.
 
 ## 0.11.0
 
