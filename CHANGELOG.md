@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **Add:** add additional valid values for the directions api `annotations` option
+
 ## 0.13.5
 
 - **Revert:** add `driving-traffic` profile to Isochrone service.
