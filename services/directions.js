@@ -206,7 +206,12 @@ Directions.getDirections = function(config) {
     ev_connector_types: config.ev_connector_types,
     energy_consumption_curve: config.energy_consumption_curve,
     ev_charging_curve: config.ev_charging_curve,
-    ev_min_charge_at_charging_station: config.ev_min_charge_at_charging_station
+    ev_unconditioned_charging_curve: config.ev_unconditioned_charging_curve,
+    ev_pre_conditioning_time: config.ev_pre_conditioning_time,
+    ev_max_ac_charging_power: config.ev_max_ac_charging_power,
+    ev_min_charge_at_destination: config.ev_min_charge_at_destination,
+    ev_min_charge_at_charging_station: config.ev_min_charge_at_charging_station,
+    auxiliary_consumption: config.auxiliary_consumption
   });
 
   return this.client.createRequest({

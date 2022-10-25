@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **Add:** add additional EV values to the directions API request
+
 ## 0.13.6
 
 - **Add:** add additional valid values for the directions api `annotations` option
