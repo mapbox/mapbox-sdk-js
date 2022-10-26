@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.13.7
+
 - **Add:** add additional EV values to the directions API request
 
 ## 0.13.6
