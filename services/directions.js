@@ -81,7 +81,8 @@ Directions.getDirections = function(config) {
           approach: v.oneOf('unrestricted', 'curb'),
           bearing: v.arrayOf(v.range([0, 360])),
           radius: v.oneOfType(v.number, v.equal('unlimited')),
-          waypointName: v.string
+          waypointName: v.string,
+          silent: v.boolean
         })
       )
     ),
@@ -130,7 +131,8 @@ Directions.getDirections = function(config) {
     bearing: [],
     radius: [],
     waypointName: [],
-    waypoints: []
+    waypoints: [],
+    silent: []
   };
 
   var waypointCount = config.waypoints.length;
@@ -163,8 +165,11 @@ Directions.getDirections = function(config) {
       throw new Error('first and last waypoints cannot be silent');
     }
 
-    if (waypoint.silent) {
+    if (!waypoint.silent) {
       path.waypoints.push(index);
+    }
+    if (waypoint.hasOwnProperty('silent')) {
+      path.silent.push(waypoint.silent);
     }
 
     // join props which come in pairs
@@ -183,20 +188,29 @@ Directions.getDirections = function(config) {
     });
   });
 
-  ['approach', 'bearing', 'radius', 'waypointName', 'waypoints'].forEach(
-    function(prop) {
-      // avoid sending params which are all `;`
-      if (
-        path[prop].every(function(char) {
-          return char === '';
-        })
-      ) {
-        delete path[prop];
-      } else {
-        path[prop] = path[prop].join(';');
-      }
+  ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
+    // avoid sending params which are all `;`
+    if (
+      path[prop].every(function(char) {
+        return char === '';
+      })
+    ) {
+      delete path[prop];
+    } else {
+      path[prop] = path[prop].join(';');
     }
-  );
+  });
+
+  if (
+    path.silent.every(function(v) {
+      return !v;
+    })
+  ) {
+    delete path.waypoints;
+  } else {
+    path.waypoints = path.waypoints.join(';');
+  }
+  delete path.silent;
 
   var query = stringifyBooleans({
     alternatives: config.alternatives,

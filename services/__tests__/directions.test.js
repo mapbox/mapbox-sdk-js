@@ -187,10 +187,11 @@ describe('getDirections', () => {
       method: 'GET',
       params: {
         coordinates: '2.2,1.1;2.2,1.1;2.2,1.1',
-        waypoints: '0;2',
         profile: 'driving'
       },
-      query: {}
+      query: {
+        waypoints: '0;2'
+      }
     });
   });
 
