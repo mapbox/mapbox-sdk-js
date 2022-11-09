@@ -2183,6 +2183,7 @@ Type: [Object][200]
     and the second is the range of degrees the angle can deviate by.
 *   `radius` **([number][205] | `"unlimited"`)?** Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
 *   `waypointName` **[string][201]?** Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
+*   `silent` **[boolean][202]?** Used to indicate if the waypoint should be used to split a route into distinct legs. The first and last waypoints can't be set as silent.
 
 ### MapMatchingPoint
 

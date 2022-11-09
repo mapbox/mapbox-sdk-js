@@ -129,7 +129,8 @@ Directions.getDirections = function(config) {
     approach: [],
     bearing: [],
     radius: [],
-    waypointName: []
+    waypointName: [],
+    waypoints: []
   };
 
   var waypointCount = config.waypoints.length;
@@ -148,11 +149,23 @@ Directions.getDirections = function(config) {
    *   and the second is the range of degrees the angle can deviate by.
    * @property {number|'unlimited'} [radius] - Maximum distance in meters that the coordinate is allowed to move when snapped to a nearby road segment.
    * @property {string} [waypointName] - Custom name for the waypoint used for the arrival instruction in banners and voice instructions.
+   * @property {boolean} [silent=false] - Used to indicate if the waypoint should be used to split a route into distinct legs. The first and last waypoints can't be set as silent.
    */
-  config.waypoints.forEach(function(waypoint) {
+  config.waypoints.forEach(function(waypoint, index) {
     path.coordinates.push(
       waypoint.coordinates[0] + ',' + waypoint.coordinates[1]
     );
+
+    if (
+      (index === 0 && waypoint.silent) ||
+      (index === config.waypoints.length - 1 && waypoint.silent)
+    ) {
+      throw new Error('first and last waypoints cannot be silent');
+    }
+
+    if (waypoint.silent) {
+      path.waypoints.push(index);
+    }
 
     // join props which come in pairs
     ['bearing'].forEach(function(prop) {
@@ -170,18 +183,20 @@ Directions.getDirections = function(config) {
     });
   });
 
-  ['approach', 'bearing', 'radius', 'waypointName'].forEach(function(prop) {
-    // avoid sending params which are all `;`
-    if (
-      path[prop].every(function(char) {
-        return char === '';
-      })
-    ) {
-      delete path[prop];
-    } else {
-      path[prop] = path[prop].join(';');
+  ['approach', 'bearing', 'radius', 'waypointName', 'waypoints'].forEach(
+    function(prop) {
+      // avoid sending params which are all `;`
+      if (
+        path[prop].every(function(char) {
+          return char === '';
+        })
+      ) {
+        delete path[prop];
+      } else {
+        path[prop] = path[prop].join(';');
+      }
     }
-  });
+  );
 
   var query = stringifyBooleans({
     alternatives: config.alternatives,
@@ -211,7 +226,8 @@ Directions.getDirections = function(config) {
     ev_max_ac_charging_power: config.ev_max_ac_charging_power,
     ev_min_charge_at_destination: config.ev_min_charge_at_destination,
     ev_min_charge_at_charging_station: config.ev_min_charge_at_charging_station,
-    auxiliary_consumption: config.auxiliary_consumption
+    auxiliary_consumption: config.auxiliary_consumption,
+    waypoints: path.waypoints
   });
 
   return this.client.createRequest({
