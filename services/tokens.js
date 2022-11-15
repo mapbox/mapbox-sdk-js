@@ -43,6 +43,7 @@ Tokens.listTokens = function() {
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
  * @param {Array<string>} [config.allowedUrls]
+ * @param {Array<{ platform: string, bundleId: string }>} [config.allowedApplications] This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
  * @return {MapiRequest}
  *
  * @example
@@ -61,7 +62,13 @@ Tokens.createToken = function(config) {
     note: v.string,
     scopes: v.arrayOf(v.string),
     resources: v.arrayOf(v.string),
-    allowedUrls: v.arrayOf(v.string)
+    allowedUrls: v.arrayOf(v.string),
+    allowedApplications: v.arrayOf(
+      v.shape({
+        bundleId: v.string,
+        platform: v.string
+      })
+    )
   })(config);
 
   var body = {};
@@ -74,6 +81,10 @@ Tokens.createToken = function(config) {
   }
   if (config.allowedUrls) {
     body.allowedUrls = config.allowedUrls;
+  }
+
+  if (config.allowedApplications) {
+    body.allowedApplications = config.allowedApplications;
   }
 
   return this.client.createRequest({
@@ -130,7 +141,8 @@ Tokens.createTemporaryToken = function(config) {
  * @param {string} [config.note]
  * @param {Array<string>} [config.scopes]
  * @param {Array<string>} [config.resources]
- * @param {Array<string>} [config.allowedUrls]
+ * @param {Array<string> | null} [config.allowedUrls]
+ * @param {Array<{ platform: string, bundleId: string }> | null} [config.allowedApplications] This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
  * @return {MapiRequest}
  *
  * @example
@@ -150,7 +162,13 @@ Tokens.updateToken = function(config) {
     note: v.string,
     scopes: v.arrayOf(v.string),
     resources: v.arrayOf(v.string),
-    allowedUrls: v.arrayOf(v.string)
+    allowedUrls: v.arrayOf(v.string),
+    allowedApplications: v.arrayOf(
+      v.shape({
+        bundleId: v.string,
+        platform: v.string
+      })
+    )
   })(config);
 
   var body = {};
@@ -165,6 +183,10 @@ Tokens.updateToken = function(config) {
   }
   if (config.allowedUrls || config.allowedUrls === null) {
     body.allowedUrls = config.allowedUrls;
+  }
+
+  if (config.allowedApplications || config.allowedApplications === null) {
+    body.allowedApplications = config.allowedApplications;
   }
 
   return this.client.createRequest({
