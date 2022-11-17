@@ -2028,6 +2028,7 @@ See the [corresponding HTTP service documentation][246].
     *   `config.scopes` **[Array][209]<[string][201]>?**&#x20;
     *   `config.resources` **[Array][209]<[string][201]>?**&#x20;
     *   `config.allowedUrls` **[Array][209]<[string][201]>?**&#x20;
+    *   `config.allowedApplications` **[Array][209]<{platform: [string][201], bundleId: [string][201]}>?** This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
 
 #### Examples
 
@@ -2085,7 +2086,8 @@ See the [corresponding HTTP service documentation][248].
     *   `config.note` **[string][201]?**&#x20;
     *   `config.scopes` **[Array][209]<[string][201]>?**&#x20;
     *   `config.resources` **[Array][209]<[string][201]>?**&#x20;
-    *   `config.allowedUrls` **[Array][209]<[string][201]>?**&#x20;
+    *   `config.allowedUrls` **([Array][209]<[string][201]> | null)?**&#x20;
+    *   `config.allowedApplications` **([Array][209]<{platform: [string][201], bundleId: [string][201]}> | null)?** This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
 
 #### Examples
 

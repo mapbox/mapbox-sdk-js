@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.14.0
+
+- **Add:** Config for `Tokens#createToken` and `Tokens#updateToken` can now include the `allowedApplications` property.
+
+
 ## 0.13.7
 
 - **Add:** add additional EV values to the directions API request

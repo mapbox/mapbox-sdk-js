@@ -73,6 +73,21 @@ describe('createToken', () => {
     });
   });
 
+  test('with allowedApplications', () => {
+    tokens.createToken({
+      allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }],
+        scopes: []
+      }
+    });
+  });
+
   test('with scopes', () => {
     tokens.createToken({ scopes: ['styles:read', 'styles:write'] });
     expect(tu.requestConfig(tokens)).toEqual({
@@ -88,7 +103,8 @@ describe('createToken', () => {
       scopes: ['styles:list'],
       note: 'horseleg',
       resources: ['one', 'two'],
-      allowedUrls: ['boba.com', 'coffee.ca']
+      allowedUrls: ['boba.com', 'coffee.ca'],
+      allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId',
@@ -98,7 +114,8 @@ describe('createToken', () => {
         scopes: ['styles:list'],
         note: 'horseleg',
         resources: ['one', 'two'],
-        allowedUrls: ['boba.com', 'coffee.ca']
+        allowedUrls: ['boba.com', 'coffee.ca'],
+        allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
       }
     });
   });
@@ -215,6 +232,37 @@ describe('updateToken', () => {
     });
   });
 
+  test('with allowedApplications', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
+    });
+
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: {
+        allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
+      }
+    });
+  });
+
+  test('allowedApplications can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedApplications: null
+    });
+
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: {
+        allowedApplications: null
+      }
+    });
+  });
 
   test('with scopes', () => {
     tokens.updateToken({
@@ -235,7 +283,8 @@ describe('updateToken', () => {
       scopes: ['styles:list'],
       note: 'horseleg',
       resources: ['one', 'two'],
-      allowedUrls: ['boba.com', 'milk-tea.ca']
+      allowedUrls: ['boba.com', 'milk-tea.ca'],
+      allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
     });
     expect(tu.requestConfig(tokens)).toEqual({
       path: '/tokens/v2/:ownerId/:tokenId',
@@ -245,7 +294,8 @@ describe('updateToken', () => {
         scopes: ['styles:list'],
         note: 'horseleg',
         resources: ['one', 'two'],
-        allowedUrls: ['boba.com', 'milk-tea.ca']
+        allowedUrls: ['boba.com', 'milk-tea.ca'],
+        allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
       }
     });
   });
