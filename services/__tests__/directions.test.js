@@ -167,6 +167,34 @@ describe('getDirections', () => {
     });
   });
 
+  test('it works with optional waypoints.silent', () => {
+    directions.getDirections({
+      waypoints: [
+        {
+          coordinates: [2.2, 1.1]
+        },
+        {
+          coordinates: [2.2, 1.1],
+          silent: true
+        },
+        {
+          coordinates: [2.2, 1.1]
+        }
+      ]
+    });
+    expect(tu.requestConfig(directions)).toEqual({
+      path: '/directions/v5/mapbox/:profile/:coordinates',
+      method: 'GET',
+      params: {
+        coordinates: '2.2,1.1;2.2,1.1;2.2,1.1',
+        profile: 'driving'
+      },
+      query: {
+        waypoints: '0;2'
+      }
+    });
+  });
+
   test('waypoints.radius can be any of string or number', () => {
     directions.getDirections({
       waypoints: [
@@ -220,5 +248,22 @@ describe('getDirections', () => {
         waypoints
       });
     }).toThrowError(/between 2 and 25/);
+  });
+
+  test('errors if first or last waypoints are silent', () => {
+    expect(() => {
+      directions.getDirections({
+        waypoints: [
+          {
+            coordinates: [2.2, 1.1],
+            silent: true
+          },
+          {
+            coordinates: [2.2, 1.1],
+            silent: true
+          }
+        ]
+      });
+    }).toThrowError(/first and last waypoints cannot be silent/);
   });
 });
