@@ -12,6 +12,7 @@ var mbxMapMatching = require('../../services/map-matching');
 var mbxMatrix = require('../../services/matrix');
 var mbxUploads = require('../../services/uploads');
 var mbxGeocoding = require('../../services/geocoding');
+var mbxGeocodingV6 = require('../../services/geocoding-v6');
 var mbxStatic = require('../../services/static');
 
 window.tryServiceMethod = function(
@@ -37,6 +38,7 @@ window.tryServiceMethod = function(
     datasets: mbxDatasets(baseClient),
     directions: mbxDirections(baseClient),
     geocoding: mbxGeocoding(baseClient),
+    geocodingV6: mbxGeocodingV6(baseClient),
     mapMatching: mbxMapMatching(baseClient),
     matrix: mbxMatrix(baseClient),
     static: mbxStatic(baseClient),
