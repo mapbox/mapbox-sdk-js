@@ -15,6 +15,7 @@ var createServiceFactory = require('./service-helpers/create-service-factory');
 var GeocodingV6 = {};
 
 var featureTypes = [
+  'street',
   'country',
   'region',
   'postcode',
@@ -32,21 +33,24 @@ var featureTypes = [
  *
  * @param {Object} config
  * @param {string} config.query - A place name.
- * @param {'normal'|'structured'} [config.mode="normal"] - Either `normal` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components.
+ * @param {'standard'|'structured'} [config.mode="standard"] - Either `standard` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components.
  * @param {Array<string>} [config.countries] - Limits results to the specified countries.
  *   Each item in the array should be an [ISO 3166 alpha 2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+ *   [OR] if used with input mode="structured" denotes single country in free form.
  * @param {Coordinates|'ip'} [config.proximity] - Bias local results based on a provided coordinate location or a user's IP address.
- * @param {Array<'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
+ * @param {Array<'street'|'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
  * @param {BoundingBox} [config.bbox] - Limit results to a bounding box.
  * @param {number} [config.limit=5] - Limit the number of results returned.
  * @param {String} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
+ * @param {String} [config.address_line1] - A string including address_number and street. These values can alternatively be provided as separate parameters. (Stuctured Input specific field)
  * @param {String} [config.address_number] - The number associated with the house (Stuctured Input specific field)
  * @param {String} [config.street] - The name of the street in the address (Stuctured Input specific field)
+ * @param {String} [config.block] - In some countries like Japan, the block is a component in the address (Stuctured Input specific field)
  * @param {String} [config.place] - Typically these are cities, villages, municipalities, etc. (Stuctured Input specific field)
  * @param {String} [config.region] - Top-level sub-national administrative features, such as states in the United States or provinces in Canada or China. (Stuctured Input specific field)
- * @param {String} [config.country] - The number associated with the house (Stuctured Input specific field)
+ * @param {String} [config.neighborhood] - Colloquial sub-city features often referred to in local parlance (Stuctured Input specific field)
  * @param {String} [config.postcode] - Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
  * @param {String} [config.locality] - Official sub-city features (Stuctured Input specific field)
  * @param {boolean} [config.autocomplete=true] - Return autocomplete results or not.
@@ -62,7 +66,7 @@ var featureTypes = [
  *   .then(response => {
  *     const match = response.body;
  *   });
- * 
+ *
  * @example
  * // geocoding in structured input mode
  * geocodingClient.forwardGeocode({
@@ -109,8 +113,8 @@ var featureTypes = [
 GeocodingV6.forwardGeocode = function(config) {
   v.assertShape({
     query: v.required(v.string),
-    mode: v.oneOf('normal', 'structured'),
-    countries: v.arrayOf(v.string),
+    mode: v.oneOf('standard', 'structured'),
+    countries: config.mode === 'standard' ? v.arrayOf(v.string) : v.string,
     proximity: v.oneOf(v.coordinates, 'ip'),
     types: v.arrayOf(v.oneOf(featureTypes)),
     bbox: v.arrayOf(v.number),
@@ -120,30 +124,35 @@ GeocodingV6.forwardGeocode = function(config) {
     autocomplete: v.boolean,
 
     // structured input fields
+    address_line1: v.string,
     address_number: v.string,
     street: v.string,
+    block: v.string,
     place: v.string,
     region: v.string,
-    country: v.string,
+    neighborhood: v.string,
     postcode: v.string,
     locality: v.string
   })(config);
 
-  config.mode = config.mode || 'normal';
+  config.mode = config.mode || 'standard';
 
   var query = stringifyBooleans(
     xtend(
-      config.mode === 'normal'
-        ? { q: config.query, country: config.countries }
+      config.mode === 'standard'
+        ? { q: config.query }
         : pick(config, [
+            'address_line1',
             'address_number',
             'street',
+            'block',
             'place',
             'region',
-            'country',
+            'neighborhood',
             'postcode',
             'locality'
           ]),
+      { country: config.countries },
       pick(config, [
         'proximity',
         'types',
@@ -158,7 +167,7 @@ GeocodingV6.forwardGeocode = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: '/geocode/v6/forward',
+    path: '/search/geocode/v6/forward',
     query: query
   });
 };
@@ -173,7 +182,7 @@ GeocodingV6.forwardGeocode = function(config) {
  * @param {number} config.latitude - latitude coordinate at which features will be searched.
  * @param {Array<string>} [config.countries] - Limits results to the specified countries.
  *   Each item in the array should be an [ISO 3166 alpha 2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
- * @param {Array<'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
+ * @param {Array<'street'|'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
  * @param {BoundingBox} [config.bbox] - Limit results to a bounding box.
  * @param {number} [config.limit=1] - Limit the number of results returned. If using this option, you must provide a single item for `types`.
  * @param {string} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
@@ -205,7 +214,6 @@ GeocodingV6.reverseGeocode = function(config) {
     worldview: v.string
   })(config);
 
-
   var query = stringifyBooleans(
     xtend(
       { country: config.countries },
@@ -223,7 +231,7 @@ GeocodingV6.reverseGeocode = function(config) {
 
   return this.client.createRequest({
     method: 'GET',
-    path: 'geocode/v6/reverse',
+    path: '/search/geocode/v6/reverse',
     query: query
   });
 };

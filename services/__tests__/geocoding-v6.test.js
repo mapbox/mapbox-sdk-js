@@ -15,18 +15,18 @@ describe('forwardGeocode', () => {
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
-      path: '/geocode/v6/forward',
+      path: '/search/geocode/v6/forward',
       query: { q: 'Tucson' }
     });
   });
 
-  test('normal mode with all config options', () => {
+  test('standard mode with all config options', () => {
     geocoding.forwardGeocode({
       query: 'Tucson',
-      mode: 'normal',
+      mode: 'standard',
       countries: ['AO', 'AR'],
       proximity: [3, 4],
-      types: ['country', 'region'],
+      types: ['street', 'country', 'region'],
       autocomplete: true,
       bbox: [1, 2, 3, 4],
       limit: 3,
@@ -34,22 +34,24 @@ describe('forwardGeocode', () => {
       worldview: 'us',
 
       // structured input parameters will be ignored in normal mode
+      address_line1: '12 main',
       address_number: '12',
       street: 'Main',
+      block: 'block',
       place: 'some place',
       region: 'region',
-      country: 'country',
+      neighborhood: 'neighborhood',
       postcode: '1234',
       locality: 'locality'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
-      path: '/geocode/v6/forward',
+      path: '/search/geocode/v6/forward',
       query: {
         q: 'Tucson',
         country: ['AO', 'AR'],
         proximity: [3, 4],
-        types: ['country', 'region'],
+        types: ['street', 'country', 'region'],
         autocomplete: 'true',
         bbox: [1, 2, 3, 4],
         limit: 3,
@@ -63,9 +65,9 @@ describe('forwardGeocode', () => {
     geocoding.forwardGeocode({
       query: 'Tucson', // will be ignored
       mode: 'structured',
-      countries: ['AO', 'AR'],
+      countries: 'AO',
       proximity: [3, 4],
-      types: ['country', 'region'],
+      types: ['street', 'country', 'region'],
       autocomplete: true,
       bbox: [1, 2, 3, 4],
       limit: 3,
@@ -73,31 +75,36 @@ describe('forwardGeocode', () => {
       worldview: 'us',
 
       // structured input parameters will be picked
+      address_line1: '12 main',
       address_number: '12',
       street: 'Main',
+      block: 'block',
       place: 'some place',
       region: 'region',
-      country: 'country',
+      neighborhood: 'neighborhood',
       postcode: '1234',
       locality: 'locality'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
-      path: '/geocode/v6/forward',
+      path: '/search/geocode/v6/forward',
       query: {
         proximity: [3, 4],
-        types: ['country', 'region'],
+        types: ['street', 'country', 'region'],
         autocomplete: 'true',
         bbox: [1, 2, 3, 4],
         limit: 3,
         language: 'de',
         worldview: 'us',
 
+        address_line1: '12 main',
         address_number: '12',
         street: 'Main',
+        block: 'block',
         place: 'some place',
         region: 'region',
-        country: 'country',
+        neighborhood: 'neighborhood',
+        country: 'AO',
         postcode: '1234',
         locality: 'locality'
       }
@@ -113,7 +120,7 @@ describe('reverseGeocode', () => {
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
-      path: 'geocode/v6/reverse',
+      path: '/search/geocode/v6/reverse',
       query: {
         longitude: 15,
         latitude: 14
@@ -134,7 +141,7 @@ describe('reverseGeocode', () => {
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
-      path: 'geocode/v6/reverse',
+      path: '/search/geocode/v6/reverse',
       query: {
         longitude: 15,
         latitude: 14,

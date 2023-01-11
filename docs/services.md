@@ -2350,21 +2350,24 @@ See the [public documentation][264].
 *   `config` **[Object][207]**&#x20;
 
     *   `config.query` **[string][208]** A place name.
-    *   `config.mode` **(`"normal"` | `"structured"`)** Either `normal` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components. (optional, default `"normal"`)
+    *   `config.mode` **(`"standard"` | `"structured"`)** Either `standard` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components. (optional, default `"standard"`)
     *   `config.countries` **[Array][216]<[string][208]>?** Limits results to the specified countries.
         Each item in the array should be an [ISO 3166 alpha 2 country code][242].
+        \[OR] if used with input mode="structured" denotes single country in free form.
     *   `config.proximity` **([Coordinates][191] | `"ip"`)?** Bias local results based on a provided coordinate location or a user's IP address.
-    *   `config.types` **[Array][216]<(`"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
+    *   `config.types` **[Array][216]<(`"street"` | `"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
     *   `config.bbox` **[BoundingBox][192]?** Limit results to a bounding box.
     *   `config.limit` **[number][212]** Limit the number of results returned. (optional, default `5`)
     *   `config.language` **[String][208]?** Specify the language to use for response text and, for forward geocoding, query result weighting.
         Options are [IETF language tags][243] comprised of a mandatory
         [ISO 639-1 language code][244] and optionally one or more IETF subtags for country or script.
+    *   `config.address_line1` **[String][208]?** A string including address\_number and street. These values can alternatively be provided as separate parameters. (Stuctured Input specific field)
     *   `config.address_number` **[String][208]?** The number associated with the house (Stuctured Input specific field)
     *   `config.street` **[String][208]?** The name of the street in the address (Stuctured Input specific field)
+    *   `config.block` **[String][208]?** In some countries like Japan, the block is a component in the address (Stuctured Input specific field)
     *   `config.place` **[String][208]?** Typically these are cities, villages, municipalities, etc. (Stuctured Input specific field)
     *   `config.region` **[String][208]?** Top-level sub-national administrative features, such as states in the United States or provinces in Canada or China. (Stuctured Input specific field)
-    *   `config.country` **[String][208]?** The number associated with the house (Stuctured Input specific field)
+    *   `config.neighborhood` **[String][208]?** Colloquial sub-city features often referred to in local parlance (Stuctured Input specific field)
     *   `config.postcode` **[String][208]?** Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
     *   `config.locality` **[String][208]?** Official sub-city features (Stuctured Input specific field)
     *   `config.autocomplete` **[boolean][209]** Return autocomplete results or not. (optional, default `true`)
@@ -2444,7 +2447,7 @@ See the [public documentation][265].
     *   `config.latitude` **[number][212]** latitude coordinate at which features will be searched.
     *   `config.countries` **[Array][216]<[string][208]>?** Limits results to the specified countries.
         Each item in the array should be an [ISO 3166 alpha 2 country code][242].
-    *   `config.types` **[Array][216]<(`"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
+    *   `config.types` **[Array][216]<(`"street"` | `"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
     *   `config.bbox` **[BoundingBox][192]?** Limit results to a bounding box.
     *   `config.limit` **[number][212]** Limit the number of results returned. If using this option, you must provide a single item for `types`. (optional, default `1`)
     *   `config.language` **[string][208]?** Specify the language to use for response text and, for forward geocoding, query result weighting.
