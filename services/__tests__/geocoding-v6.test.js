@@ -63,7 +63,6 @@ describe('forwardGeocode', () => {
 
   test('structured input mode with all config options', () => {
     geocoding.forwardGeocode({
-      query: 'Tucson', // will be ignored
       mode: 'structured',
       countries: 'AO',
       proximity: [3, 4],

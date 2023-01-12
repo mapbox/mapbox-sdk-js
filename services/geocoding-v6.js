@@ -111,31 +111,32 @@ var featureTypes = [
  *   });
  */
 GeocodingV6.forwardGeocode = function(config) {
-  v.assertShape({
-    query: v.required(v.string),
-    mode: v.oneOf('standard', 'structured'),
-    countries: config.mode === 'standard' ? v.arrayOf(v.string) : v.string,
-    proximity: v.oneOf(v.coordinates, 'ip'),
-    types: v.arrayOf(v.oneOf(featureTypes)),
-    bbox: v.arrayOf(v.number),
-    language: v.string,
-    limit: v.number,
-    worldview: v.string,
-    autocomplete: v.boolean,
-
-    // structured input fields
-    address_line1: v.string,
-    address_number: v.string,
-    street: v.string,
-    block: v.string,
-    place: v.string,
-    region: v.string,
-    neighborhood: v.string,
-    postcode: v.string,
-    locality: v.string
-  })(config);
-
   config.mode = config.mode || 'standard';
+
+  v.assertShape(
+    xtend(config.mode === 'standard' ? { query: v.required(v.string) } : {}, {
+      mode: v.oneOf('standard', 'structured'),
+      countries: config.mode === 'standard' ? v.arrayOf(v.string) : v.string,
+      proximity: v.oneOf(v.coordinates, 'ip'),
+      types: v.arrayOf(v.oneOf(featureTypes)),
+      bbox: v.arrayOf(v.number),
+      language: v.string,
+      limit: v.number,
+      worldview: v.string,
+      autocomplete: v.boolean,
+
+      // structured input fields
+      address_line1: v.string,
+      address_number: v.string,
+      street: v.string,
+      block: v.string,
+      place: v.string,
+      region: v.string,
+      neighborhood: v.string,
+      postcode: v.string,
+      locality: v.string
+    })
+  )(config);
 
   var query = stringifyBooleans(
     xtend(
