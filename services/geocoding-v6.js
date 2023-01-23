@@ -34,7 +34,7 @@ var featureTypes = [
  * @param {Object} config
  * @param {string} config.query - A place name.
  * @param {'standard'|'structured'} [config.mode="standard"] - Either `standard` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components.
- * @param {Array<string>} [config.countries] - Limits results to the specified countries.
+ * @param {Array<string>|string} [config.countries] - Limits results to the specified countries.
  *   Each item in the array should be an [ISO 3166 alpha 2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
  *   [OR] if used with input mode="structured" denotes single country in free form.
  * @param {Coordinates|'ip'} [config.proximity] - Bias local results based on a provided coordinate location or a user's IP address.
@@ -54,6 +54,7 @@ var featureTypes = [
  * @param {String} [config.postcode] - Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
  * @param {String} [config.locality] - Official sub-city features (Stuctured Input specific field)
  * @param {boolean} [config.autocomplete=true] - Return autocomplete results or not.
+ * @param {boolean} [config.permanent=false] - Specify whether you intend to store the results of the query (true) or not (false, default).
  * @param {String} [config.worldview="us"] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
  * @return {MapiRequest}
  *
@@ -124,6 +125,7 @@ GeocodingV6.forwardGeocode = function(config) {
       limit: v.number,
       worldview: v.string,
       autocomplete: v.boolean,
+      permanent: v.boolean,
 
       // structured input fields
       address_line1: v.string,
@@ -161,7 +163,8 @@ GeocodingV6.forwardGeocode = function(config) {
         'language',
         'limit',
         'worldview',
-        'autocomplete'
+        'autocomplete',
+        'permanent'
       ])
     )
   );

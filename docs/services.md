@@ -2351,7 +2351,7 @@ See the [public documentation][264].
 
     *   `config.query` **[string][208]** A place name.
     *   `config.mode` **(`"standard"` | `"structured"`)** Either `standard` for common forward geocoding, or `structured` for increasing the accuracy of results. To use Structured Input, the query parameter must be dropped in favor of a separate parameter for individual feature components. (optional, default `"standard"`)
-    *   `config.countries` **[Array][216]<[string][208]>?** Limits results to the specified countries.
+    *   `config.countries` **([Array][216]<[string][208]> | [string][208])?** Limits results to the specified countries.
         Each item in the array should be an [ISO 3166 alpha 2 country code][242].
         \[OR] if used with input mode="structured" denotes single country in free form.
     *   `config.proximity` **([Coordinates][191] | `"ip"`)?** Bias local results based on a provided coordinate location or a user's IP address.
@@ -2371,6 +2371,7 @@ See the [public documentation][264].
     *   `config.postcode` **[String][208]?** Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
     *   `config.locality` **[String][208]?** Official sub-city features (Stuctured Input specific field)
     *   `config.autocomplete` **[boolean][209]** Return autocomplete results or not. (optional, default `true`)
+    *   `config.permanent` **[boolean][209]** Specify whether you intend to store the results of the query (true) or not (false, default). (optional, default `false`)
     *   `config.worldview` **[String][208]** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups. (optional, default `"us"`)
 
 #### Examples

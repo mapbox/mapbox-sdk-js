@@ -32,6 +32,7 @@ describe('forwardGeocode', () => {
       limit: 3,
       language: 'de',
       worldview: 'us',
+      permanent: true,
 
       // structured input parameters will be ignored in normal mode
       address_line1: '12 main',
@@ -56,7 +57,8 @@ describe('forwardGeocode', () => {
         bbox: [1, 2, 3, 4],
         limit: 3,
         language: 'de',
-        worldview: 'us'
+        worldview: 'us',
+        permanent: 'true'
       }
     });
   });
