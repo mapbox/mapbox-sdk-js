@@ -2358,6 +2358,7 @@ See the [public documentation][264].
     *   `config.types` **[Array][216]<(`"street"` | `"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
     *   `config.bbox` **[BoundingBox][192]?** Limit results to a bounding box.
     *   `config.limit` **[number][212]** Limit the number of results returned. (optional, default `5`)
+    *   `config.format` **(`"geojson"` | `"v5"`)** Specify the desired response format of results (geojson, default) or for backwards compatibility (v5). (optional, default `'geojson'`)
     *   `config.language` **[String][208]?** Specify the language to use for response text and, for forward geocoding, query result weighting.
         Options are [IETF language tags][243] comprised of a mandatory
         [ISO 639-1 language code][244] and optionally one or more IETF subtags for country or script.
@@ -2371,7 +2372,7 @@ See the [public documentation][264].
     *   `config.postcode` **[String][208]?** Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
     *   `config.locality` **[String][208]?** Official sub-city features (Stuctured Input specific field)
     *   `config.autocomplete` **[boolean][209]** Return autocomplete results or not. (optional, default `true`)
-    *   `config.permanent` **[boolean][209]** Specify whether you intend to store the results of the query (true) or not (false, default). (optional, default `false`)
+    *   `config.permanent` **[boolean][209]** Specify whether you intend to store the results of the query (true) or not (false, default). Temporary results are not allowed to be cached, while Permanent results are allowed to be cached and stored indefinitely. (optional, default `false`)
     *   `config.worldview` **[String][208]** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups. (optional, default `"us"`)
 
 #### Examples
@@ -2454,6 +2455,7 @@ See the [public documentation][265].
     *   `config.language` **[string][208]?** Specify the language to use for response text and, for forward geocoding, query result weighting.
         Options are [IETF language tags][243] comprised of a mandatory
         [ISO 639-1 language code][244] and optionally one or more IETF subtags for country or script.
+    *   `config.permanent` **[boolean][209]** Specify whether you intend to store the results of the query (true) or not (false, default). Temporary results are not allowed to be cached, while Permanent results are allowed to be cached and stored indefinitely. (optional, default `false`)
     *   `config.worldview` **[String][208]** Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups. (optional, default `"us"`)
 
 #### Examples

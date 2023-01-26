@@ -29,6 +29,7 @@ describe('forwardGeocode', () => {
       types: ['street', 'country', 'region'],
       autocomplete: true,
       bbox: [1, 2, 3, 4],
+      format: 'v5',
       limit: 3,
       language: 'de',
       worldview: 'us',
@@ -55,6 +56,7 @@ describe('forwardGeocode', () => {
         types: ['street', 'country', 'region'],
         autocomplete: 'true',
         bbox: [1, 2, 3, 4],
+        format: 'v5',
         limit: 3,
         language: 'de',
         worldview: 'us',
@@ -135,10 +137,10 @@ describe('reverseGeocode', () => {
       latitude: 14,
       countries: ['AO', 'AR'],
       types: ['country', 'region'],
-      bbox: [1, 2, 3, 4],
       limit: 3,
       language: 'de',
-      worldview: 'us'
+      worldview: 'us',
+      permanent: true
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -148,10 +150,10 @@ describe('reverseGeocode', () => {
         latitude: 14,
         country: ['AO', 'AR'],
         types: ['country', 'region'],
-        bbox: [1, 2, 3, 4],
         limit: 3,
         language: 'de',
-        worldview: 'us'
+        worldview: 'us',
+        permanent: 'true',
       }
     });
   });

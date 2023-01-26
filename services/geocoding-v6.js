@@ -41,6 +41,7 @@ var featureTypes = [
  * @param {Array<'street'|'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
  * @param {BoundingBox} [config.bbox] - Limit results to a bounding box.
  * @param {number} [config.limit=5] - Limit the number of results returned.
+ * @param {'geojson'|'v5'} [config.format='geojson'] - Specify the desired response format of results (geojson, default) or for backwards compatibility (v5).
  * @param {String} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
@@ -54,7 +55,7 @@ var featureTypes = [
  * @param {String} [config.postcode] - Postal codes used in country-specific national addressing systems. (Stuctured Input specific field)
  * @param {String} [config.locality] - Official sub-city features (Stuctured Input specific field)
  * @param {boolean} [config.autocomplete=true] - Return autocomplete results or not.
- * @param {boolean} [config.permanent=false] - Specify whether you intend to store the results of the query (true) or not (false, default).
+ * @param {boolean} [config.permanent=false] - Specify whether you intend to store the results of the query (true) or not (false, default). Temporary results are not allowed to be cached, while Permanent results are allowed to be cached and stored indefinitely.
  * @param {String} [config.worldview="us"] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
  * @return {MapiRequest}
  *
@@ -121,6 +122,7 @@ GeocodingV6.forwardGeocode = function(config) {
       proximity: v.oneOf(v.coordinates, 'ip'),
       types: v.arrayOf(v.oneOf(featureTypes)),
       bbox: v.arrayOf(v.number),
+      format: v.oneOf('geojson', 'v5'),
       language: v.string,
       limit: v.number,
       worldview: v.string,
@@ -160,6 +162,7 @@ GeocodingV6.forwardGeocode = function(config) {
         'proximity',
         'types',
         'bbox',
+        'format',
         'language',
         'limit',
         'worldview',
@@ -192,6 +195,7 @@ GeocodingV6.forwardGeocode = function(config) {
  * @param {string} [config.language] - Specify the language to use for response text and, for forward geocoding, query result weighting.
  *  Options are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag) comprised of a mandatory
  *  [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) and optionally one or more IETF subtags for country or script.
+ * @param {boolean} [config.permanent=false] - Specify whether you intend to store the results of the query (true) or not (false, default). Temporary results are not allowed to be cached, while Permanent results are allowed to be cached and stored indefinitely.
  * @param {String} [config.worldview="us"] - Filter results to geographic features whose characteristics are defined differently by audiences belonging to various regional, cultural, or political groups.
  * @return {MapiRequest}
  *
@@ -212,10 +216,10 @@ GeocodingV6.reverseGeocode = function(config) {
     latitude: v.required(v.number),
     countries: v.arrayOf(v.string),
     types: v.arrayOf(v.oneOf(featureTypes)),
-    bbox: v.arrayOf(v.number),
     limit: v.number,
     language: v.string,
-    worldview: v.string
+    worldview: v.string,
+    permanent: v.boolean,
   })(config);
 
   var query = stringifyBooleans(
@@ -225,10 +229,10 @@ GeocodingV6.reverseGeocode = function(config) {
         'longitude',
         'latitude',
         'types',
-        'bbox',
         'limit',
         'language',
-        'worldview'
+        'worldview',
+        'permanent'
       ])
     )
   );
