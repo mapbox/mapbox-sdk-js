@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.0
+
+- **Add:** Geocoding `v6` service
+
 ## 0.14.0
 
 - **Add:** Config for `Tokens#createToken` and `Tokens#updateToken` can now include the `allowedApplications` property.
