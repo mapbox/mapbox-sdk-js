@@ -7,6 +7,7 @@ const mbxClient = require('..');
 const mbxDatasets = require('../services/datasets');
 const mbxDirections = require('../services/directions');
 const mbxGeocoding = require('../services/geocoding');
+const mbxGeocodingV6 = require('../services/geocoding-v6');
 const mbxMapMatching = require('../services/map-matching');
 const mbxMatrix = require('../services/matrix');
 const mbxStyles = require('../services/styles');
@@ -59,6 +60,7 @@ const services = {
   datasets: mbxDatasets(baseClient),
   directions: mbxDirections(baseClient),
   geocoding: mbxGeocoding(baseClient),
+  geocodingV6: mbxGeocodingV6(baseClient),
   matching: mbxMapMatching(baseClient),
   matrix: mbxMatrix(baseClient),
   styles: mbxStyles(baseClient),
