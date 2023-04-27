@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.1
+
+- **Add:** Add `driving-traffic` as a profile option in the isochrone service
+
 ## 0.15.0
 
 - **Add:** Geocoding `v6` service
