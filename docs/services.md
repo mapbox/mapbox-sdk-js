@@ -2321,7 +2321,7 @@ Given a location and a routing profile, retrieve up to four isochrone contours
 
 *   `config` **[Object][207]**&#x20;
 
-    *   `config.profile` **(`"driving"` | `"walking"` | `"cycling"`)**     A Mapbox Directions routing profile ID. (optional, default `"driving"`)
+    *   `config.profile` **(`"driving"` | `"driving-traffic"` | `"walking"` | `"cycling"`)**     A Mapbox Directions routing profile ID. (optional, default `"driving"`)
     *   `config.coordinates` **[Coordinates][191]** A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
     *   `config.minutes` **[Array][216]<[number][212]>?** The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes. Setting minutes and meters in the same time is an error.
     *   `config.meters` **[Array][216]<[number][212]>?** The distances in meters to use for each isochrone contour. You can specify up to four contours. Distances must be in increasing order. The maximum distance that can be specified is 100000 meters. Setting minutes and meters in the same time is an error.

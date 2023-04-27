@@ -16,7 +16,7 @@ var Isochrone = {};
 /**
  * Given a location and a routing profile, retrieve up to four isochrone contours
  * @param {Object} config
- * @param {'driving'|'walking'|'cycling'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
+ * @param {'driving'|'driving-traffic'|'walking'|'cycling'} [config.profile="driving"] - 	A Mapbox Directions routing profile ID.
  * @param {Coordinates} config.coordinates - A  {longitude,latitude} coordinate pair around which to center the isochrone lines.
  * @param {Array<number>} [config.minutes] - The times in minutes to use for each isochrone contour. You can specify up to four contours. Times must be in increasing order. The maximum time that can be specified is 60 minutes. Setting minutes and meters in the same time is an error.
  * @param {Array<number>} [config.meters] - The distances in meters to use for each isochrone contour. You can specify up to four contours. Distances must be in increasing order. The maximum distance that can be specified is 100000 meters. Setting minutes and meters in the same time is an error.
@@ -29,7 +29,7 @@ var Isochrone = {};
  */
 Isochrone.getContours = function(config) {
   v.assertShape({
-    profile: v.oneOf('driving', 'walking', 'cycling'),
+    profile: v.oneOf('driving', 'driving-traffic', 'walking', 'cycling'),
     coordinates: v.coordinates,
     minutes: v.arrayOf(v.number),
     meters: v.arrayOf(v.number),
