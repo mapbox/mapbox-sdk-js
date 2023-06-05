@@ -1819,6 +1819,10 @@ to understand all of the available options.
     *   `config.ev_min_charge_at_destination` **[number][212]?** Optional parameter to define the minimum battery charge required at the final route destination (Wh).
     *   `config.ev_min_charge_at_charging_station` **[number][212]?** Optional parameter to define the minimum charge when arriving at the charging station (Wh).
     *   `config.auxiliary_consumption` **[number][212]?** Optional parameter to define the measure of the continuous power draw of the auxiliary systems in watts (E.G heating or AC).
+    *   `config.maxHeight` **[number][212]** Optional parameter to define the max vehicle height in meters. (optional, default `1.6`)
+    *   `config.maxWidth` **[number][212]** Optional parameter to define the max vehicle width in meters. (optional, default `1.9`)
+    *   `config.maxWeight` **[number][212]** Optional parameter to define the max vehicle weight in metric tons. (optional, default `2.5`)
+    *   `config.notifications` **[String][208]** Returns notification metadata associated with the route leg of the route object. (optional, default `"all"`)
 
 #### Examples
 

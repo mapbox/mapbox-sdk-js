@@ -47,6 +47,10 @@ var Directions = {};
  * @param {number} [config.ev_min_charge_at_destination] - Optional parameter to define the minimum battery charge required at the final route destination (Wh).
  * @param {number} [config.ev_min_charge_at_charging_station] - Optional parameter to define the minimum charge when arriving at the charging station (Wh).
  * @param {number} [config.auxiliary_consumption] - Optional parameter to define the measure of the continuous power draw of the auxiliary systems in watts (E.G heating or AC).
+ * @param {number} [config.maxHeight=1.6] - Optional parameter to define the max vehicle height in meters.
+ * @param {number} [config.maxWidth=1.9] - Optional parameter to define the max vehicle width in meters.
+ * @param {number} [config.maxWeight=2.5] - Optional parameter to define the max vehicle weight in metric tons.
+ * @param {String} [config.notifications="all"] - Returns notification metadata associated with the route leg of the route object.
  * @return {MapiRequest}
  *
  * @example
@@ -119,7 +123,11 @@ Directions.getDirections = function(config) {
     ev_max_ac_charging_power: v.number,
     ev_min_charge_at_destination: v.number,
     ev_min_charge_at_charging_station: v.number,
-    auxiliary_consumption: v.number
+    auxiliary_consumption: v.number,
+    maxHeight: v.number,
+    maxWidth: v.number,
+    maxWeight: v.number,
+    notifications: v.string
   })(config);
 
   config.profile = config.profile || 'driving';
@@ -211,7 +219,11 @@ Directions.getDirections = function(config) {
     ev_max_ac_charging_power: config.ev_max_ac_charging_power,
     ev_min_charge_at_destination: config.ev_min_charge_at_destination,
     ev_min_charge_at_charging_station: config.ev_min_charge_at_charging_station,
-    auxiliary_consumption: config.auxiliary_consumption
+    auxiliary_consumption: config.auxiliary_consumption,
+    max_height: config.maxHeight,
+    max_width: config.maxWidth,
+    max_weight: config.maxWeight,
+    notifications: config.notifications
   });
 
   return this.client.createRequest({
