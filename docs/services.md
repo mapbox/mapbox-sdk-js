@@ -1823,6 +1823,8 @@ to understand all of the available options.
     *   `config.maxWidth` **[number][212]** Optional parameter to define the max vehicle width in meters. (optional, default `1.9`)
     *   `config.maxWeight` **[number][212]** Optional parameter to define the max vehicle weight in metric tons. (optional, default `2.5`)
     *   `config.notifications` **[String][208]** Returns notification metadata associated with the route leg of the route object. (optional, default `"all"`)
+    *   `config.departAt` **[String][208]?** Optional parameter that blahblah
+    *   `config.arriveBy` **[String][208]?** Optional parameter that blahblah
 
 #### Examples
 
