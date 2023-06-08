@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.2
+
+- **Add:** Add `depart_at` and `arrive_by` as optional parameters in the directions service
+
 ## 0.15.1
 
 - **Add:** Add `driving-traffic` as a profile option in the isochrone service
