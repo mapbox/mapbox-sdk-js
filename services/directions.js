@@ -51,6 +51,8 @@ var Directions = {};
  * @param {number} [config.maxWidth=1.9] - Optional parameter to define the max vehicle width in meters.
  * @param {number} [config.maxWeight=2.5] - Optional parameter to define the max vehicle weight in metric tons.
  * @param {String} [config.notifications="all"] - Returns notification metadata associated with the route leg of the route object.
+ * @param {String} [config.departAt] - Optional parameter to define the departure time, formatted as a timestamp in ISO-8601 format in the local time at the route origin.
+ * @param {String} [config.arriveBy] - Optional parameter to define the desired arrival time, formatted as a timestamp in ISO-8601 format in the local time at the route destination.
  * @return {MapiRequest}
  *
  * @example
@@ -127,7 +129,9 @@ Directions.getDirections = function(config) {
     maxHeight: v.number,
     maxWidth: v.number,
     maxWeight: v.number,
-    notifications: v.string
+    notifications: v.string,
+    departAt: v.string,
+    arriveBy: v.string
   })(config);
 
   config.profile = config.profile || 'driving';
@@ -223,7 +227,9 @@ Directions.getDirections = function(config) {
     max_height: config.maxHeight,
     max_width: config.maxWidth,
     max_weight: config.maxWeight,
-    notifications: config.notifications
+    notifications: config.notifications,
+    depart_at: config.departAt,
+    arrive_by: config.arriveBy
   });
 
   return this.client.createRequest({
