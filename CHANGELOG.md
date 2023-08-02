@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **Fix:** Maximum Optimization V1 request size limits should not be enforced client-side
+
 ## 0.15.2
 
 - **Add:** Add `depart_at` and `arrive_by` as optional parameters in the directions service
