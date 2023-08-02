@@ -21,7 +21,7 @@ var Optimization = {};
  *
  * @param {Object} config
  * @param {'driving'|'driving-traffic'|'walking'|'cycling'} [config.profile="driving"]
- * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, between 2 and 12 (inclusive).
+ * @param {Array<OptimizationWaypoint>} config.waypoints - An ordered array of [`OptimizationWaypoint`](#optimizationwaypoint) objects, with at least 2
  * @param {Array<'duration'|'distance'|'speed'>} [config.annotations] - Specify additional metadata that should be returned.
  * @param {'any'|'last'} [config.destination="any"] - Returned route ends at `any` or `last` coordinate.
  * @param {Array<Distribution>} [config.distributions] - An ordered array of [`Distribution`](#distribution) objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.
@@ -72,9 +72,9 @@ Optimization.getOptimization = function(config) {
   };
 
   var waypointCount = config.waypoints.length;
-  if (waypointCount < 2 || waypointCount > 12) {
+  if (waypointCount < 2) {
     throw new Error(
-      'waypoints must include between 2 and 12 OptimizationWaypoints'
+      'waypoints must include at least 2 OptimizationWaypoints'
     );
   }
 

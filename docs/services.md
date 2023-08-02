@@ -1988,7 +1988,7 @@ to understand all of the available options.
 *   `config` **[Object][207]**&#x20;
 
     *   `config.profile` **(`"driving"` | `"driving-traffic"` | `"walking"` | `"cycling"`)**  (optional, default `"driving"`)
-    *   `config.waypoints` **[Array][216]<[OptimizationWaypoint][180]>** An ordered array of [`OptimizationWaypoint`][180] objects, between 2 and 12 (inclusive).
+    *   `config.waypoints` **[Array][216]<[OptimizationWaypoint][180]>** An ordered array of [`OptimizationWaypoint`][180] objects, with at least 2
     *   `config.annotations` **[Array][216]<(`"duration"` | `"distance"` | `"speed"`)>?** Specify additional metadata that should be returned.
     *   `config.destination` **(`"any"` | `"last"`)** Returned route ends at `any` or `last` coordinate. (optional, default `"any"`)
     *   `config.distributions` **[Array][216]<[Distribution][203]>?** An ordered array of [`Distribution`][203] objects, each of which includes a `pickup` and `dropoff` property. `pickup` and `dropoff` properties correspond to an index in the OptimizationWaypoint array.

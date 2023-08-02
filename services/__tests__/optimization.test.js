@@ -103,7 +103,7 @@ describe('getOptimization', () => {
       },
       error => {
         expect(error.message).toMatch(
-          'waypoints must include between 2 and 12 OptimizationWaypoints'
+          'waypoints must include at least 2 OptimizationWaypoints'
         );
       }
     );
