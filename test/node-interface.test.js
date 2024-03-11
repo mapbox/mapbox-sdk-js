@@ -82,3 +82,46 @@ describe('test node progress events', () => {
     });
   });
 });
+
+describe('test empty request bodies', () => {
+  let server;
+  let createLocalClient;
+  const { mockToken } = tu;
+
+  beforeAll(() => {
+    return tu.mockServer().then(s => {
+      server = s;
+      createLocalClient = server.localClient(nodeClient);
+    });
+  });
+
+  afterAll(done => {
+    server.close(done);
+  });
+
+  afterEach(() => {
+    server.reset();
+  });
+
+  beforeEach(() => {
+    server.setResponse((req, res) => {
+      res.append('Content-Type', 'application/json; charset=utf-8');
+      res.json({ mockStyle: true });
+    });
+  });
+
+  test('request for POST, PATCH, PUT, or DELETE without an explicit body should include empty string as body', () => {
+    // https://github.com/sindresorhus/got/issues/2303
+    const accessToken = mockToken();
+    const client = createLocalClient({ accessToken });
+    const request = client.createRequest({
+      method: 'DELETE',
+      path: '/tilesets/v1/:tilesetId',
+      params: { tilesetId: 'foo.bar' }
+    });
+
+    return request.send().then(({ statusCode }) => {
+      expect(statusCode).toBe(200);
+    });
+  });
+});
