@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.4
+
+- **Fix:** Set `body = ''` for POST, PUT, PATCH, and DELETE requests that do not have a body [#479](https://github.com/mapbox/mapbox-sdk-js/pull/479)
+
 ## 0.15.3
 
 - **Fix:** Maximum Optimization V1 request size limits should not be enforced client-side
