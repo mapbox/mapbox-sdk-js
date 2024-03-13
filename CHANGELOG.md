@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.5
+
+- **Fix:** Rename directions api annotation option `max_speed` to `maxspeed` [#480](https://github.com/mapbox/mapbox-sdk-js/pull/480)
+
 ## 0.15.4
 
 - **Fix:** Set `body = ''` for POST, PUT, PATCH, and DELETE requests that do not have a body [#479](https://github.com/mapbox/mapbox-sdk-js/pull/479)
