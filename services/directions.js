@@ -99,7 +99,7 @@ Directions.getDirections = function(config) {
         'speed',
         'congestion',
         'congestion_numeric',
-        'max_speed',
+        'maxspeed',
         'closure',
         'state_of_charge'
       )
