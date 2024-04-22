@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.15.6
+
+- **Fix:** Add `secondary_address` to list of accepted types for Geocoding v6
+
 ## 0.15.5
 
 - **Fix:** Rename directions api annotation option `max_speed` to `maxspeed` [#480](https://github.com/mapbox/mapbox-sdk-js/pull/480)
