@@ -2361,7 +2361,7 @@ See the [public documentation][264].
         Each item in the array should be an [ISO 3166 alpha 2 country code][242].
         \[OR] if used with input mode="structured" denotes single country in free form.
     *   `config.proximity` **([Coordinates][191] | `"ip"`)?** Bias local results based on a provided coordinate location or a user's IP address.
-    *   `config.types` **[Array][216]<(`"street"` | `"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"`)>?** Filter results by feature types.
+    *   `config.types` **[Array][216]<(`"street"` | `"country"` | `"region"` | `"postcode"` | `"district"` | `"place"` | `"locality"` | `"neighborhood"` | `"address"` | `"secondary_address"`)>?** Filter results by feature types.
     *   `config.bbox` **[BoundingBox][192]?** Limit results to a bounding box.
     *   `config.limit` **[number][212]** Limit the number of results returned. (optional, default `5`)
     *   `config.format` **(`"geojson"` | `"v5"`)** Specify the desired response format of results (geojson, default) or for backwards compatibility (v5). (optional, default `'geojson'`)

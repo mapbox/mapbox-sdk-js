@@ -26,7 +26,7 @@ describe('forwardGeocode', () => {
       mode: 'standard',
       countries: ['AO', 'AR'],
       proximity: [3, 4],
-      types: ['street', 'country', 'region'],
+      types: ['street', 'country', 'region', 'address', 'secondary_address'],
       autocomplete: true,
       bbox: [1, 2, 3, 4],
       format: 'v5',
@@ -53,7 +53,7 @@ describe('forwardGeocode', () => {
         q: 'Tucson',
         country: ['AO', 'AR'],
         proximity: [3, 4],
-        types: ['street', 'country', 'region'],
+        types: ['street', 'country', 'region', 'address', 'secondary_address'],
         autocomplete: 'true',
         bbox: [1, 2, 3, 4],
         format: 'v5',
@@ -153,7 +153,7 @@ describe('reverseGeocode', () => {
         limit: 3,
         language: 'de',
         worldview: 'us',
-        permanent: 'true',
+        permanent: 'true'
       }
     });
   });

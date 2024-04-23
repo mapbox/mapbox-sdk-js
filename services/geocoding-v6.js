@@ -23,7 +23,8 @@ var featureTypes = [
   'place',
   'locality',
   'neighborhood',
-  'address'
+  'address',
+  'secondary_address'
 ];
 
 /**
@@ -38,7 +39,7 @@ var featureTypes = [
  *   Each item in the array should be an [ISO 3166 alpha 2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
  *   [OR] if used with input mode="structured" denotes single country in free form.
  * @param {Coordinates|'ip'} [config.proximity] - Bias local results based on a provided coordinate location or a user's IP address.
- * @param {Array<'street'|'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'>} [config.types] - Filter results by feature types.
+ * @param {Array<'street'|'country'|'region'|'postcode'|'district'|'place'|'locality'|'neighborhood'|'address'|'secondary_address'>} [config.types] - Filter results by feature types.
  * @param {BoundingBox} [config.bbox] - Limit results to a bounding box.
  * @param {number} [config.limit=5] - Limit the number of results returned.
  * @param {'geojson'|'v5'} [config.format='geojson'] - Specify the desired response format of results (geojson, default) or for backwards compatibility (v5).
@@ -219,7 +220,7 @@ GeocodingV6.reverseGeocode = function(config) {
     limit: v.number,
     language: v.string,
     worldview: v.string,
-    permanent: v.boolean,
+    permanent: v.boolean
   })(config);
 
   var query = stringifyBooleans(
