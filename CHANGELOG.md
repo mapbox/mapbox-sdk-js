@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.16.0
+
+- **Add:** Add `depart_at` as optional parameter in the isochrone service
 
 ## 0.15.6
 
