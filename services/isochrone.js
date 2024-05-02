@@ -36,7 +36,8 @@ Isochrone.getContours = function(config) {
     colors: v.arrayOf(v.string),
     polygons: v.boolean,
     denoise: v.number,
-    generalize: v.number
+    generalize: v.number,
+    depart_at: v.string
   })(config);
 
   config.profile = config.profile || 'driving';
@@ -101,7 +102,8 @@ Isochrone.getContours = function(config) {
     contours_colors: config.colors ? config.colors.join(',') : null,
     polygons: config.polygons,
     denoise: config.denoise,
-    generalize: config.generalize
+    generalize: config.generalize,
+    depart_at: config.depart_at
   });
 
   return this.client.createRequest({
