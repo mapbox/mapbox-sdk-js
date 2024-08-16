@@ -604,7 +604,7 @@ staticClient.getStaticImage({
   position: {
     // position as a bounding box
     bbox: [-77.04,38.8,-77.02,38.91],
-  }, 
+  },
  padding: '4'
 })
   .send()
@@ -2041,6 +2041,7 @@ See the [corresponding HTTP service documentation][253].
     *   `config.scopes` **[Array][216]<[string][208]>?**&#x20;
     *   `config.resources` **[Array][216]<[string][208]>?**&#x20;
     *   `config.allowedUrls` **[Array][216]<[string][208]>?**&#x20;
+    *   `config.allowedApis` **[Array][216]<[string][208]>?**&#x20;
     *   `config.allowedApplications` **[Array][216]<{platform: [string][208], bundleId: [string][208]}>?** This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
 
 #### Examples
@@ -2100,6 +2101,7 @@ See the [corresponding HTTP service documentation][255].
     *   `config.scopes` **[Array][216]<[string][208]>?**&#x20;
     *   `config.resources` **[Array][216]<[string][208]>?**&#x20;
     *   `config.allowedUrls` **([Array][216]<[string][208]> | null)?**&#x20;
+    *   `config.allowedApis` **([Array][216]<[string][208]> | null)?**&#x20;
     *   `config.allowedApplications` **([Array][216]<{platform: [string][208], bundleId: [string][208]}> | null)?** This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
 
 #### Examples

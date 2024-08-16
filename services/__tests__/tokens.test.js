@@ -73,6 +73,21 @@ describe('createToken', () => {
     });
   });
 
+  test('with allowedApis', () => {
+    tokens.createToken({
+      allowedApis: ['api-directions', 'api-geocoder'],
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId',
+      method: 'POST',
+      params: {},
+      body: {
+        allowedApis: ['api-directions', 'api-geocoder'],
+        scopes: []
+      }
+    });
+  });
+
   test('with allowedApplications', () => {
     tokens.createToken({
       allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
@@ -104,6 +119,7 @@ describe('createToken', () => {
       note: 'horseleg',
       resources: ['one', 'two'],
       allowedUrls: ['boba.com', 'coffee.ca'],
+      allowedApis: ['api-styles', 'api-tilesets'],
       allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
     });
     expect(tu.requestConfig(tokens)).toEqual({
@@ -115,6 +131,7 @@ describe('createToken', () => {
         note: 'horseleg',
         resources: ['one', 'two'],
         allowedUrls: ['boba.com', 'coffee.ca'],
+        allowedApis: ['api-styles', 'api-tilesets'],
         allowedApplications: [{ platform: 'iOS', bundleId: 'com.example.foo' }]
       }
     });
@@ -229,6 +246,32 @@ describe('updateToken', () => {
       params: { tokenId: 'foo' },
       method: 'PATCH',
       body: { allowedUrls: null }
+    });
+  });
+
+  test('with allowedApis', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedApis: ['api-styles', 'api-coffee']
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { allowedApis: ['api-styles', 'api-coffee'] }
+    });
+  });
+
+  test('allowedApis can be null', () => {
+    tokens.updateToken({
+      tokenId: 'foo',
+      allowedApis: null
+    });
+    expect(tu.requestConfig(tokens)).toEqual({
+      path: '/tokens/v2/:ownerId/:tokenId',
+      params: { tokenId: 'foo' },
+      method: 'PATCH',
+      body: { allowedApis: null }
     });
   });
 
