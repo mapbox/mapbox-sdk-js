@@ -105,7 +105,7 @@ Geocoding.forwardGeocode = function(config) {
     routing: v.boolean,
     fuzzyMatch: v.boolean,
     worldview: v.string,
-    sessionId: v.string
+    session_token: v.string
   })(config);
 
   config.mode = config.mode || 'mapbox.places';
@@ -123,7 +123,7 @@ Geocoding.forwardGeocode = function(config) {
         'routing',
         'fuzzyMatch',
         'worldview',
-        'sessionId'
+        'session_token'
       ])
     )
   );
@@ -179,7 +179,7 @@ Geocoding.reverseGeocode = function(config) {
     reverseMode: v.oneOf('distance', 'score'),
     routing: v.boolean,
     worldview: v.string,
-    sessionId: v.string
+    session_token: v.string
   })(config);
 
   config.mode = config.mode || 'mapbox.places';
@@ -196,7 +196,7 @@ Geocoding.reverseGeocode = function(config) {
         'reverseMode',
         'routing',
         'worldview',
-        'sessionId'
+        'session_token'
       ])
     )
   );
