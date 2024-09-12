@@ -129,6 +129,7 @@ GeocodingV6.forwardGeocode = function(config) {
       worldview: v.string,
       autocomplete: v.boolean,
       permanent: v.boolean,
+      sessionId: v.string,
 
       // structured input fields
       address_line1: v.string,
@@ -168,7 +169,8 @@ GeocodingV6.forwardGeocode = function(config) {
         'limit',
         'worldview',
         'autocomplete',
-        'permanent'
+        'permanent',
+        'sessionId'
       ])
     )
   );
@@ -220,7 +222,8 @@ GeocodingV6.reverseGeocode = function(config) {
     limit: v.number,
     language: v.string,
     worldview: v.string,
-    permanent: v.boolean
+    permanent: v.boolean,
+    sessionId: v.string
   })(config);
 
   var query = stringifyBooleans(
@@ -233,7 +236,8 @@ GeocodingV6.reverseGeocode = function(config) {
         'limit',
         'language',
         'worldview',
-        'permanent'
+        'permanent',
+        'sessionId'
       ])
     )
   );
