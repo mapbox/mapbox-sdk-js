@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.1
+
+- **Add:** Add `session_token` as optional parameter in the geocoding services
+
 ## 0.16.0
 
 - **Add:** Add `depart_at` as optional parameter in the isochrone service
