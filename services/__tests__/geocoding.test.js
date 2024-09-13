@@ -37,7 +37,8 @@ describe('forwardGeocode', () => {
       language: ['de', 'bs'],
       routing: true,
       fuzzyMatch: true,
-      worldview: 'us'
+      worldview: 'us',
+      session_token: 'abc123'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -56,7 +57,8 @@ describe('forwardGeocode', () => {
         language: ['de', 'bs'],
         routing: 'true',
         fuzzyMatch: 'true',
-        worldview: 'us'
+        worldview: 'us',
+        session_token: 'abc123'
       }
     });
   });
@@ -89,7 +91,8 @@ describe('reverseGeocode', () => {
       language: ['de', 'bs'],
       reverseMode: 'distance',
       routing: true,
-      worldview: 'us'
+      worldview: 'us',
+      session_token: 'abc123'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -106,7 +109,8 @@ describe('reverseGeocode', () => {
         language: ['de', 'bs'],
         reverseMode: 'distance',
         routing: 'true',
-        worldview: 'us'
+        worldview: 'us',
+        session_token: 'abc123'
       }
     });
   });

@@ -34,6 +34,7 @@ describe('forwardGeocode', () => {
       language: 'de',
       worldview: 'us',
       permanent: true,
+      session_token: 'abc123',
 
       // structured input parameters will be ignored in normal mode
       address_line1: '12 main',
@@ -60,7 +61,8 @@ describe('forwardGeocode', () => {
         limit: 3,
         language: 'de',
         worldview: 'us',
-        permanent: 'true'
+        permanent: 'true',
+        session_token: 'abc123'
       }
     });
   });
@@ -76,6 +78,7 @@ describe('forwardGeocode', () => {
       limit: 3,
       language: 'de',
       worldview: 'us',
+      session_token: 'abc123',
 
       // structured input parameters will be picked
       address_line1: '12 main',
@@ -99,6 +102,7 @@ describe('forwardGeocode', () => {
         limit: 3,
         language: 'de',
         worldview: 'us',
+        session_token: 'abc123',
 
         address_line1: '12 main',
         address_number: '12',
@@ -140,7 +144,8 @@ describe('reverseGeocode', () => {
       limit: 3,
       language: 'de',
       worldview: 'us',
-      permanent: true
+      permanent: true,
+      session_token: 'abc123'
     });
     expect(tu.requestConfig(geocoding)).toEqual({
       method: 'GET',
@@ -153,7 +158,8 @@ describe('reverseGeocode', () => {
         limit: 3,
         language: 'de',
         worldview: 'us',
-        permanent: 'true'
+        permanent: 'true',
+        session_token: 'abc123'
       }
     });
   });
