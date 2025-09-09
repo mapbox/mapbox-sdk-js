@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/mapbox-sdk",
-  "version": "0.16.1",
+  "version": "0.16.2-dev.1",
   "description": "JS SDK for accessing Mapbox APIs",
   "main": "index.js",
   "files": [
@@ -82,7 +82,7 @@
     "@mapbox/parse-mapbox-token": "^0.2.0",
     "@mapbox/polyline": "^1.0.0",
     "eventemitter3": "^3.1.0",
-    "form-data": "^3.0.0",
+    "form-data": "^3.0.4",
     "got": "^11.8.5",
     "is-plain-obj": "^1.1.0",
     "xtend": "^4.0.1"
@@ -113,5 +113,11 @@
   },
   "engines": {
     "node": ">=6"
+  },
+  "overrides": {
+    "http-cache-semantics": "4.2.0"
+  },
+  "resolutions": {
+    "http-cache-semantics": "4.2.0"
   }
 }
