@@ -3,18 +3,19 @@
   "plugins": ["node"],
   "env": {
     "commonjs": true,
-    "es6": false
+    "es6": true
   },
   "globals": {
     "Promise": true
   },
   "parserOptions": {
-    "sourceType": "script"
+    "sourceType": "script",
+    "ecmaVersion": 2017
   },
   "rules": {
     "strict": ["error"],
     "eqeqeq": ["error", "smart"],
-    "node/no-unsupported-features": ["error"],
+    "node/no-unsupported-features": ["error", { "version": "8.0.0" }],
     "node/no-missing-require": "error"
   },
   "overrides": [
@@ -24,6 +25,10 @@
         "jest": true,
         "es6": true,
         "node": true
+      },
+      "rules": {
+        "no-console": "off",
+        "no-unused-vars": "off"
       }
     }
   ]

@@ -17,6 +17,7 @@
     "lint": "run-p --aggregate-output lint-md lint-js",
     "pretest": "npm run lint",
     "test": "jest",
+    "test:e2e": "node test/e2e-api-tests.js",
     "try-browser": "budo test/try-browser/try-browser.js:bundle.js -d test/try-browser -l",
     "document-services": "documentation build services/service-helpers/generic-types.js 'services/*.js' --shallow --format md --config conf/service-documentation.yml > docs/services.md",
     "document-classes": "documentation build 'lib/classes/*.js' --shallow --format md --config conf/classes-documentation.yml > docs/classes.md",
