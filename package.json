@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/mapbox-sdk",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "description": "JS SDK for accessing Mapbox APIs",
   "main": "index.js",
   "files": [
@@ -118,5 +118,8 @@
   },
   "resolutions": {
     "http-cache-semantics": "4.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
