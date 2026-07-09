@@ -44,6 +44,7 @@ Tokens.listTokens = function() {
  * @param {Array<string>} [config.resources]
  * @param {Array<string>} [config.allowedUrls]
  * @param {Array<{ platform: string, bundleId: string }>} [config.allowedApplications] This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
+ * @param {Array<string>} [config.allowedApis]
  * @return {MapiRequest}
  *
  * @example
@@ -68,7 +69,8 @@ Tokens.createToken = function(config) {
         bundleId: v.string,
         platform: v.string
       })
-    )
+    ),
+    allowedApis: v.arrayOf(v.string),
   })(config);
 
   var body = {};
@@ -85,6 +87,9 @@ Tokens.createToken = function(config) {
 
   if (config.allowedApplications) {
     body.allowedApplications = config.allowedApplications;
+  }
+  if (config.allowedApis) {
+    body.allowedApis = config.allowedApis;
   }
 
   return this.client.createRequest({
@@ -143,6 +148,7 @@ Tokens.createTemporaryToken = function(config) {
  * @param {Array<string>} [config.resources]
  * @param {Array<string> | null} [config.allowedUrls]
  * @param {Array<{ platform: string, bundleId: string }> | null} [config.allowedApplications] This option restricts tokens with an Application Bundle ID. The feature is in beta and is only available to our selected customers.  For more information, please contact sales.
+ * @param {Array<string> | null} [config.allowedApis]
  * @return {MapiRequest}
  *
  * @example
@@ -168,7 +174,8 @@ Tokens.updateToken = function(config) {
         bundleId: v.string,
         platform: v.string
       })
-    )
+    ),
+    allowedApis: v.arrayOf(v.string),
   })(config);
 
   var body = {};
@@ -187,6 +194,9 @@ Tokens.updateToken = function(config) {
 
   if (config.allowedApplications || config.allowedApplications === null) {
     body.allowedApplications = config.allowedApplications;
+  }
+  if (config.allowedApis || config.allowedApis === null) {
+    body.allowedApis = config.allowedApis;
   }
 
   return this.client.createRequest({
