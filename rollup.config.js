@@ -4,6 +4,7 @@
 var path = require('path');
 var commonjs = require('rollup-plugin-commonjs');
 var nodeResolve = require('rollup-plugin-node-resolve');
+var json = require('rollup-plugin-json');
 
 module.exports = {
   input: path.join(__dirname, './bundle.js'),
@@ -16,6 +17,7 @@ module.exports = {
     nodeResolve({
       browser: true
     }),
+    json(),
     commonjs()
   ]
 };
